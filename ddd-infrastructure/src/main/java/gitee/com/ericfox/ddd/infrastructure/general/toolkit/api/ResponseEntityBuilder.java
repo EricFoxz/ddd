@@ -17,7 +17,7 @@ import java.util.TreeMap;
 public class ResponseEntityBuilder {
     public static class defValue {
         public static ResponseEntityBuilder created() {
-            return ResponseEntityBuilder.noData().status(201);
+            return ResponseEntityBuilder.hashMapData().status(201);
         }
 
         public static ResponseEntityBuilder success() {

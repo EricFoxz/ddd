@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.enums;
 
-public enum HttpStatusEnum implements BaseEnum<Integer> {
+public enum HttpStatusEnum implements BaseEnum<HttpStatusEnum, Integer> {
     OK(200, "OK"),//请求成功并返回实体资源
     CREATED(201, "Created"),//创建资源成功
     UPDATE(202, "Update"),//更新资源
@@ -53,15 +53,12 @@ public enum HttpStatusEnum implements BaseEnum<Integer> {
         return code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    @Override
+    public HttpStatusEnum[] getEnums() {
+        return HttpStatusEnum.values();
     }
 }

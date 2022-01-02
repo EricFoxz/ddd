@@ -10,19 +10,14 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>ddd-application</artifactId>
+    <artifactId>ddd-sys_domain</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <dependencies>
-        <!--<dependency>
-            <groupId>gitee.com.ericfox.ddd</groupId>
-            <artifactId>ddd-domain</artifactId>
-            <version>${project.version}</version>
-        </dependency>-->
         <dependency>
             <groupId>gitee.com.ericfox.ddd</groupId>
-            <artifactId>ddd-sys_domain</artifactId>
+            <artifactId>ddd-infrastructure</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

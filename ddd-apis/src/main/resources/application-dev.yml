@@ -5,6 +5,13 @@ server:
       io: 4
       worker: 30
     buffer-size: 1024
+spring:
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+
 custom:
   response:
     key-of-error-code: error

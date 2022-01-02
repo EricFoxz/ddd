@@ -25,7 +25,8 @@
 	<modules>
 		<module>ddd-apis</module>
 		<module>ddd-application</module>
-		<module>ddd-domain</module>
+		<!--<module>ddd-domain</module>-->
+		<module>ddd-sys_domain</module>
 		<module>ddd-infrastructure</module>
 	</modules>
 

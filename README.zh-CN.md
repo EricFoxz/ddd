@@ -13,7 +13,7 @@
   - service 应用服务，非核心服务
   - task 任务定义
   - * others 其他
-- ddd-domain 领域层
+- ddd-*-domain 领域层
   - common 公共代码抽取，限于领域层有效
   - events 领域事件
   - model 领域模型
