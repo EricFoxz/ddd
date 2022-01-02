@@ -8,13 +8,18 @@
 		<version>2.6.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>gitee.com.ericfox</groupId>
+	<groupId>gitee.com.ericfox.ddd</groupId>
 	<artifactId>ddd</artifactId>
 	<version>1.0.0</version>
 	<name>ddd</name>
 	<description>Demo project for Spring Boot</description>
+	<url>https://gitee.com/EricFox/ddd</url>
+
+	<packaging>pom</packaging>
+
 	<properties>
 		<java.version>1.8</java.version>
+		<hutool.version>5.7.18</hutool.version>
 	</properties>
 
 	<modules>
@@ -36,25 +41,25 @@
 		</dependency>
 	</dependencies>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-all</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>algorithm.Application</mainClass>
+					<mainClass>gitee.com.ericfox.ddd.application.Application</mainClass>
 				</configuration>
 			</plugin>
-
-			<!--<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${javadoc.version}</version>
-                <configuration>
-                    <doclint>none</doclint>
-                    <reportOutputDirectory>src/main/resources/static</reportOutputDirectory>
-                </configuration>
-            </plugin>-->
 		</plugins>
 	</build>
 

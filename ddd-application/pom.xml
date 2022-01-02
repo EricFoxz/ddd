@@ -10,23 +10,19 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>algorithm-core</artifactId>
+    <artifactId>ddd-application</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
+            <artifactId>spring-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>gitee.com.ericfox.ddd</groupId>
+            <artifactId>ddd-infrastructure</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
