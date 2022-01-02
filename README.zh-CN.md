@@ -1,7 +1,7 @@
 # ddd
 
 ## 介绍
-一个ddd思维，充血模型实现的项目 [https://gitee.com/EricFox/ddd](https://gitee.com/EricFox/ddd)}
+一个ddd思维，充血模型实现的项目 [https://gitee.com/EricFox/ddd](https://gitee.com/EricFox/ddd)
 
 ## 软件结构
 ```text

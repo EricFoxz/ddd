@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<?> detail(@PathVariable String id) {
-        return ResponseEntityBuilder.defValue.success().put("id", id).build();
+        return ResponseEntityBuilder.defValue.success().build();
     }
 
     @GetMapping("/page")

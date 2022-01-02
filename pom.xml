@@ -20,6 +20,8 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<hutool.version>5.7.18</hutool.version>
+		<javaee-api.version>8.0.1</javaee-api.version>
+		<jfinal.version>4.9.16</jfinal.version>
 	</properties>
 
 	<modules>
@@ -46,11 +48,22 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
+				<groupId>javax</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>${javaee-api.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>cn.hutool</groupId>
 				<artifactId>hutool-all</artifactId>
 				<version>${hutool.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.jfinal</groupId>
+				<artifactId>activerecord</artifactId>
+				<version>${jfinal.version}</version>
+			</dependency>
 		</dependencies>
+
 	</dependencyManagement>
 
 	<build>
