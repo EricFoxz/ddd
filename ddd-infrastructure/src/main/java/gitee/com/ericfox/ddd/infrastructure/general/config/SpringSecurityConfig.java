@@ -1,8 +1,9 @@
-/*
 package gitee.com.ericfox.ddd.infrastructure.general.config;
 
-import gitee.com.ericfox.ddd.infrastructure.general.config.CustomProperties;
+import gitee.com.ericfox.ddd.infrastructure.general.common.constants.ActiveProperties;
+import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -18,7 +19,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.headers().frameOptions().sameOrigin();
         httpSecurity
                 .authorizeRequests()
-                .anyRequest()
+                .antMatchers(HttpMethod.GET, customProperties.getStaticSources())
+                .permitAll()
+                .antMatchers("/apis/**")
                 .permitAll()
                 .and()
                 .logout()
@@ -30,4 +33,3 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable();
     }
 }
-*/

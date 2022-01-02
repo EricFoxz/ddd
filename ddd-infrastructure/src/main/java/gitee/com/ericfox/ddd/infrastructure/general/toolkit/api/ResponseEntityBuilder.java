@@ -1,13 +1,12 @@
 package gitee.com.ericfox.ddd.infrastructure.general.toolkit.api;
 
-import gitee.com.ericfox.ddd.infrastructure.general.config.CustomProperties;
+import gitee.com.ericfox.ddd.infrastructure.general.common.constants.ActiveProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -16,8 +15,6 @@ import java.util.TreeMap;
 
 @Slf4j
 public class ResponseEntityBuilder {
-    @Resource
-    CustomProperties customProperties;
     public static class defValue {
         public static ResponseEntityBuilder created() {
             return ResponseEntityBuilder.noData().status(201);
@@ -61,8 +58,8 @@ public class ResponseEntityBuilder {
     private MultiValueMap<String, String> headers;
 
     ResponseEntityBuilder(Serializable data) {
-        this.errKey = customProperties.getResponse().getKeyOfErrorCode();
-        this.msgKey = customProperties.getResponse().getKeyOfErrorMessage();
+        this.errKey = ActiveProperties.customProperties.getResponse().getKeyOfErrorCode();
+        this.msgKey = ActiveProperties.customProperties.getResponse().getKeyOfErrorMessage();
         this.data = data;
     }
 

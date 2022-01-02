@@ -1,5 +1,6 @@
-package gitee.com.ericfox.ddd.infrastructure.general.config;
+package gitee.com.ericfox.ddd.infrastructure.general.config.env;
 
+import gitee.com.ericfox.ddd.infrastructure.general.common.constants.ActiveProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -10,6 +11,10 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "custom", ignoreInvalidFields = true)
 public class CustomProperties {
+    {
+        ActiveProperties.customProperties = this;
+    }
+
     private ResponseBean response;
     private String[] staticSources;
 
