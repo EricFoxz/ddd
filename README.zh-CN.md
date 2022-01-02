@@ -6,7 +6,7 @@
 ## 软件结构
 ```text
 - ddd-apis API接口层
-  - model 试图模型，数据模型定义 vo/dto
+  - model 视图模型，数据模型定义 vo/dto
   - assembler 装配器，实现模型转换eg. apiModel <--> domainModel
   - controller 控制器,对外提供（RestFUL）接口
 - ddd-application 应用层
