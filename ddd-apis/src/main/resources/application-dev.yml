@@ -1,0 +1,16 @@
+server:
+  port: 8080
+  undertow:
+    threads:
+      io: 4
+      worker: 30
+    buffer-size: 1024
+custom:
+  response:
+    key-of-error-code: error
+    key-of-error-message: message
+  static-sources:
+    - /*.html
+    - /**/*.html
+    - /**/*.css
+    - /**/*.js

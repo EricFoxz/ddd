@@ -58,7 +58,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>gitee.com.ericfox.ddd.application.Application</mainClass>
+					<mainClass>gitee.com.ericfox.ddd.apis.Application</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

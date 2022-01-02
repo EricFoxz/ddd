@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>gitee.com.ericfox.ddd</groupId>
-            <artifactId>ddd-infrastructure</artifactId>
+            <artifactId>ddd-application</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
