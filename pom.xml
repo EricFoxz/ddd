@@ -23,8 +23,9 @@
 	</properties>
 
 	<modules>
-		<module>ddd-api</module>
+		<module>ddd-apis</module>
 		<module>ddd-application</module>
+		<module>ddd-domain</module>
 		<module>ddd-infrastructure</module>
 	</modules>
 
