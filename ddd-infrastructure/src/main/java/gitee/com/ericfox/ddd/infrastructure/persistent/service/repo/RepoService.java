@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo;
 
+import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.infrastructure.general.common.constants.ActiveProperties;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 public class RepoService implements RepoStrategy {
-    private final String beanName = ActiveProperties.customProperties.getCacheStrategy();
+    private final String beanName = ActiveProperties.customProperties.getRepoStrategy();
     private final Map<String, RepoStrategy> strategyMap = new ConcurrentHashMap<>();
 
     @Autowired
@@ -42,7 +43,7 @@ public class RepoService implements RepoStrategy {
     }
 
     @Override
-    public <T extends BasePo<T>> List<T> queryPage(T t, int pageNum, int pageSize) {
+    public <T extends BasePo<T>> PageInfo<T> queryPage(T t, int pageNum, int pageSize) {
         return strategyMap.get(beanName).queryPage(t, pageNum, pageSize);
     }
 

@@ -13,4 +13,9 @@ import lombok.Setter;
 public class SysUser implements BasePo<SysUser> {
     private Long id;
     private String username;
+
+    @Override
+    public String getTableName() {
+        return "sys_user";
+    }
 }

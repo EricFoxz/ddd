@@ -1,6 +1,7 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.repository.sys.mysql;
 
 import com.jfinal.plugin.activerecord.Model;
+import lombok.ToString;
 import org.springframework.stereotype.Repository;
 
 @Repository

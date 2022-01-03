@@ -19,6 +19,7 @@ public class CustomProperties {
     private ResponseBean response;
     private String redisPoPrefix;
     private String cacheStrategy;
+    private String repoStrategy;
     private String[] staticSources;
 
     @Getter

@@ -16,7 +16,7 @@ public interface RepoStrategy {
 
     <T extends BasePo<T>> boolean update(T t);
 
-    <T extends BasePo<T>> List<T> queryPage(T t, int pageNum, int pageSize);
+    <T extends BasePo<T>> PageInfo<T> queryPage(T t, int pageNum, int pageSize);
 
     default <T extends BasePo<T>> List<T> queryList(T t) {
         return queryList(t, 1000);
