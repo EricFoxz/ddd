@@ -5,10 +5,7 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.BeanUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ClassUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;
 import lombok.SneakyThrows;
@@ -17,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 
 @Service("mysqlRepoStrategy")
 public class MysqlRepoStrategy implements RepoStrategy {
@@ -53,9 +51,21 @@ public class MysqlRepoStrategy implements RepoStrategy {
     @Override
     @SneakyThrows
     public <T extends BasePo<T>> PageInfo<T> queryPage(T t, int pageNum, int pageSize) {
+        Map<String, Object> param = BeanUtil.beanToMap(t);
         Model model = getModel(t);
         SqlPara sqlPara = new SqlPara();
-        sqlPara.setSql("select * from " + t.getTableName());
+        sqlPara.setSql("select * from " + t.tableName());
+        if(CollUtil.isNotEmpty(param)) {
+            sqlPara.setSql(sqlPara.getSql() + " where 1 = 1 ");
+            for (Map.Entry<String, Object> entry : param.entrySet()) {
+                Object value = entry.getValue();
+                if(value != null) {
+                    String key = entry.getKey();
+                    sqlPara.setSql(sqlPara.getSql() + " and " + StrUtil.toUnderlineCase(key) + " like ? ");
+                    sqlPara.addPara(value);
+                }
+            }
+        }
         Page<Model> paginate = model.paginate(pageNum, pageSize, sqlPara);
         List<T> result = CollUtil.newArrayList();
         if(paginate.getList() != null) {

@@ -4,5 +4,5 @@ import java.io.Serializable;
 
 public interface BasePo<T extends BasePo<T>> extends Serializable {
     Serializable getId();
-    String getTableName();
+    String tableName();
 }

@@ -15,7 +15,7 @@ public class SysUser implements BasePo<SysUser> {
     private String username;
 
     @Override
-    public String getTableName() {
+    public String tableName() {
         return "sys_user";
     }
 }
