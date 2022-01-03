@@ -1,7 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.general.config.env;
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.constants.ActiveProperties;
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.CacheStrategyEnum;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -17,7 +16,6 @@ public class CustomProperties {
     }
 
     private ResponseBean response;
-    private String redisPoPrefix;
     private String cacheStrategy;
     private String repoStrategy;
     private String[] staticSources;

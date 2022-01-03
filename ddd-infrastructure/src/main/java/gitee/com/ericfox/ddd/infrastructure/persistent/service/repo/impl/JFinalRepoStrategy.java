@@ -16,8 +16,8 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
-@Service("mysqlRepoStrategy")
-public class MysqlRepoStrategy implements RepoStrategy {
+@Service("jFinalRepoStrategy")
+public class JFinalRepoStrategy implements RepoStrategy {
 
     public <T extends BasePo<T>> T findById(T t) {
         Model model = getModel(t);
@@ -111,7 +111,7 @@ public class MysqlRepoStrategy implements RepoStrategy {
         Class<T> tClass = (Class<T>) t.getClass();
         String name = tClass.getName();
         String className = tClass.getSimpleName();
-        Class<? extends Model<?>> daoClass = ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", name) + ".repository.sys.mysql." + className + "Dao");
+        Class<? extends Model<?>> daoClass = ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", name) + ".repository.sys.jfinal." + className + "Dao");
         Field dao = daoClass.getDeclaredField("dao");
         dao.setAccessible(true);
         return (Model) dao.get(null);

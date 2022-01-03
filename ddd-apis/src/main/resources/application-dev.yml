@@ -19,9 +19,8 @@ spring:
     password:
 
 custom:
-  redis-po-prefix: 'CACHES:PO:'
   cache-strategy: redisCacheStrategy
-  repo-strategy: mysqlRepoStrategy
+  repo-strategy: jFinalRepoStrategy
   response:
     key-of-error-code: error
     key-of-error-message: message
