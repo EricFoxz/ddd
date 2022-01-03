@@ -84,12 +84,21 @@ public class MysqlRepoStrategy implements RepoStrategy {
     }
 
     @Override
+    @SneakyThrows
     public <T extends BasePo<T>> List<T> queryList(T t, int limit) {
+        Map<String, Object> param = BeanUtil.beanToMap(t);
         Model model = getModel(t);
         SqlPara sqlPara = new SqlPara();
-        sqlPara.addPara(t);
-        List list = model.find(sqlPara.getSql() + " limit " + limit);
-        List<?> result = BeanUtil.copyToList(list, t.getClass());
+        sqlPara.setSql("select * from " + t.tableName() + " limit " + limit);
+        List<Model> list = model.find(sqlPara.getSql());
+        List<T> result = CollUtil.newArrayList();
+        if(list != null) {
+            for (Model tmp : list) {
+                T n = (T) t.getClass().newInstance();
+                BeanUtil.copyProperties(tmp.toRecord().getColumns(), n, false);
+                result.add(n);
+            }
+        }
         return (List<T>) result;
     }
 
