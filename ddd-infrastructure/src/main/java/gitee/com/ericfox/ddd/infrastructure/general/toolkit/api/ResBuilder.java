@@ -14,40 +14,40 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @Slf4j
-public class ResponseEntityBuilder {
+public class ResBuilder {
     public static class defValue {
-        public static ResponseEntityBuilder created() {
-            return ResponseEntityBuilder.hashMapData().status(201);
+        public static ResBuilder created() {
+            return ResBuilder.hashMapData().status(201);
         }
 
-        public static ResponseEntityBuilder success() {
-            return ResponseEntityBuilder.hashMapData().message("请求成功").status(200);
+        public static ResBuilder success() {
+            return ResBuilder.hashMapData().message("请求成功").status(200);
         }
 
-        public static ResponseEntityBuilder badRequest(Exception e) {
+        public static ResBuilder badRequest(Exception e) {
             log.warn(e.getMessage(), e);
-            return ResponseEntityBuilder.hashMapData().message("传入参数错误").error(e).status(400);
+            return ResBuilder.hashMapData().message("传入参数错误").error(e).status(400);
         }
 
-        public static ResponseEntityBuilder unauthorized() {
+        public static ResBuilder unauthorized() {
             Exception e = new Exception("未获得权限认证");
             log.error(e.getMessage(), e);
-            return ResponseEntityBuilder.hashMapData().message("未获得权限认证").status(401);
+            return ResBuilder.hashMapData().message("未获得权限认证").status(401);
         }
 
-        public static ResponseEntityBuilder forbidden(Exception e) {
+        public static ResBuilder forbidden(Exception e) {
             log.error(e.getMessage(), e);
-            return ResponseEntityBuilder.hashMapData().message("权限不够，请勿重复请求").status(403);
+            return ResBuilder.hashMapData().message("权限不够，请勿重复请求").status(403);
         }
 
-        public static ResponseEntityBuilder internalServerError(Exception e) {
+        public static ResBuilder internalServerError(Exception e) {
             log.error(e.getMessage(), e);
-            return ResponseEntityBuilder.hashMapData().message("服务器错误，请联系开发人员").error(e).status(500);
+            return ResBuilder.hashMapData().message("服务器错误，请联系开发人员").error(e).status(500);
         }
 
-        public static ResponseEntityBuilder serviceUnavailable(Exception e) {
+        public static ResBuilder serviceUnavailable(Exception e) {
             log.error(e.getMessage(), e);
-            return ResponseEntityBuilder.hashMapData().message("服务维护中，请联系开发人员").error(e).status(503);
+            return ResBuilder.hashMapData().message("服务维护中，请联系开发人员").error(e).status(503);
         }
     }
 
@@ -57,38 +57,38 @@ public class ResponseEntityBuilder {
     private HttpStatus statusCode = HttpStatus.OK;
     private MultiValueMap<String, String> headers;
 
-    ResponseEntityBuilder(Serializable data) {
+    ResBuilder(Serializable data) {
         this.errKey = ActiveProperties.customProperties.getResponse().getKeyOfErrorCode();
         this.msgKey = ActiveProperties.customProperties.getResponse().getKeyOfErrorMessage();
         this.data = data;
     }
 
-    public static ResponseEntityBuilder blobData(Serializable data) {
-        return new ResponseEntityBuilder(data);
+    public static ResBuilder blobData(Serializable data) {
+        return new ResBuilder(data);
     }
 
     /**
-     * @return new ResponseEntityBuilder(new HashMap<String, Object>());
+     * @return new ResBuilder(new HashMap<String, Object>());
      */
-    public static ResponseEntityBuilder hashMapData() {
-        return new ResponseEntityBuilder(new HashMap<String, Object>());
+    public static ResBuilder hashMapData() {
+        return new ResBuilder(new HashMap<String, Object>());
     }
 
     /**
-     * @return new ResponseEntityBuilder(new TreeMap<String, Object>());
+     * @return new ResBuilder(new TreeMap<String, Object>());
      */
-    public static ResponseEntityBuilder treeMapData() {
-        return new ResponseEntityBuilder(new TreeMap<String, Object>());
+    public static ResBuilder treeMapData() {
+        return new ResBuilder(new TreeMap<String, Object>());
     }
 
     /**
-     * @return new ResponseEntityBuilder(null)
+     * @return new ResBuilder(null)
      */
-    public static ResponseEntityBuilder noData() {
-        return new ResponseEntityBuilder(null);
+    public static ResBuilder noData() {
+        return new ResBuilder(null);
     }
 
-    public ResponseEntityBuilder setHeaders(MultiValueMap<String, String> headers) {
+    public ResBuilder setHeaders(MultiValueMap<String, String> headers) {
         this.headers = headers;
         return this;
     }
@@ -100,7 +100,7 @@ public class ResponseEntityBuilder {
      * @param value 值
      * @return this
      */
-    public ResponseEntityBuilder put(String key, Object value) {
+    public ResBuilder put(String key, Object value) {
         if (this.data == null) {
             hashMapData();
         }
@@ -138,7 +138,7 @@ public class ResponseEntityBuilder {
         return JsonUtil.toJsonStr(data);
     }
 
-    public ResponseEntityBuilder message(String str) {
+    public ResBuilder message(String str) {
         if (data == null) {
             data = new HashMap<String, Object>();
         }
@@ -152,7 +152,7 @@ public class ResponseEntityBuilder {
      * @param str 错误信息
      * @return this
      */
-    public ResponseEntityBuilder error(String str) {
+    public ResBuilder error(String str) {
         if (data == null) {
             data = new HashMap<String, Object>();
         }
@@ -160,7 +160,7 @@ public class ResponseEntityBuilder {
         return this;
     }
 
-    public ResponseEntityBuilder error(Exception e) {
+    public ResBuilder error(Exception e) {
         return error(e.getMessage());
     }
 
@@ -181,7 +181,7 @@ public class ResponseEntityBuilder {
      *                   *                   504 网关超时
      * @return this
      */
-    public ResponseEntityBuilder status(HttpStatus statusCode) {
+    public ResBuilder status(HttpStatus statusCode) {
         this.statusCode = statusCode;
         return this;
     }
@@ -190,7 +190,7 @@ public class ResponseEntityBuilder {
      * @param statusCode HTTP状态码
      * @return this
      */
-    public ResponseEntityBuilder status(int statusCode) {
+    public ResBuilder status(int statusCode) {
         this.statusCode = HttpStatus.resolve(statusCode);
         return this;
     }
