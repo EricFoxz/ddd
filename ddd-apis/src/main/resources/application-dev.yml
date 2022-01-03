@@ -19,6 +19,8 @@ spring:
     password:
 
 custom:
+  redis-po-prefix: 'CACHES:PO:'
+  cache-strategy: redisCacheStrategy
   response:
     key-of-error-code: error
     key-of-error-message: message

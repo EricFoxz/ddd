@@ -22,13 +22,14 @@
 		<hutool.version>5.7.18</hutool.version>
 		<javaee-api.version>8.0.1</javaee-api.version>
 		<jfinal.version>4.9.16</jfinal.version>
+		<pagehelper.version>1.4.1</pagehelper.version>
 	</properties>
 
 	<modules>
 		<module>ddd-apis</module>
 		<module>ddd-application</module>
 		<!--<module>ddd-domain</module>-->
-		<module>ddd-sys_domain</module>
+		<module>ddd-domain-sys</module>
 		<module>ddd-infrastructure</module>
 	</modules>
 
@@ -61,6 +62,11 @@
 				<groupId>com.jfinal</groupId>
 				<artifactId>activerecord</artifactId>
 				<version>${jfinal.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.pagehelper</groupId>
+				<artifactId>pagehelper-spring-boot-starter</artifactId>
+				<version>${pagehelper.version}</version>
 			</dependency>
 		</dependencies>
 

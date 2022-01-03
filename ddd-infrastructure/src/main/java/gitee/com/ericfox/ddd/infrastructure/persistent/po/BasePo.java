@@ -1,4 +1,7 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.po;
 
-public interface BasePo {
+import java.io.Serializable;
+
+public interface BasePo<T extends BasePo<T>> extends Serializable {
+    Serializable getId();
 }

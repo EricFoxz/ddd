@@ -10,12 +10,14 @@ import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Set;
 
 @Configuration
+@ConditionalOnProperty(prefix = "spring.datasource", name = "url")
 public class ActiveRecordPluginConfig {
     @Value("${spring.datasource.url}")
     private String url;
@@ -43,7 +45,7 @@ public class ActiveRecordPluginConfig {
             if (aClass.isAnnotationPresent(OrmMysqlEnabledAnnotation.class)) {
                 OrmMysqlEnabledAnnotation annotation = aClass.getAnnotation(OrmMysqlEnabledAnnotation.class);
                 Class<? extends Model<?>> daoClass = ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", name) + ".repository.sys.mysql." + className + "Dao");
-                arp.addMapping(StrUtil.toUnderlineCase(className), annotation.value(),  daoClass);
+                arp.addMapping(StrUtil.toUnderlineCase(className), annotation.value(), daoClass);
             }
         }
         arp.start();
