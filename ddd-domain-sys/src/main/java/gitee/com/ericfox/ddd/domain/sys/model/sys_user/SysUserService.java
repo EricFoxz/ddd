@@ -4,7 +4,6 @@ import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.domain.sys.factory.SysUserFactory;
 import gitee.com.ericfox.ddd.domain.sys.model.BaseService;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.cache.CacheService;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoService;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -16,18 +15,13 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service("sysUserService")
-@CacheConfig(cacheNames = "SysUserService")
+@CacheConfig(cacheNames = "SysUserService", keyGenerator = "keyGenerator")
 public class SysUserService implements BaseService<SysUser> {
     @Resource
     RepoService repoService;
 
-    // private final boolean useCache = SysUser.class.isAnnotationPresent(CacheEnabledAnnotation.class);
-
-    @Resource
-    private CacheService cacheService;
-
     @Transactional(readOnly = true)
-    @Cacheable
+    @Cacheable(keyGenerator = "keyGeneratorToServiceParam")
     public SysUserAgg findById(Long id) {
         SysUser sysUser = new SysUser();
         sysUser.setId(id);
@@ -39,6 +33,7 @@ public class SysUserService implements BaseService<SysUser> {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(keyGenerator = "keyGeneratorToServiceParam")
     public PageInfo<SysUserAgg> queryPage(SysUser sysUser, int pageNum, int pageSize) {
         PageInfo sysUserPageInfo = repoService.queryPage(sysUser, pageNum, pageSize);
         List<SysUserAgg> list = SysUserFactory.createListAgg(sysUserPageInfo.getList());
@@ -47,16 +42,28 @@ public class SysUserService implements BaseService<SysUser> {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(keyGenerator = "keyGeneratorToServiceParam")
     public List<SysUserAgg> queryList(SysUser sysUser, int pageSize) {
         List<SysUser> sysUsers = repoService.queryList(sysUser, pageSize);
-        List<SysUserAgg> list = SysUserFactory.createListAgg(sysUsers);
-        return list;
+        return SysUserFactory.createListAgg(sysUsers);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
-    public void update() {
+    public SysUser insert(SysUser sysUser) {
+        return repoService.insert(sysUser);
+    }
 
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true, beforeInvocation = false)
+    public boolean update(SysUser sysUser) {
+        return repoService.update(sysUser);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true, beforeInvocation = false)
+    public boolean deleteById(SysUser sysUser) {
+        return repoService.deleteById(sysUser);
     }
 
     @CacheEvict(allEntries = true, beforeInvocation = false)

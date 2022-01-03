@@ -6,6 +6,7 @@ import gitee.com.ericfox.ddd.apis.model.param.sys.sys_user.SysUserPagePram;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserAgg;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserService;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -39,17 +40,26 @@ public class UserController implements BaseController {
     }
 
     @PutMapping("/create")
-    public ResponseEntity<?> create() {
-        return ResBuilder.defValue.created().build();
+    public ResponseEntity<?> create(SysUser sysUser) {
+        sysUser = sysUserService.insert(sysUser);
+        return ResBuilder.defValue.created().put("data", sysUser).build();
     }
 
     @PatchMapping("/edit")
-    public ResponseEntity<?> edit() {
-        return ResBuilder.defValue.success().put("id", 1).build();
+    public ResponseEntity<?> edit(SysUser sysUser) {
+        boolean b = sysUserService.update(sysUser);
+        if (b) {
+            return ResBuilder.defValue.success().put("id", sysUser.getId()).build();
+        }
+        return ResBuilder.defValue.noContent().build();
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<?> remove() {
-        return ResBuilder.defValue.success().put("id", 1).build();
+    public ResponseEntity<?> remove(SysUser sysUser) {
+        boolean b = sysUserService.deleteById(sysUser);
+        if (b) {
+            return ResBuilder.defValue.success().put("id", sysUser.getId()).build();
+        }
+        return ResBuilder.defValue.noContent().build();
     }
 }
