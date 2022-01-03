@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Controller
 @RequestMapping("/sys/user")
@@ -31,6 +32,12 @@ public class UserController implements BaseController {
     public ResponseEntity<?> page(SysUserPagePram sysUserPagePram) {
         PageInfo<SysUserAgg> sysUserAggPageInfo = sysUserService.queryPage(sysUserPagePram.toParent(), sysUserPagePram.getPageNum(), sysUserPagePram.getPageSize());
         return ResponseEntityBuilder.defValue.success().put("data", sysUserAggPageInfo).build();
+    }
+
+    @GetMapping("/list/{pageSize}")
+    public ResponseEntity<?> list(SysUserPagePram sysUserPagePram) {
+        List<SysUserAgg> sysUserAggs = sysUserService.queryList(sysUserPagePram.toParent(), sysUserPagePram.getPageSize());
+        return ResponseEntityBuilder.defValue.success().put("data", sysUserAggs).build();
     }
 
     @PutMapping("/create")

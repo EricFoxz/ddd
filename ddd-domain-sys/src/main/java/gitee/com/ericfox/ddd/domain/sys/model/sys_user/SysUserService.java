@@ -46,6 +46,13 @@ public class SysUserService implements BaseService<SysUser> {
         return (PageInfo<SysUserAgg>) sysUserPageInfo;
     }
 
+    @Transactional(readOnly = true)
+    public List<SysUserAgg> queryList(SysUser sysUser, int pageSize) {
+        List<SysUser> sysUsers = repoService.queryList(sysUser, pageSize);
+        List<SysUserAgg> list = SysUserFactory.createListAgg(sysUsers);
+        return list;
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
     public void update() {

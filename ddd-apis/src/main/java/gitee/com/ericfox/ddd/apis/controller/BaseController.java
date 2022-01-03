@@ -8,6 +8,8 @@ public interface BaseController {
 
     ResponseEntity<?> page(SysUserPagePram param);
 
+    ResponseEntity<?> list(SysUserPagePram param);
+
     ResponseEntity<?> create();
 
     ResponseEntity<?> edit();
