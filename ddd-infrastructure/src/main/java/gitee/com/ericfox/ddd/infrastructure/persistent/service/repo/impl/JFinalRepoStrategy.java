@@ -54,7 +54,7 @@ public class JFinalRepoStrategy implements RepoStrategy {
         Map<String, Object> param = BeanUtil.beanToMap(t);
         Model model = getModel(t);
         SqlPara sqlPara = new SqlPara();
-        sqlPara.setSql("select * from " + t.tableName());
+        sqlPara.setSql("select * from " + StrUtil.toUnderlineCase(t.getClass().getSimpleName()));
         if(CollUtil.isNotEmpty(param)) {
             sqlPara.setSql(sqlPara.getSql() + " where 1 = 1 ");
             for (Map.Entry<String, Object> entry : param.entrySet()) {
@@ -89,7 +89,7 @@ public class JFinalRepoStrategy implements RepoStrategy {
         Map<String, Object> param = BeanUtil.beanToMap(t);
         Model model = getModel(t);
         SqlPara sqlPara = new SqlPara();
-        sqlPara.setSql("select * from " + t.tableName() + " limit " + limit);
+        sqlPara.setSql("select * from " + StrUtil.toUnderlineCase(t.getClass().getSimpleName()) + " limit " + limit);
         List<Model> list = model.find(sqlPara.getSql());
         List<T> result = CollUtil.newArrayList();
         if(list != null) {

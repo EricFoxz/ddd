@@ -1,7 +1,10 @@
-package gitee.com.ericfox.ddd.infrastructure.general.common.enums;
+package gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy;
+
+import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BaseEnum;
 
 public enum RepoTypeStrategyEnum implements BaseEnum<RepoTypeStrategyEnum, String> {
-    J_FINAL("jFinalStrategy", "使用集成的jfinal进行持久化");
+    J_FINAL_REPO_STRATEGY("jFinalRepoStrategy", "使用集成的jfinal进行持久化"),
+    LUCENE_REPO_STRATEGY("luceneRepoStrategy", "使用集成的jfinal进行持久化");
 
     private final String code;
     private final String description;

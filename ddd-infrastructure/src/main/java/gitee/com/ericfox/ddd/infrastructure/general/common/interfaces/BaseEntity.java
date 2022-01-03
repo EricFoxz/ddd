@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.domain.sys.model;
+package gitee.com.ericfox.ddd.infrastructure.general.common.interfaces;
 
 public interface BaseEntity {
     int create();

@@ -17,6 +17,7 @@ public class CustomProperties {
 
     private ResponseBean response;
     private String cacheStrategy;
+    private LuceneBean lucene;
     private String repoStrategy;
     private String[] staticSources;
 
@@ -25,5 +26,12 @@ public class CustomProperties {
     public static class ResponseBean {
         private String keyOfErrorCode;
         private String keyOfErrorMessage;
+    }
+
+    @Getter
+    @Setter
+    public static class LuceneBean{
+        private String rootPath;
+        private boolean clearWhenStart = false;
     }
 }

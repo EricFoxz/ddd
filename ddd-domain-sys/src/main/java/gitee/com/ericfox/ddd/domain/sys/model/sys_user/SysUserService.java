@@ -2,7 +2,7 @@ package gitee.com.ericfox.ddd.domain.sys.model.sys_user;
 
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.domain.sys.factory.SysUserFactory;
-import gitee.com.ericfox.ddd.domain.sys.model.BaseService;
+import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseService;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoService;
 import org.springframework.cache.annotation.CacheConfig;

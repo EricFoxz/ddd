@@ -21,6 +21,9 @@ spring:
 custom:
   cache-strategy: redisCacheStrategy
   repo-strategy: jFinalRepoStrategy
+  lucene:
+    root-path: E:/lucene
+    clear-when-start: true
   response:
     key-of-error-code: error
     key-of-error-message: message

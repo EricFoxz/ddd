@@ -1,4 +1,6 @@
-package gitee.com.ericfox.ddd.infrastructure.general.common.enums;
+package gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy;
+
+import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BaseEnum;
 
 public enum  CacheStrategyEnum implements BaseEnum<CacheStrategyEnum, String> {
     REDIS_STRATEGY("redisCacheStrategy", "redis缓存方式");

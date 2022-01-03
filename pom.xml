@@ -23,6 +23,8 @@
 		<javaee-api.version>8.0.1</javaee-api.version>
 		<jfinal.version>4.9.16</jfinal.version>
 		<pagehelper.version>1.4.1</pagehelper.version>
+		<lucene.servion>8.5.0</lucene.servion>
+		<mmseg4j-solr.version>2.4.0</mmseg4j-solr.version>
 	</properties>
 
 	<modules>
@@ -30,6 +32,7 @@
 		<module>ddd-application</module>
 		<!--<module>ddd-domain</module>-->
 		<module>ddd-domain-sys</module>
+		<module>ddd-domain-gen</module>
 		<module>ddd-infrastructure</module>
 	</modules>
 
@@ -67,6 +70,26 @@
 				<groupId>com.github.pagehelper</groupId>
 				<artifactId>pagehelper-spring-boot-starter</artifactId>
 				<version>${pagehelper.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-highlighter</artifactId>
+				<version>${lucene.servion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-queryparser</artifactId>
+				<version>${lucene.servion}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.magese</groupId>
+				<artifactId>ik-analyzer</artifactId>
+				<version>${lucene.servion}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.chenlb.mmseg4j</groupId>
+				<artifactId>mmseg4j-solr</artifactId>
+				<version>${mmseg4j-solr.version}</version>
 			</dependency>
 		</dependencies>
 
