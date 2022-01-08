@@ -7,18 +7,24 @@ import com.jfinal.template.source.ClassPathSourceFactory;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.strategy.OrmEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ClassUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReflectUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
+import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalBaseDao;
+import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalRepoStrategy;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
+import java.lang.reflect.Method;
 import java.util.Set;
 
 @Configuration
 @ConditionalOnProperty(prefix = "spring.datasource", name = "url")
+@SuppressWarnings("unchecked")
 public class ActiveRecordPluginConfig {
     @Value("${spring.datasource.url}")
     private String url;
@@ -29,8 +35,12 @@ public class ActiveRecordPluginConfig {
     @Value("${spring.datasource.hikari.driver-class-name}")
     private String driverClassName;
 
+    @Resource
+    private JFinalRepoStrategy jFinalRepoStrategy;
+
     @Bean
-    public ActiveRecordPlugin activeRecordPlugin() {
+    @SneakyThrows
+    public <T extends BasePo<T>, U extends JFinalBaseDao, V extends Model<V>> ActiveRecordPlugin activeRecordPlugin() {
         HikariCpPlugin hikariCpPlugin = new HikariCpPlugin(url, username, password, driverClassName);
         ActiveRecordPlugin arp = new ActiveRecordPlugin(hikariCpPlugin);
         arp.setShowSql(true);
@@ -46,8 +56,11 @@ public class ActiveRecordPluginConfig {
             if (aClass.isAnnotationPresent(OrmEnabledAnnotation.class)) {
                 OrmEnabledAnnotation annotation = aClass.getAnnotation(OrmEnabledAnnotation.class);
                 if (RepoTypeStrategyEnum.J_FINAL_REPO_STRATEGY.equals(annotation.type())) {
-                    Class<? extends Model<?>> daoClass = ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", name) + ".repository.sys.jfinal." + className + "Dao");
-                    arp.addMapping(StrUtil.toUnderlineCase(className), annotation.value(), daoClass);
+                    Class<U> daoClass = ClassUtil.getDaoClassByPoClass((Class<T>) aClass, jFinalRepoStrategy);
+                    Method daoNameMethod = ReflectUtil.getMethodByName(daoClass, JFinalBaseDao.DAO_NAME_METHOD_NAME);
+                    String daoName = (String) daoNameMethod.invoke(null, (Object) null);
+                    Class<V> daoClassM = (Class<V>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName)).getClass();
+                    arp.addMapping(StrUtil.toUnderlineCase(className), annotation.value(), daoClassM);
                 }
             }
         }

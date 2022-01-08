@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class JFinalBaseDao<T extends BasePo<T>, U extends JFinalBaseDao<T, U>> extends Model<U> implements BaseDao<T> {
     public static final String DAO_NAME_METHOD_NAME = "daoFieldName";
 
-    public String daoFieldName() {
+    protected static String daoFieldName() {
         return "dao";
     }
 

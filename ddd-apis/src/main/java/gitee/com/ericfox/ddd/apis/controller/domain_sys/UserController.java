@@ -40,7 +40,7 @@ public class UserController implements BaseController {
     }
 
     @PutMapping("/create")
-    public ResponseEntity<?> create(SysUser sysUser) {
+    public ResponseEntity<?> create(@RequestBody SysUser sysUser) {
         sysUser = sysUserService.insert(sysUser);
         return ResBuilder.defValue.created().put("data", sysUser).build();
     }

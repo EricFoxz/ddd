@@ -12,17 +12,19 @@ import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
 @Service("jFinalRepoStrategy")
+@SuppressWarnings("unchecked")
 public class JFinalRepoStrategy implements RepoStrategy {
     private static final CopyOptions updateCopyOptions = CopyOptions.create().ignoreCase().ignoreNullValue();
 
     public <T extends BasePo<T>, U extends BaseDao<T>> T findById(T t) {
         JFinalBaseDao dao = getDao(t);
-        Model result = dao.findById(t.getId());
+        Model<?> result = dao.findById(BeanUtil.getProperty(t, dao.primaryKeyFieldName()));
         BeanUtil.copyProperties(result.toRecord().getColumns(), t, false);
         return t;
     }
@@ -30,13 +32,36 @@ public class JFinalRepoStrategy implements RepoStrategy {
     @Override
     public <T extends BasePo<T>, U extends BaseDao<T>> boolean deleteById(T t) {
         JFinalBaseDao dao = getDao(t);
-        return dao.deleteById(t.getId());
+        return dao.deleteById(BeanUtil.getProperty(t, dao.primaryKeyFieldName()));
+    }
+
+    @Override
+    public <T extends BasePo<T>, U extends BaseDao<T>> boolean multiDeleteById(List<T> t) {
+        if (CollUtil.isEmpty(t)) {
+            return true;
+        }
+        List<Serializable> idList = CollUtil.newArrayList();
+        JFinalBaseDao dao = getDao(t.get(0));
+        for (T tmp : t) {
+            Serializable id = BeanUtil.getProperty(tmp, dao.primaryKeyFieldName());
+            idList.add(id);
+        }
+        dao.deleteByIds();
+        return false;
+    }
+
+    @Override
+    public <T extends BasePo<T>, U extends BaseDao<T>> boolean multiDeleteById(T... t) {
+        if (ArrayUtil.isEmpty(t)) {
+            return true;
+        }
+        return multiDeleteById(CollUtil.newArrayList(t));
     }
 
     @Override
     public <T extends BasePo<T>, U extends BaseDao<T>> T insert(T t) {
         JFinalBaseDao dao = getDao(t);
-        Model result = dao.put(dao);
+        Model<?> result = dao.put(dao);
         BeanUtil.copyProperties(result.toRecord().getColumns(), t, false);
         return t;
     }
@@ -59,7 +84,7 @@ public class JFinalRepoStrategy implements RepoStrategy {
     @Override
     public <T extends BasePo<T>, U extends BaseDao<T>> boolean updateById(T t) {
         JFinalBaseDao dao = getDao(t);
-        t = (T) dao.findById(t.getId());
+        t = (T) dao.findById(BeanUtil.getProperty(t, dao.primaryKeyFieldName()));
         BeanUtil.copyProperties(t, dao, updateCopyOptions);
         return dao.update();
     }
@@ -101,11 +126,6 @@ public class JFinalRepoStrategy implements RepoStrategy {
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>> List<T> queryList(T t) {
-        return RepoStrategy.super.queryList(t);
-    }
-
-    @Override
     @SneakyThrows
     public <T extends BasePo<T>, U extends BaseDao<T>> List<T> queryList(T t, int limit) {
         Map<String, Object> param = BeanUtil.beanToMap(t);
@@ -131,7 +151,7 @@ public class JFinalRepoStrategy implements RepoStrategy {
             t = ReflectUtil.invoke(t, toPoMethod, (Object) null);
         }
         Class<U> daoClass = ClassUtil.getDaoClassByPo(t, this);
-        Method daoNameMethod = ReflectUtil.getMethodByName(daoClass, JFinalBaseDao.DAO_NAME_METHOD_NAME);
+        Method daoNameMethod = ReflectUtil.getMethod(daoClass, JFinalBaseDao.DAO_NAME_METHOD_NAME, null);
         String daoName = (String) daoNameMethod.invoke(null, (Object) null);
         return (JFinalBaseDao<T, U>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName));
     }

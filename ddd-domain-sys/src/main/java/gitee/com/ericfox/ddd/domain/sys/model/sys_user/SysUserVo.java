@@ -1,4 +1,8 @@
 package gitee.com.ericfox.ddd.domain.sys.model.sys_user;
 
-public class SysUserVo extends SysUserEntity {
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
+
+import java.io.Serializable;
+
+public class SysUserVo extends SysUser implements Serializable {
 }

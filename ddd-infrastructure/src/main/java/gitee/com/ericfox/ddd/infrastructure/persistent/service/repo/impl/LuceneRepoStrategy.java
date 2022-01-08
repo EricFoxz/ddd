@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
@@ -31,6 +32,7 @@ import java.util.Map;
 
 @Service("luceneRepoStrategy")
 @Slf4j
+@SuppressWarnings("unchecked")
 public class LuceneRepoStrategy implements RepoStrategy {
     @Resource
     CustomProperties customProperties;
@@ -40,7 +42,6 @@ public class LuceneRepoStrategy implements RepoStrategy {
     private final Map<String, IndexSearcher> indexSearcherMap = MapUtil.newHashMap(4);
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends BasePo<T>, U extends BaseDao<T>> T findById(T t) {
         Document document = findDocumentById(t);
         if (document == null) {
@@ -55,18 +56,18 @@ public class LuceneRepoStrategy implements RepoStrategy {
     }
 
     @SneakyThrows
-    @SuppressWarnings("unchecked")
     private <T extends BasePo<T>, U extends BaseDao<T>> Document findDocumentById(U dao, T t) {
         if (t == null) {
             return null;
         }
+        Class<U> daoClass = null;
         if (dao == null) {
-            Class<U> daoClass = ClassUtil.getDaoClassByPo(t, this);
+            daoClass = ClassUtil.getDaoClassByPo(t, this);
             dao = ReflectUtil.newInstance(daoClass);
         }
         IndexSearcher indexSearcher = getIndexSearcher((Class<T>) t.getClass());
         String idFieldName = dao.primaryKeyFieldName();
-        Query query = EasyQuery.primaryKeyExactQuery(idFieldName, BeanUtil.getProperty(t, idFieldName));
+        Query query = EasyQuery.exactValueQuery(daoClass, idFieldName, BeanUtil.getProperty(t, idFieldName));
         TopDocs topDocs = indexSearcher.search(query, 1);
         if (topDocs.totalHits.value == 0) {
             return null;
@@ -77,18 +78,21 @@ public class LuceneRepoStrategy implements RepoStrategy {
 
     @Override
     @SneakyThrows
-    @SuppressWarnings("unchecked")
     public <T extends BasePo<T>, U extends BaseDao<T>> boolean deleteById(T t) {
-        if (t == null || t.getId() == null) {
+        if (t == null) {
             return true;
         }
         try {
             Class<U> daoClass = ClassUtil.getDaoClassByPo(t, this);
             U dao = ReflectUtil.newInstance(daoClass);
             String idFieldName = dao.primaryKeyFieldName();
-            Query query = EasyQuery.primaryKeyExactQuery(idFieldName, BeanUtil.getProperty(t, idFieldName));
-            IndexWriter indexWriter = null;
-            synchronized (getIndexWriter(t.getClass())) {
+            Serializable id = BeanUtil.getProperty(t, idFieldName);
+            if (id == null) {
+                return true;
+            }
+            Query query = EasyQuery.exactValueQuery(daoClass, idFieldName, id);
+            IndexWriter indexWriter = getIndexWriter(t.getClass());
+            synchronized (indexWriter) {
                 //TODO-拓展 indexWriter目前这么写只能支持单实例，横向拓展会有问题，到时候需要close
                 indexWriter.deleteDocuments(query);
                 indexWriter.commit();
@@ -98,6 +102,42 @@ public class LuceneRepoStrategy implements RepoStrategy {
             log.error("lucene删除文档失败");
             throw new ProjectRepoException("", e);
         }
+    }
+
+    @Override
+    @SneakyThrows
+    public <T extends BasePo<T>, U extends BaseDao<T>> boolean multiDeleteById(List<T> t) {
+        if (CollUtil.isEmpty(t)) {
+            return true;
+        }
+        try {
+            Class<U> daoClass = ClassUtil.getDaoClassByPo(t.get(0), this);
+            U dao = ReflectUtil.newInstance(daoClass);
+            String idFieldName = dao.primaryKeyFieldName();
+            Serializable id = BeanUtil.getProperty(t, idFieldName);
+            if (id == null) {
+                return true;
+            }
+            Query query = EasyQuery.exactValueQuery(daoClass, idFieldName, id);
+            IndexWriter indexWriter = getIndexWriter(t.get(0).getClass());
+            synchronized (indexWriter) {
+                //TODO-拓展 indexWriter目前这么写只能支持单实例，横向拓展会有问题，到时候需要close
+                indexWriter.deleteDocuments(query);
+                indexWriter.commit();
+            }
+            return true;
+        } catch (Exception e) {
+            log.error("lucene删除文档失败");
+            throw new ProjectRepoException("", e);
+        }
+    }
+
+    @Override
+    public <T extends BasePo<T>, U extends BaseDao<T>> boolean multiDeleteById(T... t) {
+        if (ArrayUtil.isEmpty(t)) {
+            return true;
+        }
+        return multiDeleteById(CollUtil.newArrayList(t));
     }
 
     @Override
@@ -116,7 +156,6 @@ public class LuceneRepoStrategy implements RepoStrategy {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends BasePo<T>, U extends BaseDao<T>> boolean multiInsert(List<T> list) {
         if (CollUtil.isEmpty(list)) {
             return true;
@@ -129,8 +168,8 @@ public class LuceneRepoStrategy implements RepoStrategy {
                 daoList.add(dao);
             }
             List<Document> docs = buildDocumentList(daoList);
-            IndexWriter indexWriter = null;
-            synchronized (getIndexWriter(list.get(0).getClass())) {
+            IndexWriter indexWriter = getIndexWriter(list.get(0).getClass());
+            synchronized (indexWriter) {
                 //TODO-拓展 indexWriter目前这么写只能支持单实例，横向拓展会有问题，到时候需要close
                 indexWriter.addDocuments(docs);
                 indexWriter.commit();
@@ -144,7 +183,6 @@ public class LuceneRepoStrategy implements RepoStrategy {
 
     @Override
     @SneakyThrows
-    @SuppressWarnings("unchecked")
     public <T extends BasePo<T>, U extends BaseDao<T>> boolean updateById(T t) {
         Class<U> daoClass = ClassUtil.getDaoClassByPo(t, this);
         U dao = ReflectUtil.newInstance(daoClass);
@@ -153,8 +191,8 @@ public class LuceneRepoStrategy implements RepoStrategy {
         if (null == document) {
             return true;
         }
-        IndexWriter indexWriter = null;
-        synchronized (indexWriter = getIndexWriter(t.getClass())) {
+        IndexWriter indexWriter = getIndexWriter(t.getClass());
+        synchronized (indexWriter) {
             //TODO-拓展 indexWriter目前这么写只能支持单实例，横向拓展会有问题，到时候需要close
             indexWriter.updateDocument(new Term(primaryKeyName, (String) BeanUtil.getProperty(t, primaryKeyName)), document);
             indexWriter.commit();
@@ -167,10 +205,8 @@ public class LuceneRepoStrategy implements RepoStrategy {
         return queryPage(t, pageNum, pageSize, new MatchAllDocsQuery(), Sort.INDEXORDER);
     }
 
-    @SuppressWarnings("unchecked")
     @SneakyThrows
     public <T extends BasePo<T>, U extends BaseDao<T>> PageInfo<T> queryPage(T t, Integer pageNum, Integer pageSize, Query query, Sort sort) {
-        Class<T> clazz = (Class<T>) t.getClass();
         Class<U> daoClass = ClassUtil.getDaoClassByPo(t, this);
         int start = (pageNum - 1) * pageSize;// 下标从 0 开始
         int end = pageNum * pageSize;
@@ -212,9 +248,8 @@ public class LuceneRepoStrategy implements RepoStrategy {
             //通过文档id, 读取文档
             Document document = indexSearcher.doc(luceneDocumentId);
             // Document document = indexReader.document(scoreDocs[i].doc);//另一种写法
-            U u = ReflectUtil.newInstance(daoClass);
-            parseToPo(document, u);
-            resultList.add((T) u.toPo());
+            T po = parseToPo(document, (Class<T>) t.getClass());
+            resultList.add(po);
         }
 
         // 构建 page 对象
@@ -235,8 +270,22 @@ public class LuceneRepoStrategy implements RepoStrategy {
     }
 
     @Override
+    @SneakyThrows
     public <T extends BasePo<T>, U extends BaseDao<T>> List<T> queryList(T t, int limit) {
-        return null;
+        Class<U> daoClass = ClassUtil.getDaoClassByPo(t, this);
+        IndexSearcher indexSearcher = getIndexSearcher((Class<T>) t.getClass());
+        Query query = EasyQuery.exactMultiFieldQuery(daoClass, t, true);
+        TopDocs topDocs = indexSearcher.search(query, limit);
+        if (topDocs.totalHits.value == 0) {
+            return CollUtil.newArrayList();
+        }
+        ScoreDoc[] scoreDoc = topDocs.scoreDocs;
+        List<T> result = CollUtil.newArrayList();
+        for (ScoreDoc doc : scoreDoc) {
+            Document tmpDoc = indexSearcher.doc(doc.doc);
+            result.add(parseToPo(tmpDoc, (Class<T>) t.getClass()));
+        }
+        return result;
     }
 
     private String buildDirectoryPath(String rootPathName) {
@@ -247,7 +296,6 @@ public class LuceneRepoStrategy implements RepoStrategy {
         return luceneLocalIndexDirectoryPath + File.separator + rootPathName;
     }
 
-    @SuppressWarnings("unchecked")
     private <T extends BasePo<T>, U extends BaseDao<T>> T parseToPo(Document document, U t) {
         return parseToPo(document, ClassUtil.getClass((T) t.toPo()));
     }
@@ -330,7 +378,6 @@ public class LuceneRepoStrategy implements RepoStrategy {
         return parseToDocument(dao);
     }
 
-    @SuppressWarnings("unchecked")
     @SneakyThrows
     private <T extends BasePo<T>, U extends BaseDao<T>> Document parseToDocument(U t) {
         Document document = new Document();
@@ -405,13 +452,12 @@ public class LuceneRepoStrategy implements RepoStrategy {
         return document;
     }
 
-    @SuppressWarnings("unchecked")
     @SneakyThrows
     private synchronized <T extends BasePo<T>, U extends LuceneBaseDao<T>> IndexWriter getIndexWriter(Class<T> clazz) {
         String className = clazz.getSimpleName();
         Class<BaseDao<T>> daoClass = ClassUtil.getDaoClassByPoClass(clazz, this);
         U dao = (U) ReflectUtil.newInstance(daoClass);
-        if (indexWriterMap.containsKey(className)) {
+        if (indexWriterMap.containsKey(className) && indexWriterMap.get(className) != null) {
             return indexWriterMap.get(className);
         }
         String directoryPath = buildDirectoryPath(className);
@@ -442,24 +488,71 @@ public class LuceneRepoStrategy implements RepoStrategy {
         }
 
         /**
-         * 主键精确查询
+         * 多个字段精确匹配
          */
-        public static Query primaryKeyExactQuery(String idFieldName, Object id) {
+        public static <T extends BasePo<T>, U extends BaseDao<T>> Query exactMultiFieldQuery(Class<U> daoClass, T t, boolean matchAllIfEmpty) {
+            List<IndexableField> fields = null;
+            if (t == null || BeanUtil.isEmpty(t)) {
+                if(matchAllIfEmpty) {
+                    return new MatchAllDocsQuery();
+                }
+                return new MatchNoDocsQuery();
+            }
+            Map<String, Object> map = BeanUtil.beanToMap(t);
+            BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                if (value != null) {
+                    queryBuilder.add(exactValueQuery(daoClass, key, value), BooleanClause.Occur.MUST);
+                }
+            }
+            return queryBuilder.build();
+        }
+
+        /**
+         * 单个字段精确匹配多个值
+         */
+        public static <T extends BasePo<T>, U extends BaseDao<T>> Query exactMultiValueQuery(Class<U> daoClass, String idFieldName, Serializable... values) {
+            return exactMultiValueQuery(daoClass, idFieldName, CollUtil.newArrayList(values));
+        }
+
+        public static <T extends BasePo<T>, U extends BaseDao<T>> Query exactMultiValueQuery(Class<U> daoClass, String idFieldName, List<Serializable> valueList) {
+            if (CollUtil.isEmpty(valueList)) {
+                return new MatchNoDocsQuery();
+            }
+            BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
+            for (Serializable id : valueList) {
+                Query query = exactValueQuery(daoClass, idFieldName, id);
+                queryBuilder.add(query, BooleanClause.Occur.SHOULD);
+            }
+            return queryBuilder.build();
+        }
+
+        /**
+         * 单个字段精确查询
+         */
+        public static <T extends BasePo<T>, U extends BaseDao<T>> Query exactValueQuery(Class<U> daoClass, String fieldName, Object value) {
+            LuceneFieldTypeEnum luceneFieldTypeEnum = ReflectUtil.getField(daoClass, fieldName).getAnnotation(LuceneFieldKey.class).type();
             Query query = null;
-            if (id instanceof Long) {
-                query = LongPoint.newExactQuery(idFieldName, (Long) id);
-            } else if (id instanceof BytesRef) {
-                new TermQuery(new Term(idFieldName, (BytesRef) id));
-            } else if (id instanceof String) {
-                query = new TermQuery(new Term(idFieldName, (String) id));
-            } else if (id instanceof Double) {
-                query = DoublePoint.newExactQuery(idFieldName, (Double) id);
-            } else if (id instanceof Integer) {
-                query = IntPoint.newExactQuery(idFieldName, (Integer) id);
-            } else if (id instanceof byte[]) {
-                query = BinaryPoint.newExactQuery(idFieldName, (byte[]) id);
+            if (LuceneFieldTypeEnum.LONG_POINT.equals(luceneFieldTypeEnum)) {
+                query = LongPoint.newExactQuery(fieldName, (Long) value);
+            } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(luceneFieldTypeEnum)) {
+                if (value instanceof BytesRef) {
+                    query = BinaryPoint.newExactQuery(fieldName, ((BytesRef) value).bytes);
+                } else if (value instanceof byte[]) {
+                    query = BinaryPoint.newExactQuery(fieldName, (byte[]) value);
+                }
+            } else if (LuceneFieldTypeEnum.TEXT_FIELD.equals(luceneFieldTypeEnum)) {
+                query = new TermQuery(new Term(fieldName, (String) value));
+            } else if (LuceneFieldTypeEnum.STRING_FIELD.equals(luceneFieldTypeEnum)) {
+                query = new TermQuery(new Term(fieldName, (String) value));
+            } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(luceneFieldTypeEnum)) {
+                query = DoublePoint.newExactQuery(fieldName, (Double) value);
+            } else if (LuceneFieldTypeEnum.INT_POINT.equals(luceneFieldTypeEnum)) {
+                query = IntPoint.newExactQuery(fieldName, (Integer) value);
             } else {
-                throw new ProjectRepoException("lucene未定义的映射类型：" + id);
+                throw new ProjectRepoException("lucene未定义的映射类型：" + value);
             }
             return query;
         }

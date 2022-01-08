@@ -123,7 +123,6 @@ public class RedisConfig extends CachingConfigurerSupport {
             @Override
             public Object generate(Object target, Method method, Object... params) {
                 StringBuilder finalResult = new StringBuilder();
-                // 必须有类名作为前缀，避免走入 Default 之后取的方法名一样造成无法类型转换
                 finalResult.append(target.getClass().getSimpleName());
                 finalResult.append(":");
                 finalResult.append(method.getName());
@@ -164,7 +163,7 @@ public class RedisConfig extends CachingConfigurerSupport {
                 String finalParam = paramString.toString();
                 String sha256 = SecureUtil.sha256(finalParam);
 
-                log.debug("keyGeneratorToServiceParam Method <{}>, Param <{}> SHA256 <{}>", method.getName(), finalParam, sha256);
+                log.debug("keyGeneratorToServiceParam <{}>, SHA <{}>", finalParam, sha256);
 
                 finalResult.append(sha256);
                 return finalResult.toString();

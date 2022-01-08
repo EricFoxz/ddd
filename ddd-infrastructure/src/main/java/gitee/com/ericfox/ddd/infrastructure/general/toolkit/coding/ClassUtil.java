@@ -11,9 +11,9 @@ public class ClassUtil extends cn.hutool.core.util.ClassUtil {
         String name = clazz.getName();
         String className = clazz.getSimpleName();
         if (strategy instanceof LuceneRepoStrategy) {
-            return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", name) + ".repository.sys.jfinal." + className + "Dao");
-        } else if (strategy instanceof JFinalRepoStrategy) {
             return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", name) + ".repository.sys.lucene." + className + "Dao");
+        } else if (strategy instanceof JFinalRepoStrategy) {
+            return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", name) + ".repository.sys.jfinal." + className + "Dao");
         }
         return null;
     }
