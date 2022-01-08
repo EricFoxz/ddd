@@ -6,7 +6,6 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.SqlPara;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
-import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.JFinalBaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;

@@ -6,7 +6,6 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.annos.strategy.Lucene
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.LuceneFieldTypeEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectRepoException;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
-import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.LuceneBaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;

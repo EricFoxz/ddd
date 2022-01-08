@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.repository.sys.jfinal;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.JFinalBaseDao;
+import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalBaseDao;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import org.springframework.stereotype.Repository;
 
