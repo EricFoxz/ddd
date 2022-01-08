@@ -2,6 +2,7 @@ package gitee.com.ericfox.ddd.infrastructure.general.config;
 
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.FileUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -64,5 +66,13 @@ public class LuceneConfig {
         controlledRealTimeReopenThread.setName("更新IndexReader线程");
         controlledRealTimeReopenThread.start();
         return searcherManager;
+    }
+
+    private String buildDirectoryPath(String rootPathName) {
+        String luceneLocalIndexDirectoryPath = customProperties.getLucene().getRootPath();
+        if (StrUtil.endWith(luceneLocalIndexDirectoryPath, File.separator)) {
+            return luceneLocalIndexDirectoryPath + rootPathName;
+        }
+        return luceneLocalIndexDirectoryPath + File.separator + rootPathName;
     }
 }

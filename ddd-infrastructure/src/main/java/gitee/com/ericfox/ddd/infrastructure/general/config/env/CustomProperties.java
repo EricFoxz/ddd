@@ -30,7 +30,7 @@ public class CustomProperties {
 
     @Getter
     @Setter
-    public static class LuceneBean{
+    public static class LuceneBean {
         private String rootPath;
         private boolean clearWhenStart = false;
     }

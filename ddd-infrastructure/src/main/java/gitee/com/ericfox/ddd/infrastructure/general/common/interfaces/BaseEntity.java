@@ -1,7 +1,13 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.interfaces;
 
-public interface BaseEntity {
-    int create();
-    int delete();
-    int edit();
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
+
+public interface BaseEntity<T extends SysUser> {
+    BaseService<T> getDao();
+
+    boolean create();
+
+    boolean delete();
+
+    boolean edit();
 }

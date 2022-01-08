@@ -29,13 +29,13 @@ public class UserController implements BaseController {
 
     @GetMapping("/page/{pageNum}/{pageSize}")
     public ResponseEntity<?> page(SysUserPagePram sysUserPagePram) {
-        PageInfo<SysUserAgg> sysUserAggPageInfo = sysUserService.queryPage(sysUserPagePram.toParent(), sysUserPagePram.getPageNum(), sysUserPagePram.getPageSize());
+        PageInfo<SysUserAgg> sysUserAggPageInfo = sysUserService.queryPage(sysUserPagePram.toPo(), sysUserPagePram.getPageNum(), sysUserPagePram.getPageSize());
         return ResBuilder.defValue.success().put("data", sysUserAggPageInfo).build();
     }
 
     @GetMapping("/list/{pageSize}")
     public ResponseEntity<?> list(SysUserPagePram sysUserPagePram) {
-        List<SysUserAgg> sysUserAggs = sysUserService.queryList(sysUserPagePram.toParent(), sysUserPagePram.getPageSize());
+        List<SysUserAgg> sysUserAggs = sysUserService.queryList(sysUserPagePram.toPo(), sysUserPagePram.getPageSize());
         return ResBuilder.defValue.success().put("data", sysUserAggs).build();
     }
 

@@ -13,7 +13,7 @@ public class SysUserPagePram extends SysUser implements BasePageParam<SysUser> {
     private Integer pageSize = 10;
 
     @Override
-    public SysUser toParent() {
+    public SysUser toPo() {
         SysUser sysUser = new SysUser();
         BeanUtil.copyProperties(this, sysUser, false);
         return sysUser;

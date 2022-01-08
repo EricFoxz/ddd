@@ -1,6 +1,5 @@
 package gitee.com.ericfox.ddd.infrastructure.general.config;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.constants.ActiveProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
