@@ -57,7 +57,7 @@ public class SysUserService implements BaseService<SysUser> {
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
     public boolean update(SysUser sysUser) {
-        return repoService.update(sysUser);
+        return repoService.updateById(sysUser);
     }
 
     @Transactional(rollbackFor = Exception.class)

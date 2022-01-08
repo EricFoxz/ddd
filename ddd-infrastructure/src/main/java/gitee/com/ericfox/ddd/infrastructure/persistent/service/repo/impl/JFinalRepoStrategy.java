@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl;
 
+import cn.hutool.core.bean.copier.CopyOptions;
 import com.github.pagehelper.PageInfo;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 @Service("jFinalRepoStrategy")
 public class JFinalRepoStrategy implements RepoStrategy {
+    private static final CopyOptions updateCopyOptions = CopyOptions.create().ignoreCase().ignoreNullValue();
 
     public <T extends BasePo<T>, U extends BaseDao<T>> T findById(T t) {
         JFinalBaseDao dao = getDao(t);
@@ -56,10 +58,10 @@ public class JFinalRepoStrategy implements RepoStrategy {
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>> boolean update(T t) {
+    public <T extends BasePo<T>, U extends BaseDao<T>> boolean updateById(T t) {
         JFinalBaseDao dao = getDao(t);
         t = (T) dao.findById(t.getId());
-        BeanUtil.copyProperties(t, dao, false);
+        BeanUtil.copyProperties(t, dao, updateCopyOptions);
         return dao.update();
     }
 

@@ -17,7 +17,7 @@ public interface RepoStrategy {
 
     <T extends BasePo<T>, U extends BaseDao<T>> boolean multiInsert(T... t);
 
-    <T extends BasePo<T>, U extends BaseDao<T>> boolean update(T t);
+    <T extends BasePo<T>, U extends BaseDao<T>> boolean updateById(T t);
 
     <T extends BasePo<T>, U extends BaseDao<T>> PageInfo<T> queryPage(T t, int pageNum, int pageSize);
 

@@ -49,8 +49,8 @@ public class RepoService implements RepoStrategy {
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>> boolean update(T t) {
-        return strategyMap.get(beanName).update(t);
+    public <T extends BasePo<T>, U extends BaseDao<T>> boolean updateById(T t) {
+        return strategyMap.get(beanName).updateById(t);
     }
 
     @Override
