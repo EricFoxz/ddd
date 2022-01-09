@@ -24,6 +24,7 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,7 +89,7 @@ public class RedisConfig extends CachingConfigurerSupport {
                     }
                     Class<?> clazz = param.getClass();
                     if (checkClassBasicType(clazz)) {
-                        finalResult.append(param.toString());
+                        finalResult.append(param);
                         return finalResult.toString();
                     }
                 }
@@ -127,12 +128,10 @@ public class RedisConfig extends CachingConfigurerSupport {
                 finalResult.append(":");
                 finalResult.append(method.getName());
                 finalResult.append(":");
-
                 if (params.length == 0) {
                     finalResult.append("noParams");
                     return finalResult.toString();
                 }
-
                 // 只含有一个参数位置，并且是基础类型，则进行特殊处理
                 if (params.length == 1) {
                     Object param = params[0];
@@ -142,18 +141,31 @@ public class RedisConfig extends CachingConfigurerSupport {
                     }
                     Class<?> clazz = param.getClass();
                     if (checkClassBasicType(clazz)) {
-                        finalResult.append(param.toString());
+                        finalResult.append(param);
                         return finalResult.toString();
                     }
                 }
-
                 // 非基础类型或多参数的场景
                 StringBuilder paramString = new StringBuilder();
                 for (int i = 0; i < params.length; i++) {
                     if (null == params[i]) {
                         paramString.append("nullParams");
                     } else {
-                        paramString.append(JsonUtil.toJsonStr(params[i]));
+                        if (params[i] instanceof String
+                                || params[i] instanceof Boolean
+                                || params[i] instanceof Character
+                                || params[i] instanceof Byte
+                                || params[i] instanceof Short
+                                || params[i] instanceof Integer
+                                || params[i] instanceof Long
+                                || params[i] instanceof Float
+                                || params[i] instanceof Double
+                                || params[i] instanceof BigDecimal
+                        ) {
+                            paramString.append(params[i]);
+                        } else {
+                            paramString.append(JsonUtil.toJsonStr(params[i]));
+                        }
                     }
                     if (i != params.length - 1) {
                         paramString.append(":");
