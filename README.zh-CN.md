@@ -1,11 +1,18 @@
 # ddd
+[![EricFox/ddd](https://gitee.com/EricFox/ddd/widgets/widget_card.svg?colors=ff6857,000000,ffffff,e3e9ed,666666,739bff)](https://gitee.com/EricFox/ddd)
 
 ## 介绍
-
 一个ddd思维，充血模型实现的项目 [https://gitee.com/EricFox/ddd](https://gitee.com/EricFox/ddd)
 
-## 软件结构
+### 基本理念
+- 避免"基于数据库编程"，领域层的entity并不对应数据库表，虽然会在入库的时候做转换，但业务变化并不直接导致数据库变化
+- 积极采用策略设计模式，结合注解，延长项目寿命
+- 多采用防腐层隔离服务与业务
+- 领域的划分是基于具体业务的，而非服务
+- 本项目采用的DCI设计模式，适用于业务较为复杂的项目，若项目不大则还应该用MVC模式
+- 复杂的结构和频繁的反射，导致了对开发人员的素质要求较高，使用前的培训是必要的
 
+## 软件结构
 ```text
 - ddd-apis API接口层
   - model 视图模型，数据模型定义 vo/dto
@@ -43,7 +50,6 @@
 #### 参与贡献
 
 #### 特技
-
 1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
 2. Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
 3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
