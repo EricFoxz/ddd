@@ -16,14 +16,14 @@ import java.util.List;
 
 @Service("sysUserService")
 @CacheConfig(cacheNames = "SysUserService", keyGenerator = "keyGenerator")
-public class SysUserService implements BaseService<SysUser> {
+public class SysUserService implements BaseService<SysUser, SysUserEntity> {
     @Resource
     RepoService repoService;
 
     @Transactional(readOnly = true)
     @Cacheable(keyGenerator = "keyGeneratorToServiceParam")
     public SysUserAgg findById(Long id) {
-        SysUser sysUser = new SysUser();
+        SysUserEntity sysUser = new SysUserEntity();
         sysUser.setId(id);
         sysUser = repoService.findById(sysUser);
         if (sysUser != null) {
@@ -34,7 +34,7 @@ public class SysUserService implements BaseService<SysUser> {
 
     @Transactional(readOnly = true)
     @Cacheable(keyGenerator = "keyGeneratorToServiceParam")
-    public PageInfo<SysUserAgg> queryPage(SysUser sysUser, int pageNum, int pageSize) {
+    public PageInfo<SysUserAgg> queryPage(SysUserEntity sysUser, int pageNum, int pageSize) {
         PageInfo sysUserPageInfo = repoService.queryPage(sysUser, pageNum, pageSize);
         List<SysUserAgg> list = SysUserFactory.createListAgg(sysUserPageInfo.getList());
         sysUserPageInfo.setList(list);
@@ -43,26 +43,26 @@ public class SysUserService implements BaseService<SysUser> {
 
     @Transactional(readOnly = true)
     @Cacheable(keyGenerator = "keyGeneratorToServiceParam")
-    public List<SysUserAgg> queryList(SysUser sysUser, int pageSize) {
-        List<SysUser> sysUsers = repoService.queryList(sysUser, pageSize);
+    public List<SysUserAgg> queryList(SysUserEntity sysUser, int pageSize) {
+        List<SysUserEntity> sysUsers = repoService.queryList(sysUser, pageSize);
         return SysUserFactory.createListAgg(sysUsers);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
-    public SysUser insert(SysUser sysUser) {
+    public SysUserEntity insert(SysUserEntity sysUser) {
         return repoService.insert(sysUser);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
-    public boolean update(SysUser sysUser) {
+    public boolean update(SysUserEntity sysUser) {
         return repoService.updateById(sysUser);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
-    public boolean deleteById(SysUser sysUser) {
+    public boolean deleteById(SysUserEntity sysUser) {
         return repoService.deleteById(sysUser);
     }
 

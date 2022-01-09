@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.general.common.annos.strategy;
+package gitee.com.ericfox.ddd.infrastructure.general.common.annos.service;
 
 import java.lang.annotation.*;
 

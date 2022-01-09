@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.repository.sys.lucene;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.annos.strategy.LuceneFieldKey;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.LuceneFieldKey;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.LuceneFieldTypeEnum;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.LuceneBaseDao;

@@ -4,7 +4,7 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.hikaricp.HikariCpPlugin;
 import com.jfinal.template.source.ClassPathSourceFactory;
-import gitee.com.ericfox.ddd.infrastructure.general.common.annos.strategy.OrmEnabledAnnotation;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.OrmEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ClassUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReflectUtil;

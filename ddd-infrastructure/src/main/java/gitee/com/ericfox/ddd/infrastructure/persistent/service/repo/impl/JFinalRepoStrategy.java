@@ -6,6 +6,7 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.SqlPara;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
+import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;
@@ -22,67 +23,72 @@ import java.util.Map;
 public class JFinalRepoStrategy implements RepoStrategy {
     private static final CopyOptions updateCopyOptions = CopyOptions.create().ignoreCase().ignoreNullValue();
 
-    public <T extends BasePo<T>, U extends BaseDao<T>> T findById(T t) {
+    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> V findById(V v) {
+        T t = v.toPo();
         JFinalBaseDao dao = getDao(t);
         Model<?> result = dao.findById(BeanUtil.getProperty(t, dao.primaryKeyFieldName()));
         BeanUtil.copyProperties(result.toRecord().getColumns(), t, false);
-        return t;
+        return v.fromPo(t);
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>> boolean deleteById(T t) {
+    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean deleteById(V v) {
+        T t = v.toPo();
         JFinalBaseDao dao = getDao(t);
         return dao.deleteById(BeanUtil.getProperty(t, dao.primaryKeyFieldName()));
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>> boolean multiDeleteById(List<T> t) {
-        if (CollUtil.isEmpty(t)) {
+    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean multiDeleteById(List<V> v) {
+        if (CollUtil.isEmpty(v)) {
             return true;
         }
         List<Serializable> idList = CollUtil.newArrayList();
-        JFinalBaseDao dao = getDao(t.get(0));
-        for (T tmp : t) {
-            Serializable id = BeanUtil.getProperty(tmp, dao.primaryKeyFieldName());
+        JFinalBaseDao dao = getDao(v.get(0).toPo());
+        for (V tmp : v) {
+            T t = tmp.toPo();
+            Serializable id = BeanUtil.getProperty(t, dao.primaryKeyFieldName());
             idList.add(id);
         }
-        dao.deleteByIds();
+        dao.deleteByIds(idList);
         return false;
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>> boolean multiDeleteById(T... t) {
-        if (ArrayUtil.isEmpty(t)) {
+    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean multiDeleteById(V... v) {
+        if (ArrayUtil.isEmpty(v)) {
             return true;
         }
-        return multiDeleteById(CollUtil.newArrayList(t));
+        return multiDeleteById(CollUtil.newArrayList(v));
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>> T insert(T t) {
+    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> V insert(V v) {
+        T t = v.toPo();
         JFinalBaseDao dao = getDao(t);
         Model<?> result = dao.put(dao);
         BeanUtil.copyProperties(result.toRecord().getColumns(), t, false);
-        return t;
+        return v;
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>> boolean multiInsert(List<T> t) {
-        if (CollUtil.isEmpty(t)) {
+    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean multiInsert(List<V> v) {
+        if (CollUtil.isEmpty(v)) {
             return true;
         }
-        JFinalBaseDao dao = getDao(t.get(0));
-        return dao.multiInsert(t, t.size());
+        JFinalBaseDao dao = getDao(v.get(0).toPo());
+        return dao.multiInsert(v, v.size());
     }
 
     @SafeVarargs
     @Override
-    public final <T extends BasePo<T>, U extends BaseDao<T>> boolean multiInsert(T... t) {
-        return multiInsert(CollUtil.newArrayList(t));
+    public final <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean multiInsert(V... v) {
+        return multiInsert(CollUtil.newArrayList(v));
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>> boolean updateById(T t) {
+    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean updateById(V v) {
+        T t = v.toPo();
         JFinalBaseDao dao = getDao(t);
         t = (T) dao.findById(BeanUtil.getProperty(t, dao.primaryKeyFieldName()));
         BeanUtil.copyProperties(t, dao, updateCopyOptions);
@@ -91,7 +97,8 @@ public class JFinalRepoStrategy implements RepoStrategy {
 
     @Override
     @SneakyThrows
-    public <T extends BasePo<T>, U extends BaseDao<T>> PageInfo<T> queryPage(T t, int pageNum, int pageSize) {
+    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> PageInfo<V> queryPage(V v, int pageNum, int pageSize) {
+        T t = v.toPo();
         Map<String, Object> param = BeanUtil.beanToMap(t);
         Class<JFinalBaseDao> daoClassByPo = ClassUtil.getDaoClassByPo(t, this);
         JFinalBaseDao dao = getDao(t);
@@ -109,15 +116,16 @@ public class JFinalRepoStrategy implements RepoStrategy {
             }
         }
         Page<JFinalBaseDao> paginate = dao.paginate(pageNum, pageSize, sqlPara);
-        List<T> result = CollUtil.newArrayList();
+        List<V> result = CollUtil.newArrayList();
         if (paginate.getList() != null) {
             for (Model<JFinalBaseDao> tmp : paginate.getList()) {
-                T n = ReflectUtil.newInstance((Class<T>) t.getClass());
-                BeanUtil.copyProperties(tmp.toRecord().getColumns(), n, false);
-                result.add(n);
+                T po = ReflectUtil.newInstance((Class<T>) t.getClass());
+                BeanUtil.copyProperties(tmp.toRecord().getColumns(), po, false);
+                V vInstance = (V) ReflectUtil.newInstance(v.getClass());
+                result.add(vInstance.fromPo(po));
             }
         }
-        PageInfo<T> pageInfo = new PageInfo<>();
+        PageInfo<V> pageInfo = new PageInfo<>();
         pageInfo.setPageNum(paginate.getPageNumber());
         pageInfo.setPageSize(paginate.getPageSize());
         pageInfo.setTotal(paginate.getTotalRow());
@@ -127,18 +135,21 @@ public class JFinalRepoStrategy implements RepoStrategy {
 
     @Override
     @SneakyThrows
-    public <T extends BasePo<T>, U extends BaseDao<T>> List<T> queryList(T t, int limit) {
+    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> List<V> queryList(V v, int limit) {
+        T t = v.toPo();
         Map<String, Object> param = BeanUtil.beanToMap(t);
         JFinalBaseDao dao = getDao(t);
         SqlPara sqlPara = new SqlPara();
         sqlPara.setSql("select * from " + StrUtil.toUnderlineCase(t.getClass().getSimpleName()) + " limit " + limit);
         List<Model<?>> list = dao.find(sqlPara.getSql());
-        List<T> result = CollUtil.newArrayList();
+        List<V> result = CollUtil.newArrayList();
         if (list != null) {
             for (Model<?> tmp : list) {
-                T n = ReflectUtil.newInstance((Class<T>) t.getClass());
-                BeanUtil.copyProperties(tmp.toRecord().getColumns(), n, false);
-                result.add(n);
+                T po = ReflectUtil.newInstance((Class<T>) t.getClass());
+                BeanUtil.copyProperties(tmp.toRecord().getColumns(), po, false);
+                BeanUtil.copyProperties(tmp.toRecord().getColumns(), po, false);
+                V vInstance = (V) ReflectUtil.newInstance(v.getClass());
+                result.add(vInstance.fromPo(po));
             }
         }
         return result;
