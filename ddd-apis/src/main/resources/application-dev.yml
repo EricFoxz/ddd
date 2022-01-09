@@ -22,7 +22,10 @@ custom:
   service:
     repo-strategy:
       default-strategy: j_final_repo_strategy
+      j-final:
+        enable: true
       lucene:
+        enable: true
         root-path: E:/lucene
         clear-when-start: true
     cache-strategy:

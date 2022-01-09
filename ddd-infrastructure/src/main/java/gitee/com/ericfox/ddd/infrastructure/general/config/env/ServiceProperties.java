@@ -22,11 +22,20 @@ public class ServiceProperties {
     public static class RepoStrategyBean {
         private DefaultStrategy defaultStrategy = DefaultStrategy.J_FINAL_REPO_STRATEGY;
 
+        private JFinalBean jFinal;
+
         private LuceneBean lucene;
 
         @Setter
         @Getter
+        public static class JFinalBean {
+            private boolean enable = true;
+        }
+
+        @Setter
+        @Getter
         public static class LuceneBean {
+            private boolean enable = true;
             private String rootPath;
             private Boolean clearWhenStart = false;
         }

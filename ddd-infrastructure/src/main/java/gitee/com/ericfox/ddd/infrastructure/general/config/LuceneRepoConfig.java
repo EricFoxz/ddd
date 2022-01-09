@@ -13,6 +13,7 @@ import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.search.SearcherManager;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.wltea.analyzer.lucene.IKAnalyzer;
@@ -23,7 +24,8 @@ import java.nio.file.Paths;
 
 @Configuration
 @Slf4j
-public class LuceneConfig {
+@ConditionalOnProperty(prefix = "custom.service.repo-strategy.lucene", value = {"enable"})
+public class LuceneRepoConfig {
     @Resource
     private ServiceProperties serviceProperties;
 

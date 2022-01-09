@@ -23,9 +23,9 @@ import java.lang.reflect.Method;
 import java.util.Set;
 
 @Configuration
-@ConditionalOnProperty(prefix = "spring.datasource", name = "url")
+@ConditionalOnProperty(prefix = "custom.service.repo-strategy.j-final", value = {"enable"})
 @SuppressWarnings("unchecked")
-public class ActiveRecordPluginConfig {
+public class JFinalRepoConfig {
     @Value("${spring.datasource.url}")
     private String url;
     @Value("${spring.datasource.hikari.username}")
