@@ -65,7 +65,7 @@ public class ResBuilder {
     private MultiValueMap<String, String> headers;
 
     ResBuilder(Serializable data) {
-        if(apiProperties == null) {
+        if (apiProperties == null) {
             apiProperties = SpringUtil.getBean(ApiProperties.class);
         }
         this.errKey = apiProperties.getResponse().getKeyOfErrorCode();

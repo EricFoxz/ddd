@@ -7,6 +7,7 @@ import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.JsonUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.SecureUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -36,6 +37,7 @@ import java.util.Map;
 @Configuration
 @EnableCaching
 @Slf4j
+@ConditionalOnProperty(prefix = "custom.service.cache-strategy", name = "enable", havingValue = "true")
 public class RedisConfig extends CachingConfigurerSupport {
     @Resource
     RedisConnectionFactory factory;

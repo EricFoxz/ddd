@@ -1,7 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy;
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BaseEnum;
-import org.springframework.stereotype.Component;
 
 public enum CacheTypeStrategyEnum implements BaseEnum<CacheTypeStrategyEnum, String> {
     REDIS_STRATEGY("redisStrategy", "asd");

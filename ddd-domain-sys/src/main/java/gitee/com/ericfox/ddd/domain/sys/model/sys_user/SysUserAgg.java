@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class SysUserAgg  {
+public class SysUserAgg {
     SysUserVo sysUserVo;
 }

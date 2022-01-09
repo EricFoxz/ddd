@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public interface BaseEnum<T extends BaseEnum<T, U>, U extends Serializable> {
     String getName();
+
     U getCode();
 
     String getDescription();
@@ -19,6 +20,7 @@ public interface BaseEnum<T extends BaseEnum<T, U>, U extends Serializable> {
         }
         return null;
     }
+
     default T getEnumByCode(U code) {
         T[] enums = getEnums();
         for (T anEnum : enums) {

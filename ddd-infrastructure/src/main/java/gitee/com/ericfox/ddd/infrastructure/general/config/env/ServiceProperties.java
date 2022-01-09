@@ -8,14 +8,13 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.nio.file.Path;
-
 @Getter
 @Setter
 @Component
 @ConfigurationProperties(prefix = "custom.service", ignoreInvalidFields = true)
 public class ServiceProperties {
     public RepoStrategyBean repoStrategy;
+
     public CacheStrategyBean cacheStrategy;
 
     @Getter
@@ -46,6 +45,8 @@ public class ServiceProperties {
     @Getter
     @Setter
     public static class CacheStrategyBean {
+        private boolean enable = true;
+
         private DefaultStrategy defaultStrategy = DefaultStrategy.REDIS_STRATEGY;
 
         public enum DefaultStrategy implements BasePropertiesEnum<CacheTypeStrategyEnum> {

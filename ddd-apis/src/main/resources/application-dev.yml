@@ -26,6 +26,7 @@ custom:
         root-path: E:/lucene
         clear-when-start: true
     cache-strategy:
+      enable: false
       default-strategy: redis_strategy
   api:
     response:
