@@ -49,6 +49,11 @@ public enum HttpStatusEnum implements BaseEnum<HttpStatusEnum, Integer> {
         this.description = description;
     }
 
+    @Override
+    public String getName() {
+        return this.name();
+    }
+
     public Integer getCode() {
         return code;
     }

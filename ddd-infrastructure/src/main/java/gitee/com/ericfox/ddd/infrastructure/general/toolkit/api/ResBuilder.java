@@ -1,7 +1,8 @@
 package gitee.com.ericfox.ddd.infrastructure.general.toolkit.api;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.constants.ActiveProperties;
+import gitee.com.ericfox.ddd.infrastructure.general.config.env.ApiProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.JsonUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import java.util.TreeMap;
 
 @Slf4j
 public class ResBuilder {
+    private static ApiProperties apiProperties;
+
     public static class defValue {
         public static ResBuilder created() {
             return ResBuilder.hashMapData().status(201);
@@ -62,8 +65,11 @@ public class ResBuilder {
     private MultiValueMap<String, String> headers;
 
     ResBuilder(Serializable data) {
-        this.errKey = ActiveProperties.customProperties.getResponse().getKeyOfErrorCode();
-        this.msgKey = ActiveProperties.customProperties.getResponse().getKeyOfErrorMessage();
+        if(apiProperties == null) {
+            apiProperties = SpringUtil.getBean(ApiProperties.class);
+        }
+        this.errKey = apiProperties.getResponse().getKeyOfErrorCode();
+        this.msgKey = apiProperties.getResponse().getKeyOfErrorMessage();
         this.data = data;
     }
 

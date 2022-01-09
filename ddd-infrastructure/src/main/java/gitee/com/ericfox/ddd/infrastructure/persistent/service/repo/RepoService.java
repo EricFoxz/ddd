@@ -2,8 +2,9 @@ package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo;
 
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.strategy.OrmEnabledAnnotation;
-import gitee.com.ericfox.ddd.infrastructure.general.common.constants.ActiveProperties;
+import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
+import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,7 +21,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @SuppressWarnings("unchecked")
 public class RepoService implements RepoStrategy {
-    private final String repoStrategy = ActiveProperties.customProperties.getRepoStrategy();
+    @Resource
+    private ServiceProperties serviceProperties;
+
+    private RepoTypeStrategyEnum repoStrategy;
     private final Map<String, RepoStrategy> strategyMap = new ConcurrentHashMap<>();
 
     @Autowired
@@ -102,7 +107,10 @@ public class RepoService implements RepoStrategy {
     private <T extends BasePo<T>> String getBeanName(T t) {
         OrmEnabledAnnotation declaredAnnotation = t.getClass().getDeclaredAnnotation(OrmEnabledAnnotation.class);
         if (declaredAnnotation == null) {
-            return repoStrategy;
+            if (repoStrategy == null) {
+                repoStrategy = serviceProperties.getRepoStrategy().getDefaultStrategy().toBizEnum();
+            }
+            return repoStrategy.getCode();
         } else {
             return declaredAnnotation.type().getCode();
         }

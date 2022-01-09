@@ -6,7 +6,7 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.annos.strategy.Lucene
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.LuceneFieldTypeEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectRepoException;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
-import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
+import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;
@@ -35,7 +35,7 @@ import java.util.Map;
 @SuppressWarnings("unchecked")
 public class LuceneRepoStrategy implements RepoStrategy {
     @Resource
-    CustomProperties customProperties;
+    ServiceProperties serviceProperties;
 
     private final Map<String, IndexWriter> indexWriterMap = MapUtil.newHashMap(4);
 
@@ -289,7 +289,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
     }
 
     private String buildDirectoryPath(String rootPathName) {
-        String luceneLocalIndexDirectoryPath = customProperties.getLucene().getRootPath();
+        String luceneLocalIndexDirectoryPath = serviceProperties.getRepoStrategy().getLucene().getRootPath();
         if (StrUtil.endWith(luceneLocalIndexDirectoryPath, File.separator)) {
             return luceneLocalIndexDirectoryPath + rootPathName;
         }
@@ -491,9 +491,8 @@ public class LuceneRepoStrategy implements RepoStrategy {
          * 多个字段精确匹配
          */
         public static <T extends BasePo<T>, U extends BaseDao<T>> Query exactMultiFieldQuery(Class<U> daoClass, T t, boolean matchAllIfEmpty) {
-            List<IndexableField> fields = null;
             if (t == null || BeanUtil.isEmpty(t)) {
-                if(matchAllIfEmpty) {
+                if (matchAllIfEmpty) {
                     return new MatchAllDocsQuery();
                 }
                 return new MatchNoDocsQuery();

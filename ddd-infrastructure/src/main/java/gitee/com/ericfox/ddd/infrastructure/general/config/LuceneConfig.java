@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.general.config;
 
-import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
+import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.FileUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import lombok.SneakyThrows;
@@ -27,7 +27,7 @@ import java.nio.file.Paths;
 @Slf4j
 public class LuceneConfig {
     @Resource
-    private CustomProperties customProperties;
+    private ServiceProperties serviceProperties;
 
     @Bean
     public Analyzer analyzer() {
@@ -37,7 +37,7 @@ public class LuceneConfig {
     @Bean
     @SneakyThrows
     public Directory directory() {
-        String rootPath = customProperties.getLucene().getRootPath();
+        String rootPath = serviceProperties.getRepoStrategy().getLucene().getRootPath();
         if (!FileUtil.isDirectory(rootPath)) {
             FileUtil.touch(rootPath);
         }
@@ -50,7 +50,7 @@ public class LuceneConfig {
     public IndexWriter indexWriter() {
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
         IndexWriter indexWriter = new IndexWriter(directory(), indexWriterConfig);
-        if (customProperties.getLucene().isClearWhenStart()) {
+        if (serviceProperties.getRepoStrategy().getLucene().getClearWhenStart()) {
             indexWriter.deleteAll();
             indexWriter.commit();
         }
@@ -69,7 +69,7 @@ public class LuceneConfig {
     }
 
     private String buildDirectoryPath(String rootPathName) {
-        String luceneLocalIndexDirectoryPath = customProperties.getLucene().getRootPath();
+        String luceneLocalIndexDirectoryPath = serviceProperties.getRepoStrategy().getLucene().getRootPath();
         if (StrUtil.endWith(luceneLocalIndexDirectoryPath, File.separator)) {
             return luceneLocalIndexDirectoryPath + rootPathName;
         }

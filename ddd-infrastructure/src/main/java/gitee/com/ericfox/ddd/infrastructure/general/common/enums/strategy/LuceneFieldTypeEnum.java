@@ -19,6 +19,11 @@ public enum LuceneFieldTypeEnum implements BaseEnum<LuceneFieldTypeEnum, Integer
     }
 
     @Override
+    public String getName() {
+        return this.name();
+    }
+
+    @Override
     public Integer getCode() {
         return code;
     }

@@ -1,15 +1,15 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy;
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BaseEnum;
+import org.springframework.stereotype.Component;
 
-public enum RepoTypeStrategyEnum implements BaseEnum<RepoTypeStrategyEnum, String> {
-    J_FINAL_REPO_STRATEGY("jFinalRepoStrategy", "使用集成的jFinal进行持久化"),
-    LUCENE_REPO_STRATEGY("luceneRepoStrategy", "使用lucene进行持久化");
+public enum CacheTypeStrategyEnum implements BaseEnum<CacheTypeStrategyEnum, String> {
+    REDIS_STRATEGY("redisStrategy", "asd");
 
-    private final String code;
-    private final String description;
+    private String code;
+    private String description;
 
-    RepoTypeStrategyEnum(String code, String description) {
+    CacheTypeStrategyEnum(String code, String description) {
         this.code = code;
         this.description = description;
     }
@@ -30,7 +30,7 @@ public enum RepoTypeStrategyEnum implements BaseEnum<RepoTypeStrategyEnum, Strin
     }
 
     @Override
-    public RepoTypeStrategyEnum[] getEnums() {
-        return values();
+    public CacheTypeStrategyEnum[] getEnums() {
+        return new CacheTypeStrategyEnum[0];
     }
 }

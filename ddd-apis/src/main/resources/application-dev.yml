@@ -19,16 +19,21 @@ spring:
     password:
 
 custom:
-  cache-strategy: redisCacheStrategy
-  repo-strategy: jFinalRepoStrategy
-  lucene:
-    root-path: E:/lucene
-    clear-when-start: true
-  response:
-    key-of-error-code: error
-    key-of-error-message: message
-  static-sources:
-    - /*.html
-    - /**/*.html
-    - /**/*.css
-    - /**/*.js
+  service:
+    repo-strategy:
+      default-strategy: j_final_repo_strategy
+      lucene:
+        root-path: E:/lucene
+        clear-when-start: true
+    cache-strategy:
+      default-strategy: redis_strategy
+  api:
+    response:
+      key-of-error-code: error
+      key-of-error-message: message
+      key-of-data: message
+    static-sources:
+      - /*.html
+      - /**/*.html
+      - /**/*.css
+      - /**/*.js

@@ -18,7 +18,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.headers().frameOptions().sameOrigin();
         httpSecurity
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, customProperties.getStaticSources())
+                .antMatchers(HttpMethod.GET, customProperties.getApi().getStaticSources())
                 .permitAll()
                 .antMatchers("/apis/**").permitAll()
                 .antMatchers("/sys/**").permitAll()
