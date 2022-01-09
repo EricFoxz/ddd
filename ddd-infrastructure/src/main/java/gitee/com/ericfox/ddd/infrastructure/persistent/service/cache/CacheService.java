@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
-public class CacheService {
+public class CacheService implements CacheStrategy {
     @Resource
     private ServiceProperties serviceProperties;
 
@@ -31,6 +31,11 @@ public class CacheService {
 
     public Object get(String key) {
         return strategyMap.get(getBeanName()).get(key);
+    }
+
+    @Override
+    public Long flushByPrefix(String prefix) {
+        return strategyMap.get(getBeanName()).flushByPrefix(prefix);
     }
 
     private String getBeanName() {

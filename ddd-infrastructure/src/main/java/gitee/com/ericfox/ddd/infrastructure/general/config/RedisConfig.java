@@ -3,6 +3,7 @@ package gitee.com.ericfox.ddd.infrastructure.general.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.JsonUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.SecureUtil;
@@ -37,10 +38,12 @@ import java.util.Map;
 @Configuration
 @EnableCaching
 @Slf4j
-@ConditionalOnProperty(prefix = "custom.service.cache-strategy", name = "enable", havingValue = "true")
+@ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = {"enable", "default-strategy"})
 public class RedisConfig extends CachingConfigurerSupport {
     @Resource
     RedisConnectionFactory factory;
+    @Resource
+    ServiceProperties serviceProperties;
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Bean
@@ -60,7 +63,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         return new RedisCacheManager(
                 RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory),
-                this.getRedisCacheConfigurationWithTtl(600), // 默认策略，未配置的 key 会使用这个
+                this.getRedisCacheConfigurationWithTtl(serviceProperties.getCacheStrategy().getCacheTimeoutSeconds()),
                 this.getRedisCacheConfigurationMap() // 指定 key 策略
         );
     }
@@ -209,6 +212,9 @@ public class RedisConfig extends CachingConfigurerSupport {
         return redisCacheConfiguration;
     }
 
+    /**
+     * 检查是否为基础类型
+     */
     private Boolean checkClassBasicType(Class<?> clazz) {
         // 判断基本类型（boolean、char、byte、short、int、long、float、double）
         if (clazz.isPrimitive()) {
@@ -217,16 +223,14 @@ public class RedisConfig extends CachingConfigurerSupport {
         // 判断原始类型
         String classTypeName = clazz.getName();
         ArrayList<String> basicTypeList = CollUtil.newArrayList(
-                "java.lang.String",
-                "java.lang.Boolean",
-                "java.lang.Character",
-                "java.lang.Byte",
-                "java.lang.Short",
-                "java.lang.Integer",
-                "java.lang.Long",
-                "java.lang.Float",
-                "java.lang.Double"
+                String.class.getName(),
+                Boolean.class.getName(),
+                Character.class.getName()
         );
-        return basicTypeList.contains(classTypeName);
+        boolean result = basicTypeList.contains(classTypeName);
+        if (!result && Number.class.isAssignableFrom(clazz)) {
+            result = true;
+        }
+        return result;
     }
 }

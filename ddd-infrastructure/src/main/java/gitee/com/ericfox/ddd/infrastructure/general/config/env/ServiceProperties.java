@@ -45,11 +45,13 @@ public class ServiceProperties {
     @Getter
     @Setter
     public static class CacheStrategyBean {
-        private boolean enable = true;
+        private boolean enable = false;
 
         private DefaultStrategy defaultStrategy = DefaultStrategy.REDIS_STRATEGY;
-        
+
         private boolean clearWhenStart = false;
+
+        private int cacheTimeoutSeconds = 3600;
 
         public enum DefaultStrategy implements BasePropertiesEnum<CacheTypeStrategyEnum> {
             REDIS_STRATEGY;

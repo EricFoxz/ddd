@@ -26,9 +26,10 @@ custom:
         root-path: E:/lucene
         clear-when-start: true
     cache-strategy:
-      enable: false
+      enable: true
       default-strategy: redis_strategy
       clear-when-start: false
+      cache-timeout-seconds: 3600
   api:
     response:
       key-of-error-code: error

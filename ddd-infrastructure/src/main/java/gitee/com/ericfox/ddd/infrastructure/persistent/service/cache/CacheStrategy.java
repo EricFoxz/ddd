@@ -4,4 +4,6 @@ public interface CacheStrategy {
     void set(String key, Object value);
 
     Object get(String key);
+
+    Long flushByPrefix(String prefix);
 }
