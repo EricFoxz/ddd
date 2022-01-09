@@ -48,6 +48,8 @@ public class ServiceProperties {
         private boolean enable = true;
 
         private DefaultStrategy defaultStrategy = DefaultStrategy.REDIS_STRATEGY;
+        
+        private boolean clearWhenStart = false;
 
         public enum DefaultStrategy implements BasePropertiesEnum<CacheTypeStrategyEnum> {
             REDIS_STRATEGY;

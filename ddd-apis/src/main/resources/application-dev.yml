@@ -28,6 +28,7 @@ custom:
     cache-strategy:
       enable: false
       default-strategy: redis_strategy
+      clear-when-start: false
   api:
     response:
       key-of-error-code: error
