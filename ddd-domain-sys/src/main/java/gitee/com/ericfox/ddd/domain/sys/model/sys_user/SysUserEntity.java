@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.domain.sys.model.sys_user;
 
+import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseCondition;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.BeanUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.SpringUtil;
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Getter
 public class SysUserEntity extends SysUser implements BaseEntity<SysUser, SysUserEntity> {
     private static SysUserService sysUserService;
+    private BaseCondition<?> _condition;
 
     public synchronized SysUserService getService() {
         if (sysUserService == null) {
@@ -30,5 +32,13 @@ public class SysUserEntity extends SysUser implements BaseEntity<SysUser, SysUse
     public SysUserEntity fromPo(SysUser po) {
         BeanUtil.copyProperties(po, this, false);
         return this;
+    }
+
+    public void putCondition(BaseCondition<?> condition) {
+        this._condition = condition;
+    }
+
+    public BaseCondition<?> condition() {
+        return _condition;
     }
 }

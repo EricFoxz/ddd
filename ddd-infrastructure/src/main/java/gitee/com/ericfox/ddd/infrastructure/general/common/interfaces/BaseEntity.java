@@ -1,7 +1,9 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.interfaces;
 
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans.SimpleCondition;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 
+@SuppressWarnings("unchecked")
 public interface BaseEntity<T extends BasePo<T>, V extends BaseEntity<T, V>> {
     T toPo();
 
@@ -20,4 +22,12 @@ public interface BaseEntity<T extends BasePo<T>, V extends BaseEntity<T, V>> {
     }
 
     <U extends BaseService<T, V>> U getService();
+
+    void putCondition(BaseCondition<?> condition);
+
+    BaseCondition<?> condition();
+
+    default BaseCondition<?> transToCondition() {
+        return SimpleCondition.newInstance(this.toPo());
+    }
 }
