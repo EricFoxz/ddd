@@ -23,9 +23,9 @@ public interface BaseEntity<T extends BasePo<T>, V extends BaseEntity<T, V>> {
 
     <U extends BaseService<T, V>> U getService();
 
-    void putCondition(BaseCondition<?> condition);
+    BaseCondition<?> get_condition();
 
-    BaseCondition<?> condition();
+    void set_condition(BaseCondition<?> condition);
 
     default BaseCondition<?> transToCondition() {
         return SimpleCondition.newInstance(this.toPo());

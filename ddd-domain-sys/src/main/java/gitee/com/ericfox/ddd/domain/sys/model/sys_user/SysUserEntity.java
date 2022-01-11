@@ -33,12 +33,4 @@ public class SysUserEntity extends SysUser implements BaseEntity<SysUser, SysUse
         BeanUtil.copyProperties(po, this, false);
         return this;
     }
-
-    public void putCondition(BaseCondition<?> condition) {
-        this._condition = condition;
-    }
-
-    public BaseCondition<?> condition() {
-        return _condition;
-    }
 }

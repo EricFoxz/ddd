@@ -8,10 +8,12 @@ import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.MapUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.NonNull;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class SimpleCondition implements BaseCondition<SimpleCondition> {
@@ -36,7 +38,7 @@ public class SimpleCondition implements BaseCondition<SimpleCondition> {
         }
     }
 
-    private Map<String, Object> getCondition() {
+    public Map<String, Object> getConditionMap() {
         return condition;
     }
 
@@ -49,87 +51,105 @@ public class SimpleCondition implements BaseCondition<SimpleCondition> {
     }
 
     @Override
-    public SimpleCondition equals(String field, Object value) {
+    public SimpleCondition matchAll() {
+        return appendCondition("", MATCH_ALL, "");
+    }
+
+    @Override
+    public SimpleCondition matchNothing() {
+        return appendCondition("", MATCH_NOTHING, "");
+    }
+
+    @Override
+    public SimpleCondition equals(@NonNull String field, @NonNull Object value) {
         return appendCondition(field, EQUALS, value);
     }
 
     @Override
-    public SimpleCondition notEquals(String field, Object value) {
+    public SimpleCondition notEquals(@NonNull String field, @NonNull Object value) {
         return appendCondition(field, NOT_EQUALS, value);
     }
 
     @Override
-    public SimpleCondition isNull(String field) {
+    public SimpleCondition isNull(@NonNull String field) {
         return appendCondition(field, IS_NULL, "");
     }
 
     @Override
-    public SimpleCondition isNotNull(String field) {
+    public SimpleCondition isNotNull(@NonNull String field) {
         return appendCondition(field, IS_NOT_NULL, "");
     }
 
     @Override
-    public SimpleCondition moreThan(String field, Object value) {
+    public SimpleCondition moreThan(@NonNull String field, @NonNull Object value) {
         return appendCondition(field, MORE_THAN, value);
     }
 
     @Override
-    public SimpleCondition moreThanOrEquals(String field, Object value) {
+    public SimpleCondition moreThanOrEquals(@NonNull String field, @NonNull Object value) {
         return appendCondition(field, MORE_THAN_OR_EQUALS, value);
     }
 
     @Override
-    public SimpleCondition lessThan(String field, Object value) {
+    public SimpleCondition lessThan(@NonNull String field, @NonNull Object value) {
         return appendCondition(field, LESS_THAN, value);
     }
 
     @Override
-    public SimpleCondition lessThanOrEquals(String field, Object value) {
+    public SimpleCondition lessThanOrEquals(@NonNull String field, @NonNull Object value) {
         return appendCondition(field, LESS_THAN_OR_EQUALS, value);
     }
 
     @Override
-    public SimpleCondition between(String field, Object v1, Object v2) {
+    public SimpleCondition between(@NonNull String field, @NonNull Object v1, @NonNull Object v2) {
+        if (!v1.getClass().equals(v2.getClass())) {
+            log.error("simpleCondition:between输入的两个参数必须是同一类型");
+            throw new ProjectFrameworkException("simpleCondition:between输入的两个参数必须是同一类型");
+        }
         return appendCondition(field, BETWEEN, CollUtil.newArrayList(v1, v2));
     }
 
     @Override
-    public SimpleCondition like(String field, Object value) {
+    @NonNull
+    public SimpleCondition like(@NonNull String field, @NonNull String value) {
         return appendCondition(field, LIKE, value);
     }
 
     @Override
-    public SimpleCondition notLike(String field, Object value) {
+    public SimpleCondition notLike(@NonNull String field, @NonNull Object value) {
         return appendCondition(field, NOT_LIKE, value);
     }
 
     @Override
-    public SimpleCondition match(String field, String regex) {
-        return appendCondition(field, MATCH, regex);
+    public SimpleCondition regex(@NonNull String field, @NonNull Pattern regex) {
+        return appendCondition(field, REGEX, regex);
     }
 
     @Override
-    public <M extends Serializable> SimpleCondition in(String field, List<M> list) {
+    public SimpleCondition in(@NonNull String field, @NonNull List<?> list) {
+        if (CollUtil.isEmpty(list)) {
+            return appendCondition("", MATCH_NOTHING, "");
+        }
         return appendCondition(field, IN, list);
     }
 
     @Override
-    public SimpleCondition or(BaseCondition<?> condition) {
+    public SimpleCondition or(@NonNull BaseCondition<?> condition) {
         return appendCondition("", OR, condition);
     }
 
     @Override
-    public SimpleCondition and(BaseCondition<?> condition) {
+    public SimpleCondition and(@NonNull BaseCondition<?> condition) {
         return appendCondition("", AND, condition);
     }
 
     @Override
-    public SimpleCondition removeCondition(String field) {
+    public SimpleCondition removeCondition(@NonNull String field) {
         return removeCondition(field, "");
     }
 
     @Override
-    public SimpleCondition removeCondition(String field, String type) {
+    public SimpleCondition removeCondition(@NonNull String field, String type) {
         if (StrUtil.isBlank(field) && StrUtil.isBlank(type)) {
             log.error("simpleCondition如果想要移除所有条件请使用removeAllCondition()方法");
             throw new ProjectFrameworkException("simpleCondition如果想要移除所有条件请使用removeAllCondition()方法");

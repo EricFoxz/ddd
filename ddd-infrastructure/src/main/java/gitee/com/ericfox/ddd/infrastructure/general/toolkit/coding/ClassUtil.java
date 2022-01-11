@@ -25,7 +25,7 @@ public class ClassUtil extends cn.hutool.core.util.ClassUtil {
         return getDaoClassByPoClass((Class<T>) t.getClass(), strategy);
     }
 
-    public static <T extends BasePo<T>, V extends BaseEntity<T, V>> Class<V> getDaoClassByEntityClass(Class<V> clazz, RepoStrategy strategy) {
+    public static <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> Class<U> getDaoClassByEntityClass(Class<V> clazz, RepoStrategy strategy) {
         String fullName = clazz.getName();
         String simpleName = clazz.getSimpleName();
         //TODO-待实现 区分各个domain的包
@@ -37,7 +37,7 @@ public class ClassUtil extends cn.hutool.core.util.ClassUtil {
         return null;
     }
 
-    public static <T extends BasePo<T>, V extends BaseEntity<T, V>> Class<V> getDaoClassByEntity(V v, RepoStrategy strategy) {
+    public static<T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> Class<U> getDaoClassByEntity(V v, RepoStrategy strategy) {
         return getDaoClassByEntityClass((Class<V>) v.getClass(), strategy);
     }
 }
