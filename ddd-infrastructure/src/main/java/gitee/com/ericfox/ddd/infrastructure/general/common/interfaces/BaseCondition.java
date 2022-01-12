@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.interfaces;
 
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -13,8 +14,8 @@ public interface BaseCondition<T extends BaseCondition<T>> {
     String NOT_EQUALS = "NOT_EQUALS";
     String IS_NULL = "IS_NULL";
     String IS_NOT_NULL = "IS_NOT_NULL";
-    String MORE_THAN = "MORE_THAN";
-    String MORE_THAN_OR_EQUALS = "MORE_THAN_OR_EQUALS";
+    String GREAT_THAN = "GREAT_THAN";
+    String GREAT_THAN_OR_EQUALS = "GREAT_THAN_OR_EQUALS";
     String LESS_THAN = "LESS_THAN";
     String LESS_THAN_OR_EQUALS = "LESS_THAN_OR_EQUALS";
     String BETWEEN = "BETWEEN";
@@ -132,4 +133,20 @@ public interface BaseCondition<T extends BaseCondition<T>> {
      * 移除所有condition
      */
     T removeAllCondition();
+
+    static String getFieldByConditionKey(String key) {
+        int i = StrUtil.indexOf(key, BaseCondition.SEPARATOR);
+        if (StrUtil.isBlank(key) || i <= 0) {
+            return "";
+        }
+        return key.substring(0, i);
+    }
+
+    static String getTypeByConditionKey(String key) {
+        int i = StrUtil.indexOf(key, BaseCondition.SEPARATOR);
+        if (StrUtil.isBlank(key) || i < 0) {
+            return "";
+        }
+        return key.substring(i);
+    }
 }

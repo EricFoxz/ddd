@@ -501,22 +501,6 @@ public class LuceneRepoStrategy implements RepoStrategy {
             return new Builder();
         }
 
-        private static String getFieldByConditionKey(String key) {
-            int i = StrUtil.indexOf(key, ':');
-            if (StrUtil.isBlank(key) || i <= 0) {
-                return "";
-            }
-            return key.substring(0, i);
-        }
-
-        private static String getTypeByConditionKey(String key) {
-            int i = StrUtil.indexOf(key, BaseCondition.SEPARATOR);
-            if (StrUtil.isBlank(key) || i < 0) {
-                return "";
-            }
-            return key.substring(i);
-        }
-
         /**
          * 根据entity构建lucene的Query
          *
@@ -534,8 +518,8 @@ public class LuceneRepoStrategy implements RepoStrategy {
         private static <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> Query parseCondition(Class<U> daoClass, T t, Map<String, Object> conditionMap) {
             BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
             for (String key : conditionMap.keySet()) {
-                String fieldName = getFieldByConditionKey(key);
-                String type = getTypeByConditionKey(key);
+                String fieldName = BaseCondition.getFieldByConditionKey(key);
+                String type = BaseCondition.getTypeByConditionKey(key);
                 Object value = conditionMap.get(key);
                 if (StrUtil.equals(type, BaseCondition.MATCH_ALL)) {
                     queryBuilder.add(new MatchAllDocsQuery(), BooleanClause.Occur.MUST);
@@ -563,7 +547,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
                     }
                     LuceneFieldTypeEnum fieldTypeEnum = fieldKey.type();
                     boolean isString = LuceneFieldTypeEnum.STRING_FIELD.equals(fieldTypeEnum) || LuceneFieldTypeEnum.TEXT_FIELD.equals(fieldTypeEnum);
-                    if (StrUtil.equals(key, BaseCondition.MORE_THAN)) {
+                    if (StrUtil.equals(key, BaseCondition.GREAT_THAN)) {
                         if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
                             int i = Convert.toInt(value);
                             if (i < Integer.MAX_VALUE) {
@@ -594,7 +578,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
                         } else if (isString) {
                             log.warn("luceneRepoStrategy暂不支持字符串比大小");
                         }
-                    } else if (StrUtil.equals(key, BaseCondition.MORE_THAN_OR_EQUALS)) {
+                    } else if (StrUtil.equals(key, BaseCondition.GREAT_THAN_OR_EQUALS)) {
                         if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
                             queryBuilder.add(IntPoint.newRangeQuery(fieldName, Convert.toInt(value), Integer.MAX_VALUE), BooleanClause.Occur.MUST);
                         } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {

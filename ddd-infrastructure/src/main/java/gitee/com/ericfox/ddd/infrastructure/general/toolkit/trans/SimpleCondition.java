@@ -10,7 +10,6 @@ import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -82,12 +81,12 @@ public class SimpleCondition implements BaseCondition<SimpleCondition> {
 
     @Override
     public SimpleCondition moreThan(@NonNull String field, @NonNull Object value) {
-        return appendCondition(field, MORE_THAN, value);
+        return appendCondition(field, GREAT_THAN, value);
     }
 
     @Override
     public SimpleCondition moreThanOrEquals(@NonNull String field, @NonNull Object value) {
-        return appendCondition(field, MORE_THAN_OR_EQUALS, value);
+        return appendCondition(field, GREAT_THAN_OR_EQUALS, value);
     }
 
     @Override

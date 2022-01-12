@@ -5,9 +5,11 @@ import com.github.pagehelper.PageInfo;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.SqlPara;
+import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseCondition;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans.SQL;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;
 import lombok.SneakyThrows;
@@ -17,6 +19,7 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service("jFinalRepoStrategy")
 @SuppressWarnings("unchecked")
@@ -162,8 +165,64 @@ public class JFinalRepoStrategy implements RepoStrategy {
             t = ReflectUtil.invoke(t, toPoMethod, (Object) null);
         }
         Class<U> daoClass = ClassUtil.getDaoClassByPo(t, this);
-        Method daoNameMethod = ReflectUtil.getMethod(daoClass, JFinalBaseDao.DAO_NAME_METHOD_NAME, null);
+        Method daoNameMethod = ReflectUtil.getMethod(daoClass, JFinalBaseDao.DAO_NAME_METHOD_NAME, (Class<?>) null);
         String daoName = (String) daoNameMethod.invoke(null, (Object) null);
         return (JFinalBaseDao<T, U>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName));
+    }
+
+    private <T extends BasePo<T>, U extends JFinalBaseDao<T, U>, V extends BaseEntity<T, V>> String parseCondition(Class<U> daoClass, V v, boolean matchAllIfEmpty) {
+        Map<String, Object> conditionMap = v.get_condition().getConditionMap();
+        List<String> result = CollUtil.newArrayList(" WHERE ");
+        if (CollUtil.isEmpty(conditionMap) && matchAllIfEmpty) {
+            return " 1 != 1 ";
+        }
+        return parseCondition(daoClass, v.toPo(), conditionMap, result);
+    }
+
+    private <T extends BasePo<T>, U extends JFinalBaseDao<T, U>, V extends BaseEntity<T, V>> String parseCondition(Class<U> daoClass, T v, Map<String, Object> conditionMap, List<String> result) {
+        for (String key : conditionMap.keySet()) {
+            String fieldName = BaseCondition.getFieldByConditionKey(key);
+            String type = BaseCondition.getTypeByConditionKey(key);
+            Object value = conditionMap.get(key);
+            if (StrUtil.equals(type, BaseCondition.MATCH_ALL)) {
+                result.add(SQL.matchAll());
+            } else if (StrUtil.equals(type, BaseCondition.MATCH_NOTHING)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.OR)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.AND)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.EQUALS)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.NOT_EQUALS)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.IS_NULL)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.IS_NOT_NULL)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.REGEX)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.GREAT_THAN)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.GREAT_THAN_OR_EQUALS)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.LESS_THAN)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.LESS_THAN_OR_EQUALS)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.BETWEEN)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.LIKE)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.NOT_LIKE)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.IN)) {
+
+            } else if (StrUtil.equals(type, BaseCondition.REGEX)) {
+                Pattern pattern = (Pattern) value;
+
+            }
+        }
+        return CollUtil.join(result, "");
     }
 }
