@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.apis.controller.domain_sys;
+package gitee.com.ericfox.ddd.apis.controller.sys;
 
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.apis.controller.BaseController;
@@ -19,7 +19,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/sys/user")
 @ResponseBody
-public class UserController implements BaseController<SysUser, SysUserEntity, SysUserPageParam, SysUserDetailParam> {
+public class SysUserController implements BaseController<SysUser, SysUserEntity, SysUserPageParam, SysUserDetailParam> {
     @Resource
     SysUserService sysUserService;
 
