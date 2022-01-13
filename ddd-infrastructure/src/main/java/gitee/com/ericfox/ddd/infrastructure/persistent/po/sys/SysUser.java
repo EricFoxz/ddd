@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @OrmEnabledAnnotation(type = RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY)
 public class SysUser implements BasePo<SysUser> {
-    static final class STRUCTURE {
+    public static final class STRUCTURE {
         public static String table = "sys_user";
         public static String id = "id";
     }

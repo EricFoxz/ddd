@@ -2,9 +2,7 @@ package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl;
 
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.github.pagehelper.PageInfo;
-import com.jfinal.plugin.activerecord.Model;
-import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.plugin.activerecord.SqlPara;
+import com.jfinal.plugin.activerecord.*;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseCondition;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
@@ -103,20 +101,19 @@ public class JFinalRepoStrategy implements RepoStrategy {
     public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> PageInfo<V> queryPage(V v, int pageNum, int pageSize) {
         T t = v.toPo();
         Class<JFinalBaseDao> daoClass = ClassUtil.getDaoClassByPo(t, this);
-        JFinalBaseDao dao = getDao(t);
-
         SQL whereSql = EasyQuery.parseWhereCondition(daoClass, v, true);
         SqlPara sqlPara = new SqlPara();
-        sqlPara.setSql("SELECT " + CollUtil.join(t.fields(), ",") + " FROM " + T.STRUCTURE.table + whereSql.toString());
+        String tableName = (String) t.getClass().getDeclaredClasses()[0].getField("table").get(null);
+        sqlPara.setSql("SELECT " + CollUtil.join(t.fields(), ",") + " FROM " + tableName + whereSql.toString());
         for (Object value : whereSql.getParamList()) {
             sqlPara.addPara(value);
         }
-        Page<JFinalBaseDao> paginate = dao.paginate(pageNum, pageSize, sqlPara);
+        Page<Record> paginate = Db.paginate(pageNum, pageSize, sqlPara);
         List<V> result = CollUtil.newArrayList();
         if (paginate.getList() != null) {
-            for (Model<JFinalBaseDao> tmp : paginate.getList()) {
+            for (Record tmp : paginate.getList()) {
                 T po = ReflectUtil.newInstance((Class<T>) t.getClass());
-                BeanUtil.copyProperties(tmp.toRecord().getColumns(), po, false);
+                BeanUtil.copyProperties(tmp.getColumns(), po, false);
                 V vInstance = (V) ReflectUtil.newInstance(v.getClass());
                 result.add(vInstance.fromPo(po));
             }
@@ -134,16 +131,21 @@ public class JFinalRepoStrategy implements RepoStrategy {
     public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> List<V> queryList(V v, int limit) {
         T t = v.toPo();
         Map<String, Object> param = BeanUtil.beanToMap(t);
-        JFinalBaseDao dao = getDao(t);
+        Class<JFinalBaseDao> daoClass = ClassUtil.getDaoClassByPo(t, this);
+        SQL whereSql = EasyQuery.parseWhereCondition(daoClass, v, true);
         SqlPara sqlPara = new SqlPara();
-        sqlPara.setSql("select * from " + StrUtil.toUnderlineCase(t.getClass().getSimpleName()) + " limit " + limit);
-        List<Model<?>> list = dao.find(sqlPara.getSql());
+        String tableName = (String) t.getClass().getDeclaredClasses()[0].getField("table").get(null);
+        sqlPara.setSql("SELECT " + CollUtil.join(t.fields(), ",") + " FROM " + tableName + whereSql.toString());
+        for (Object value : whereSql.getParamList()) {
+            sqlPara.addPara(value);
+        }
+        List<Record> list = Db.find(sqlPara);
         List<V> result = CollUtil.newArrayList();
         if (list != null) {
-            for (Model<?> tmp : list) {
+            for (Record tmp : list) {
                 T po = ReflectUtil.newInstance((Class<T>) t.getClass());
-                BeanUtil.copyProperties(tmp.toRecord().getColumns(), po, false);
-                BeanUtil.copyProperties(tmp.toRecord().getColumns(), po, false);
+                BeanUtil.copyProperties(tmp.getColumns(), po, false);
+                BeanUtil.copyProperties(tmp.getColumns(), po, false);
                 V vInstance = (V) ReflectUtil.newInstance(v.getClass());
                 result.add(vInstance.fromPo(po));
             }
@@ -158,17 +160,22 @@ public class JFinalRepoStrategy implements RepoStrategy {
             t = ReflectUtil.invoke(t, toPoMethod, (Object) null);
         }
         Class<U> daoClass = ClassUtil.getDaoClassByPo(t, this);
-        Method daoNameMethod = ReflectUtil.getMethod(daoClass, JFinalBaseDao.DAO_NAME_METHOD_NAME, (Class<?>) null);
-        String daoName = (String) daoNameMethod.invoke(null, (Object) null);
-        return (JFinalBaseDao<T, U>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName));
+        return ReflectUtil.newInstance(daoClass);
+        /*Method daoNameMethod = ReflectUtil.getMethodByName(daoClass, JFinalBaseDao.DAO_NAME_METHOD_NAME);
+        String daoName = (String) daoNameMethod.invoke(null, (Object[]) null);
+        return (JFinalBaseDao<T, U>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName));*/
     }
 
 
     private static class EasyQuery {
         public static <T extends BasePo<T>, U extends JFinalBaseDao<T, U>, V extends BaseEntity<T, V>> SQL parseWhereCondition(Class<U> daoClass, V v, boolean matchAllIfEmpty) {
-            Map<String, Object> conditionMap = v.get_condition().getConditionMap();
             SQL sql = SQL.getInstance().where();
-            if (CollUtil.isEmpty(conditionMap) && matchAllIfEmpty) {
+            BaseCondition<?> condition = v.get_condition();
+            if (condition == null) {
+                return matchAllIfEmpty ? sql.matchAll() : sql.matchNothing();
+            }
+            Map<String, Object> conditionMap = condition.getConditionMap();
+            if (CollUtil.isEmpty(conditionMap) && !matchAllIfEmpty) {
                 sql.matchNothing();
             } else {
                 sql.matchAll();

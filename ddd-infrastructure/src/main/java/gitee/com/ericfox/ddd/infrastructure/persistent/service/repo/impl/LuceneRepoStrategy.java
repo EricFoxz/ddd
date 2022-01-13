@@ -211,7 +211,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
 
     @Override
     public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> PageInfo<V> queryPage(V v, int pageNum, int pageSize) {
-        Class<U> daoClass = ClassUtil.getDaoClassByEntity(v, this);
+        Class<U> daoClass = ClassUtil.getDaoClassByPo(v.toPo(), this);
         Query query = EasyQuery.parseCondition(daoClass, v, true);
         return queryPage(v, pageNum, pageSize, query, Sort.INDEXORDER);
     }
@@ -507,7 +507,11 @@ public class LuceneRepoStrategy implements RepoStrategy {
          * @param matchAllIfEmpty 当entity中的查询条件为空时，是否匹配全部数据
          */
         public static <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> Query parseCondition(Class<U> daoClass, V v, boolean matchAllIfEmpty) {
-            Map<String, Object> conditionMap = v.get_condition().getConditionMap();
+            BaseCondition<?> condition = v.get_condition();
+            if (condition == null) {
+                return matchAllIfEmpty ? new MatchAllDocsQuery() : new MatchNoDocsQuery();
+            }
+            Map<String, Object> conditionMap = condition.getConditionMap();
             if (CollUtil.isEmpty(conditionMap) && matchAllIfEmpty) {
                 return new MatchAllDocsQuery();
             }

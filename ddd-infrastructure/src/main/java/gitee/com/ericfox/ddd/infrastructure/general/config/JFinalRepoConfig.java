@@ -59,7 +59,7 @@ public class JFinalRepoConfig {
                 if (RepoTypeStrategyEnum.J_FINAL_REPO_STRATEGY.equals(annotation.type())) {
                     Class<U> daoClass = ClassUtil.getDaoClassByPoClass((Class<T>) aClass, jFinalRepoStrategy);
                     Method daoNameMethod = ReflectUtil.getMethodByName(daoClass, JFinalBaseDao.DAO_NAME_METHOD_NAME);
-                    String daoName = (String) daoNameMethod.invoke(null, (Object) null);
+                    String daoName = (String) daoNameMethod.invoke(null, (Object[]) null);
                     Class<V> daoClassM = (Class<V>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName)).getClass();
                     arp.addMapping(StrUtil.toUnderlineCase(className), annotation.value(), daoClassM);
                 }

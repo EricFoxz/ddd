@@ -6,6 +6,7 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalRepoStrategy;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.LuceneRepoStrategy;
+import lombok.SneakyThrows;
 
 @SuppressWarnings("unchecked")
 public class ClassUtil extends cn.hutool.core.util.ClassUtil {
@@ -25,19 +26,12 @@ public class ClassUtil extends cn.hutool.core.util.ClassUtil {
         return getDaoClassByPoClass((Class<T>) t.getClass(), strategy);
     }
 
-    public static <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> Class<U> getDaoClassByEntityClass(Class<V> clazz, RepoStrategy strategy) {
-        String fullName = clazz.getName();
-        String simpleName = clazz.getSimpleName();
-        //TODO-待实现 区分各个domain的包
-        if (strategy instanceof LuceneRepoStrategy) {
-            return ClassUtil.loadClass(ReUtil.delLast("\\.domain\\..*", fullName) + ".infrastructure.persistent.repository.sys.lucene." + simpleName + "Dao");
-        } else if (strategy instanceof JFinalRepoStrategy) {
-            return ClassUtil.loadClass(ReUtil.delLast("\\.domain\\..*", fullName) + ".infrastructure.persistent.repository.sys.jfinal." + simpleName + "Dao");
-        }
-        return null;
+    @SneakyThrows
+    public static <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> String getTableNameByPoClass(Class<T> clazz) {
+        return (String) clazz.getDeclaredClasses()[0].getField("table").get(null);
     }
 
-    public static <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> Class<U> getDaoClassByEntity(V v, RepoStrategy strategy) {
-        return getDaoClassByEntityClass((Class<V>) v.getClass(), strategy);
+    public static <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> String getTableNameByPo(T t) {
+        return getTableNameByPoClass(t.getClass());
     }
 }
