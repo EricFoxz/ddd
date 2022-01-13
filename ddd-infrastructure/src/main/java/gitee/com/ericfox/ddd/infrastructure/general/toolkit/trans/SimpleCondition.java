@@ -2,11 +2,11 @@ package gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans;
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseCondition;
+import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.BeanUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.MapUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 

@@ -2,7 +2,7 @@ package gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding;
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
+import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalRepoStrategy;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.LuceneRepoStrategy;
@@ -37,7 +37,7 @@ public class ClassUtil extends cn.hutool.core.util.ClassUtil {
         return null;
     }
 
-    public static<T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> Class<U> getDaoClassByEntity(V v, RepoStrategy strategy) {
+    public static <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> Class<U> getDaoClassByEntity(V v, RepoStrategy strategy) {
         return getDaoClassByEntityClass((Class<V>) v.getClass(), strategy);
     }
 }

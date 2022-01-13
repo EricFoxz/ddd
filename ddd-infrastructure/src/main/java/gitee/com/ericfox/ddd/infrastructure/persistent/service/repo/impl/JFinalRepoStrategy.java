@@ -8,9 +8,9 @@ import com.jfinal.plugin.activerecord.SqlPara;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseCondition;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
+import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans.SQL;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class JFinalRepoStrategy implements RepoStrategy {
     public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> V findById(V v) {
         T t = v.toPo();
         JFinalBaseDao dao = getDao(t);
-        Model<?> result = dao.findById(BeanUtil.getProperty(t, dao.primaryKeyFieldName()));
+        Model<?> result = dao.findById(BeanUtil.getProperty(t, T.STRUCTURE.id));
         BeanUtil.copyProperties(result.toRecord().getColumns(), t, false);
         return v.fromPo(t);
     }
@@ -38,7 +38,7 @@ public class JFinalRepoStrategy implements RepoStrategy {
     public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean deleteById(V v) {
         T t = v.toPo();
         JFinalBaseDao dao = getDao(t);
-        return dao.deleteById(BeanUtil.getProperty(t, dao.primaryKeyFieldName()));
+        return dao.deleteById(BeanUtil.getProperty(t, T.STRUCTURE.id));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class JFinalRepoStrategy implements RepoStrategy {
         JFinalBaseDao dao = getDao(v.get(0).toPo());
         for (V tmp : v) {
             T t = tmp.toPo();
-            Serializable id = BeanUtil.getProperty(t, dao.primaryKeyFieldName());
+            Serializable id = BeanUtil.getProperty(t, T.STRUCTURE.id);
             idList.add(id);
         }
         dao.deleteByIds(idList);
@@ -93,7 +93,7 @@ public class JFinalRepoStrategy implements RepoStrategy {
     public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean updateById(V v) {
         T t = v.toPo();
         JFinalBaseDao dao = getDao(t);
-        t = (T) dao.findById(BeanUtil.getProperty(t, dao.primaryKeyFieldName()));
+        t = (T) dao.findById(BeanUtil.getProperty(t, T.STRUCTURE.id));
         BeanUtil.copyProperties(t, dao, updateCopyOptions);
         return dao.update();
     }
@@ -102,21 +102,14 @@ public class JFinalRepoStrategy implements RepoStrategy {
     @SneakyThrows
     public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> PageInfo<V> queryPage(V v, int pageNum, int pageSize) {
         T t = v.toPo();
-        Map<String, Object> param = BeanUtil.beanToMap(t);
-        Class<JFinalBaseDao> daoClassByPo = ClassUtil.getDaoClassByPo(t, this);
+        Class<JFinalBaseDao> daoClass = ClassUtil.getDaoClassByPo(t, this);
         JFinalBaseDao dao = getDao(t);
+
+        SQL whereSql = EasyQuery.parseWhereCondition(daoClass, v, true);
         SqlPara sqlPara = new SqlPara();
-        sqlPara.setSql("select * from " + StrUtil.toUnderlineCase(t.getClass().getSimpleName()));
-        if (CollUtil.isNotEmpty(param)) {
-            sqlPara.setSql(sqlPara.getSql() + " where 1 = 1 ");
-            for (Map.Entry<String, Object> entry : param.entrySet()) {
-                Object value = entry.getValue();
-                if (value != null) {
-                    String key = entry.getKey();
-                    sqlPara.setSql(sqlPara.getSql() + " and " + StrUtil.toUnderlineCase(key) + " like ? ");
-                    sqlPara.addPara(value);
-                }
-            }
+        sqlPara.setSql("SELECT " + CollUtil.join(t.fields(), ",") + " FROM " + T.STRUCTURE.table + whereSql.toString());
+        for (Object value : whereSql.getParamList()) {
+            sqlPara.addPara(value);
         }
         Page<JFinalBaseDao> paginate = dao.paginate(pageNum, pageSize, sqlPara);
         List<V> result = CollUtil.newArrayList();
@@ -170,59 +163,67 @@ public class JFinalRepoStrategy implements RepoStrategy {
         return (JFinalBaseDao<T, U>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName));
     }
 
-    private <T extends BasePo<T>, U extends JFinalBaseDao<T, U>, V extends BaseEntity<T, V>> String parseCondition(Class<U> daoClass, V v, boolean matchAllIfEmpty) {
-        Map<String, Object> conditionMap = v.get_condition().getConditionMap();
-        List<String> result = CollUtil.newArrayList(" WHERE ");
-        if (CollUtil.isEmpty(conditionMap) && matchAllIfEmpty) {
-            return " 1 != 1 ";
-        }
-        return parseCondition(daoClass, v.toPo(), conditionMap, result);
-    }
 
-    private <T extends BasePo<T>, U extends JFinalBaseDao<T, U>, V extends BaseEntity<T, V>> String parseCondition(Class<U> daoClass, T v, Map<String, Object> conditionMap, List<String> result) {
-        for (String key : conditionMap.keySet()) {
-            String fieldName = BaseCondition.getFieldByConditionKey(key);
-            String type = BaseCondition.getTypeByConditionKey(key);
-            Object value = conditionMap.get(key);
-            if (StrUtil.equals(type, BaseCondition.MATCH_ALL)) {
-                result.add(SQL.matchAll());
-            } else if (StrUtil.equals(type, BaseCondition.MATCH_NOTHING)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.OR)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.AND)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.EQUALS)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.NOT_EQUALS)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.IS_NULL)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.IS_NOT_NULL)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.REGEX)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.GREAT_THAN)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.GREAT_THAN_OR_EQUALS)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.LESS_THAN)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.LESS_THAN_OR_EQUALS)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.BETWEEN)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.LIKE)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.NOT_LIKE)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.IN)) {
-
-            } else if (StrUtil.equals(type, BaseCondition.REGEX)) {
-                Pattern pattern = (Pattern) value;
-
+    private static class EasyQuery {
+        public static <T extends BasePo<T>, U extends JFinalBaseDao<T, U>, V extends BaseEntity<T, V>> SQL parseWhereCondition(Class<U> daoClass, V v, boolean matchAllIfEmpty) {
+            Map<String, Object> conditionMap = v.get_condition().getConditionMap();
+            SQL sql = SQL.getInstance().where();
+            if (CollUtil.isEmpty(conditionMap) && matchAllIfEmpty) {
+                sql.matchNothing();
+            } else {
+                sql.matchAll();
             }
+            return parseWhereCondition(daoClass, v, conditionMap, sql);
         }
-        return CollUtil.join(result, "");
+
+        private static <T extends BasePo<T>, U extends JFinalBaseDao<T, U>, V extends BaseEntity<T, V>> SQL parseWhereCondition(Class<U> daoClass, V v, Map<String, Object> conditionMap, SQL sql) {
+            for (String key : conditionMap.keySet()) {
+                String fieldName = BaseCondition.getFieldByConditionKey(key);
+                String type = BaseCondition.getTypeByConditionKey(key);
+                Object value = conditionMap.get(key);
+                if (StrUtil.equals(type, BaseCondition.MATCH_ALL)) {
+                    sql.and().matchAll();
+                } else if (StrUtil.equals(type, BaseCondition.MATCH_NOTHING)) {
+                    sql.and().matchNothing();
+                } else if (StrUtil.equals(type, BaseCondition.OR)) {
+                    sql.or(parseWhereCondition(daoClass, v, ((BaseCondition<?>) conditionMap.get(key)).getConditionMap(), sql));
+                } else if (StrUtil.equals(type, BaseCondition.AND)) {
+                    sql.and(parseWhereCondition(daoClass, v, ((BaseCondition<?>) conditionMap.get(key)).getConditionMap(), sql));
+                } else if (StrUtil.equals(type, BaseCondition.EQUALS)) {
+                    sql.and().equal(fieldName, value);
+                } else if (StrUtil.equals(type, BaseCondition.NOT_EQUALS)) {
+                    sql.and().notEqual();
+                } else if (StrUtil.equals(type, BaseCondition.IS_NULL)) {
+                    sql.and().isNull(fieldName);
+                } else if (StrUtil.equals(type, BaseCondition.IS_NOT_NULL)) {
+                    sql.and().isNotNull(fieldName);
+                } else if (StrUtil.equals(type, BaseCondition.REGEX)) {
+                    sql.and().regexp(((Pattern) value).pattern());
+                } else if (StrUtil.equals(type, BaseCondition.GREAT_THAN)) {
+                    sql.and().greatThan(fieldName, value);
+                } else if (StrUtil.equals(type, BaseCondition.GREAT_THAN_OR_EQUALS)) {
+                    sql.and().greatThanEqual(fieldName, value);
+                } else if (StrUtil.equals(type, BaseCondition.LESS_THAN)) {
+                    sql.and().lessThan(fieldName, value);
+                } else if (StrUtil.equals(type, BaseCondition.LESS_THAN_OR_EQUALS)) {
+                    sql.and().lessThanEqual(fieldName, value);
+                } else if (StrUtil.equals(type, BaseCondition.BETWEEN)) {
+                    List<?> list = (List<?>) value;
+                    Object v1 = list.get(0);
+                    Object v2 = list.get(1);
+                    sql.and().between(fieldName, v1, v2);
+                } else if (StrUtil.equals(type, BaseCondition.LIKE)) {
+                    sql.and().likePrefix(fieldName, (String) value);
+                } else if (StrUtil.equals(type, BaseCondition.NOT_LIKE)) {
+                    sql.and().notLikePrefix(fieldName, (String) value);
+                } else if (StrUtil.equals(type, BaseCondition.IN)) {
+                    sql.and().in(fieldName, (List<?>) value);
+                } else if (StrUtil.equals(type, BaseCondition.REGEX)) {
+                    Pattern pattern = (Pattern) value;
+                    sql.and().regexp(pattern.pattern());
+                }
+            }
+            return sql;
+        }
     }
 }

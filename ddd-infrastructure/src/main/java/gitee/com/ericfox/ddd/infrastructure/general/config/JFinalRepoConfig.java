@@ -6,10 +6,10 @@ import com.jfinal.plugin.hikaricp.HikariCpPlugin;
 import com.jfinal.template.source.ClassPathSourceFactory;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.OrmEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
+import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ClassUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReflectUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalBaseDao;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalRepoStrategy;
 import lombok.SneakyThrows;
@@ -46,9 +46,10 @@ public class JFinalRepoConfig {
         arp.setShowSql(true);
         arp.getEngine().setSourceFactory(new ClassPathSourceFactory());
         arp.getEngine().getSourceFactory();
-        //arp.addSqlTemplate("/template/sql.sql");
+        arp.addSqlTemplate("/jfinal-sql-templates/baseRepo.sql");
         hikariCpPlugin.start();
 
+        //扫描PO，加载采用jFinal策略的类
         Set<Class<?>> classes = ClassUtil.scanPackage(BasePo.class.getPackage().getName());
         for (Class<?> aClass : classes) {
             String name = aClass.getName();

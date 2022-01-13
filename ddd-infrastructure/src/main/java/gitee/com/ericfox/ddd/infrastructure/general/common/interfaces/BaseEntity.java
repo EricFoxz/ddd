@@ -1,7 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.interfaces;
 
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans.SimpleCondition;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 
 @SuppressWarnings("unchecked")
 public interface BaseEntity<T extends BasePo<T>, V extends BaseEntity<T, V>> {

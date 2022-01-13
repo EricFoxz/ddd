@@ -5,10 +5,10 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.OrmEnab
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
+import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

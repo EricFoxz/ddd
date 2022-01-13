@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl;
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
+import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BasePo;
 import org.apache.lucene.analysis.Analyzer;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
