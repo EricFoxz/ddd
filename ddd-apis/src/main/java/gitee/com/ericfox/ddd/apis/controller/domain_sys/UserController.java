@@ -31,7 +31,9 @@ public class UserController implements BaseController<SysUser, SysUserEntity, Sy
 
     @GetMapping("/page/{pageNum}/{pageSize}")
     public ResponseEntity<?> page(SysUserPageParam sysUserPagePram) {
-        PageInfo<SysUserAgg> sysUserAggPageInfo = sysUserService.queryPage(sysUserPagePram.toEntity(), sysUserPagePram.getPageNum(), sysUserPagePram.getPageSize());
+        SysUserEntity sysUserEntity = sysUserPagePram.toEntity();
+        sysUserEntity.set_condition(sysUserEntity.toCondition());
+        PageInfo<SysUserAgg> sysUserAggPageInfo = sysUserService.queryPage(sysUserEntity, sysUserPagePram.getPageNum(), sysUserPagePram.getPageSize());
         return ResBuilder.defValue.success().put("data", sysUserAggPageInfo).build();
     }
 

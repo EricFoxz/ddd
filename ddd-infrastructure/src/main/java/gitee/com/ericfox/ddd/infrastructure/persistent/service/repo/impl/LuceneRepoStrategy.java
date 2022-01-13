@@ -218,6 +218,9 @@ public class LuceneRepoStrategy implements RepoStrategy {
 
     @SneakyThrows
     public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> PageInfo<V> queryPage(V v, Integer pageNum, Integer pageSize, Query query, Sort sort) {
+        PageInfo<V> pageInfo = new PageInfo<>();
+        pageInfo.setPageNum(pageNum);
+        pageInfo.setPageSize(pageSize);
         T t = v.toPo();
         int start = (pageNum - 1) * pageSize;// 下标从 0 开始
         int end = pageNum * pageSize;
@@ -230,20 +233,16 @@ public class LuceneRepoStrategy implements RepoStrategy {
         } else {
             topDocs = indexSearcher.search(query, end, sort);
         }
-
         long totalNum = topDocs.totalHits.value;
-
         if (totalNum == 0) {
             // 没有数据
-            return null;
+            return pageInfo;
         }
-
         //获取结果集
         ScoreDoc[] scoreDocs = topDocs.scoreDocs;
         if (null == scoreDocs) {
-            return null;
+            return pageInfo;
         }
-
         // 遍历结果集
         List<V> resultList = new ArrayList<>();
         for (int i = start; i < end; i++) {
@@ -263,16 +262,11 @@ public class LuceneRepoStrategy implements RepoStrategy {
             V entity = (V) ReflectUtil.newInstance(v.getClass());
             resultList.add(entity.fromPo(po));
         }
-
         // 构建 page 对象
         int pages = (int) Math.ceil((double) totalNum / (double) pageSize);//总页数
         // Long pagesByLong = totalNum % pageSize > 0 ? (totalNum / pageSize) + 1 : totalNum / pageSize;
         // int pages = pagesByLong.intValue();// 另外一种计算总页数的方法
-
-        PageInfo<V> pageInfo = new PageInfo<>();
         pageInfo.setPages(pages);
-        pageInfo.setPageNum(pageNum);
-        pageInfo.setPageSize(pageSize);
         pageInfo.setStartRow(start);
         pageInfo.setEndRow(end);
         pageInfo.setTotal(totalNum);
@@ -544,7 +538,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
                 } else if (StrUtil.equals(key, BaseCondition.REGEX)) {
                     queryBuilder.add(new RegexpQuery(new Term(fieldName, ((Pattern) value).pattern())), BooleanClause.Occur.MUST);
                 } else {
-                    Field field = daoClass.getField(fieldName);
+                    Field field = daoClass.getDeclaredField(fieldName);
                     LuceneFieldKey fieldKey = null;
                     if (!field.isAnnotationPresent(LuceneFieldKey.class) || (fieldKey = field.getAnnotation(LuceneFieldKey.class)) == null) {
                         continue;

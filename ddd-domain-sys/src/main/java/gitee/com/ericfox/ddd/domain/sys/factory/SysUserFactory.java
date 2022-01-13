@@ -18,8 +18,10 @@ public class SysUserFactory {
 
     public static List<SysUserAgg> createListAgg(List<SysUserEntity> list) {
         List<SysUserAgg> result = CollUtil.newArrayList();
-        for (SysUserEntity sysUser : list) {
-            result.add(createAgg(sysUser));
+        if (CollUtil.isNotEmpty(list)) {
+            for (SysUserEntity sysUser : list) {
+                result.add(createAgg(sysUser));
+            }
         }
         return result;
     }

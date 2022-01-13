@@ -26,7 +26,7 @@ public interface BaseEntity<T extends BasePo<T>, V extends BaseEntity<T, V>> {
 
     void set_condition(BaseCondition<?> condition);
 
-    default BaseCondition<?> transToCondition() {
+    default BaseCondition<?> toCondition() {
         return SimpleCondition.newInstance(this.toPo());
     }
 }

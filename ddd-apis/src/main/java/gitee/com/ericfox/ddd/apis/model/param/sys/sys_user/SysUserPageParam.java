@@ -13,6 +13,8 @@ public class SysUserPageParam implements BasePageParam<SysUser, SysUserEntity> {
     private Integer pageNum = 1;
     private Integer pageSize = 10;
 
+    private String username;
+
     @Override
     public SysUserEntity toEntity() {
         SysUserEntity sysUser = new SysUserEntity();

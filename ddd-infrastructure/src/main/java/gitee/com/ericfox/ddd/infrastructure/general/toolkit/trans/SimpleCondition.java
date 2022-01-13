@@ -32,7 +32,10 @@ public class SimpleCondition implements BaseCondition<SimpleCondition> {
         Map<String, Object> record = BeanUtil.beanToMap(obj);
         if (CollUtil.isNotEmpty(record)) {
             for (Map.Entry<String, Object> entry : record.entrySet()) {
-                appendCondition(entry.getKey(), EQUALS, entry.getValue());
+                Object value = entry.getValue();
+                if (value != null) {
+                    appendCondition(entry.getKey(), EQUALS, value);
+                }
             }
         }
     }
