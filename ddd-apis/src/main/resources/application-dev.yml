@@ -12,9 +12,11 @@ spring:
       username: root
       password: 123456
       driver-class-name: com.mysql.jdbc.Driver
-#  rsocket:
-#    server:
-#      port: 9081
+  main:
+    lazy-initialization: true
+  rsocket:
+    server:
+      port: 9081
   redis:
     database: 0
     host: 127.0.0.1
