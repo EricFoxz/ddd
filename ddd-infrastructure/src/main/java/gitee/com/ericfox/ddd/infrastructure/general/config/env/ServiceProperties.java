@@ -13,8 +13,14 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "custom.service", ignoreInvalidFields = true)
 public class ServiceProperties {
+    /**
+     * 持久化策略
+     */
     public RepoStrategyBean repoStrategy;
 
+    /**
+     * 缓存策略
+     */
     public CacheStrategyBean cacheStrategy;
 
     @Getter
@@ -56,14 +62,15 @@ public class ServiceProperties {
     public static class CacheStrategyBean {
         private boolean enable = false;
 
-        private DefaultStrategy defaultStrategy = DefaultStrategy.REDIS_STRATEGY;
+        private DefaultStrategy[] defaultStrategy;
 
         private boolean clearWhenStart = false;
 
         private int cacheTimeoutSeconds = 3600;
 
         public enum DefaultStrategy implements BasePropertiesEnum<CacheTypeStrategyEnum> {
-            REDIS_STRATEGY;
+            REDIS_STRATEGY,
+            CAFFEINE_STRATEGY;
 
             @Override
             public CacheTypeStrategyEnum toBizEnum() {

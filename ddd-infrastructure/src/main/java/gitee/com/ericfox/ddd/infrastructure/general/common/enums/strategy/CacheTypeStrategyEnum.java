@@ -2,11 +2,15 @@ package gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy;
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BaseEnum;
 
+/**
+ * 缓存策略枚举类
+ */
 public enum CacheTypeStrategyEnum implements BaseEnum<CacheTypeStrategyEnum, String> {
-    REDIS_STRATEGY("redisStrategy", "asd");
+    REDIS_STRATEGY("redisStrategy", "redis缓存"),
+    CAFFEINE_STRATEGY("caffeineStrategy", "caffeine缓存");
 
-    private String code;
-    private String description;
+    private final String code;
+    private final String description;
 
     CacheTypeStrategyEnum(String code, String description) {
         this.code = code;

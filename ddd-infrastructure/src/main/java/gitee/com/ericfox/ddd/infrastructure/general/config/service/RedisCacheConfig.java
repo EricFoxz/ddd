@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.general.config;
+package gitee.com.ericfox.ddd.infrastructure.general.config.service;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -36,10 +36,10 @@ import java.util.Map;
  * redis配置
  */
 @Configuration
+@ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = {"enable", "default-strategy"}, havingValue = "redis_strategy")
 @EnableCaching
 @Slf4j
-@ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = {"enable", "default-strategy"})
-public class RedisConfig extends CachingConfigurerSupport {
+public class RedisCacheConfig extends CachingConfigurerSupport {
     @Resource
     RedisConnectionFactory factory;
     @Resource

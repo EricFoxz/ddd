@@ -2,6 +2,9 @@ package gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy;
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BaseEnum;
 
+/**
+ * lucene文档的数据类型枚举类
+ */
 public enum LuceneFieldTypeEnum implements BaseEnum<LuceneFieldTypeEnum, Integer> {
     STRING_FIELD(1, "字符串，会被索引，不分词"),
     TEXT_FIELD(2, "文本，会被索引，分词"),

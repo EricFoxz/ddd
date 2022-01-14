@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.general.config;
+package gitee.com.ericfox.ddd.infrastructure.general.config.service;
 
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;

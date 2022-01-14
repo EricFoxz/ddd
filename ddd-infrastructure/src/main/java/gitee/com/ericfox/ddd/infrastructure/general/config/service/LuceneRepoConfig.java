@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.general.config;
+package gitee.com.ericfox.ddd.infrastructure.general.config.service;
 
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.FileUtil;
