@@ -5,7 +5,6 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BaseEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BasePropertiesEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
@@ -44,16 +43,17 @@ public class OnPropertyEnumCondition<T extends BaseEnum<T, ?>> implements Condit
         //传入的枚举值必须全匹配
         if (ArrayUtil.isNotEmpty(includeAllValue)) {
             checkValues(enums, includeAllValue);
-            a: for (String enumStr : includeAllValue) {
+            a:
+            for (String enumStr : includeAllValue) {
                 for (String propertyValue : propertyValues) {
-                    if(enumStr.equalsIgnoreCase(propertyValue)) {
+                    if (enumStr.equalsIgnoreCase(propertyValue)) {
                         continue a;
                     }
                 }
                 flag = false;
                 break;
             }
-            if(!flag) {
+            if (!flag) {
                 return false;
             }
         }
@@ -62,7 +62,7 @@ public class OnPropertyEnumCondition<T extends BaseEnum<T, ?>> implements Condit
             checkValues(enums, includeAnyValue);
             for (String enumStr : includeAnyValue) {
                 for (String propertyValue : propertyValues) {
-                    if(enumStr.equalsIgnoreCase(propertyValue)) {
+                    if (enumStr.equalsIgnoreCase(propertyValue)) {
                         return true;
                     }
                 }

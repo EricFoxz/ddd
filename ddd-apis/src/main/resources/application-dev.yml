@@ -22,6 +22,9 @@ spring:
     host: 127.0.0.1
     port: 6379
     password:
+  cache:
+    caffeine:
+      spec:
 
 custom:
   service:
@@ -35,7 +38,7 @@ custom:
         clear-when-start: true
     cache-strategy:
       enable: true
-      default-strategy: caffeine_strategy, redis_strategy
+      default-strategy: caffeine_cache_strategy, redis_cache_strategy
       default-expire-seconds: 3600
       clear-when-start: false
   api:

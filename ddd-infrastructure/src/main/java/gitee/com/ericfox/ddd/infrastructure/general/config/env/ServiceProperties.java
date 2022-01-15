@@ -8,8 +8,6 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Component
@@ -76,8 +74,8 @@ public class ServiceProperties {
         private boolean clearWhenStart = false;
 
         public enum CachePropertiesEnum implements BasePropertiesEnum<CacheTypeStrategyEnum> {
-            REDIS_STRATEGY,
-            CAFFEINE_STRATEGY;
+            CAFFEINE_CACHE_STRATEGY,
+            REDIS_CACHE_STRATEGY;
 
             @Override
             public String getName() {
@@ -86,7 +84,7 @@ public class ServiceProperties {
 
             @Override
             public CacheTypeStrategyEnum toBizEnum() {
-                return CacheTypeStrategyEnum.REDIS_STRATEGY.getEnumByName(this.name());
+                return CacheTypeStrategyEnum.CAFFEINE_CACHE_STRATEGY.getEnumByName(this.name());
             }
         }
     }

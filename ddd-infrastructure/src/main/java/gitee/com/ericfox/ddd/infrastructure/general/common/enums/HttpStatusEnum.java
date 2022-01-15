@@ -64,6 +64,6 @@ public enum HttpStatusEnum implements BaseEnum<HttpStatusEnum, Integer> {
 
     @Override
     public HttpStatusEnum[] getEnums() {
-        return HttpStatusEnum.values();
+        return values();
     }
 }

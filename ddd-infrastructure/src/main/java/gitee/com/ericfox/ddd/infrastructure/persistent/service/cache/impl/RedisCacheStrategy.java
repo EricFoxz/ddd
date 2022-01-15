@@ -1,8 +1,10 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.cache.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.config.service.RedisCacheConfig;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.cache.CacheStrategy;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
@@ -11,21 +13,24 @@ import javax.annotation.Resource;
 
 @Service("redisCacheStrategy")
 @Slf4j
+@ConditionalOnBean(value = RedisCacheConfig.class)
 public class RedisCacheStrategy implements CacheStrategy {
     @Resource
     RedisTemplate redisTemplate;
 
     @Override
-    public void set(String key, Object value) {
+    public void put(Object key, Object value) {
         redisTemplate.opsForValue().set(key, value);
     }
 
     @Override
-    public Object get(String key) {
-        if (redisTemplate.hasKey(key)) {
-            return redisTemplate.opsForValue().get(key);
-        }
-        return null;
+    public Object get(Object key) {
+        return redisTemplate.opsForValue().get(key);
+    }
+
+    @Override
+    public Boolean delete(Object key){
+        return redisTemplate.delete(key);
     }
 
     @Override
@@ -54,7 +59,7 @@ public class RedisCacheStrategy implements CacheStrategy {
                 "until( cursor <= 0 )\n" +
                 "return keyNum";
         // luaFun = "scan match '" + prefix + "' count 2000";
-        DefaultRedisScript<Long> redisScript = new DefaultRedisScript(luaFun, Long.class);
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(luaFun, Long.class);
         try {
             return (Long) redisTemplate.execute(redisScript, CollectionUtil.newArrayList(prefix), 100);
         } catch (Exception e) {

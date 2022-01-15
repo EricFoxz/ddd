@@ -29,10 +29,10 @@ public interface BaseEnum<T extends BaseEnum<T, U>, U extends Serializable> {
     /**
      * 通过name获取枚举
      */
-    default T getEnumByName(U code) {
+    default T getEnumByName(String code) {
         T[] enums = getEnums();
         for (T anEnum : enums) {
-            if (anEnum.getName().equals(code)) {
+            if (anEnum.getName().equalsIgnoreCase(code)) {
                 return anEnum;
             }
         }

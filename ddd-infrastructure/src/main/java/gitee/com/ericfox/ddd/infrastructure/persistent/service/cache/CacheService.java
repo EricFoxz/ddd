@@ -27,12 +27,17 @@ public class CacheService implements CacheStrategy {
         this.strategyMap.putAll(strategyMap);
     }
 
-    public void set(String key, Object value) {
-        strategyMap.get(getBeanName()).set(key, value);
+    public void put(Object key, Object value) {
+        strategyMap.get(getBeanName()).put(key, value);
     }
 
-    public Object get(String key) {
+    public Object get(Object key) {
         return strategyMap.get(getBeanName()).get(key);
+    }
+
+    @Override
+    public Boolean delete(Object key) {
+        return strategyMap.get(getBeanName()).delete(key);
     }
 
     @Override
