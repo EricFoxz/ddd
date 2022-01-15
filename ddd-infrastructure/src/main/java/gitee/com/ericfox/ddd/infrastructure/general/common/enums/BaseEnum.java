@@ -32,7 +32,7 @@ public interface BaseEnum<T extends BaseEnum<T, U>, U extends Serializable> {
     default T getEnumByName(U code) {
         T[] enums = getEnums();
         for (T anEnum : enums) {
-            if (anEnum.getCode().equals(code)) {
+            if (anEnum.getName().equals(code)) {
                 return anEnum;
             }
         }

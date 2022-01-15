@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Component
@@ -26,7 +28,7 @@ public class ServiceProperties {
     @Getter
     @Setter
     public static class RepoStrategyBean {
-        private DefaultStrategy defaultStrategy = DefaultStrategy.J_FINAL_REPO_STRATEGY;
+        private RepoPropertiesEnum defaultStrategy = RepoPropertiesEnum.J_FINAL_REPO_STRATEGY;
 
         private JFinalBean jFinal;
 
@@ -46,9 +48,14 @@ public class ServiceProperties {
             private Boolean clearWhenStart = false;
         }
 
-        public enum DefaultStrategy implements BasePropertiesEnum<RepoTypeStrategyEnum> {
+        public enum RepoPropertiesEnum implements BasePropertiesEnum<RepoTypeStrategyEnum> {
             J_FINAL_REPO_STRATEGY,
             LUCENE_REPO_STRATEGY;
+
+            @Override
+            public String getName() {
+                return this.name();
+            }
 
             @Override
             public RepoTypeStrategyEnum toBizEnum() {
@@ -62,15 +69,20 @@ public class ServiceProperties {
     public static class CacheStrategyBean {
         private boolean enable = false;
 
-        private DefaultStrategy[] defaultStrategy;
+        private CachePropertiesEnum[] defaultStrategy;
+
+        private Integer defaultExpireSeconds = 3600;
 
         private boolean clearWhenStart = false;
 
-        private int cacheTimeoutSeconds = 3600;
-
-        public enum DefaultStrategy implements BasePropertiesEnum<CacheTypeStrategyEnum> {
+        public enum CachePropertiesEnum implements BasePropertiesEnum<CacheTypeStrategyEnum> {
             REDIS_STRATEGY,
             CAFFEINE_STRATEGY;
+
+            @Override
+            public String getName() {
+                return this.name();
+            }
 
             @Override
             public CacheTypeStrategyEnum toBizEnum() {
@@ -78,6 +90,5 @@ public class ServiceProperties {
             }
         }
     }
-
 
 }

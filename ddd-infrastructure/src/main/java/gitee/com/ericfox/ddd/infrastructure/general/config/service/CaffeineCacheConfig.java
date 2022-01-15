@@ -2,6 +2,8 @@ package gitee.com.ericfox.ddd.infrastructure.general.config.service;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.ConditionalOnPropertyEnum;
+import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -16,7 +18,10 @@ import org.springframework.context.annotation.Primary;
 import java.time.Duration;
 
 @Configuration
-@ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = {"enable", "default-strategy"}, havingValue = "caffeine_strategy")
+@ConditionalOnPropertyEnum(value = "custom.service.cache-strategy.default-strategy",
+        enumClass = ServiceProperties.CacheStrategyBean.CachePropertiesEnum.class,
+        includeAnyValue = "caffeine_strategy")
+@ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = "enable")
 @EnableCaching
 @Slf4j
 public class CaffeineCacheConfig {

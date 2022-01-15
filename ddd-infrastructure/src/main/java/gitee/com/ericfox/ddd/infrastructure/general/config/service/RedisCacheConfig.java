@@ -3,6 +3,7 @@ package gitee.com.ericfox.ddd.infrastructure.general.config.service;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.ConditionalOnPropertyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.JsonUtil;
@@ -36,7 +37,10 @@ import java.util.Map;
  * redis配置
  */
 @Configuration
-@ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = {"enable", "default-strategy"}, havingValue = "redis_strategy")
+@ConditionalOnPropertyEnum(value = "custom.service.cache-strategy.default-strategy",
+        enumClass = ServiceProperties.CacheStrategyBean.CachePropertiesEnum.class,
+        includeAnyValue = "redis_strategy")
+@ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = "enable")
 @EnableCaching
 @Slf4j
 public class RedisCacheConfig extends CachingConfigurerSupport {
@@ -63,7 +67,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         return new RedisCacheManager(
                 RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory),
-                this.getRedisCacheConfigurationWithTtl(serviceProperties.getCacheStrategy().getCacheTimeoutSeconds()),
+                this.getRedisCacheConfigurationWithTtl(serviceProperties.getCacheStrategy().getDefaultExpireSeconds()),
                 this.getRedisCacheConfigurationMap() // 指定 key 策略
         );
     }

@@ -42,7 +42,7 @@ public class CacheService implements CacheStrategy {
 
     private String getBeanName() {
         if (CollUtil.isEmpty(this.strategyEnumList)) {
-            for (ServiceProperties.CacheStrategyBean.DefaultStrategy defaultStrategy : serviceProperties.getCacheStrategy().getDefaultStrategy()) {
+            for (ServiceProperties.CacheStrategyBean.CachePropertiesEnum defaultStrategy : serviceProperties.getCacheStrategy().getDefaultStrategy()) {
                 this.strategyEnumList.add(defaultStrategy.toBizEnum());
             }
         }
