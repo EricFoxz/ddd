@@ -35,27 +35,6 @@ public class CaffeineCacheConfig {
     private CacheStrategy l2Cache = null;
 
     @Bean
-    @Primary
-    public CacheManager caffeineCacheManager() {
-        SimpleCacheManager cacheManager = new SimpleCacheManager();
-        Cache<Object, Object> good = Caffeine.newBuilder()
-                .recordStats()
-                .expireAfterWrite(Duration.ofSeconds(60))
-                .maximumSize(1000)
-                .build();
-        Cache<Object, Object> homePage = Caffeine.newBuilder()
-                .recordStats()
-                .expireAfterWrite(Duration.ofSeconds(7200))
-                .maximumSize(1000)
-                .build();
-        cacheManager.setCaches(CollUtil.newArrayList(
-                new CaffeineCache("good", good),
-                new CaffeineCache("homePage", homePage)
-        ));
-        return cacheManager;
-    }
-
-    @Bean
     public CaffeineCache caffeineCache() {
         Caffeine<Object, Object> caffeine = Caffeine.newBuilder()
                 .recordStats()

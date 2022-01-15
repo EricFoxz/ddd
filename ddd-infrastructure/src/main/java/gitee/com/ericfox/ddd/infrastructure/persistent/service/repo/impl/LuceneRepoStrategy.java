@@ -472,6 +472,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
         Directory directory = FSDirectory.open(Paths.get(directoryPath));
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig(dao.analyzer());
         IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+        indexWriter.commit();
         indexWriterMap.put(className, indexWriter);
         return indexWriter;
     }
@@ -483,6 +484,10 @@ public class LuceneRepoStrategy implements RepoStrategy {
             return indexSearcherMap.get(className);
         }
         String directoryPath = buildDirectoryPath(className);
+        if(!FileUtil.exist(directoryPath) || FileUtil.isDirEmpty(FileUtil.file(directoryPath))) {
+            FileUtil.mkdir(directoryPath);
+            getIndexWriter(clazz);
+        }
         Directory directory = FSDirectory.open(Paths.get(directoryPath));
         IndexReader indexReader = DirectoryReader.open(directory);
         IndexSearcher indexSearcher = new IndexSearcher(indexReader);
