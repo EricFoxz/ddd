@@ -6,6 +6,8 @@ server:
       worker: 30
     buffer-size: 1024
 spring:
+  application:
+    name: '领域驱动工程'
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
     hikari:
@@ -13,10 +15,20 @@ spring:
       password: 123456
       driver-class-name: com.mysql.jdbc.Driver
   main:
-    lazy-initialization: true
+    lazy-initialization: false
   rsocket:
     server:
       port: 9081
+  rabbitmq:
+    port: 5672
+    username: wong
+    password: password
+    virtual-host: /
+    listener:
+      direct:
+        acknowledge-mode: manual
+    publisher-returns: true
+    publisher-confirm-type: correlated
   redis:
     database: 0
     host: 127.0.0.1

@@ -25,7 +25,6 @@
         <pagehelper.version>1.4.1</pagehelper.version>
         <lucene.servion>8.5.0</lucene.servion>
         <mmseg4j-solr.version>2.4.0</mmseg4j-solr.version>
-        <caffeine.version>2.9.3</caffeine.version>
     </properties>
 
     <modules>
@@ -96,6 +95,11 @@
                 <groupId>com.chenlb.mmseg4j</groupId>
                 <artifactId>mmseg4j-solr</artifactId>
                 <version>${mmseg4j-solr.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp3.version}</version>
             </dependency>
         </dependencies>
 
