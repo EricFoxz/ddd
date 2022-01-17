@@ -1,21 +1,32 @@
 # ddd
 [![EricFox/ddd](https://gitee.com/EricFox/ddd/widgets/widget_card.svg?colors=ff6857,000000,ffffff,e3e9ed,666666,739bff)](https://gitee.com/EricFox/ddd)  
 
-## #TODO list
-- [x] 缓存问题
-- [Redis注解集成之解决@CacheEvict只能单一清除的扩展 -模糊清除多条缓存](https://blog.csdn.net/qq_33454884/article/details/89330649)
-- [Caffeine 详解 —— Caffeine 使用](https://zhuanlan.zhihu.com/p/329684099)
-- [x] 整合MQ
-- [ ] 整合MongoDB方式的持久化
-- [ ] 整合OAuth2
-- [ ] ~~分库分表(可选)~~
-- [ ] 分布式事务
-	- [ ] 分别支持CP和AP的分布式
+## ddd #TODO list
+- [ ] 缓存问题
+	- [x] Caffeine一级缓存
+	- [x] Redis二级缓存
+	- [x] 策略设计模式
+	- [ ] 并发下的同步，CP和AP的取舍
+	- [Redis注解集成之解决@CacheEvict只能单一清除的扩展 -模糊清除多条缓存](https://blog.csdn.net/qq_33454884/article/details/89330649)
+	- [Caffeine 详解 —— Caffeine 使用](https://zhuanlan.zhihu.com/p/329684099)
+- [ ] 整合MQ
+	- [x] RabbitMQ
+	- [ ] Kafka
+- [ ] 持久化问题
+	- [ ] ~~分库分表~~(可选)
+	- [ ] 整合MongoDB方式的持久化
+	- [ ] 整合HDFS或HBase
+	- [x] 整合MySQL
+	- [x] 整合lucene
+	- [x] 策略设计模式
+- [ ] 常用功能
+	- [ ] 整合OAuth2
+	- [ ] 流式传输
+	- [ ] 工作流
+	- [ ] 代码生成
+	- [ ] 日志方案
+- [ ] 分布式/微服务
 	- [ ] 尝试使用RSocket实现多实例/微服务之间的通信
-- [ ] 流式传输
-- [ ] 工作流
-- [ ] 代码生成
-- [ ] 日志方案
   
 ## 介绍  
 一个ddd思维，充血模型实现的项目 [https://gitee.com/EricFox/ddd](https://gitee.com/EricFox/ddd)  

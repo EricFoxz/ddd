@@ -145,11 +145,11 @@ public class GoogleTranslateService {
      * 从中文翻译为指定语言
      */
     public String translateFromChinese(TL langTo, String text) {
-        return translateFromChinese(langTo, text);
+        return translate(TL.TL_ZH_CN, langTo, text);
     }
 
     /**
-     * 从中文翻译为指定语言
+     * 翻译为指定语言
      */
     @SneakyThrows
     public String translate(TL langFrom, TL langTo, String text) {
