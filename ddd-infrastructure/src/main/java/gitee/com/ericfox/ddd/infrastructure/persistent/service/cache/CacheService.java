@@ -5,6 +5,7 @@ import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -14,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
+@ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = "enable")
 public class CacheService implements CacheStrategy {
     @Resource
     private ServiceProperties serviceProperties;

@@ -2,16 +2,17 @@ package gitee.com.ericfox.ddd.infrastructure.general.config.service;
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.ConditionalOnPropertyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 @Configuration
 @Slf4j
@@ -25,12 +26,7 @@ import javax.annotation.Resource;
 public class RabbitMqConfig {
     @Resource
     private RabbitTemplate rabbitTemplate;
-    public static final String RABBIT_WORK_1 = "rabbit_work1";
-
-    @Bean
-    public Queue queue() {
-        return new Queue(RABBIT_WORK_1);
-    }
+    public final Map<String, Queue> queueMap = MapUtil.newConcurrentHashMap();
 
     @Autowired
     public void config() {
@@ -44,5 +40,14 @@ public class RabbitMqConfig {
         rabbitTemplate.setReturnsCallback(returnedMessage -> {
             log.error("rabbitMqConfig消息发送失败：{}", returnedMessage);
         });
+    }
+
+    public synchronized Queue getQueue(String name) {
+        if (queueMap.containsKey(name)) {
+            return queueMap.get(name);
+        }
+        Queue queue = new Queue(name);
+        queueMap.put(name, queue);
+        return queue;
     }
 }
