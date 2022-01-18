@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.mq.proxy;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.MqTypeStrategyEnum;
+import gitee.com.ericfox.ddd.infrastructure.persistent.service.mq.MqClientStrategy;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.mq.MqProxy;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.mq.MqServerStrategy;
 import lombok.Getter;
@@ -12,16 +12,34 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@SuppressWarnings("unchecked")
 public class MqBroadcastProxy implements MqProxy {
-    private static MqTypeStrategyEnum[] types = MqTypeStrategyEnum.values();
+    private static Class<? extends MqServerStrategy>[] serverTypes = new Class[]{MqServerStrategy.class};
+    private static Class<? extends MqClientStrategy>[] clientTypes = new Class[]{MqClientStrategy.class};
     private String[] queueNames;
 
-    public MqBroadcastProxy(String... queueNames) {
-        this.queueNames = queueNames;
+    private MqBroadcastProxy() {
+    }
+
+    public static MqBroadcastProxy getClientInstance(String... queueNames) {
+        MqBroadcastProxy instance = new MqBroadcastProxy();
+        instance.queueNames = queueNames;
+        return instance;
+    }
+
+    public static MqBroadcastProxy getServerInstance(String... queueNames) {
+        MqBroadcastProxy instance = new MqBroadcastProxy();
+        instance.queueNames = queueNames;
+        return instance;
     }
 
     @Override
-    public Class<? extends MqServerStrategy>[] getTypes() {
-        return null;
+    public Class<? extends MqServerStrategy>[] getServerTypes() {
+        return serverTypes;
+    }
+
+    @Override
+    public Class<? extends MqClientStrategy>[] getClientTypes() {
+        return clientTypes;
     }
 }

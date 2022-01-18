@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.mq;
 
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -19,5 +20,19 @@ public class MqClientService implements MqClientStrategy {
     @Autowired
     private MqClientService(Map<String, MqClientService> strategyMap) {
         this.strategyMap.putAll(strategyMap);
+    }
+
+    @Override
+    public void addListener(MqProxy mqProxy) {
+        Class<? extends MqClientStrategy>[] types = mqProxy.getClientTypes();
+        if (ArrayUtil.isNotEmpty(types)) {
+            for (Class<? extends MqClientStrategy> type : types) {
+                for (MqClientService value : strategyMap.values()) {
+                    if (value.getClass().equals(type)) {
+                        value.addListener(mqProxy);
+                    }
+                }
+            }
+        }
     }
 }

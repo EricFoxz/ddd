@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
-@Service("rabbitMqWorkerStrategy")
+@Service("rabbitMqServerStrategy")
 @ConditionalOnBean(value = RabbitMqConfig.class)
 public class RabbitMqServerStrategy implements MqServerStrategy {
     @Resource

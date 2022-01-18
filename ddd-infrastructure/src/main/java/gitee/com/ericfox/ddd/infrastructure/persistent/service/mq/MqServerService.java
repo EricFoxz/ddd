@@ -20,7 +20,7 @@ public class MqServerService implements MqServerStrategy {
 
     @Override
     public void send(String msg, MqProxy mqProxy) {
-        Class<? extends MqServerStrategy>[] types = mqProxy.getTypes();
+        Class<? extends MqServerStrategy>[] types = mqProxy.getServerTypes();
         if (ArrayUtil.isNotEmpty(types)) {
             for (Class<? extends MqServerStrategy> type : types) {
                 for (MqServerService value : strategyMap.values()) {
