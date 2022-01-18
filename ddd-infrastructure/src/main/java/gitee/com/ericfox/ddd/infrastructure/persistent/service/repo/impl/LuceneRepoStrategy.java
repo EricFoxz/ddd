@@ -484,7 +484,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
             return indexSearcherMap.get(className);
         }
         String directoryPath = buildDirectoryPath(className);
-        if(!FileUtil.exist(directoryPath) || FileUtil.isDirEmpty(FileUtil.file(directoryPath))) {
+        if (!FileUtil.exist(directoryPath) || FileUtil.isDirEmpty(FileUtil.file(directoryPath))) {
             FileUtil.mkdir(directoryPath);
             getIndexWriter(clazz);
         }

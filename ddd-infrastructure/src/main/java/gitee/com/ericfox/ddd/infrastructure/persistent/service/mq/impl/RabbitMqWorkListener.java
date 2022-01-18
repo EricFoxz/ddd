@@ -5,11 +5,13 @@ import gitee.com.ericfox.ddd.infrastructure.general.config.service.RabbitMqConfi
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 
 @Component
 @Slf4j
+@ConditionalOnBean(value = RabbitMqConfig.class)
 public class RabbitMqWorkListener {
     @RabbitListener(queues = RabbitMqConfig.RABBIT_WORK_1)
     public void receiveMessage1(String msg, Channel channel, Message message) {

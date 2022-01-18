@@ -19,6 +19,34 @@ spring:
   rsocket:
     server:
       port: 9081
+  kafka:
+    producer:
+      retries: 0
+      acks: 1
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: ${spring.kafka.producer.key-serializer}
+      properties:
+        linger:
+          ms: 0
+    consumer:
+      group-id: defaultConsumerGroup #默认的消费组ID
+      enable-auto-commit: true #是否自动提交offset
+      auto-commit-interval: 1000 #提交offset延时（接收到消息后多久提交offset）
+      auto-offset-reset: latest #重置为分区中最新的offset（消费分区中产生新的数据）
+      properties:
+        session:
+          timeout:
+            ms: 120000 #消费会话超时时间（超过这个时间consumer没有发送心跳，就会触发rebalance操作）
+        request:
+          timeout:
+            ms: 180000 #消费请求超时时间
+      key-deserializer: org.apache.kafka.common.serialization.StringSerializer
+      value-deserializer: ${spring.kafka.consumer.key-deserializer}
+    listener:
+      missing-topics-fatal: false
+    bootstrap-servers: 127.0.0.1:9092
   rabbitmq:
     port: 5672
     username: wong
@@ -40,7 +68,8 @@ spring:
 
 custom:
   service:
-    repo-strategy:
+    repo-strategy: #持久化策略
+      #默认策略，一般用不到，因为面向切面编程的设计思想，ORM方式与最终载体是在PO实体类上采用注解的方式配置的
       default-strategy: j_final_repo_strategy
       j-final:
         enable: true
@@ -48,11 +77,18 @@ custom:
         enable: true
         root-path: E:/lucene
         clear-when-start: true
-    cache-strategy:
+    cache-strategy: #缓存策略
       enable: true
+      #缓存策略，启用的缓存服务，逗号分割，注：caffeine为java缓存，redis为分布式缓存，目前限定为两种模式：
+      #1、如果设为"caffeine_cache_strategy, redis_cache_strategy"，前者为一级缓存，后者为二级缓存，对一级缓存的update和delete将同步至二级缓存（原子性），如果是分布式，对二级缓存的更新将清空其他节点的一级缓存
+      #2、如果只设置一种缓存，就将只采用一种缓存
       default-strategy: caffeine_cache_strategy, redis_cache_strategy
       default-expire-seconds: 3600
       clear-when-start: false
+    mq-strategy: #mq策略
+      enable: true
+      #启用的mq，逗号分割
+      default-strategy: rabbit_mq_strategy
   api:
     response:
       key-of-error-code: error

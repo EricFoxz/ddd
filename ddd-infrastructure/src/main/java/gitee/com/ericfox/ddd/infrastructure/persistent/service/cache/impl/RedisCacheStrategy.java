@@ -29,7 +29,7 @@ public class RedisCacheStrategy implements CacheStrategy {
     }
 
     @Override
-    public Boolean delete(Object key){
+    public Boolean delete(Object key) {
         return redisTemplate.delete(key);
     }
 

@@ -1,6 +1,5 @@
 package gitee.com.ericfox.ddd.apis.controller;
 
-import gitee.com.ericfox.ddd.infrastructure.general.config.service.RabbitMqConfig;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.mq.MqService;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +15,6 @@ import javax.annotation.Resource;
 public class MqController {
     @Resource
     private MqService mqService;
-    @Resource
-    private RabbitMqConfig rabbitMqConfig;
 
     @GetMapping("/send/{msg}")
     public ResponseEntity<?> send(@PathVariable String msg) {

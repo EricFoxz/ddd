@@ -16,8 +16,9 @@ public class I18NUtil {
     private static GoogleTranslateService googleTranslateService;
 
     public static String getText(String text) {
+        //TODO 多国语言支持
         String property = getProperties().getProperty(text);
-        if(property == null) {
+        if (property == null) {
             return getGoogleTranslateService().translateFromChinese(GoogleTranslateService.TL.TL_EN, text);
         }
         return property;
@@ -31,9 +32,9 @@ public class I18NUtil {
     }
 
     private static Properties getProperties() {
-         if(properties == null) {
-             properties= PropsUtil.get("i18n/framework_en_US.properties");
-         }
-         return properties;
+        if (properties == null) {
+            properties = PropsUtil.get("i18n/framework_en_US.properties");
+        }
+        return properties;
     }
 }

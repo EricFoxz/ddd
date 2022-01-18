@@ -23,7 +23,7 @@ public class CacheService implements CacheStrategy {
     private final Map<String, CacheStrategy> strategyMap = new ConcurrentHashMap<>();
 
     @Autowired
-    public CacheService(Map<String, CacheStrategy> strategyMap) {
+    private CacheService(Map<String, CacheStrategy> strategyMap) {
         this.strategyMap.putAll(strategyMap);
     }
 

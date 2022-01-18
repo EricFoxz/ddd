@@ -3,11 +3,13 @@ package gitee.com.ericfox.ddd.infrastructure.persistent.service.mq.impl;
 import gitee.com.ericfox.ddd.infrastructure.general.config.service.RabbitMqConfig;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.mq.MqStrategy;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
 @Service("rabbitMqWorkerStrategy")
+@ConditionalOnBean(value = RabbitMqConfig.class)
 public class RabbitMqWorkStrategy implements MqStrategy {
     @Resource
     private RabbitTemplate rabbitTemplate;

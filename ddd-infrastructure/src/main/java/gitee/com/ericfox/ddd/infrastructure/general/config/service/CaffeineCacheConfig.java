@@ -1,31 +1,34 @@
 package gitee.com.ericfox.ddd.infrastructure.general.config.service;
 
-import com.github.benmanes.caffeine.cache.*;
+import com.github.benmanes.caffeine.cache.CacheLoader;
+import com.github.benmanes.caffeine.cache.CacheWriter;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.RemovalCause;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.ConditionalOnPropertyEnum;
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.CacheTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.SpringUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.cache.CacheStrategy;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCache;
-import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 import javax.annotation.Resource;
 import java.time.Duration;
 
 @Configuration
-@ConditionalOnPropertyEnum(value = "custom.service.cache-strategy.default-strategy",
+@ConditionalOnPropertyEnum(
+        value = "custom.service.cache-strategy.default-strategy",
         enumClass = ServiceProperties.CacheStrategyBean.CachePropertiesEnum.class,
-        includeAnyValue = "caffeine_cache_strategy")
+        includeAnyValue = "caffeine_cache_strategy"
+)
 @ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = "enable")
 @EnableCaching
 @Slf4j

@@ -37,9 +37,11 @@ import java.util.Map;
  * redis配置
  */
 @Configuration
-@ConditionalOnPropertyEnum(value = "custom.service.cache-strategy.default-strategy",
+@ConditionalOnPropertyEnum(
+        value = "custom.service.cache-strategy.default-strategy",
         enumClass = ServiceProperties.CacheStrategyBean.CachePropertiesEnum.class,
-        includeAnyValue = "redis_cache_strategy")
+        includeAnyValue = "redis_cache_strategy"
+)
 @ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = "enable")
 @EnableCaching
 @Slf4j
