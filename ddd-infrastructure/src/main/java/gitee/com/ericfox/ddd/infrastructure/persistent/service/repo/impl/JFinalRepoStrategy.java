@@ -11,7 +11,7 @@ import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans.SQL;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;
 import lombok.SneakyThrows;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-@Service("jFinalRepoStrategy")
+@Component("jFinalRepoStrategy")
 @SuppressWarnings("unchecked")
 public class JFinalRepoStrategy implements RepoStrategy {
     private static final CopyOptions updateCopyOptions = CopyOptions.create().ignoreCase().ignoreNullValue();

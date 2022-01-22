@@ -6,14 +6,12 @@ server:
       worker: 30
     buffer-size: 1024
 spring:
-  application:
-    name: '领域驱动工程'
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
     hikari:
       username: root
       password: 123456
-      driver-class-name: com.mysql.jdbc.Driver
+      driver-class-name: com.mysql.cj.jdbc.Driver
   main:
     lazy-initialization: false
   rsocket:

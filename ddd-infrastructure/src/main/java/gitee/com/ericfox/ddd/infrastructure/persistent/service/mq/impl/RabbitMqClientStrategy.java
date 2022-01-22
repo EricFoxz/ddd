@@ -10,13 +10,13 @@ import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.amqp.rabbit.listener.api.RabbitListenerErrorHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.messaging.handler.annotation.support.MessageHandlerMethodFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
 
 @Slf4j
-@Service("rabbitMqListenerStrategy")
+@Component("rabbitMqListenerStrategy")
 @ConditionalOnBean(value = RabbitMqConfig.class)
 public class RabbitMqClientStrategy implements MqClientStrategy {
     @Resource

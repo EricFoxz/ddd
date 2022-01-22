@@ -4,13 +4,13 @@ import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component
+@Service
 @ConditionalOnProperty(prefix = "custom.service.mq-strategy", value = "enable")
 public class MqClientService implements MqClientStrategy {
     @Resource

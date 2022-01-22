@@ -20,7 +20,7 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-@Service("luceneRepoStrategy")
+@Component("luceneRepoStrategy")
 @Slf4j
 @SuppressWarnings("unchecked")
 public class LuceneRepoStrategy implements RepoStrategy {

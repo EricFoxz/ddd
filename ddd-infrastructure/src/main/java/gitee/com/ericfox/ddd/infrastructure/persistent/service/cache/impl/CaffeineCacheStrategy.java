@@ -10,12 +10,12 @@ import gitee.com.ericfox.ddd.infrastructure.persistent.service.cache.CacheStrate
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.cache.caffeine.CaffeineCache;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.function.Function;
 
-@Service("caffeineCacheStrategy")
+@Component("caffeineCacheStrategy")
 @Slf4j
 @ConditionalOnBean(value = CaffeineCacheConfig.class)
 public class CaffeineCacheStrategy implements CacheStrategy {

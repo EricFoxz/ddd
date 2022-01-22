@@ -6,11 +6,11 @@ import gitee.com.ericfox.ddd.infrastructure.persistent.service.mq.MqProxy;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.mq.MqServerStrategy;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-@Service("rabbitMqServerStrategy")
+@Component("rabbitMqServerStrategy")
 @ConditionalOnBean(value = RabbitMqConfig.class)
 public class RabbitMqServerStrategy implements MqServerStrategy {
     @Resource

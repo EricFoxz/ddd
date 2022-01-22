@@ -7,11 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-@Service("redisCacheStrategy")
+@Component("redisCacheStrategy")
 @Slf4j
 @ConditionalOnBean(value = RedisCacheConfig.class)
 public class RedisCacheStrategy implements CacheStrategy {

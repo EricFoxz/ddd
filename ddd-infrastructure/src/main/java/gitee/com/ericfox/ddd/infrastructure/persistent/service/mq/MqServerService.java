@@ -3,12 +3,12 @@ package gitee.com.ericfox.ddd.infrastructure.persistent.service.mq;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component
+@Service
 @ConditionalOnProperty(prefix = "custom.service.mq-strategy", value = "enable")
 public class MqServerService implements MqServerStrategy {
     private final Map<String, MqServerService> strategyMap = new ConcurrentHashMap<>();
