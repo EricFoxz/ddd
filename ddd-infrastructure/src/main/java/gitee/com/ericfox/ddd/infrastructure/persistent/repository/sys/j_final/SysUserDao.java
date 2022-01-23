@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.persistent.repository.sys.jfinal;
+package gitee.com.ericfox.ddd.infrastructure.persistent.repository.sys.j_final;
 
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalBaseDao;
