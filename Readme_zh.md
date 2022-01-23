@@ -13,7 +13,7 @@
 - 只使用最佳方案，拥抱新的协议和技术，优先轻量级实现，因为AOP的思想，所以若是比较重的技术如果层次抽象的好。也可采用
 
 ## 软件结构
-![](https://images0.cnblogs.com/blog/492619/201309/05132928-5d68253031d7418ea62b6ae96e4b90e3.jpg)
+![img](https://images0.cnblogs.com/blog/492619/201309/05132928-5d68253031d7418ea62b6ae96e4b90e3.jpg)
 
 ```text
 - ddd-apis API接口层
