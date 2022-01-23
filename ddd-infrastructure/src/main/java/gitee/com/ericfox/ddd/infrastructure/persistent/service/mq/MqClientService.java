@@ -10,6 +10,9 @@ import javax.annotation.Resource;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * MQ客户端service
+ */
 @Service
 @ConditionalOnProperty(prefix = "custom.service.mq-strategy", value = "enable")
 public class MqClientService implements MqClientStrategy {

@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import javax.annotation.Resource;
 
+/**
+ * SpringSecurity配置类
+ */
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource

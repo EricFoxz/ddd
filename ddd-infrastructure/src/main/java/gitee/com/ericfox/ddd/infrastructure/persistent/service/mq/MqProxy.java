@@ -3,6 +3,9 @@ package gitee.com.ericfox.ddd.infrastructure.persistent.service.mq;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.mq.proxy.MqBroadcastProxy;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.mq.proxy.MqSingleProxy;
 
+/**
+ * MQ代理模式接口
+ */
 public interface MqProxy {
     static MqProxy getClientInstance(String... queueNames) {
         return getClientInstance(null, queueNames);

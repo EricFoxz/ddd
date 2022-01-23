@@ -22,6 +22,9 @@ import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.Set;
 
+/**
+ * JFinal持久化配置类
+ */
 @Configuration
 @ConditionalOnProperty(prefix = "custom.service.repo-strategy.j-final", value = {"enable"})
 @SuppressWarnings("unchecked")

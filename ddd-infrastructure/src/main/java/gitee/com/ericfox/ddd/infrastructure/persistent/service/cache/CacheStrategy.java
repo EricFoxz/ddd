@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.cache;
 
 /**
- * 缓存策略
+ * 缓存策略接口
  */
 public interface CacheStrategy {
     void put(Object key, Object value);

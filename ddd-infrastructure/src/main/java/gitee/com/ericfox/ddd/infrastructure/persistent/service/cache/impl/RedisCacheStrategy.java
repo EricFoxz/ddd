@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
+/**
+ * Redis缓存策略实现
+ */
 @Component("redisCacheStrategy")
 @Slf4j
 @ConditionalOnBean(value = RedisCacheConfig.class)

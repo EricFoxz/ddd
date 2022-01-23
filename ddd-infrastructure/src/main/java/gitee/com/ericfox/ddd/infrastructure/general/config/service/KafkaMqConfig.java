@@ -6,6 +6,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 
+/**
+ * Kafka配置类
+ */
 @Configuration
 @EnableKafka
 @ConditionalOnPropertyEnum(

@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * 实现jFinal方式持久化
+ */
 @Component("jFinalRepoStrategy")
 @SuppressWarnings("unchecked")
 public class JFinalRepoStrategy implements RepoStrategy {
@@ -100,8 +103,7 @@ public class JFinalRepoStrategy implements RepoStrategy {
     @SneakyThrows
     public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> PageInfo<V> queryPage(V v, int pageNum, int pageSize) {
         T t = v.toPo();
-        Class<JFinalBaseDao> daoClass = ClassUtil.getDaoClassByPo(t, this);
-        SQL whereSql = EasyQuery.parseWhereCondition(daoClass, v, true);
+        SQL whereSql = EasyQuery.parseWhereCondition(v, true);
         SqlPara sqlPara = new SqlPara();
         String tableName = (String) t.getClass().getDeclaredClasses()[0].getField("table").get(null);
         sqlPara.setSql("SELECT " + CollUtil.join(t.fields(), ",") + " FROM " + tableName + whereSql.toString());
@@ -130,9 +132,7 @@ public class JFinalRepoStrategy implements RepoStrategy {
     @SneakyThrows
     public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> List<V> queryList(V v, int limit) {
         T t = v.toPo();
-        Map<String, Object> param = BeanUtil.beanToMap(t);
-        Class<JFinalBaseDao> daoClass = ClassUtil.getDaoClassByPo(t, this);
-        SQL whereSql = EasyQuery.parseWhereCondition(daoClass, v, true);
+        SQL whereSql = EasyQuery.parseWhereCondition(v, true);
         SqlPara sqlPara = new SqlPara();
         String tableName = (String) t.getClass().getDeclaredClasses()[0].getField("table").get(null);
         sqlPara.setSql("SELECT " + CollUtil.join(t.fields(), ",") + " FROM " + tableName + whereSql.toString());
@@ -161,14 +161,11 @@ public class JFinalRepoStrategy implements RepoStrategy {
         }
         Class<U> daoClass = ClassUtil.getDaoClassByPo(t, this);
         return ReflectUtil.newInstance(daoClass);
-        /*Method daoNameMethod = ReflectUtil.getMethodByName(daoClass, JFinalBaseDao.DAO_NAME_METHOD_NAME);
-        String daoName = (String) daoNameMethod.invoke(null, (Object[]) null);
-        return (JFinalBaseDao<T, U>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName));*/
     }
 
 
     private static class EasyQuery {
-        public static <T extends BasePo<T>, U extends JFinalBaseDao<T, U>, V extends BaseEntity<T, V>> SQL parseWhereCondition(Class<U> daoClass, V v, boolean matchAllIfEmpty) {
+        public static <T extends BasePo<T>, U extends JFinalBaseDao<T, U>, V extends BaseEntity<T, V>> SQL parseWhereCondition(V v, boolean matchAllIfEmpty) {
             SQL sql = SQL.getInstance().where();
             BaseCondition<?> condition = v.get_condition();
             if (condition == null) {
@@ -180,11 +177,11 @@ public class JFinalRepoStrategy implements RepoStrategy {
             } else {
                 sql.matchAll();
             }
-            return parseWhereCondition(daoClass, v, conditionMap, sql);
+            return parseWhereCondition(conditionMap, sql);
         }
 
-        private static <T extends BasePo<T>, U extends JFinalBaseDao<T, U>, V extends BaseEntity<T, V>> SQL parseWhereCondition(Class<U> daoClass, V v, Map<String, Object> conditionMap, SQL sql) {
-            for (String key : conditionMap.keySet()) {
+        private static <T extends BasePo<T>, U extends JFinalBaseDao<T, U>, V extends BaseEntity<T, V>> SQL parseWhereCondition(Map<String, Object> conditionMap, SQL sql) {
+            conditionMap.keySet().forEach(key -> {
                 String fieldName = BaseCondition.getFieldByConditionKey(key);
                 String type = BaseCondition.getTypeByConditionKey(key);
                 Object value = conditionMap.get(key);
@@ -193,9 +190,9 @@ public class JFinalRepoStrategy implements RepoStrategy {
                 } else if (StrUtil.equals(type, BaseCondition.MATCH_NOTHING)) {
                     sql.and().matchNothing();
                 } else if (StrUtil.equals(type, BaseCondition.OR)) {
-                    sql.or(parseWhereCondition(daoClass, v, ((BaseCondition<?>) conditionMap.get(key)).getConditionMap(), sql));
+                    sql.or(parseWhereCondition(((BaseCondition<?>) conditionMap.get(key)).getConditionMap(), sql));
                 } else if (StrUtil.equals(type, BaseCondition.AND)) {
-                    sql.and(parseWhereCondition(daoClass, v, ((BaseCondition<?>) conditionMap.get(key)).getConditionMap(), sql));
+                    sql.and(parseWhereCondition(((BaseCondition<?>) conditionMap.get(key)).getConditionMap(), sql));
                 } else if (StrUtil.equals(type, BaseCondition.EQUALS)) {
                     sql.and().equal(fieldName, value);
                 } else if (StrUtil.equals(type, BaseCondition.NOT_EQUALS)) {
@@ -229,7 +226,7 @@ public class JFinalRepoStrategy implements RepoStrategy {
                     Pattern pattern = (Pattern) value;
                     sql.and().regexp(pattern.pattern());
                 }
-            }
+            });
             return sql;
         }
     }

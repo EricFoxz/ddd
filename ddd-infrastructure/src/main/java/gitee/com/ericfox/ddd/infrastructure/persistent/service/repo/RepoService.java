@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 持久化service
+ */
 @Slf4j
 @Service
 @SuppressWarnings("unchecked")

@@ -4,6 +4,9 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.Lucene
 
 import java.lang.annotation.*;
 
+/**
+ * Lucene实体类字段注解（影响索引效果）
+ */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

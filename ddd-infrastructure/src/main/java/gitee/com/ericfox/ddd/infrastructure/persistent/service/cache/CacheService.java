@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 缓存服务service
+ */
 @Slf4j
 @Service
 @ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = "enable")

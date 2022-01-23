@@ -33,6 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * 实现Lucene方式持久化
+ */
 @Component("luceneRepoStrategy")
 @Slf4j
 @SuppressWarnings("unchecked")

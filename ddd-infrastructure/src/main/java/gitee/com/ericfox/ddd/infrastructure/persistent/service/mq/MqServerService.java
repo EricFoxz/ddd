@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * MQ服务端service
+ */
 @Service
 @ConditionalOnProperty(prefix = "custom.service.mq-strategy", value = "enable")
 public class MqServerService implements MqServerStrategy {

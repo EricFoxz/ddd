@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
+/**
+ * RabbitMQ策略 服务端实现类
+ */
 @Component("rabbitMqServerStrategy")
 @ConditionalOnBean(value = RabbitMqConfig.class)
 public class RabbitMqServerStrategy implements MqServerStrategy {

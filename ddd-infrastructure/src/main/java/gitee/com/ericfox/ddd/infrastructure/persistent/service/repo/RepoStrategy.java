@@ -8,6 +8,9 @@ import org.springframework.lang.NonNull;
 
 import java.util.List;
 
+/**
+ * 持久化策略接口
+ */
 public interface RepoStrategy {
     <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> V findById(V v);
 

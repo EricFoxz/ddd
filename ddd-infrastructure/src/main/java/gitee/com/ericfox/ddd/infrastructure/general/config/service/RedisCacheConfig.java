@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * redis配置
+ * redis配置类
  */
 @Configuration
 @ConditionalOnPropertyEnum(

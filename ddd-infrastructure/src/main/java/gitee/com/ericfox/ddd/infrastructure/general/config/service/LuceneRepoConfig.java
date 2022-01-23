@@ -22,6 +22,9 @@ import javax.annotation.Resource;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Lucene持久化配置类
+ */
 @Configuration
 @Slf4j
 @ConditionalOnProperty(prefix = "custom.service.repo-strategy.lucene", value = {"enable"})

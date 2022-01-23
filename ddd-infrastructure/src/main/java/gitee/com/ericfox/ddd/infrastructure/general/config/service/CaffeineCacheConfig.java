@@ -23,6 +23,9 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.Resource;
 import java.time.Duration;
 
+/**
+ * Caffeine缓存服务配置类
+ */
 @Configuration
 @ConditionalOnPropertyEnum(
         value = "custom.service.cache-strategy.default-strategy",

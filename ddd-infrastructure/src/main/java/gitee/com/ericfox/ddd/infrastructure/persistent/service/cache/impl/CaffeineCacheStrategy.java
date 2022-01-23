@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.function.Function;
 
+/**
+ * Caffeine缓存策略实现
+ */
 @Component("caffeineCacheStrategy")
 @Slf4j
 @ConditionalOnBean(value = CaffeineCacheConfig.class)
