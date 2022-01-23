@@ -131,66 +131,63 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
 
     @Bean
     public KeyGenerator keyGeneratorToServiceParam() {
-        return new KeyGenerator() {
-            @Override
-            public Object generate(Object target, Method method, Object... params) {
-                StringBuilder finalResult = new StringBuilder();
-                finalResult.append(target.getClass().getSimpleName());
-                finalResult.append(":");
-                finalResult.append(method.getName());
-                finalResult.append(":");
-                if (params.length == 0) {
-                    finalResult.append("noParams");
-                    return finalResult.toString();
-                }
-                // 只含有一个参数位置，并且是基础类型，则进行特殊处理
-                if (params.length == 1) {
-                    Object param = params[0];
-                    if (null == param) {
-                        finalResult.append("nullParams");
-                        return finalResult.toString();
-                    }
-                    Class<?> clazz = param.getClass();
-                    if (checkClassBasicType(clazz)) {
-                        finalResult.append(param);
-                        return finalResult.toString();
-                    }
-                }
-                // 非基础类型或多参数的场景
-                StringBuilder paramString = new StringBuilder();
-                for (int i = 0; i < params.length; i++) {
-                    if (null == params[i]) {
-                        paramString.append("nullParams");
-                    } else {
-                        if (params[i] instanceof String
-                                || params[i] instanceof Boolean
-                                || params[i] instanceof Character
-                                || params[i] instanceof Byte
-                                || params[i] instanceof Short
-                                || params[i] instanceof Integer
-                                || params[i] instanceof Long
-                                || params[i] instanceof Float
-                                || params[i] instanceof Double
-                                || params[i] instanceof BigDecimal
-                        ) {
-                            paramString.append(params[i]);
-                        } else {
-                            paramString.append(JsonUtil.toJsonStr(params[i]));
-                        }
-                    }
-                    if (i != params.length - 1) {
-                        paramString.append(":");
-                    }
-                }
-
-                String finalParam = paramString.toString();
-                String sha256 = SecureUtil.sha256(finalParam);
-
-                log.debug("keyGeneratorToServiceParam <{}>, SHA <{}>", finalParam, sha256);
-
-                finalResult.append(sha256);
+        return (Object target, Method method, Object... params) -> {
+            StringBuilder finalResult = new StringBuilder();
+            finalResult.append(target.getClass().getSimpleName());
+            finalResult.append(":");
+            finalResult.append(method.getName());
+            finalResult.append(":");
+            if (params.length == 0) {
+                finalResult.append("noParams");
                 return finalResult.toString();
             }
+            // 只含有一个参数位置，并且是基础类型，则进行特殊处理
+            if (params.length == 1) {
+                Object param = params[0];
+                if (null == param) {
+                    finalResult.append("nullParams");
+                    return finalResult.toString();
+                }
+                Class<?> clazz = param.getClass();
+                if (checkClassBasicType(clazz)) {
+                    finalResult.append(param);
+                    return finalResult.toString();
+                }
+            }
+            // 非基础类型或多参数的场景
+            StringBuilder paramString = new StringBuilder();
+            for (int i = 0; i < params.length; i++) {
+                if (null == params[i]) {
+                    paramString.append("nullParams");
+                } else {
+                    if (params[i] instanceof String
+                            || params[i] instanceof Boolean
+                            || params[i] instanceof Character
+                            || params[i] instanceof Byte
+                            || params[i] instanceof Short
+                            || params[i] instanceof Integer
+                            || params[i] instanceof Long
+                            || params[i] instanceof Float
+                            || params[i] instanceof Double
+                            || params[i] instanceof BigDecimal
+                    ) {
+                        paramString.append(params[i]);
+                    } else {
+                        paramString.append(JsonUtil.toJsonStr(params[i]));
+                    }
+                }
+                if (i != params.length - 1) {
+                    paramString.append(":");
+                }
+            }
+
+            String finalParam = paramString.toString();
+            String sha256 = SecureUtil.sha256(finalParam);
+
+            log.debug("keyGeneratorToServiceParam <{}>, SHA <{}>", finalParam, sha256);
+
+            finalResult.append(sha256);
+            return finalResult.toString();
         };
     }
 

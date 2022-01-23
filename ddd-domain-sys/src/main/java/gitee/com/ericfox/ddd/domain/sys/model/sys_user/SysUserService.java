@@ -2,6 +2,7 @@ package gitee.com.ericfox.ddd.domain.sys.model.sys_user;
 
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.domain.sys.factory.SysUserFactory;
+import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseService;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoService;
@@ -15,13 +16,13 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service("sysUserService")
-@CacheConfig(cacheNames = "SysUserService", keyGenerator = "keyGenerator")
+@CacheConfig(cacheNames = "SysUserService", keyGenerator = Constants.KEY_GENERATOR)
 public class SysUserService implements BaseService<SysUser, SysUserEntity> {
     @Resource
     RepoService repoService;
 
     @Transactional(readOnly = true)
-    @Cacheable(keyGenerator = "keyGeneratorToServiceParam")
+    @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
     public SysUserAgg findById(Long id) {
         SysUserEntity sysUser = new SysUserEntity();
         sysUser.setId(id);
@@ -33,7 +34,7 @@ public class SysUserService implements BaseService<SysUser, SysUserEntity> {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(keyGenerator = "keyGeneratorToServiceParam")
+    @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
     public PageInfo<SysUserAgg> queryPage(SysUserEntity sysUser, int pageNum, int pageSize) {
         PageInfo sysUserPageInfo = repoService.queryPage(sysUser, pageNum, pageSize);
         List<SysUserAgg> list = SysUserFactory.createListAgg(sysUserPageInfo.getList());
@@ -42,7 +43,7 @@ public class SysUserService implements BaseService<SysUser, SysUserEntity> {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(keyGenerator = "keyGeneratorToServiceParam")
+    @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
     public List<SysUserAgg> queryList(SysUserEntity sysUser, int pageSize) {
         List<SysUserEntity> sysUsers = repoService.queryList(sysUser, pageSize);
         return SysUserFactory.createListAgg(sysUsers);
