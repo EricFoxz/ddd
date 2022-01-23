@@ -31,7 +31,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * 实现Lucene方式持久化
@@ -291,11 +293,16 @@ public class LuceneRepoStrategy implements RepoStrategy {
         }
         ScoreDoc[] scoreDoc = topDocs.scoreDocs;
         List<V> result = CollUtil.newArrayList();
-        for (ScoreDoc doc : scoreDoc) {
-            Document tmpDoc = indexSearcher.doc(doc.doc);
-            V entity = (V) ReflectUtil.newInstance(v.getClass());
-            result.add(entity.fromPo(parseToPo(tmpDoc, (Class<T>) t.getClass())));
-        }
+
+        Stream.of(scoreDoc).forEach(new Consumer<ScoreDoc>() {
+            @Override
+            @SneakyThrows
+            public void accept(ScoreDoc doc) {
+                Document tmpDoc = indexSearcher.doc(doc.doc);
+                V entity = (V) ReflectUtil.newInstance(v.getClass());
+                result.add(entity.fromPo(parseToPo(tmpDoc, (Class<T>) t.getClass())));
+            }
+        });
         return result;
     }
 
@@ -327,20 +334,19 @@ public class LuceneRepoStrategy implements RepoStrategy {
         } else {
             fields = declaredFields;
         }
-
         if (fields.length > 0) {
-            for (Field field : fields) {
+            Stream.of(fields).forEach(field -> {
                 field.setAccessible(true);// 私有属性必须设置访问权限
                 if (!field.isAnnotationPresent(LuceneFieldKey.class)) {
-                    continue;
+                    return;
                 }
                 LuceneFieldKey fieldKey = field.getAnnotation(LuceneFieldKey.class);
                 if (null == fieldKey) {
-                    continue;
+                    return;
                 }
                 String objectValue = document.get(field.getName());
                 if (StrUtil.isBlank(objectValue)) {
-                    continue;
+                    return;
                 }
                 LuceneFieldTypeEnum fieldTypeEnum = fieldKey.type();
                 if (LuceneFieldTypeEnum.STRING_FIELD.equals(fieldTypeEnum)) {
@@ -364,7 +370,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
                 } else {
                     throw new ProjectRepoException("lucene不支持其他类型，请重新配置搜索类型");
                 }
-            }
+            });
         }
         return t;
     }
@@ -408,57 +414,61 @@ public class LuceneRepoStrategy implements RepoStrategy {
         }
 
         if (fields.length > 0) {
-            for (Field field : fields) {
-                field.setAccessible(true);// 私有属性必须设置访问权限
-                if (!field.isAnnotationPresent(LuceneFieldKey.class)) {
-                    continue;
-                }
-                LuceneFieldKey fieldKey = field.getAnnotation(LuceneFieldKey.class);
-                if (null == fieldKey) {
-                    continue;
-                }
-                Object objectValue = field.get(t);
-                if (null == objectValue) {
-                    continue;
-                }
-                LuceneFieldTypeEnum fieldTypeEnum = fieldKey.type();
-                boolean needSort = fieldKey.needSort();
-                if (LuceneFieldTypeEnum.STRING_FIELD.equals(fieldTypeEnum)) {
-                    document.add(new StringField(field.getName(), (String) objectValue, org.apache.lucene.document.Field.Store.YES));
-                } else if (LuceneFieldTypeEnum.TEXT_FIELD.equals(fieldTypeEnum)) {
-                    document.add(new TextField(field.getName(), (String) objectValue, org.apache.lucene.document.Field.Store.YES));
-                } else if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
-                    Integer integerValue = (Integer) objectValue;
-                    document.add(new IntPoint(field.getName(), integerValue));
-                    document.add(new StoredField(field.getName(), integerValue));
-                    if (needSort) {
-                        document.add(new NumericDocValuesField(field.getName(), integerValue));
+            Stream.of(fields).forEach(new Consumer<Field>() {
+                @Override
+                @SneakyThrows
+                public void accept(Field field) {
+                    field.setAccessible(true);// 私有属性必须设置访问权限
+                    if (!field.isAnnotationPresent(LuceneFieldKey.class)) {
+                        return;
                     }
-                } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {
-                    Long longValue = (Long) objectValue;
-                    document.add(new LongPoint(field.getName(), longValue));
-                    document.add(new StoredField(field.getName(), longValue));
-                    if (needSort) {
-                        document.add(new NumericDocValuesField(field.getName(), longValue));
+                    LuceneFieldKey fieldKey = field.getAnnotation(LuceneFieldKey.class);
+                    if (null == fieldKey) {
+                        return;
                     }
-                } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(fieldTypeEnum)) {
-                    Double doubleValue = (Double) objectValue;
-                    document.add(new DoublePoint(field.getName(), doubleValue));
-                    document.add(new StoredField(field.getName(), doubleValue));
-                    if (needSort) {
-                        document.add(new DoubleDocValuesField(field.getName(), doubleValue));
+                    Object objectValue = field.get(t);
+                    if (null == objectValue) {
+                        return;
                     }
-                } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(fieldTypeEnum)) {
-                    if (objectValue instanceof BytesRef) {
-                        document.add(new BinaryDocValuesField(field.getName(), (BytesRef) objectValue));
-                    } else if (objectValue instanceof byte[]) {
-                        BytesRef bytesRef = new BytesRef((byte[]) objectValue);
-                        document.add(new BinaryDocValuesField(field.getName(), bytesRef));
+                    LuceneFieldTypeEnum fieldTypeEnum = fieldKey.type();
+                    boolean needSort = fieldKey.needSort();
+                    if (LuceneFieldTypeEnum.STRING_FIELD.equals(fieldTypeEnum)) {
+                        document.add(new StringField(field.getName(), (String) objectValue, org.apache.lucene.document.Field.Store.YES));
+                    } else if (LuceneFieldTypeEnum.TEXT_FIELD.equals(fieldTypeEnum)) {
+                        document.add(new TextField(field.getName(), (String) objectValue, org.apache.lucene.document.Field.Store.YES));
+                    } else if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
+                        Integer integerValue = (Integer) objectValue;
+                        document.add(new IntPoint(field.getName(), integerValue));
+                        document.add(new StoredField(field.getName(), integerValue));
+                        if (needSort) {
+                            document.add(new NumericDocValuesField(field.getName(), integerValue));
+                        }
+                    } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {
+                        Long longValue = (Long) objectValue;
+                        document.add(new LongPoint(field.getName(), longValue));
+                        document.add(new StoredField(field.getName(), longValue));
+                        if (needSort) {
+                            document.add(new NumericDocValuesField(field.getName(), longValue));
+                        }
+                    } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(fieldTypeEnum)) {
+                        Double doubleValue = (Double) objectValue;
+                        document.add(new DoublePoint(field.getName(), doubleValue));
+                        document.add(new StoredField(field.getName(), doubleValue));
+                        if (needSort) {
+                            document.add(new DoubleDocValuesField(field.getName(), doubleValue));
+                        }
+                    } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(fieldTypeEnum)) {
+                        if (objectValue instanceof BytesRef) {
+                            document.add(new BinaryDocValuesField(field.getName(), (BytesRef) objectValue));
+                        } else if (objectValue instanceof byte[]) {
+                            BytesRef bytesRef = new BytesRef((byte[]) objectValue);
+                            document.add(new BinaryDocValuesField(field.getName(), bytesRef));
+                        }
+                    } else {
+                        throw new ProjectRepoException("lucene不支持其他类型，请重新配置搜索类型");
                     }
-                } else {
-                    throw new ProjectRepoException("lucene不支持其他类型，请重新配置搜索类型");
                 }
-            }
+            });
         }
         return document;
     }
@@ -499,10 +509,6 @@ public class LuceneRepoStrategy implements RepoStrategy {
     }
 
     private static class EasyQuery {
-        public static Builder builder() {
-            return new Builder();
-        }
-
         /**
          * 根据entity构建lucene的Query
          *
@@ -523,202 +529,206 @@ public class LuceneRepoStrategy implements RepoStrategy {
         @SneakyThrows
         private static <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> Query parseCondition(Class<U> daoClass, T t, Map<String, Object> conditionMap) {
             BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
-            for (String key : conditionMap.keySet()) {
-                String fieldName = BaseCondition.getFieldByConditionKey(key);
-                String type = BaseCondition.getTypeByConditionKey(key);
-                Object value = conditionMap.get(key);
-                if (StrUtil.equals(type, BaseCondition.MATCH_ALL)) {
-                    queryBuilder.add(new MatchAllDocsQuery(), BooleanClause.Occur.MUST);
-                } else if (StrUtil.equals(type, BaseCondition.MATCH_NOTHING)) {
-                    queryBuilder.add(new MatchNoDocsQuery(), BooleanClause.Occur.MUST);
-                } else if (StrUtil.equals(type, BaseCondition.OR)) {
-                    queryBuilder.add(parseCondition(daoClass, t, ((BaseCondition<?>) conditionMap.get(key)).getConditionMap()), BooleanClause.Occur.SHOULD);
-                } else if (StrUtil.equals(key, BaseCondition.AND)) {
-                    queryBuilder.add(parseCondition(daoClass, t, ((BaseCondition<?>) conditionMap.get(key)).getConditionMap()), BooleanClause.Occur.MUST);
-                } else if (StrUtil.equals(key, BaseCondition.EQUALS)) {
-                    queryBuilder.add(new TermQuery(new Term(fieldName, value.toString())), BooleanClause.Occur.MUST);
-                } else if (StrUtil.equals(key, BaseCondition.NOT_EQUALS)) {
-                    queryBuilder.add(new TermQuery(new Term(fieldName, value.toString())), BooleanClause.Occur.MUST_NOT);
-                } else if (StrUtil.equals(key, BaseCondition.IS_NULL)) { //TODO-待验证 该Query是否是is null的意思
-                    queryBuilder.add(new TermQuery(new Term(fieldName)), BooleanClause.Occur.MUST_NOT);
-                } else if (StrUtil.equals(key, BaseCondition.IS_NOT_NULL)) { //TODO-待验证 该Query是否是is not null的意思
-                    queryBuilder.add(new TermQuery(new Term(fieldName)), BooleanClause.Occur.MUST);
-                } else if (StrUtil.equals(key, BaseCondition.REGEX)) {
-                    queryBuilder.add(new RegexpQuery(new Term(fieldName, ((Pattern) value).pattern())), BooleanClause.Occur.MUST);
-                } else {
-                    Field field = daoClass.getDeclaredField(fieldName);
-                    LuceneFieldKey fieldKey = null;
-                    if (!field.isAnnotationPresent(LuceneFieldKey.class) || (fieldKey = field.getAnnotation(LuceneFieldKey.class)) == null) {
-                        continue;
-                    }
-                    LuceneFieldTypeEnum fieldTypeEnum = fieldKey.type();
-                    boolean isString = LuceneFieldTypeEnum.STRING_FIELD.equals(fieldTypeEnum) || LuceneFieldTypeEnum.TEXT_FIELD.equals(fieldTypeEnum);
-                    if (StrUtil.equals(key, BaseCondition.GREAT_THAN)) {
-                        if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
-                            int i = Convert.toInt(value);
-                            if (i < Integer.MAX_VALUE) {
-                                i++;
-                            }
-                            queryBuilder.add(IntPoint.newRangeQuery(fieldName, i, Integer.MAX_VALUE), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {
-                            long l = Convert.toLong(value);
-                            if (l < Long.MAX_VALUE) {
-                                l++;
-                            }
-                            queryBuilder.add(LongPoint.newRangeQuery(fieldName, l, Long.MAX_VALUE), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(fieldTypeEnum)) {
-                            double d = Convert.toLong(value);
-                            if (d < Long.MAX_VALUE) {
-                                d += Double.MIN_VALUE;
-                            }
-                            queryBuilder.add(DoublePoint.newRangeQuery(fieldName, d, Double.MAX_VALUE), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(fieldTypeEnum)) {
-                            byte[] bytes = null;
-                            if (value instanceof byte[]) {
-                                bytes = (byte[]) value;
-                            } else if (value instanceof BytesRef) {
-                                bytes = ((BytesRef) value).bytes;
-                            }
-                            assert bytes != null;
-                            queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, bytes, BytesRef.EMPTY_BYTES), BooleanClause.Occur.MUST);
-                        } else if (isString) {
-                            log.warn("luceneRepoStrategy暂不支持字符串比大小");
-                        }
-                    } else if (StrUtil.equals(key, BaseCondition.GREAT_THAN_OR_EQUALS)) {
-                        if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
-                            queryBuilder.add(IntPoint.newRangeQuery(fieldName, Convert.toInt(value), Integer.MAX_VALUE), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {
-                            queryBuilder.add(LongPoint.newRangeQuery(fieldName, Convert.toLong(value), Long.MAX_VALUE), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(fieldTypeEnum)) {
-                            queryBuilder.add(DoublePoint.newRangeQuery(fieldName, Convert.toDouble(value), Double.MAX_VALUE), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(fieldTypeEnum)) {
-                            byte[] bytes = null;
-                            if (value instanceof byte[]) {
-                                bytes = (byte[]) value;
-                            } else if (value instanceof BytesRef) {
-                                bytes = ((BytesRef) value).bytes;
-                            }
-                            assert bytes != null;
-                            queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, bytes, BytesRef.EMPTY_BYTES), BooleanClause.Occur.MUST);
-                        } else if (isString) {
-                            log.warn("luceneRepoStrategy暂不支持字符串比大小");
-                        }
-                    } else if (StrUtil.equals(key, BaseCondition.LESS_THAN)) {
-                        if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
-                            Integer i = Convert.toInt(value);
-                            if (i > Integer.MIN_VALUE) {
-                                --i;
-                            }
-                            queryBuilder.add(IntPoint.newRangeQuery(fieldName, Integer.MIN_VALUE, i), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {
-                            Long l = Convert.toLong(value);
-                            if (l > Long.MIN_VALUE) {
-                                --l;
-                            }
-                            queryBuilder.add(LongPoint.newRangeQuery(fieldName, Long.MIN_VALUE, l), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(fieldTypeEnum)) {
-                            Double d = Convert.toDouble(value);
-                            if (d > Double.MIN_VALUE) {
-                                d -= Double.MIN_VALUE;
-                            }
-                            queryBuilder.add(DoublePoint.newRangeQuery(fieldName, Double.MIN_VALUE, d), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(fieldTypeEnum)) {
-                            byte[] bytes = null;
-                            if (value instanceof byte[]) {
-                                bytes = (byte[]) value;
-                            } else if (value instanceof BytesRef) {
-                                bytes = ((BytesRef) value).bytes;
-                            }
-                            assert bytes != null;
-                            queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, BytesRef.EMPTY_BYTES, bytes), BooleanClause.Occur.MUST);
-                        } else if (isString) {
-                            log.warn("luceneRepoStrategy暂不支持字符串比大小");
-                        }
-                    } else if (StrUtil.equals(key, BaseCondition.LESS_THAN_OR_EQUALS)) {
-                        if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
-                            queryBuilder.add(IntPoint.newRangeQuery(fieldName, Integer.MIN_VALUE, Convert.toInt(value)), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {
-                            queryBuilder.add(LongPoint.newRangeQuery(fieldName, Long.MIN_VALUE, Convert.toLong(value)), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(fieldTypeEnum)) {
-                            queryBuilder.add(DoublePoint.newRangeQuery(fieldName, Double.MIN_VALUE, Convert.toDouble(value)), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(fieldTypeEnum)) {
-                            byte[] bytes = null;
-                            if (value instanceof byte[]) {
-                                bytes = (byte[]) value;
-                            } else if (value instanceof BytesRef) {
-                                bytes = ((BytesRef) value).bytes;
-                            }
-                            assert bytes != null;
-                            queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, BytesRef.EMPTY_BYTES, bytes), BooleanClause.Occur.MUST);
-                        } else if (isString) {
-                            log.warn("luceneRepoStrategy暂不支持字符串比大小");
-                        }
-                    } else if (StrUtil.equals(key, BaseCondition.BETWEEN)) {
-                        List<?> list = (List<?>) value;
-                        Object v1 = list.get(0);
-                        Object v2 = list.get(1);
-                        if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
-                            queryBuilder.add(IntPoint.newRangeQuery(fieldName, Convert.toInt(v1), Convert.toInt(v2)), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {
-                            queryBuilder.add(LongPoint.newRangeQuery(fieldName, Convert.toLong(v1), Convert.toLong(v2)), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(fieldTypeEnum)) {
-                            queryBuilder.add(DoublePoint.newRangeQuery(fieldName, Convert.toDouble(v1), Convert.toLong(v2)), BooleanClause.Occur.MUST);
-                        } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(fieldTypeEnum)) {
-                            byte[] bytes1 = null;
-                            byte[] bytes2 = null;
-                            if (v1 instanceof byte[]) {
-                                bytes1 = (byte[]) v1;
-                                bytes2 = (byte[]) v2;
-                            } else if (v1 instanceof BytesRef) {
-                                bytes1 = ((BytesRef) v1).bytes;
-                                bytes2 = ((BytesRef) v2).bytes;
-                            }
-                            assert bytes1 != null;
-                            assert bytes2 != null;
-                            queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, bytes1, bytes2), BooleanClause.Occur.MUST);
-                        } else if (isString) {
-                            log.warn("luceneRepoStrategy暂不支持字符串比大小");
-                        }
-                    } else if (StrUtil.equals(key, BaseCondition.LIKE)) {
-                        queryBuilder.add(new PrefixQuery(new Term(value.toString())), BooleanClause.Occur.MUST);
-                    } else if (StrUtil.equals(key, BaseCondition.NOT_LIKE)) {
-                        queryBuilder.add(new PrefixQuery(new Term(value.toString())), BooleanClause.Occur.MUST_NOT);
-                    } else if (StrUtil.equals(key, BaseCondition.IN)) {
-                        List<?> list = (List<?>) value;
-                        if (CollUtil.isNotEmpty(list)) {
-                            Object v1 = list.get(0);
-                            if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
-                                queryBuilder.add(IntPoint.newSetQuery(fieldName, Convert.toList(Integer.class, list)), BooleanClause.Occur.MUST);
-                            } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {
-                                queryBuilder.add(LongPoint.newSetQuery(fieldName, Convert.toList(Long.class, list)), BooleanClause.Occur.MUST);
-                            } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(fieldTypeEnum)) {
-                                queryBuilder.add(DoublePoint.newSetQuery(fieldName, Convert.toList(Double.class, list)), BooleanClause.Occur.MUST);
-                            } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(fieldTypeEnum)) {
-                                byte[][] l = new byte[list.size()][];
-                                if (v1 instanceof byte[]) {
-                                    for (int i = 0; i < list.size(); i++) {
-                                        byte[] tmp = (byte[]) list.get(i);
-                                        l[i] = tmp;
-                                    }
-                                } else if (v1 instanceof BytesRef) {
-                                    for (int i = 0; i < list.size(); i++) {
-                                        BytesRef tmp = (BytesRef) list.get(i);
-                                        l[i] = tmp.bytes;
-                                    }
-                                }
-                                queryBuilder.add(BinaryPoint.newSetQuery(fieldName, l), BooleanClause.Occur.MUST);
-                            } else if (isString) {
-                                queryBuilder.add(new DocValuesTermsQuery(fieldName, ArrayUtil.toArray((List<String>) list, String.class)), BooleanClause.Occur.MUST);
-                            }
-                        } else {
-                            queryBuilder.add(new MatchNoDocsQuery(), BooleanClause.Occur.MUST);
-                        }
+            conditionMap.keySet().forEach(new Consumer<String>() {
+                @Override
+                @SneakyThrows
+                public void accept(String key) {
+                    String fieldName = BaseCondition.getFieldByConditionKey(key);
+                    String type = BaseCondition.getTypeByConditionKey(key);
+                    Object value = conditionMap.get(key);
+                    if (StrUtil.equals(type, BaseCondition.MATCH_ALL)) {
+                        queryBuilder.add(new MatchAllDocsQuery(), BooleanClause.Occur.MUST);
+                    } else if (StrUtil.equals(type, BaseCondition.MATCH_NOTHING)) {
+                        queryBuilder.add(new MatchNoDocsQuery(), BooleanClause.Occur.MUST);
+                    } else if (StrUtil.equals(type, BaseCondition.OR)) {
+                        queryBuilder.add(parseCondition(daoClass, t, ((BaseCondition<?>) conditionMap.get(key)).getConditionMap()), BooleanClause.Occur.SHOULD);
+                    } else if (StrUtil.equals(key, BaseCondition.AND)) {
+                        queryBuilder.add(parseCondition(daoClass, t, ((BaseCondition<?>) conditionMap.get(key)).getConditionMap()), BooleanClause.Occur.MUST);
+                    } else if (StrUtil.equals(key, BaseCondition.EQUALS)) {
+                        queryBuilder.add(new TermQuery(new Term(fieldName, value.toString())), BooleanClause.Occur.MUST);
+                    } else if (StrUtil.equals(key, BaseCondition.NOT_EQUALS)) {
+                        queryBuilder.add(new TermQuery(new Term(fieldName, value.toString())), BooleanClause.Occur.MUST_NOT);
+                    } else if (StrUtil.equals(key, BaseCondition.IS_NULL)) { //TODO-待验证 该Query是否是is null的意思
+                        queryBuilder.add(new TermQuery(new Term(fieldName)), BooleanClause.Occur.MUST_NOT);
+                    } else if (StrUtil.equals(key, BaseCondition.IS_NOT_NULL)) { //TODO-待验证 该Query是否是is not null的意思
+                        queryBuilder.add(new TermQuery(new Term(fieldName)), BooleanClause.Occur.MUST);
                     } else if (StrUtil.equals(key, BaseCondition.REGEX)) {
-                        Pattern pattern = (Pattern) value;
-                        queryBuilder.add(new RegexpQuery(new Term(fieldName, pattern.pattern())), BooleanClause.Occur.MUST);
+                        queryBuilder.add(new RegexpQuery(new Term(fieldName, ((Pattern) value).pattern())), BooleanClause.Occur.MUST);
+                    } else {
+                        Field field = daoClass.getDeclaredField(fieldName);
+                        LuceneFieldKey fieldKey = null;
+                        if (!field.isAnnotationPresent(LuceneFieldKey.class) || (fieldKey = field.getAnnotation(LuceneFieldKey.class)) == null) {
+                            return;
+                        }
+                        LuceneFieldTypeEnum fieldTypeEnum = fieldKey.type();
+                        boolean isString = LuceneFieldTypeEnum.STRING_FIELD.equals(fieldTypeEnum) || LuceneFieldTypeEnum.TEXT_FIELD.equals(fieldTypeEnum);
+                        if (StrUtil.equals(key, BaseCondition.GREAT_THAN)) {
+                            if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
+                                int i = Convert.toInt(value);
+                                if (i < Integer.MAX_VALUE) {
+                                    i++;
+                                }
+                                queryBuilder.add(IntPoint.newRangeQuery(fieldName, i, Integer.MAX_VALUE), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {
+                                long l = Convert.toLong(value);
+                                if (l < Long.MAX_VALUE) {
+                                    l++;
+                                }
+                                queryBuilder.add(LongPoint.newRangeQuery(fieldName, l, Long.MAX_VALUE), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(fieldTypeEnum)) {
+                                double d = Convert.toLong(value);
+                                if (d < Long.MAX_VALUE) {
+                                    d += Double.MIN_VALUE;
+                                }
+                                queryBuilder.add(DoublePoint.newRangeQuery(fieldName, d, Double.MAX_VALUE), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(fieldTypeEnum)) {
+                                byte[] bytes = null;
+                                if (value instanceof byte[]) {
+                                    bytes = (byte[]) value;
+                                } else if (value instanceof BytesRef) {
+                                    bytes = ((BytesRef) value).bytes;
+                                }
+                                assert bytes != null;
+                                queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, bytes, BytesRef.EMPTY_BYTES), BooleanClause.Occur.MUST);
+                            } else if (isString) {
+                                log.warn("luceneRepoStrategy暂不支持字符串比大小");
+                            }
+                        } else if (StrUtil.equals(key, BaseCondition.GREAT_THAN_OR_EQUALS)) {
+                            if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
+                                queryBuilder.add(IntPoint.newRangeQuery(fieldName, Convert.toInt(value), Integer.MAX_VALUE), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {
+                                queryBuilder.add(LongPoint.newRangeQuery(fieldName, Convert.toLong(value), Long.MAX_VALUE), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(fieldTypeEnum)) {
+                                queryBuilder.add(DoublePoint.newRangeQuery(fieldName, Convert.toDouble(value), Double.MAX_VALUE), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(fieldTypeEnum)) {
+                                byte[] bytes = null;
+                                if (value instanceof byte[]) {
+                                    bytes = (byte[]) value;
+                                } else if (value instanceof BytesRef) {
+                                    bytes = ((BytesRef) value).bytes;
+                                }
+                                assert bytes != null;
+                                queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, bytes, BytesRef.EMPTY_BYTES), BooleanClause.Occur.MUST);
+                            } else if (isString) {
+                                log.warn("luceneRepoStrategy暂不支持字符串比大小");
+                            }
+                        } else if (StrUtil.equals(key, BaseCondition.LESS_THAN)) {
+                            if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
+                                Integer i = Convert.toInt(value);
+                                if (i > Integer.MIN_VALUE) {
+                                    --i;
+                                }
+                                queryBuilder.add(IntPoint.newRangeQuery(fieldName, Integer.MIN_VALUE, i), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {
+                                Long l = Convert.toLong(value);
+                                if (l > Long.MIN_VALUE) {
+                                    --l;
+                                }
+                                queryBuilder.add(LongPoint.newRangeQuery(fieldName, Long.MIN_VALUE, l), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(fieldTypeEnum)) {
+                                Double d = Convert.toDouble(value);
+                                if (d > Double.MIN_VALUE) {
+                                    d -= Double.MIN_VALUE;
+                                }
+                                queryBuilder.add(DoublePoint.newRangeQuery(fieldName, Double.MIN_VALUE, d), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(fieldTypeEnum)) {
+                                byte[] bytes = null;
+                                if (value instanceof byte[]) {
+                                    bytes = (byte[]) value;
+                                } else if (value instanceof BytesRef) {
+                                    bytes = ((BytesRef) value).bytes;
+                                }
+                                assert bytes != null;
+                                queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, BytesRef.EMPTY_BYTES, bytes), BooleanClause.Occur.MUST);
+                            } else if (isString) {
+                                log.warn("luceneRepoStrategy暂不支持字符串比大小");
+                            }
+                        } else if (StrUtil.equals(key, BaseCondition.LESS_THAN_OR_EQUALS)) {
+                            if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
+                                queryBuilder.add(IntPoint.newRangeQuery(fieldName, Integer.MIN_VALUE, Convert.toInt(value)), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {
+                                queryBuilder.add(LongPoint.newRangeQuery(fieldName, Long.MIN_VALUE, Convert.toLong(value)), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(fieldTypeEnum)) {
+                                queryBuilder.add(DoublePoint.newRangeQuery(fieldName, Double.MIN_VALUE, Convert.toDouble(value)), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(fieldTypeEnum)) {
+                                byte[] bytes = null;
+                                if (value instanceof byte[]) {
+                                    bytes = (byte[]) value;
+                                } else if (value instanceof BytesRef) {
+                                    bytes = ((BytesRef) value).bytes;
+                                }
+                                assert bytes != null;
+                                queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, BytesRef.EMPTY_BYTES, bytes), BooleanClause.Occur.MUST);
+                            } else if (isString) {
+                                log.warn("luceneRepoStrategy暂不支持字符串比大小");
+                            }
+                        } else if (StrUtil.equals(key, BaseCondition.BETWEEN)) {
+                            List<?> list = (List<?>) value;
+                            Object v1 = list.get(0);
+                            Object v2 = list.get(1);
+                            if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
+                                queryBuilder.add(IntPoint.newRangeQuery(fieldName, Convert.toInt(v1), Convert.toInt(v2)), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {
+                                queryBuilder.add(LongPoint.newRangeQuery(fieldName, Convert.toLong(v1), Convert.toLong(v2)), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(fieldTypeEnum)) {
+                                queryBuilder.add(DoublePoint.newRangeQuery(fieldName, Convert.toDouble(v1), Convert.toLong(v2)), BooleanClause.Occur.MUST);
+                            } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(fieldTypeEnum)) {
+                                byte[] bytes1 = null;
+                                byte[] bytes2 = null;
+                                if (v1 instanceof byte[]) {
+                                    bytes1 = (byte[]) v1;
+                                    bytes2 = (byte[]) v2;
+                                } else if (v1 instanceof BytesRef) {
+                                    bytes1 = ((BytesRef) v1).bytes;
+                                    bytes2 = ((BytesRef) v2).bytes;
+                                }
+                                assert bytes1 != null;
+                                assert bytes2 != null;
+                                queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, bytes1, bytes2), BooleanClause.Occur.MUST);
+                            } else if (isString) {
+                                log.warn("luceneRepoStrategy暂不支持字符串比大小");
+                            }
+                        } else if (StrUtil.equals(key, BaseCondition.LIKE)) {
+                            queryBuilder.add(new PrefixQuery(new Term(value.toString())), BooleanClause.Occur.MUST);
+                        } else if (StrUtil.equals(key, BaseCondition.NOT_LIKE)) {
+                            queryBuilder.add(new PrefixQuery(new Term(value.toString())), BooleanClause.Occur.MUST_NOT);
+                        } else if (StrUtil.equals(key, BaseCondition.IN)) {
+                            List<?> list = (List<?>) value;
+                            if (CollUtil.isNotEmpty(list)) {
+                                Object v1 = list.get(0);
+                                if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
+                                    queryBuilder.add(IntPoint.newSetQuery(fieldName, Convert.toList(Integer.class, list)), BooleanClause.Occur.MUST);
+                                } else if (LuceneFieldTypeEnum.LONG_POINT.equals(fieldTypeEnum)) {
+                                    queryBuilder.add(LongPoint.newSetQuery(fieldName, Convert.toList(Long.class, list)), BooleanClause.Occur.MUST);
+                                } else if (LuceneFieldTypeEnum.DOUBLE_POINT.equals(fieldTypeEnum)) {
+                                    queryBuilder.add(DoublePoint.newSetQuery(fieldName, Convert.toList(Double.class, list)), BooleanClause.Occur.MUST);
+                                } else if (LuceneFieldTypeEnum.BINARY_POINT.equals(fieldTypeEnum)) {
+                                    byte[][] l = new byte[list.size()][];
+                                    if (v1 instanceof byte[]) {
+                                        for (int i = 0; i < list.size(); i++) {
+                                            byte[] tmp = (byte[]) list.get(i);
+                                            l[i] = tmp;
+                                        }
+                                    } else if (v1 instanceof BytesRef) {
+                                        for (int i = 0; i < list.size(); i++) {
+                                            BytesRef tmp = (BytesRef) list.get(i);
+                                            l[i] = tmp.bytes;
+                                        }
+                                    }
+                                    queryBuilder.add(BinaryPoint.newSetQuery(fieldName, l), BooleanClause.Occur.MUST);
+                                } else if (isString) {
+                                    queryBuilder.add(new DocValuesTermsQuery(fieldName, ArrayUtil.toArray((List<String>) list, String.class)), BooleanClause.Occur.MUST);
+                                }
+                            } else {
+                                queryBuilder.add(new MatchNoDocsQuery(), BooleanClause.Occur.MUST);
+                            }
+                        } else if (StrUtil.equals(key, BaseCondition.REGEX)) {
+                            Pattern pattern = (Pattern) value;
+                            queryBuilder.add(new RegexpQuery(new Term(fieldName, pattern.pattern())), BooleanClause.Occur.MUST);
+                        }
                     }
                 }
-            }
+            });
             return queryBuilder.build();
         }
 
@@ -734,13 +744,11 @@ public class LuceneRepoStrategy implements RepoStrategy {
             }
             Map<String, Object> map = BeanUtil.beanToMap(t);
             BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
-                String key = entry.getKey();
-                Object value = entry.getValue();
+            map.forEach((key, value) -> {
                 if (value != null) {
                     queryBuilder.add(exactValueQuery(daoClass, key, value), BooleanClause.Occur.MUST);
                 }
-            }
+            });
             return queryBuilder.build();
         }
 
@@ -756,10 +764,10 @@ public class LuceneRepoStrategy implements RepoStrategy {
                 return new MatchNoDocsQuery();
             }
             BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
-            for (Serializable id : valueList) {
+            valueList.forEach(id -> {
                 Query query = exactValueQuery(daoClass, idFieldName, id);
                 queryBuilder.add(query, BooleanClause.Occur.SHOULD);
-            }
+            });
             return queryBuilder.build();
         }
 
@@ -789,13 +797,6 @@ public class LuceneRepoStrategy implements RepoStrategy {
                 throw new ProjectRepoException("lucene未定义的映射类型：" + value);
             }
             return query;
-        }
-
-        public static class Builder {
-            public Query build() {
-                //TODO 待实现
-                return null;
-            }
         }
     }
 }
