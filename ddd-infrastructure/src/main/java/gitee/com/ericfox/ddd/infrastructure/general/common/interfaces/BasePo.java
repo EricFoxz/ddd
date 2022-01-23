@@ -5,6 +5,7 @@ import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReflectUtil;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
 public interface BasePo<T extends BasePo<T>> extends Serializable {
@@ -13,9 +14,9 @@ public interface BasePo<T extends BasePo<T>> extends Serializable {
     default List<String> fields() {
         Field[] fields = ReflectUtil.getFields(this.getClass());
         List<String> list = CollUtil.newArrayList();
-        for (Field field : fields) {
-            list.add(field.getName());
-        }
+        Arrays.stream(fields).forEach(field ->
+                list.add(field.getName())
+        );
         return list;
     }
 
