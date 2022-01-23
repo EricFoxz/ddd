@@ -7,6 +7,7 @@ import org.wltea.analyzer.lucene.IKAnalyzer;
 
 /**
  * Lucene抽象Dao
+ *
  * @param <T> Po实体类
  */
 public interface LuceneBaseDao<T extends BasePo<T>> extends BaseDao<T> {

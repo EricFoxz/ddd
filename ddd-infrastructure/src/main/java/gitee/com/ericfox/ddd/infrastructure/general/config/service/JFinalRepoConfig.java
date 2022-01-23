@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * JFinal持久化配置类
@@ -54,20 +55,24 @@ public class JFinalRepoConfig {
 
         //扫描PO，加载采用jFinal策略的类
         Set<Class<?>> classes = ClassUtil.scanPackage(BasePo.class.getPackage().getName());
-        for (Class<?> aClass : classes) {
-            String name = aClass.getName();
-            String className = aClass.getSimpleName();
-            if (aClass.isAnnotationPresent(OrmEnabledAnnotation.class)) {
-                OrmEnabledAnnotation annotation = aClass.getAnnotation(OrmEnabledAnnotation.class);
-                if (RepoTypeStrategyEnum.J_FINAL_REPO_STRATEGY.equals(annotation.type())) {
-                    Class<U> daoClass = ClassUtil.getDaoClassByPoClass((Class<T>) aClass, jFinalRepoStrategy);
-                    Method daoNameMethod = ReflectUtil.getMethodByName(daoClass, JFinalBaseDao.DAO_NAME_METHOD_NAME);
-                    String daoName = (String) daoNameMethod.invoke(null, (Object[]) null);
-                    Class<V> daoClassM = (Class<V>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName)).getClass();
-                    arp.addMapping(StrUtil.toUnderlineCase(className), annotation.value(), daoClassM);
+        classes.forEach(new Consumer<Class<?>>() {
+            @Override
+            @SneakyThrows
+            public void accept(Class<?> aClass) {
+                String name = aClass.getName();
+                String className = aClass.getSimpleName();
+                if (aClass.isAnnotationPresent(OrmEnabledAnnotation.class)) {
+                    OrmEnabledAnnotation annotation = aClass.getAnnotation(OrmEnabledAnnotation.class);
+                    if (RepoTypeStrategyEnum.J_FINAL_REPO_STRATEGY.equals(annotation.type())) {
+                        Class<U> daoClass = ClassUtil.getDaoClassByPoClass((Class<T>) aClass, jFinalRepoStrategy);
+                        Method daoNameMethod = ReflectUtil.getMethodByName(daoClass, JFinalBaseDao.DAO_NAME_METHOD_NAME);
+                        String daoName = (String) daoNameMethod.invoke(null, (Object[]) null);
+                        Class<V> daoClassM = (Class<V>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName)).getClass();
+                        arp.addMapping(StrUtil.toUnderlineCase(className), annotation.value(), daoClassM);
+                    }
                 }
             }
-        }
+        });
         arp.start();
         return arp;
     }

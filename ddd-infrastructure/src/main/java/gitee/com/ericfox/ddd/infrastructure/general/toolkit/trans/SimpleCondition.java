@@ -31,12 +31,11 @@ public class SimpleCondition implements BaseCondition<SimpleCondition> {
     private void init(BasePo<?> obj) {
         Map<String, Object> record = BeanUtil.beanToMap(obj);
         if (CollUtil.isNotEmpty(record)) {
-            for (Map.Entry<String, Object> entry : record.entrySet()) {
-                Object value = entry.getValue();
+            record.forEach((key, value) -> {
                 if (value != null) {
-                    appendCondition(entry.getKey(), EQUALS, value);
+                    appendCondition(key, EQUALS, value);
                 }
-            }
+            });
         }
     }
 
@@ -158,18 +157,18 @@ public class SimpleCondition implements BaseCondition<SimpleCondition> {
         }
         if (StrUtil.isBlank(field)) { //移除所有指定field的条件
             String s = field + SEPARATOR;
-            for (String key : condition.keySet()) {
+            condition.keySet().forEach(key -> {
                 if (key.startsWith(s)) {
                     condition.remove(key);
                 }
-            }
+            });
         } else if (StrUtil.isBlank(field)) { //移除所有指定type的条件
             String s = SEPARATOR + type;
-            for (String key : condition.keySet()) {
+            condition.keySet().forEach(key -> {
                 if (key.endsWith(s)) {
                     condition.remove(key);
                 }
-            }
+            });
         } else {
             String key = field + SEPARATOR + type;
             condition.remove(key);

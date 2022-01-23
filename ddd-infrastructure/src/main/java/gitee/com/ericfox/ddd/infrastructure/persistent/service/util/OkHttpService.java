@@ -30,11 +30,11 @@ public class OkHttpService {
         if (queries != null && queries.keySet().size() > 0) {
             fullUrl.append("?");
 
-            for (Map.Entry<String, String> entry : queries.entrySet()) {
-                if (StrUtil.isNotBlank(entry.getValue()) && !StrUtil.equalsIgnoreCase(entry.getValue(), "null")) {
-                    fullUrl.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
+            queries.forEach((key, value) -> {
+                if (StrUtil.isNotBlank(value) && !StrUtil.equalsIgnoreCase(value, "null")) {
+                    fullUrl.append(key).append("=").append(value).append("&");
                 }
-            }
+            });
 
             fullUrl.deleteCharAt(fullUrl.length() - 1);
         }
