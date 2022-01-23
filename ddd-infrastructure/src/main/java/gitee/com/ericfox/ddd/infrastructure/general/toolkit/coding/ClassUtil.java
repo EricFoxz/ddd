@@ -8,16 +8,19 @@ import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalR
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.LuceneRepoStrategy;
 import lombok.SneakyThrows;
 
+import java.util.List;
+
 @SuppressWarnings("unchecked")
 public class ClassUtil extends cn.hutool.core.util.ClassUtil {
     public static <T extends BasePo<T>, U extends BaseDao<T>> Class<U> getDaoClassByPoClass(Class<T> clazz, RepoStrategy strategy) {
         String fullName = clazz.getName();
         String simpleName = clazz.getSimpleName();
-        //TODO-待实现 区分各个domain的包
+        List<String> domainName = ReUtil.findAll("\\.([^.]+)\\." + simpleName, fullName, 1);
+        //TODO-适配更多持久化方式
         if (strategy instanceof LuceneRepoStrategy) {
-            return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", fullName) + ".repository.sys.lucene." + simpleName + "Dao");
+            return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", fullName) + ".repository." + domainName.get(0) + ".lucene." + simpleName + "Dao");
         } else if (strategy instanceof JFinalRepoStrategy) {
-            return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", fullName) + ".repository.sys.jfinal." + simpleName + "Dao");
+            return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", fullName) + ".repository." + domainName.get(0) + ".j_final." + simpleName + "Dao");
         }
         return null;
     }
