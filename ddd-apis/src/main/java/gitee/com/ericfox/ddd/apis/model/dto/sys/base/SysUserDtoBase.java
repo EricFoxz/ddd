@@ -7,9 +7,13 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDto;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.BeanUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Setter
+@Getter
 public abstract class SysUserDtoBase implements BaseDto<SysUser, SysUserEntity, SysUserDto> {
     @Override
     public SysUserDto fromEntity(SysUserEntity entity) {

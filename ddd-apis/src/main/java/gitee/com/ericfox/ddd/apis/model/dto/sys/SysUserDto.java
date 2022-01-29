@@ -3,9 +3,13 @@ package gitee.com.ericfox.ddd.apis.model.dto.sys;
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.apis.model.dto.sys.base.SysUserDtoBase;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Setter
+@Getter
 public class SysUserDto extends SysUserDtoBase {
     @Override
     public SysUserDto fromEntity(SysUserEntity entity) {

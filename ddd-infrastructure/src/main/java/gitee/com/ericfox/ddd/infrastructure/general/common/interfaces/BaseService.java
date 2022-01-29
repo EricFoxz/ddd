@@ -4,7 +4,7 @@ import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
-public interface BaseService<PO extends BasePo<PO>, ENTITY extends BaseEntity> {
+public interface BaseService<ENTITY extends BaseEntity> {
     <E extends ENTITY> E findById(Long id);
 
     <E extends ENTITY> PageInfo<E> queryPage(ENTITY entity, int pageNum, int pageSize);

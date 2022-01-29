@@ -8,7 +8,7 @@ public interface BaseEntity<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO,
 
     ENTITY fromPo(PO po);
 
-    <SERVICE extends BaseService<PO, ENTITY>> SERVICE getService();
+    <SERVICE extends BaseService<ENTITY>> SERVICE getService();
 
     default boolean create() {
         return getService().insert((ENTITY) this) != null;
