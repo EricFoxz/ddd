@@ -30,8 +30,6 @@ public abstract class SysUserServiceBase implements BaseService<SysUser, SysUser
     @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
     public PageInfo<SysUserEntity> queryPage(SysUserEntity sysUser, int pageNum, int pageSize) {
         PageInfo<SysUserEntity> sysUserPageInfo = repoService.queryPage(sysUser, pageNum, pageSize);
-        List<SysUserEntity> list = sysUserPageInfo.getList();
-        sysUserPageInfo.setList(list);
         return sysUserPageInfo;
     }
 

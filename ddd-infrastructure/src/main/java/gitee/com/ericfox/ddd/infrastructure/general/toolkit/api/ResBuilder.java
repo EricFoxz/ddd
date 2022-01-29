@@ -244,8 +244,8 @@ public class ResBuilder {
      * @return 根据内容及状态码创建一个ResponseEntity实体
      */
     public ResponseEntity<?> build() {
-        if(data != null && data instanceof Map) {
-            if(!((Map<?, ?>) data).containsKey("code")) {
+        if (data != null && data instanceof Map) {
+            if (!((Map<?, ?>) data).containsKey("code")) {
                 ((Map) data).put("code", statusCode.value());
             }
         }

@@ -82,7 +82,7 @@ public class OnPropertyEnumCondition<T extends BaseEnum<T, ?>> implements Condit
                     continue a;
                 }
             }
-            throw new ProjectFrameworkException("OnPropertyEnumCondition:checkValues "+enumStr + "不是枚举的有效值");
+            throw new ProjectFrameworkException("OnPropertyEnumCondition:checkValues " + enumStr + "不是枚举的有效值");
         }
     }
 }

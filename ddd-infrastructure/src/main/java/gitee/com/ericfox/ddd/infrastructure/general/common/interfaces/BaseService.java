@@ -4,10 +4,10 @@ import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
-public interface BaseService<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO, ENTITY>> {
-    ENTITY findById(Long id);
+public interface BaseService<PO extends BasePo<PO>, ENTITY extends BaseEntity> {
+    <E extends ENTITY> E findById(Long id);
 
-    PageInfo<ENTITY> queryPage(ENTITY entity, int pageNum, int pageSize);
+    <E extends ENTITY> PageInfo<E> queryPage(ENTITY entity, int pageNum, int pageSize);
 
     List<ENTITY> queryList(ENTITY entity, int pageSize);
 

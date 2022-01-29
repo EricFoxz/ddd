@@ -8,6 +8,8 @@ public interface BaseEntity<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO,
 
     ENTITY fromPo(PO po);
 
+    <SERVICE extends BaseService<PO, ENTITY>> SERVICE getService();
+
     default boolean create() {
         return getService().insert((ENTITY) this) != null;
     }
@@ -19,8 +21,6 @@ public interface BaseEntity<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO,
     default boolean update() {
         return getService().update((ENTITY) this);
     }
-
-    <U extends BaseService<PO, ENTITY>> U getService();
 
     BaseCondition<?> get_condition();
 

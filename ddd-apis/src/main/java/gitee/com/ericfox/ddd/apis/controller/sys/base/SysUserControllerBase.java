@@ -1,10 +1,11 @@
 package gitee.com.ericfox.ddd.apis.controller.sys.base;
 
 import com.github.pagehelper.PageInfo;
+import gitee.com.ericfox.ddd.apis.assembler.Dto;
 import gitee.com.ericfox.ddd.apis.controller.BaseController;
+import gitee.com.ericfox.ddd.apis.model.dto.sys.SysUserDto;
 import gitee.com.ericfox.ddd.apis.model.param.sys.sys_user.SysUserDetailParam;
 import gitee.com.ericfox.ddd.apis.model.param.sys.sys_user.SysUserPageParam;
-import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserAgg;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserService;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
@@ -22,30 +23,32 @@ public abstract class SysUserControllerBase implements BaseController<SysUser, S
 
     @GetMapping("/{id}")
     public ResponseEntity<?> detail(@PathVariable Long id) {
-        SysUserEntity sysUserEntity = sysUserService.findById(id);
-        return ResBuilder.defValue.success().setData(sysUserEntity).build();
+        SysUserDto sysUserDto = Dto.fromEntity(SysUserDto.class, sysUserService.findById(id));
+        return ResBuilder.defValue.success().setData(sysUserDto).build();
     }
 
     @GetMapping("/page/{pageNum}/{pageSize}")
     public ResponseEntity<?> page(SysUserPageParam sysUserPagePram) {
         SysUserEntity sysUserEntity = sysUserPagePram.toEntity();
         sysUserEntity.set_condition(sysUserEntity.toCondition());
-        PageInfo<SysUserEntity> sysUserAggPageInfo = sysUserService.queryPage(sysUserEntity, sysUserPagePram.getPageNum(), sysUserPagePram.getPageSize());
-        return ResBuilder.defValue.success().setData(sysUserAggPageInfo).build();
+        PageInfo<SysUserDto> pageInfo = Dto.fromEntityPage(SysUserDto.class, sysUserService.queryPage(sysUserEntity, sysUserPagePram.getPageNum(), sysUserPagePram.getPageSize()));
+        return ResBuilder.defValue.success().setData(pageInfo).build();
     }
 
     @Override
     @GetMapping("/list/{pageSize}")
     public ResponseEntity<?> list(SysUserPageParam param) {
-        List<SysUserEntity> sysUserAggs = sysUserService.queryList(param.toEntity(), param.getPageSize());
-        return ResBuilder.defValue.success().setData(sysUserAggs).build();
+        List<SysUserEntity> sysUserEntityList = sysUserService.queryList(param.toEntity(), param.getPageSize());
+        List<SysUserDto> list = Dto.fromEntityList(SysUserDto.class, sysUserEntityList);
+        return ResBuilder.defValue.success().setData(list).build();
     }
 
     @Override
     @PutMapping("/create")
     public ResponseEntity<?> create(@RequestBody SysUserEntity sysUser) {
         sysUserService.insert(sysUser);
-        return ResBuilder.defValue.created().setData(sysUser).build();
+        SysUserDto dto = Dto.fromEntity(SysUserDto.class, sysUser);
+        return ResBuilder.defValue.created().setData(dto).build();
     }
 
     @Override
