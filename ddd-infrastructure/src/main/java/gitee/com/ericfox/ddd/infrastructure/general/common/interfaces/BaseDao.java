@@ -5,12 +5,12 @@ import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReflectUtil;
 
 import java.io.Serializable;
 
-public interface BaseDao<T extends BasePo<T>> {
+public interface BaseDao<PO extends BasePo<PO>> {
     String TO_PO_METHOD_NAME = "toPo";
 
     Serializable getId();
 
-    Class<T> poClass();
+    Class<PO> poClass();
 
     default String primaryKeyFieldName() {
         return "id";
@@ -19,9 +19,9 @@ public interface BaseDao<T extends BasePo<T>> {
     /**
      * 由Dao转换为实体
      */
-    default BasePo<T> toPo() {
-        Class<T> clazz = poClass();
-        T po = ReflectUtil.newInstance(clazz);
+    default BasePo<PO> toPo() {
+        Class<PO> clazz = poClass();
+        PO po = ReflectUtil.newInstance(clazz);
         BeanUtil.copyProperties(this, po, false);
         return po;
     }

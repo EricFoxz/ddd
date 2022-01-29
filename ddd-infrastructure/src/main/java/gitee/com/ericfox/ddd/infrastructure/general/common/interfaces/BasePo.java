@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
-public interface BasePo<T extends BasePo<T>> extends Serializable {
+public interface BasePo<PO extends BasePo<PO>> extends Serializable {
     Serializable getId();
 
     default List<String> fields() {

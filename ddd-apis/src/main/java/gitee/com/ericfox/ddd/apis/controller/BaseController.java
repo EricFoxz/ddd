@@ -6,16 +6,16 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BasePo;
 import org.springframework.http.ResponseEntity;
 
-public interface BaseController<T extends BasePo<T>, V extends BaseEntity<T, V>, M extends BasePageParam<T, V>, N extends BaseDetailParam<T, V>> {
+public interface BaseController<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO, ENTITY>, PARAM extends BasePageParam<PO, ENTITY>, N extends BaseDetailParam<PO, ENTITY>> {
     ResponseEntity<?> detail(Long id);
 
-    ResponseEntity<?> page(M param);
+    ResponseEntity<?> page(PARAM param);
 
-    ResponseEntity<?> list(M param);
+    ResponseEntity<?> list(PARAM param);
 
-    ResponseEntity<?> create(V v);
+    ResponseEntity<?> create(ENTITY v);
 
-    ResponseEntity<?> edit(V v);
+    ResponseEntity<?> edit(ENTITY ENTITY);
 
-    ResponseEntity<?> remove(V v);
+    ResponseEntity<?> remove(ENTITY ENTITY);
 }

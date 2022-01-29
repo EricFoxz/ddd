@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface OrmEnabledAnnotation {
+public @interface RepoEnabledAnnotation {
     /**
      * 数据主键
      */

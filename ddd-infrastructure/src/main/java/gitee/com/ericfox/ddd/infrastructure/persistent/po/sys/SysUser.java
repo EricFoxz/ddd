@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.po.sys;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.OrmEnabledAnnotation;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BasePo;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@OrmEnabledAnnotation(type = RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY)
+@RepoEnabledAnnotation(type = RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY)
 public class SysUser implements BasePo<SysUser> {
     public static final class STRUCTURE {
         public static String table = "sys_user";

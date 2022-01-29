@@ -12,7 +12,7 @@ import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class ClassUtil extends cn.hutool.core.util.ClassUtil {
-    public static <T extends BasePo<T>, U extends BaseDao<T>> Class<U> getDaoClassByPoClass(Class<T> clazz, RepoStrategy strategy) {
+    public static <PO extends BasePo<PO>, DAO extends BaseDao<PO>> Class<DAO> getDaoClassByPoClass(Class<PO> clazz, RepoStrategy strategy) {
         String fullName = clazz.getName();
         String simpleName = clazz.getSimpleName();
         List<String> domainName = ReUtil.findAll("\\.([^.]+)\\." + simpleName, fullName, 1);
@@ -25,16 +25,16 @@ public class ClassUtil extends cn.hutool.core.util.ClassUtil {
         return null;
     }
 
-    public static <T extends BasePo<T>, U extends BaseDao<T>> Class<U> getDaoClassByPo(T t, RepoStrategy strategy) {
-        return getDaoClassByPoClass((Class<T>) t.getClass(), strategy);
+    public static <PO extends BasePo<PO>, DAO extends BaseDao<PO>> Class<DAO> getDaoClassByPo(PO po, RepoStrategy strategy) {
+        return getDaoClassByPoClass((Class<PO>) po.getClass(), strategy);
     }
 
     @SneakyThrows
-    public static <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> String getTableNameByPoClass(Class<T> clazz) {
+    public static <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> String getTableNameByPoClass(Class<PO> clazz) {
         return (String) clazz.getDeclaredClasses()[0].getField("table").get(null);
     }
 
-    public static <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> String getTableNameByPo(T t) {
+    public static <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> String getTableNameByPo(PO t) {
         return getTableNameByPoClass(t.getClass());
     }
 }

@@ -8,9 +8,9 @@ import org.wltea.analyzer.lucene.IKAnalyzer;
 /**
  * Lucene抽象Dao
  *
- * @param <T> Po实体类
+ * @param <PO> Po实体类
  */
-public interface LuceneBaseDao<T extends BasePo<T>> extends BaseDao<T> {
+public interface LuceneBaseDao<PO extends BasePo<PO>> extends BaseDao<PO> {
     /**
      * 获取该文档的分词器
      */

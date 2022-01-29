@@ -27,31 +27,31 @@ import java.util.regex.Pattern;
 public class JFinalRepoStrategy implements RepoStrategy {
     private static final CopyOptions updateCopyOptions = CopyOptions.create().ignoreCase().ignoreNullValue();
 
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> V findById(V v) {
-        T t = v.toPo();
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> ENTITY findById(ENTITY entity) {
+        PO t = entity.toPo();
         JFinalBaseDao dao = getDao(t);
-        Model<?> result = dao.findById(BeanUtil.getProperty(t, T.STRUCTURE.id));
+        Model<?> result = dao.findById(BeanUtil.getProperty(t, PO.STRUCTURE.id));
         BeanUtil.copyProperties(result.toRecord().getColumns(), t, false);
-        return v.fromPo(t);
+        return entity.fromPo(t);
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean deleteById(V v) {
-        T t = v.toPo();
-        JFinalBaseDao dao = getDao(t);
-        return dao.deleteById(BeanUtil.getProperty(t, T.STRUCTURE.id));
+    public <PO extends BasePo<PO>, U extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean deleteById(ENTITY entity) {
+        PO po = entity.toPo();
+        JFinalBaseDao dao = getDao(po);
+        return dao.deleteById(BeanUtil.getProperty(po, PO.STRUCTURE.id));
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean multiDeleteById(List<V> v) {
-        if (CollUtil.isEmpty(v)) {
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean multiDeleteById(List<ENTITY> entityList) {
+        if (CollUtil.isEmpty(entityList)) {
             return true;
         }
         List<Serializable> idList = CollUtil.newArrayList();
-        JFinalBaseDao dao = getDao(v.get(0).toPo());
-        for (V tmp : v) {
-            T t = tmp.toPo();
-            Serializable id = BeanUtil.getProperty(t, T.STRUCTURE.id);
+        JFinalBaseDao dao = getDao(entityList.get(0).toPo());
+        for (ENTITY tmp : entityList) {
+            PO t = tmp.toPo();
+            Serializable id = BeanUtil.getProperty(t, PO.STRUCTURE.id);
             idList.add(id);
         }
         dao.deleteByIds(idList);
@@ -59,51 +59,51 @@ public class JFinalRepoStrategy implements RepoStrategy {
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean multiDeleteById(V... v) {
-        if (ArrayUtil.isEmpty(v)) {
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean multiDeleteById(ENTITY... entities) {
+        if (ArrayUtil.isEmpty(entities)) {
             return true;
         }
-        return multiDeleteById(CollUtil.newArrayList(v));
+        return multiDeleteById(CollUtil.newArrayList(entities));
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> V insert(V v) {
-        T t = v.toPo();
-        JFinalBaseDao dao = getDao(t);
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> ENTITY insert(ENTITY entity) {
+        PO po = entity.toPo();
+        JFinalBaseDao dao = getDao(po);
         Model<?> result = dao.put(dao);
-        BeanUtil.copyProperties(result.toRecord().getColumns(), t, false);
-        return v;
+        BeanUtil.copyProperties(result.toRecord().getColumns(), po, false);
+        return entity;
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean multiInsert(List<V> v) {
-        if (CollUtil.isEmpty(v)) {
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean multiInsert(List<ENTITY> entityList) {
+        if (CollUtil.isEmpty(entityList)) {
             return true;
         }
-        JFinalBaseDao dao = getDao(v.get(0).toPo());
-        return dao.multiInsert(v, v.size());
+        JFinalBaseDao dao = getDao(entityList.get(0).toPo());
+        return dao.multiInsert(entityList, entityList.size());
     }
 
     @SafeVarargs
     @Override
-    public final <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean multiInsert(V... v) {
-        return multiInsert(CollUtil.newArrayList(v));
+    public final <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean multiInsert(ENTITY... entities) {
+        return multiInsert(CollUtil.newArrayList(entities));
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean updateById(V v) {
-        T t = v.toPo();
-        JFinalBaseDao dao = getDao(t);
-        t = (T) dao.findById(BeanUtil.getProperty(t, T.STRUCTURE.id));
-        BeanUtil.copyProperties(t, dao, updateCopyOptions);
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean updateById(ENTITY entity) {
+        PO po = entity.toPo();
+        JFinalBaseDao dao = getDao(po);
+        po = (PO) dao.findById(BeanUtil.getProperty(po, PO.STRUCTURE.id));
+        BeanUtil.copyProperties(po, dao, updateCopyOptions);
         return dao.update();
     }
 
     @Override
     @SneakyThrows
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> PageInfo<V> queryPage(V v, int pageNum, int pageSize) {
-        T t = v.toPo();
-        SQL whereSql = EasyQuery.parseWhereCondition(v, true);
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> PageInfo<ENTITY> queryPage(ENTITY entity, int pageNum, int pageSize) {
+        PO t = entity.toPo();
+        SQL whereSql = EasyQuery.parseWhereCondition(entity, true);
         SqlPara sqlPara = new SqlPara();
         String tableName = (String) t.getClass().getDeclaredClasses()[0].getField("table").get(null);
         sqlPara.setSql("SELECT " + CollUtil.join(t.fields(), ",") + " FROM " + tableName + whereSql.toString());
@@ -111,16 +111,16 @@ public class JFinalRepoStrategy implements RepoStrategy {
             sqlPara.addPara(value);
         }
         Page<Record> paginate = Db.paginate(pageNum, pageSize, sqlPara);
-        List<V> result = CollUtil.newArrayList();
+        List<ENTITY> result = CollUtil.newArrayList();
         if (paginate.getList() != null) {
             for (Record tmp : paginate.getList()) {
-                T po = ReflectUtil.newInstance((Class<T>) t.getClass());
-                BeanUtil.copyProperties(tmp.getColumns(), po, false);
-                V vInstance = (V) ReflectUtil.newInstance(v.getClass());
-                result.add(vInstance.fromPo(po));
+                PO tmpPo = ReflectUtil.newInstance((Class<PO>) t.getClass());
+                BeanUtil.copyProperties(tmp.getColumns(), tmpPo, false);
+                ENTITY vInstance = (ENTITY) ReflectUtil.newInstance(entity.getClass());
+                result.add(vInstance.fromPo(tmpPo));
             }
         }
-        PageInfo<V> pageInfo = new PageInfo<>();
+        PageInfo<ENTITY> pageInfo = new PageInfo<>();
         pageInfo.setPageNum(paginate.getPageNumber());
         pageInfo.setPageSize(paginate.getPageSize());
         pageInfo.setTotal(paginate.getTotalRow());
@@ -130,44 +130,44 @@ public class JFinalRepoStrategy implements RepoStrategy {
 
     @Override
     @SneakyThrows
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> List<V> queryList(V v, int limit) {
-        T t = v.toPo();
-        SQL whereSql = EasyQuery.parseWhereCondition(v, true);
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> List<ENTITY> queryList(ENTITY entity, int limit) {
+        PO po = entity.toPo();
+        SQL whereSql = EasyQuery.parseWhereCondition(entity, true);
         SqlPara sqlPara = new SqlPara();
-        String tableName = (String) t.getClass().getDeclaredClasses()[0].getField("table").get(null);
-        sqlPara.setSql("SELECT " + CollUtil.join(t.fields(), ",") + " FROM " + tableName + whereSql.toString());
+        String tableName = (String) po.getClass().getDeclaredClasses()[0].getField("table").get(null);
+        sqlPara.setSql("SELECT " + CollUtil.join(po.fields(), ",") + " FROM " + tableName + whereSql.toString());
         for (Object value : whereSql.getParamList()) {
             sqlPara.addPara(value);
         }
         List<Record> list = Db.find(sqlPara);
-        List<V> result = CollUtil.newArrayList();
+        List<ENTITY> result = CollUtil.newArrayList();
         if (list != null) {
             for (Record tmp : list) {
-                T po = ReflectUtil.newInstance((Class<T>) t.getClass());
-                BeanUtil.copyProperties(tmp.getColumns(), po, false);
-                BeanUtil.copyProperties(tmp.getColumns(), po, false);
-                V vInstance = (V) ReflectUtil.newInstance(v.getClass());
-                result.add(vInstance.fromPo(po));
+                PO tmpPo = ReflectUtil.newInstance((Class<PO>) po.getClass());
+                BeanUtil.copyProperties(tmp.getColumns(), tmpPo, false);
+                BeanUtil.copyProperties(tmp.getColumns(), tmpPo, false);
+                ENTITY vInstance = (ENTITY) ReflectUtil.newInstance(entity.getClass());
+                result.add(vInstance.fromPo(tmpPo));
             }
         }
         return result;
     }
 
     @SneakyThrows
-    private <T extends BasePo<T>, U extends JFinalBaseDao<T, U>> JFinalBaseDao<T, U> getDao(T t) {
-        Method toPoMethod = ClassUtil.getPublicMethod(t.getClass(), JFinalBaseDao.TO_PO_METHOD_NAME, (Class<?>) null);
+    private <PO extends BasePo<PO>, DAO extends JFinalBaseDao<PO, DAO>> JFinalBaseDao<PO, DAO> getDao(PO po) {
+        Method toPoMethod = ClassUtil.getPublicMethod(po.getClass(), JFinalBaseDao.TO_PO_METHOD_NAME, (Class<?>) null);
         if (toPoMethod != null) {
-            t = ReflectUtil.invoke(t, toPoMethod, (Object) null);
+            po = ReflectUtil.invoke(po, toPoMethod, (Object) null);
         }
-        Class<U> daoClass = ClassUtil.getDaoClassByPo(t, this);
+        Class<DAO> daoClass = ClassUtil.getDaoClassByPo(po, this);
         return ReflectUtil.newInstance(daoClass);
     }
 
 
     private static class EasyQuery {
-        public static <T extends BasePo<T>, U extends JFinalBaseDao<T, U>, V extends BaseEntity<T, V>> SQL parseWhereCondition(V v, boolean matchAllIfEmpty) {
+        public static <PO extends BasePo<PO>, DAO extends JFinalBaseDao<PO, DAO>, ENTITY extends BaseEntity<PO, ENTITY>> SQL parseWhereCondition(ENTITY entity, boolean matchAllIfEmpty) {
             SQL sql = SQL.getInstance().where();
-            BaseCondition<?> condition = v.get_condition();
+            BaseCondition<?> condition = entity.get_condition();
             if (condition == null) {
                 return matchAllIfEmpty ? sql.matchAll() : sql.matchNothing();
             }
@@ -180,7 +180,7 @@ public class JFinalRepoStrategy implements RepoStrategy {
             return parseWhereCondition(conditionMap, sql);
         }
 
-        private static <T extends BasePo<T>, U extends JFinalBaseDao<T, U>, V extends BaseEntity<T, V>> SQL parseWhereCondition(Map<String, Object> conditionMap, SQL sql) {
+        private static <PO extends BasePo<PO>, DAO extends JFinalBaseDao<PO, DAO>, ENTITY extends BaseEntity<PO, ENTITY>> SQL parseWhereCondition(Map<String, Object> conditionMap, SQL sql) {
             conditionMap.keySet().forEach(key -> {
                 String fieldName = BaseCondition.getFieldByConditionKey(key);
                 String type = BaseCondition.getTypeByConditionKey(key);

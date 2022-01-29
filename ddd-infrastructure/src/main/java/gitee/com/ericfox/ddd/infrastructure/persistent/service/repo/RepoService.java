@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo;
 
 import com.github.pagehelper.PageInfo;
-import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.OrmEnabledAnnotation;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
@@ -37,79 +37,79 @@ public class RepoService implements RepoStrategy {
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> V findById(V t) {
-        String beanName = getBeanName(t);
-        return strategyMap.get(beanName).findById(t);
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> ENTITY findById(ENTITY entity) {
+        String beanName = getBeanName(entity);
+        return strategyMap.get(beanName).findById(entity);
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean deleteById(V v) {
-        String beanName = getBeanName(v);
-        return strategyMap.get(beanName).deleteById(v);
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean deleteById(ENTITY entity) {
+        String beanName = getBeanName(entity);
+        return strategyMap.get(beanName).deleteById(entity);
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean multiDeleteById(List<V> v) {
-        if (CollUtil.isNotEmpty(v)) {
-            String beanName = getBeanName(v.get(0));
-            return strategyMap.get(beanName).multiDeleteById(v);
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean multiDeleteById(List<ENTITY> entityList) {
+        if (CollUtil.isNotEmpty(entityList)) {
+            String beanName = getBeanName(entityList.get(0));
+            return strategyMap.get(beanName).multiDeleteById(entityList);
         }
         return true;
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean multiDeleteById(V... t) {
-        if (ArrayUtil.isNotEmpty(t)) {
-            String beanName = getBeanName(t[0]);
-            return strategyMap.get(beanName).multiDeleteById(t);
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean multiDeleteById(ENTITY... entities) {
+        if (ArrayUtil.isNotEmpty(entities)) {
+            String beanName = getBeanName(entities[0]);
+            return strategyMap.get(beanName).multiDeleteById(entities);
         }
         return true;
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> V insert(V t) {
-        String beanName = getBeanName(t);
-        return strategyMap.get(beanName).insert(t);
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> ENTITY insert(ENTITY entity) {
+        String beanName = getBeanName(entity);
+        return strategyMap.get(beanName).insert(entity);
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean multiInsert(List<V> t) {
-        if (CollUtil.isNotEmpty(t)) {
-            String beanName = getBeanName(t.get(0));
-            return strategyMap.get(beanName).multiInsert(t);
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean multiInsert(List<ENTITY> entityList) {
+        if (CollUtil.isNotEmpty(entityList)) {
+            String beanName = getBeanName(entityList.get(0));
+            return strategyMap.get(beanName).multiInsert(entityList);
         }
         return true;
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean multiInsert(V... v) {
-        if (ArrayUtil.isNotEmpty(v)) {
-            String beanName = getBeanName(v[0]);
-            return strategyMap.get(beanName).multiInsert(v);
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean multiInsert(ENTITY... entities) {
+        if (ArrayUtil.isNotEmpty(entities)) {
+            String beanName = getBeanName(entities[0]);
+            return strategyMap.get(beanName).multiInsert(entities);
         }
         return true;
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> boolean updateById(V v) {
-        String beanName = getBeanName(v);
-        return strategyMap.get(beanName).updateById(v);
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean updateById(ENTITY entity) {
+        String beanName = getBeanName(entity);
+        return strategyMap.get(beanName).updateById(entity);
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> PageInfo<V> queryPage(V v, int pageNum, int pageSize) {
-        String beanName = getBeanName(v);
-        return strategyMap.get(beanName).queryPage(v, pageNum, pageSize);
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> PageInfo<ENTITY> queryPage(ENTITY entity, int pageNum, int pageSize) {
+        String beanName = getBeanName(entity);
+        return strategyMap.get(beanName).queryPage(entity, pageNum, pageSize);
     }
 
     @Override
-    public <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> List<V> queryList(V v, int limit) {
-        String beanName = getBeanName(v);
-        return strategyMap.get(beanName).queryList(v, limit);
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> List<ENTITY> queryList(ENTITY entity, int limit) {
+        String beanName = getBeanName(entity);
+        return strategyMap.get(beanName).queryList(entity, limit);
     }
 
-    private <T extends BasePo<T>, U extends BaseDao<T>, V extends BaseEntity<T, V>> String getBeanName(V v) {
-        OrmEnabledAnnotation declaredAnnotation = v.toPo().getClass().getDeclaredAnnotation(OrmEnabledAnnotation.class);
+    private <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> String getBeanName(ENTITY entity) {
+        RepoEnabledAnnotation declaredAnnotation = entity.toPo().getClass().getDeclaredAnnotation(RepoEnabledAnnotation.class);
         if (declaredAnnotation == null) {
             if (repoStrategy == null) {
                 repoStrategy = serviceProperties.getRepoStrategy().getDefaultStrategy().toBizEnum();

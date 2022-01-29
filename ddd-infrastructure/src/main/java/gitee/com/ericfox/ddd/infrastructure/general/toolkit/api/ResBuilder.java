@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.general.toolkit.api;
 
+import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ApiProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.JsonUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.SpringUtil;
@@ -20,41 +21,41 @@ public class ResBuilder {
 
     public static class defValue {
         public static ResBuilder created() {
-            return ResBuilder.hashMapData().status(201);
+            return ResBuilder.hashMapData().setStatus(201);
         }
 
         public static ResBuilder success() {
-            return ResBuilder.hashMapData().message("请求成功").status(HttpStatus.OK);
+            return ResBuilder.hashMapData().setMessage("请求成功").setStatus(HttpStatus.OK);
         }
 
         public static ResBuilder noContent() {
-            return ResBuilder.hashMapData().message("请求成功").status(HttpStatus.NO_CONTENT);
+            return ResBuilder.hashMapData().setMessage("请求成功").setStatus(HttpStatus.NO_CONTENT);
         }
 
         public static ResBuilder badRequest(Exception e) {
             log.warn(e.getMessage(), e);
-            return ResBuilder.hashMapData().message("传入参数错误").error(e).status(HttpStatus.BAD_REQUEST);
+            return ResBuilder.hashMapData().setMessage("传入参数错误").error(e).setStatus(HttpStatus.BAD_REQUEST);
         }
 
         public static ResBuilder unauthorized() {
             Exception e = new Exception("未获得权限认证");
             log.error(e.getMessage(), e);
-            return ResBuilder.hashMapData().message("未获得权限认证").status(HttpStatus.UNAUTHORIZED);
+            return ResBuilder.hashMapData().setMessage("未获得权限认证").setStatus(HttpStatus.UNAUTHORIZED);
         }
 
         public static ResBuilder forbidden(Exception e) {
             log.error(e.getMessage(), e);
-            return ResBuilder.hashMapData().message("权限不够，请勿重复请求").status(HttpStatus.FORBIDDEN);
+            return ResBuilder.hashMapData().setMessage("权限不够，请勿重复请求").setStatus(HttpStatus.FORBIDDEN);
         }
 
         public static ResBuilder internalServerError(Exception e) {
             log.error(e.getMessage(), e);
-            return ResBuilder.hashMapData().message("服务器错误，请联系开发人员").error(e).status(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResBuilder.hashMapData().setMessage("服务器错误，请联系开发人员").error(e).setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         public static ResBuilder serviceUnavailable(Exception e) {
             log.error(e.getMessage(), e);
-            return ResBuilder.hashMapData().message("服务维护中，请联系开发人员").error(e).status(HttpStatus.SERVICE_UNAVAILABLE);
+            return ResBuilder.hashMapData().setMessage("服务维护中，请联系开发人员").error(e).setStatus(HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 
@@ -104,6 +105,35 @@ public class ResBuilder {
     }
 
     /**
+     * 向ResponseBody的data字段存入数据
+     *
+     * @param value 值
+     * @return this
+     */
+    public ResBuilder setData(Object value) {
+        return put("data", value);
+    }
+
+    /**
+     * 向ResponseBody的data字段存入数据
+     *
+     * @param key   键
+     * @param value 值
+     * @return this
+     */
+    public ResBuilder putIntoData(String key, Object value) {
+        if (this.data == null) {
+            hashMapData();
+        }
+        if (this.data instanceof Map) {
+            ((Map<String, Object>) this.data).put(key, value);
+            return this;
+        } else {
+            throw new ProjectFrameworkException("ResBuilder:putData data字段并非Map，不能执行put");
+        }
+    }
+
+    /**
      * 向ResponseBody存入数据
      *
      * @param key   键
@@ -148,7 +178,12 @@ public class ResBuilder {
         return JsonUtil.toJsonStr(data);
     }
 
-    public ResBuilder message(String str) {
+    /**
+     * 设置报文中的message字段
+     *
+     * @param str massage字段
+     */
+    public ResBuilder setMessage(String str) {
         if (data == null) {
             data = new HashMap<String, Object>();
         }
@@ -191,7 +226,7 @@ public class ResBuilder {
      *                   *                   504 网关超时
      * @return this
      */
-    public ResBuilder status(HttpStatus statusCode) {
+    public ResBuilder setStatus(HttpStatus statusCode) {
         this.statusCode = statusCode;
         return this;
     }
@@ -200,7 +235,7 @@ public class ResBuilder {
      * @param statusCode HTTP状态码
      * @return this
      */
-    public ResBuilder status(int statusCode) {
+    public ResBuilder setStatus(int statusCode) {
         this.statusCode = HttpStatus.resolve(statusCode);
         return this;
     }
@@ -209,6 +244,11 @@ public class ResBuilder {
      * @return 根据内容及状态码创建一个ResponseEntity实体
      */
     public ResponseEntity<?> build() {
+        if(data != null && data instanceof Map) {
+            if(!((Map<?, ?>) data).containsKey("code")) {
+                ((Map) data).put("code", statusCode.value());
+            }
+        }
         return new ResponseEntity(data, headers, statusCode);
     }
 }

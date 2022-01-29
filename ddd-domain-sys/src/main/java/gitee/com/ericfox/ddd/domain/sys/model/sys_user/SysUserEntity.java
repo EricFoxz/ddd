@@ -10,9 +10,11 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class SysUserEntity extends SysUser implements BaseEntity<SysUser, SysUserEntity> {
+public class SysUserEntity implements BaseEntity<SysUser, SysUserEntity> {
     private static SysUserService sysUserService;
     private BaseCondition<?> _condition;
+
+    private Long id;
 
     public synchronized SysUserService getService() {
         if (sysUserService == null) {

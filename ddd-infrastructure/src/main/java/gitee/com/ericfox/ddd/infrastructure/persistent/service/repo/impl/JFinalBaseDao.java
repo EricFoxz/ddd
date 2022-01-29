@@ -12,20 +12,20 @@ import java.util.List;
 /**
  * JFinal抽象Dao
  *
- * @param <T> Po实体类
- * @param <U> Dao实体类
+ * @param <PO>  Po实体类
+ * @param <DAO> Dao实体类
  */
 @Slf4j
-public abstract class JFinalBaseDao<T extends BasePo<T>, U extends JFinalBaseDao<T, U>> extends Model<U> implements BaseDao<T> {
+public abstract class JFinalBaseDao<PO extends BasePo<PO>, DAO extends JFinalBaseDao<PO, DAO>> extends Model<DAO> implements BaseDao<PO> {
     public static final String DAO_NAME_METHOD_NAME = "daoFieldName";
 
     protected static String daoFieldName() {
         return "dao";
     }
 
-    public boolean multiInsert(List<U> t, int batchSize) {
+    public boolean multiInsert(List<DAO> daoList, int batchSize) {
         try {
-            int[] ints = Db.batchSave(t, batchSize);
+            int[] ints = Db.batchSave(daoList, batchSize);
             return ArrayUtil.isNotEmpty(ints);
         } catch (Exception e) {
             log.error("jFinal批量入库失败");

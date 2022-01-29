@@ -4,7 +4,7 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.hikaricp.HikariCpPlugin;
 import com.jfinal.template.source.ClassPathSourceFactory;
-import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.OrmEnabledAnnotation;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ClassUtil;
@@ -44,7 +44,7 @@ public class JFinalRepoConfig {
 
     @Bean
     @SneakyThrows
-    public <T extends BasePo<T>, U extends JFinalBaseDao, V extends Model<V>> ActiveRecordPlugin activeRecordPlugin() {
+    public <PO extends BasePo<PO>, DAO extends JFinalBaseDao, MODEL extends Model<MODEL>> ActiveRecordPlugin activeRecordPlugin() {
         HikariCpPlugin hikariCpPlugin = new HikariCpPlugin(url, username, password, driverClassName);
         ActiveRecordPlugin arp = new ActiveRecordPlugin(hikariCpPlugin);
         arp.setShowSql(true);
@@ -61,13 +61,13 @@ public class JFinalRepoConfig {
             public void accept(Class<?> aClass) {
                 String name = aClass.getName();
                 String className = aClass.getSimpleName();
-                if (aClass.isAnnotationPresent(OrmEnabledAnnotation.class)) {
-                    OrmEnabledAnnotation annotation = aClass.getAnnotation(OrmEnabledAnnotation.class);
+                if (aClass.isAnnotationPresent(RepoEnabledAnnotation.class)) {
+                    RepoEnabledAnnotation annotation = aClass.getAnnotation(RepoEnabledAnnotation.class);
                     if (RepoTypeStrategyEnum.J_FINAL_REPO_STRATEGY.equals(annotation.type())) {
-                        Class<U> daoClass = ClassUtil.getDaoClassByPoClass((Class<T>) aClass, jFinalRepoStrategy);
+                        Class<DAO> daoClass = ClassUtil.getDaoClassByPoClass((Class<PO>) aClass, jFinalRepoStrategy);
                         Method daoNameMethod = ReflectUtil.getMethodByName(daoClass, JFinalBaseDao.DAO_NAME_METHOD_NAME);
                         String daoName = (String) daoNameMethod.invoke(null, (Object[]) null);
-                        Class<V> daoClassM = (Class<V>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName)).getClass();
+                        Class<MODEL> daoClassM = (Class<MODEL>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName)).getClass();
                         arp.addMapping(StrUtil.toUnderlineCase(className), annotation.value(), daoClassM);
                     }
                 }
