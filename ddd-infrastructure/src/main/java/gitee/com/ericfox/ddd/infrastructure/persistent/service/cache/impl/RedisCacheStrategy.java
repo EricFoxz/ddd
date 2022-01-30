@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.cache.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.config.service.RedisCacheConfig;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.cache.CacheStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -64,7 +64,7 @@ public class RedisCacheStrategy implements CacheStrategy {
         // luaFun = "scan match '" + prefix + "' count 2000";
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(luaFun, Long.class);
         try {
-            return (Long) redisTemplate.execute(redisScript, CollectionUtil.newArrayList(prefix), 100);
+            return (Long) redisTemplate.execute(redisScript, CollUtil.newArrayList(prefix), 100);
         } catch (Exception e) {
             log.error("redisCache清除指定前缀缓存出错", e);
         }

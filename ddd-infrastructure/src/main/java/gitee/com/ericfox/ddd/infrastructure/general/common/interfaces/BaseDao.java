@@ -2,6 +2,7 @@ package gitee.com.ericfox.ddd.infrastructure.general.common.interfaces;
 
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.BeanUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReflectUtil;
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 
 import java.io.Serializable;
 

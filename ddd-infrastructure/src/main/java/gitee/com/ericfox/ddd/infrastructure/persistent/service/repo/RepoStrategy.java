@@ -3,7 +3,7 @@ package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo;
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
-import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import org.springframework.lang.NonNull;
 
 import java.util.List;

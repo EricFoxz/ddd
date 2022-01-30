@@ -6,7 +6,7 @@ import com.jfinal.plugin.hikaricp.HikariCpPlugin;
 import com.jfinal.template.source.ClassPathSourceFactory;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
-import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ClassUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReflectUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
@@ -50,7 +50,7 @@ public class JFinalRepoConfig {
         arp.setShowSql(true);
         arp.getEngine().setSourceFactory(new ClassPathSourceFactory());
         arp.getEngine().getSourceFactory();
-        arp.addSqlTemplate("/jfinal-sql-templates/baseRepo.sql");
+        arp.addSqlTemplate("infrastructure/jfinal-sql-templates/baseRepo.sql");
         hikariCpPlugin.start();
 
         //扫描PO，加载采用jFinal策略的类
@@ -59,7 +59,6 @@ public class JFinalRepoConfig {
             @Override
             @SneakyThrows
             public void accept(Class<?> aClass) {
-                String name = aClass.getName();
                 String className = aClass.getSimpleName();
                 if (aClass.isAnnotationPresent(RepoEnabledAnnotation.class)) {
                     RepoEnabledAnnotation annotation = aClass.getAnnotation(RepoEnabledAnnotation.class);

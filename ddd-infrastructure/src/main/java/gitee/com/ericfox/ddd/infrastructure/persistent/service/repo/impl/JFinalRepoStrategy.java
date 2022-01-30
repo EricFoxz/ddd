@@ -6,7 +6,7 @@ import com.jfinal.plugin.activerecord.*;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseCondition;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
-import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans.SQL;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;

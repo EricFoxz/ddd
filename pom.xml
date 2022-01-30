@@ -34,7 +34,7 @@
         <module>ddd-application</module>
         <!--<module>ddd-domain</module>-->
         <module>ddd-domain-sys</module>
-        <!--<module>ddd-domain-gen</module>-->
+        <module>ddd-domain-gen</module>
         <module>ddd-infrastructure</module>
     </modules>
 
@@ -119,7 +119,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>gitee.com.ericfox.ddd.apis.Application</mainClass>
+                    <mainClass>gitee.com.ericfox.ddd.apis.ApiApplication</mainClass>
                     <classifier>execute</classifier>
                 </configuration>
             </plugin>

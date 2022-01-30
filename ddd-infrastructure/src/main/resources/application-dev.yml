@@ -63,7 +63,7 @@ spring:
   cache:
     caffeine:
       spec:
-
+debug: true
 custom:
   service:
     repo-strategy: #持久化策略

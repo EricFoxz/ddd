@@ -1,13 +1,13 @@
 package infrastructure.test;
 
-import gitee.com.ericfox.ddd.apis.Application;
+import gitee.com.ericfox.ddd.apis.ApiApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = ApiApplication.class)
 public class FrameworkTest extends Parent {
     public static final class STRUCTURE {
         public static String id = "id2";

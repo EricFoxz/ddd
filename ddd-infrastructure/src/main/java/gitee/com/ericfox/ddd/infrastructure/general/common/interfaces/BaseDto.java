@@ -1,6 +1,7 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.interfaces;
 
 import com.github.pagehelper.PageInfo;
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 
 import java.io.Serializable;
 import java.util.List;

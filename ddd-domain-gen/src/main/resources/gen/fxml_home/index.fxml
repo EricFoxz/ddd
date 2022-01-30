@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gitee.com.ericfox.ddd.domain.gen.controller.GenHomeController">
+    <children>
+        <MenuBar prefHeight="25.0" prefWidth="1280.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <SplitPane dividerPositions="0.15" layoutY="25.0" prefHeight="775.0" prefWidth="1280.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                    <children>
+                        <ToolBar layoutX="15.0" layoutY="14.0" orientation="VERTICAL" prefHeight="423.0" prefWidth="143.0">
+                            <items>
+                                <Button fx:id="readTableByJavaButton" alignment="CENTER" layoutX="28.0" layoutY="14.0" lineSpacing="2.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="通过代码读取已有表结构" textOverrun="CLIP">
+                                    <font>
+                                        <Font size="10.0" />
+                                    </font>
+                                </Button>
+                                <Button fx:id="readTableByOrmButton" alignment="CENTER" layoutX="28.0" layoutY="229.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="从持久化数据读取表结构">
+                                    <font>
+                                        <Font size="10.0" />
+                                    </font>
+                                </Button>
+                                <Button alignment="CENTER" layoutX="28.0" layoutY="388.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="Button">
+                                    <font>
+                                        <Font size="10.0" />
+                                    </font>
+                                </Button>
+                                <Button alignment="CENTER" layoutX="28.0" layoutY="60.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="Button">
+                                    <font>
+                                        <Font size="10.0" />
+                                    </font>
+                                </Button>
+                                <Button alignment="CENTER" layoutX="28.0" layoutY="349.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="Button">
+                                    <font>
+                                        <Font size="10.0" />
+                                    </font>
+                                </Button>
+                                <Button alignment="CENTER" layoutX="28.0" layoutY="101.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="Button">
+                                    <font>
+                                        <Font size="10.0" />
+                                    </font>
+                                </Button>
+                                <Button alignment="CENTER" layoutX="28.0" layoutY="278.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="Button">
+                                    <font>
+                                        <Font size="10.0" />
+                                    </font>
+                                </Button>
+                                <Button alignment="CENTER" layoutX="28.0" layoutY="148.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="Button">
+                                    <font>
+                                        <Font size="10.0" />
+                                    </font>
+                                </Button>
+                            </items>
+                        </ToolBar>
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+            </items>
+        </SplitPane>
+    </children>
+</Pane>

@@ -1,6 +1,5 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl;
 
-import cn.hutool.core.map.MapUtil;
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.LuceneFieldKey;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.LuceneFieldTypeEnum;
@@ -8,7 +7,7 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectRep
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseCondition;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
-import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;
@@ -588,7 +587,6 @@ public class LuceneRepoStrategy implements RepoStrategy {
                                 } else if (value instanceof BytesRef) {
                                     bytes = ((BytesRef) value).bytes;
                                 }
-                                assert bytes != null;
                                 queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, bytes, BytesRef.EMPTY_BYTES), BooleanClause.Occur.MUST);
                             } else if (isString) {
                                 log.warn("luceneRepoStrategy暂不支持字符串比大小");
@@ -607,7 +605,6 @@ public class LuceneRepoStrategy implements RepoStrategy {
                                 } else if (value instanceof BytesRef) {
                                     bytes = ((BytesRef) value).bytes;
                                 }
-                                assert bytes != null;
                                 queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, bytes, BytesRef.EMPTY_BYTES), BooleanClause.Occur.MUST);
                             } else if (isString) {
                                 log.warn("luceneRepoStrategy暂不支持字符串比大小");
@@ -638,7 +635,6 @@ public class LuceneRepoStrategy implements RepoStrategy {
                                 } else if (value instanceof BytesRef) {
                                     bytes = ((BytesRef) value).bytes;
                                 }
-                                assert bytes != null;
                                 queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, BytesRef.EMPTY_BYTES, bytes), BooleanClause.Occur.MUST);
                             } else if (isString) {
                                 log.warn("luceneRepoStrategy暂不支持字符串比大小");
@@ -657,7 +653,6 @@ public class LuceneRepoStrategy implements RepoStrategy {
                                 } else if (value instanceof BytesRef) {
                                     bytes = ((BytesRef) value).bytes;
                                 }
-                                assert bytes != null;
                                 queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, BytesRef.EMPTY_BYTES, bytes), BooleanClause.Occur.MUST);
                             } else if (isString) {
                                 log.warn("luceneRepoStrategy暂不支持字符串比大小");
@@ -682,8 +677,6 @@ public class LuceneRepoStrategy implements RepoStrategy {
                                     bytes1 = ((BytesRef) v1).bytes;
                                     bytes2 = ((BytesRef) v2).bytes;
                                 }
-                                assert bytes1 != null;
-                                assert bytes2 != null;
                                 queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, bytes1, bytes2), BooleanClause.Occur.MUST);
                             } else if (isString) {
                                 log.warn("luceneRepoStrategy暂不支持字符串比大小");

@@ -1,6 +1,6 @@
-package gitee.com.ericfox.ddd.infrastructure.general.common.interfaces;
+package gitee.com.ericfox.ddd.infrastructure.persistent.po;
 
-import cn.hutool.core.collection.CollUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReflectUtil;
 
 import java.io.Serializable;
