@@ -7,8 +7,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class SysUserEntity extends SysUserEntityBase {
-    private SysUser po;
-
     @Override
     public SysUser toPo() {
         return super.toPo();

@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.domain.sys.model.sys_user;
 
+import cn.hutool.core.bean.copier.CopyOptions;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseCondition;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.BeanUtil;
@@ -12,10 +13,11 @@ import lombok.Setter;
 @Getter
 public class SysUserEntityBase implements BaseEntity<SysUser, SysUserEntity> {
     private static SysUserService sysUserService;
-    private BaseCondition<?> _condition;
-    private SysUser po;
+    protected BaseCondition<?> _condition;
+    protected SysUser po;
 
     private Long id;
+    private String username;
 
     public synchronized SysUserServiceBase getService() {
         if (sysUserService == null) {
@@ -28,8 +30,8 @@ public class SysUserEntityBase implements BaseEntity<SysUser, SysUserEntity> {
     public SysUser toPo() {
         if (po == null) {
             po = new SysUser();
-            BeanUtil.copyProperties(this, po, false);
         }
+        BeanUtil.copyProperties(this, po, CopyOptions.create().ignoreNullValue());
         return po;
     }
 
@@ -39,11 +41,11 @@ public class SysUserEntityBase implements BaseEntity<SysUser, SysUserEntity> {
         return (SysUserEntity) this;
     }
 
-    private void setPo(SysUser po) {
+    protected void setPo(SysUser po) {
         this.po = po;
     }
 
-    private SysUser getPo() {
+    protected SysUser getPo() {
         return po;
     }
 }

@@ -15,8 +15,6 @@ public class SysUserAgg extends SysUserEntity implements BaseAgg<SysUserEntity, 
 
     @Override
     public SysUserAgg fromEntity(SysUserEntity entity) {
-        return (SysUserAgg) super.fromPo(entity.getPo());
+        return (SysUserAgg) super.fromPo(entity.toPo());
     }
-
-
 }
