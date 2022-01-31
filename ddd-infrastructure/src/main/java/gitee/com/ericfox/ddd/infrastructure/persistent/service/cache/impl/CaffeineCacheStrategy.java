@@ -46,7 +46,7 @@ public class CaffeineCacheStrategy implements CacheStrategy {
 
     @Override
     public Long flushByPrefix(String prefix) {
-        log.error("caffeineCacheStrategy未实现该方法");
+        log.error("caffeineCacheStrategy::flushByPrefix 暂未实现该方法");
         throw new ProjectFrameworkException("待实现");
     }
 

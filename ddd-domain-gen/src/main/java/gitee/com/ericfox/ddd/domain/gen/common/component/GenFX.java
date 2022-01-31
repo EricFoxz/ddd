@@ -1,6 +1,5 @@
 package gitee.com.ericfox.ddd.domain.gen.common.component;
 
-import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ThreadUtil;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -42,20 +41,18 @@ public class GenFX extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage indexStage) {
         try {
-            primaryStage.setTitle("领域驱动-代码生成器");
+            indexStage.setTitle("领域驱动-代码生成器");
             FXMLLoader rootLoader = new FXMLLoader(new ClassPathResource("gen/fxml_home/index.fxml").getURL());
             Parent root = rootLoader.load();
-            primaryStage.setScene(new Scene(root));
-            primaryStage.getIcons().add(new Image("https://portrait.gitee.com/uploads/avatars/user/564/1692751_EricFox_1579054526.png!avatar30"));
-            primaryStage.setResizable(false);
-            primaryStage.initStyle(StageStyle.DECORATED);
-            if (GenConstants.isDebug()) {
-                initDebugStage(primaryStage);
-            }
-            primaryStage.show();
-            primaryStage.setOnCloseRequest(event -> {
+            indexStage.setScene(new Scene(root));
+            indexStage.getIcons().add(new Image("https://portrait.gitee.com/uploads/avatars/user/564/1692751_EricFox_1579054526.png!avatar30"));
+            indexStage.setResizable(false);
+            indexStage.initStyle(StageStyle.DECORATED);
+            indexStage.show();
+            GenComponents.setIndexStage(indexStage);
+            indexStage.setOnCloseRequest(event -> {
                 Stage debugStage = GenComponents.getDebugStage();
                 if (debugStage != null) {
                     debugStage.close();
@@ -63,11 +60,11 @@ public class GenFX extends Application {
                 Platform.exit();
             });
         } catch (Exception e) {
-            log.error("GenFX:start初始化异常", e);
+            log.error("genFX::start 初始化异常", e);
         }
     }
 
-    private void initDebugStage(Stage parentStage) throws Exception {
+    public static void initDebugStage(Stage parentStage) throws Exception {
         if (GenComponents.getDebugStage() == null) {
             Stage debugStage = new Stage();
             debugStage.setTitle("debug");
@@ -75,11 +72,14 @@ public class GenFX extends Application {
             debugStage.initModality(Modality.NONE);
             debugStage.getIcons().add(new Image("https://portrait.gitee.com/uploads/avatars/user/564/1692751_EricFox_1579054526.png!avatar30"));
             debugStage.setAlwaysOnTop(true);
+            debugStage.setResizable(false);
             FXMLLoader debugLoader = new FXMLLoader(new ClassPathResource("gen/fxml_home/debug.fxml").getURL());
             debugStage.setScene(new Scene(debugLoader.load()));
             GenComponents.setDebugStage(debugStage);
             GenComponents.setDebugController(debugLoader.getController());
             debugStage.show();
+        } else {
+            GenComponents.getDebugStage().show();
         }
     }
 }

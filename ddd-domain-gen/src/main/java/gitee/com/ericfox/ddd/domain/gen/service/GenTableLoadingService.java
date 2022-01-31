@@ -6,6 +6,7 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEna
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import javafx.event.ActionEvent;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,13 +22,17 @@ import java.util.function.Consumer;
 @Service
 @Slf4j
 public class GenTableLoadingService implements BaseGenService {
-    private final Map<String, Map<String, Object>> domainMap = MapUtil.newConcurrentHashMap();
+    @Getter
+    private static final Map<String, Map<String, Document>> domainMap = MapUtil.newConcurrentHashMap();
 
+    /**
+     * 读取已有的
+     */
     @Autowired
-    public void initAll() {
+    public synchronized void initAll() {
+        logInfo(log, "genTableLoadingService::initAll正在从运行时环境反序列化表结构...");
+        domainMap.clear();
         try {
-
-
             Resource resourceObj = ResourceUtil.getResourceObj("gen/meta_home");
             File metaHome = FileUtil.file(resourceObj.getUrl());
             if (FileUtil.isDirectory(metaHome)) {
@@ -40,14 +45,14 @@ public class GenTableLoadingService implements BaseGenService {
                             return;
                         }
                         String domainName = FileUtil.getName(domainFile);
-                        Map<String, Object> tableMap = null;
+                        Map<String, Document> tableMap = null;
                         if (!domainMap.containsKey(domainName)) {
                             tableMap = MapUtil.newConcurrentHashMap();
                             domainMap.put(domainName, tableMap);
                         }
                         List<File> tableList = FileUtil.loopFiles(domainFile);
                         if (CollUtil.isNotEmpty(tableList)) {
-                            Map<String, Object> finalTableMap = tableMap;
+                            Map<String, Document> finalTableMap = tableMap;
                             tableList.forEach(tableFile -> {
                                 Document tableDocument = genDocumentFactory.deserialization(tableFile);
                                 Element class_name_element = XmlUtil.getElementByXPath("/root/meta/class_name", tableDocument);
@@ -61,15 +66,32 @@ public class GenTableLoadingService implements BaseGenService {
                 System.out.println(domainMap);
             }
         } catch (Exception e) {
-            logError(log, "GenTableLoadingService:init异常", e);
+            logError(log, "genTableLoadingService::init异常", e);
         }
+    }
+
+    /**
+     * 序列化
+     */
+    public void serializable(String domainName, String tableName) {
+        if (!domainMap.containsKey(domainName) || !domainMap.get(domainName).containsKey(tableName)) {
+
+        }
+        Document document = domainMap.get(domainName).get(tableName);
+    }
+
+    /**
+     * 把xml发布到target运行时环境
+     */
+    public void publishToTarget() {
+        //FileUtil.copy()
     }
 
     /**
      * 从java读取表结构
      */
     public void readTableByJavaClassHandler(ActionEvent event) {
-        logInfo(log, "开始从java代码读取表结构...");
+        logInfo(log, "genTableLoadingService::readTableByJavaClassHandler开始从java代码读取表结构...");
         Set<Class<?>> classes = ClassUtil.scanPackage(BasePo.class.getPackage().getName());
         classes.forEach(new Consumer<Class<?>>() {
             @Override

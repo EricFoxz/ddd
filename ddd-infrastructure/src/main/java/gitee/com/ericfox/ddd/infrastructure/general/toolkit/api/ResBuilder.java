@@ -33,28 +33,28 @@ public class ResBuilder {
         }
 
         public static ResBuilder badRequest(Exception e) {
-            log.warn(e.getMessage(), e);
+            log.warn("ResBuilder::badRequest " + e.getMessage(), e);
             return ResBuilder.hashMapData().setMessage("传入参数错误").error(e).setStatus(HttpStatus.BAD_REQUEST);
         }
 
         public static ResBuilder unauthorized() {
             Exception e = new Exception("未获得权限认证");
-            log.error(e.getMessage(), e);
+            log.error("ResBuilder::unauthorized " + e.getMessage(), e);
             return ResBuilder.hashMapData().setMessage("未获得权限认证").setStatus(HttpStatus.UNAUTHORIZED);
         }
 
         public static ResBuilder forbidden(Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("ResBuilder::forbidden " + e.getMessage(), e);
             return ResBuilder.hashMapData().setMessage("权限不够，请勿重复请求").setStatus(HttpStatus.FORBIDDEN);
         }
 
         public static ResBuilder internalServerError(Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("ResBuilder::internalServerError " + e.getMessage(), e);
             return ResBuilder.hashMapData().setMessage("服务器错误，请联系开发人员").error(e).setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         public static ResBuilder serviceUnavailable(Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("ResBuilder::serviceUnavailable " + e.getMessage(), e);
             return ResBuilder.hashMapData().setMessage("服务维护中，请联系开发人员").error(e).setStatus(HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
@@ -153,7 +153,7 @@ public class ResBuilder {
                 field.setAccessible(true);
                 field.set(data, value);
             } catch (NoSuchFieldException | IllegalAccessException e) {
-                log.error(e.getMessage());
+                log.error("resBuilder::put " + e.getMessage());
                 error(e.getMessage());
             }
         }

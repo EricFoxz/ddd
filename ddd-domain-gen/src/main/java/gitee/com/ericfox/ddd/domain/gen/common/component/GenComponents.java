@@ -12,6 +12,10 @@ import org.springframework.stereotype.Component;
 public class GenComponents {
     @Setter
     @Getter
+    private static Stage indexStage;
+
+    @Setter
+    @Getter
     private static Stage debugStage;
 
     @Setter

@@ -26,7 +26,7 @@ public class RSocketRepository {
     }
 
     public void add(Object data) {
-        log.info("new Socket Data! {}", data);
+        log.info("rSocketRepository::add new Socket Data! {}", data);
     }
 
     private Object getSocketData(String stock) {

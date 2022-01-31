@@ -121,7 +121,7 @@ public class OkHttpService {
             okHttpResponse.setResponse(response.body().string());
             return okHttpResponse;
         } catch (Exception e) {
-            log.error("okhttp error = {}", e.getMessage());
+            log.error("okHttpService::getResponse okhttp error = {}", e.getMessage());
         } finally {
             if (response != null) {
                 response.close();

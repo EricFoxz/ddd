@@ -66,7 +66,7 @@ public class RedisCacheStrategy implements CacheStrategy {
         try {
             return (Long) redisTemplate.execute(redisScript, CollUtil.newArrayList(prefix), 100);
         } catch (Exception e) {
-            log.error("redisCache清除指定前缀缓存出错", e);
+            log.error("redisCacheStrategy::flushByPrefix 清除指定前缀缓存出错", e);
         }
         return 0L;
     }

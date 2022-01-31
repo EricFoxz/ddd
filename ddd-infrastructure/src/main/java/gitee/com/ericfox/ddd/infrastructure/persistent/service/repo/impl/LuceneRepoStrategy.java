@@ -108,7 +108,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
             }
             return true;
         } catch (Exception e) {
-            log.error("lucene删除文档失败");
+            log.error("luceneRepoStrategy::deleteById 删除文档失败");
             throw new ProjectRepoException("", e);
         }
     }
@@ -138,7 +138,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
             }
             return true;
         } catch (Exception e) {
-            log.error("lucene删除文档失败");
+            log.error("luceneRepoStrategy::multiDeleteById 删除文档失败");
             throw new ProjectRepoException("", e);
         }
     }
@@ -188,7 +188,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
             }
             return true;
         } catch (Exception e) {
-            log.error("lucene创建文档失败", e);
+            log.error("luceneRepoStrategy::multiInsert 创建文档失败", e);
             throw new ProjectRepoException("lucene multiInsert异常", e);
         }
     }
@@ -589,7 +589,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
                                 }
                                 queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, bytes, BytesRef.EMPTY_BYTES), BooleanClause.Occur.MUST);
                             } else if (isString) {
-                                log.warn("luceneRepoStrategy暂不支持字符串比大小");
+                                log.warn("luceneRepoStrategy::parseCondition 暂不支持字符串比大小");
                             }
                         } else if (StrUtil.equals(key, BaseCondition.GREAT_THAN_OR_EQUALS)) {
                             if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
@@ -607,7 +607,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
                                 }
                                 queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, bytes, BytesRef.EMPTY_BYTES), BooleanClause.Occur.MUST);
                             } else if (isString) {
-                                log.warn("luceneRepoStrategy暂不支持字符串比大小");
+                                log.warn("luceneRepoStrategy::parseCondition 暂不支持字符串比大小");
                             }
                         } else if (StrUtil.equals(key, BaseCondition.LESS_THAN)) {
                             if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
@@ -637,7 +637,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
                                 }
                                 queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, BytesRef.EMPTY_BYTES, bytes), BooleanClause.Occur.MUST);
                             } else if (isString) {
-                                log.warn("luceneRepoStrategy暂不支持字符串比大小");
+                                log.warn("luceneRepoStrategy::parseCondition 暂不支持字符串比大小");
                             }
                         } else if (StrUtil.equals(key, BaseCondition.LESS_THAN_OR_EQUALS)) {
                             if (LuceneFieldTypeEnum.INT_POINT.equals(fieldTypeEnum)) {
@@ -655,7 +655,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
                                 }
                                 queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, BytesRef.EMPTY_BYTES, bytes), BooleanClause.Occur.MUST);
                             } else if (isString) {
-                                log.warn("luceneRepoStrategy暂不支持字符串比大小");
+                                log.warn("luceneRepoStrategy::parseCondition 暂不支持字符串比大小");
                             }
                         } else if (StrUtil.equals(key, BaseCondition.BETWEEN)) {
                             List<?> list = (List<?>) value;
@@ -679,7 +679,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
                                 }
                                 queryBuilder.add(BinaryPoint.newRangeQuery(fieldName, bytes1, bytes2), BooleanClause.Occur.MUST);
                             } else if (isString) {
-                                log.warn("luceneRepoStrategy暂不支持字符串比大小");
+                                log.warn("luceneRepoStrategy::parseCondition 暂不支持字符串比大小");
                             }
                         } else if (StrUtil.equals(key, BaseCondition.LIKE)) {
                             queryBuilder.add(new PrefixQuery(new Term(value.toString())), BooleanClause.Occur.MUST);

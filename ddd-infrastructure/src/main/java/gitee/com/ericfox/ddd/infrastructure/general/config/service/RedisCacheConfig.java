@@ -119,7 +119,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
             String finalParam = paramString.toString();
             String sha256 = SecureUtil.sha256(finalParam);
 
-            log.debug("keyGeneratorToServiceParam Method <{}>, Param <{}> SHA256 <{}>", method.getName(), finalParam, sha256);
+            log.debug("redisCacheConfig::keyGenerator Method <{}>, Param <{}> SHA256 <{}>", method.getName(), finalParam, sha256);
 
             finalResult.append(sha256);
             return finalResult.toString();
@@ -181,7 +181,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
             String finalParam = paramString.toString();
             String sha256 = SecureUtil.sha256(finalParam);
 
-            log.debug("keyGeneratorToServiceParam <{}>, SHA <{}>", finalParam, sha256);
+            log.debug("redisCacheConfig::keyGeneratorToServiceParam Param <{}>, SHA <{}>", finalParam, sha256);
 
             finalResult.append(sha256);
             return finalResult.toString();

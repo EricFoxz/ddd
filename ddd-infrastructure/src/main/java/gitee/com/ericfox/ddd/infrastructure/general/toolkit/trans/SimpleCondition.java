@@ -2,11 +2,11 @@ package gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans;
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseCondition;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.BeanUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.MapUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 
@@ -104,8 +104,8 @@ public class SimpleCondition implements BaseCondition<SimpleCondition> {
     @Override
     public SimpleCondition between(@NonNull String field, @NonNull Object v1, @NonNull Object v2) {
         if (!v1.getClass().equals(v2.getClass())) {
-            log.error("simpleCondition:between输入的两个参数必须是同一类型");
-            throw new ProjectFrameworkException("simpleCondition:between输入的两个参数必须是同一类型");
+            log.error("simpleCondition::between 输入的两个参数必须是同一类型");
+            throw new ProjectFrameworkException("simpleCondition::between 输入的两个参数必须是同一类型");
         }
         return appendCondition(field, BETWEEN, CollUtil.newArrayList(v1, v2));
     }
@@ -152,8 +152,8 @@ public class SimpleCondition implements BaseCondition<SimpleCondition> {
     @Override
     public SimpleCondition removeCondition(@NonNull String field, String type) {
         if (StrUtil.isBlank(field) && StrUtil.isBlank(type)) {
-            log.error("simpleCondition如果想要移除所有条件请使用removeAllCondition()方法");
-            throw new ProjectFrameworkException("simpleCondition如果想要移除所有条件请使用removeAllCondition()方法");
+            log.error("simpleCondition::removeCondition 如果想要移除所有条件请使用removeAllCondition()方法");
+            throw new ProjectFrameworkException("simpleCondition::removeCondition 如果想要移除所有条件请使用removeAllCondition()方法");
         }
         if (StrUtil.isBlank(field)) { //移除所有指定field的条件
             String s = field + SEPARATOR;

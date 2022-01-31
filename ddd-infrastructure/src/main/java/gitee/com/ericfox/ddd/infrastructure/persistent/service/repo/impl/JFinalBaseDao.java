@@ -28,7 +28,7 @@ public abstract class JFinalBaseDao<PO extends BasePo<PO>, DAO extends JFinalBas
             int[] ints = Db.batchSave(daoList, batchSize);
             return ArrayUtil.isNotEmpty(ints);
         } catch (Exception e) {
-            log.error("jFinal批量入库失败");
+            log.error("jFinalBaseDao::multiInsert jFinal批量入库失败");
         }
         return false;
     }

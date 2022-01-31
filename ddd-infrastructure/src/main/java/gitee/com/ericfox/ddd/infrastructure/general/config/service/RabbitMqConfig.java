@@ -47,7 +47,7 @@ public class RabbitMqConfig {
     @Bean
     public RabbitListenerErrorHandler rabbitListenerErrorHandler() {
         return (message, message1, e) -> {
-            log.error("RabbitListenerHandler " + e.getMessage() + "|" + e.getFailedMessage());
+            log.error("rabbitMqConfig::rabbitListenerErrorHandler " + e.getMessage() + "|" + e.getFailedMessage());
             throw new AmqpRejectAndDontRequeueException("reject");
         };
     }
@@ -58,11 +58,11 @@ public class RabbitMqConfig {
             if (ack) {
                 //消息消费成功
             } else {
-                log.error("rabbitMqConfig检测到ack标记false，消息发送失败");
+                log.error("rabbitMqConfig::config 检测到ack标记false，消息发送失败");
             }
         });
         rabbitTemplate.setReturnsCallback(returnedMessage -> {
-            log.error("rabbitMqConfig消息发送失败：{}", returnedMessage);
+            log.error("rabbitMqConfig::config 消息发送失败：{}", returnedMessage);
         });
     }
 
