@@ -6,7 +6,7 @@ public interface BaseJavaFxController {
     default void initialize() {
     }
 
-    default void asyncExecute(Runnable runnable){
+    default void asyncExecute(Runnable runnable) {
         Platform.runLater(runnable);
     }
 }

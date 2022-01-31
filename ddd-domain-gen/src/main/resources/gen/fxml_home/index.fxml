@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.web.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
@@ -13,10 +14,10 @@
             <menus>
                 <Menu mnemonicParsing="false" text="文件">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="关闭" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="编辑">
+                <Menu mnemonicParsing="false" text="编辑" visible="false">
                     <items>
                         <MenuItem mnemonicParsing="false" text="Delete" />
                     </items>
@@ -32,7 +33,7 @@
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                     <children>
-                        <ToolBar layoutX="15.0" layoutY="14.0" orientation="VERTICAL" prefHeight="423.0" prefWidth="143.0">
+                        <ToolBar layoutX="15.0" layoutY="14.0" orientation="VERTICAL" prefHeight="746.0" prefWidth="160.0">
                             <items>
                                 <Button fx:id="initAllButton" alignment="CENTER" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="检测已有序列化表结构">
                                     <font>
@@ -49,27 +50,7 @@
                                         <Font size="10.0" />
                                     </font>
                                 </Button>
-                                <Button alignment="CENTER" layoutX="28.0" layoutY="60.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="Button">
-                                    <font>
-                                        <Font size="10.0" />
-                                    </font>
-                                </Button>
-                                <Button alignment="CENTER" layoutX="28.0" layoutY="349.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="Button">
-                                    <font>
-                                        <Font size="10.0" />
-                                    </font>
-                                </Button>
-                                <Button alignment="CENTER" layoutX="28.0" layoutY="101.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="Button">
-                                    <font>
-                                        <Font size="10.0" />
-                                    </font>
-                                </Button>
-                                <Button alignment="CENTER" layoutX="28.0" layoutY="278.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="Button">
-                                    <font>
-                                        <Font size="10.0" />
-                                    </font>
-                                </Button>
-                                <Button alignment="CENTER" layoutX="28.0" layoutY="148.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="Button">
+                                <Button fx:id="testButton" alignment="CENTER" layoutX="28.0" layoutY="148.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="TEST">
                                     <font>
                                         <Font size="10.0" />
                                     </font>
@@ -78,7 +59,23 @@
                         </ToolBar>
                     </children>
                 </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TabPane fx:id="mainTabPane" prefHeight="759.0" prefWidth="1083.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab closable="false" text="领域列表">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" />
+                        </content>
+                      </Tab>
+                      <Tab text="表格">
+                        <content>
+                          <AnchorPane />
+                        </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+               </children></AnchorPane>
             </items>
         </SplitPane>
     </children>

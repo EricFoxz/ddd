@@ -1,14 +1,13 @@
 package gitee.com.ericfox.ddd.domain.gen.service;
 
 import cn.hutool.core.io.resource.Resource;
-import gitee.com.ericfox.ddd.domain.gen.factory.GenDocumentFactory;
+import gitee.com.ericfox.ddd.domain.gen.factory.GenSerializableFactory;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import javafx.event.ActionEvent;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -28,15 +27,14 @@ public class GenTableLoadingService implements BaseGenService {
     /**
      * 读取已有的
      */
-    @Autowired
     public synchronized void initAll() {
-        logInfo(log, "genTableLoadingService::initAll正在从运行时环境反序列化表结构...");
+        logInfo(log, "genTableLoadingService::initAll 正在从运行时环境反序列化表结构...");
         domainMap.clear();
         try {
             Resource resourceObj = ResourceUtil.getResourceObj("gen/meta_home");
             File metaHome = FileUtil.file(resourceObj.getUrl());
             if (FileUtil.isDirectory(metaHome)) {
-                GenDocumentFactory genDocumentFactory = new GenDocumentFactory();
+                GenSerializableFactory genSerializableFactory = GenSerializableFactory.getDefaultInstance();
                 List<File> domainList = FileUtil.loopFiles(metaHome.toPath(), 1, null);
 
                 if (CollUtil.isNotEmpty(domainList)) {
@@ -54,19 +52,17 @@ public class GenTableLoadingService implements BaseGenService {
                         if (CollUtil.isNotEmpty(tableList)) {
                             Map<String, Document> finalTableMap = tableMap;
                             tableList.forEach(tableFile -> {
-                                Document tableDocument = genDocumentFactory.deserialization(tableFile);
+                                Document tableDocument = genSerializableFactory.deserialization(tableFile);
                                 Element class_name_element = XmlUtil.getElementByXPath("/root/meta/class_name", tableDocument);
                                 String class_name = class_name_element.getTextContent();
                                 finalTableMap.put(class_name, tableDocument);
                             });
                         }
-                        System.out.println(tableList);
                     });
                 }
-                System.out.println(domainMap);
             }
         } catch (Exception e) {
-            logError(log, "genTableLoadingService::init异常", e);
+            logError(log, "genTableLoadingService::initAll 异常", e);
         }
     }
 
@@ -84,14 +80,21 @@ public class GenTableLoadingService implements BaseGenService {
      * 把xml发布到target运行时环境
      */
     public void publishToTarget() {
-        //FileUtil.copy()
+        logInfo(log, "genTableLoadingService::publishToTarget 1开始发布xml表结构...");
+        String targetPath = URLUtil.getURL("gen/meta_home").getFile();
+        //   /E:/idea_projects/ddd/ddd-domain-gen/target/classes/gen/meta_home
+        String sourcePath = ReUtil.replaceAll(targetPath, "/target/classes", "/src/main/resources");
+        //   /E:/idea_projects/ddd/ddd-domain-gen/src/main/resources/gen/meta_home
+        targetPath = StrUtil.replace(targetPath, "gen/meta_home", "gen");
+        FileUtil.copy(sourcePath, targetPath, true);
+        logInfo(log, "genTableLoadingService::publishToTarget 2发布完成");
     }
 
     /**
      * 从java读取表结构
      */
     public void readTableByJavaClassHandler(ActionEvent event) {
-        logInfo(log, "genTableLoadingService::readTableByJavaClassHandler开始从java代码读取表结构...");
+        logInfo(log, "genTableLoadingService::readTableByJavaClassHandler 开始从java代码读取表结构...");
         Set<Class<?>> classes = ClassUtil.scanPackage(BasePo.class.getPackage().getName());
         classes.forEach(new Consumer<Class<?>>() {
             @Override

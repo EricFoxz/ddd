@@ -3,8 +3,8 @@ package gitee.com.ericfox.ddd.apis.assembler;
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDto;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReflectUtil;
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
