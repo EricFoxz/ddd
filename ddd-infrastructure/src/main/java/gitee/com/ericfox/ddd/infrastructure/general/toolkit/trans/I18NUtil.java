@@ -33,7 +33,7 @@ public class I18NUtil {
 
     private static Properties getProperties() {
         if (properties == null) {
-            properties = PropsUtil.get("i18n/framework_en_US.properties");
+            properties = PropsUtil.get("infrastructure/i18n/framework_en_US.properties");
         }
         return properties;
     }

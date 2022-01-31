@@ -20,6 +20,11 @@
             <artifactId>ddd-infrastructure</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>de.chandre.velocity2</groupId>
+            <artifactId>spring-boot-starter-velocity2</artifactId>
+            <version>1.1.1</version>
+        </dependency>
     </dependencies>
 
 

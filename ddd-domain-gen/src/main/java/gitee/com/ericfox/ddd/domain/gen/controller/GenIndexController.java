@@ -8,13 +8,12 @@ import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableLoadingService;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans.I18NUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +51,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
             beginLoading();
             asyncExecute(() -> {
                 GenComponents.getGenTableLoadingService().initAll();
+                GenComponents.getDomainViewController().refresh();
                 renderAllTableList();
                 finishLoading();
             });
@@ -88,15 +88,24 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
         //主容器 实现鼠标中键关闭标签
         mainTabPane.setOnMouseClicked(event -> {
             if (MouseButton.MIDDLE.equals(event.getButton())) {
-                String text = ((LabeledText) event.getPickResult().getIntersectedNode()).getText();
-                mainTabPane.getTabs().removeIf(ele -> StrUtil.equals(ele.getId(), "domainName:" + text));
+                Node node = event.getPickResult().getIntersectedNode();
+                if (node instanceof LabeledText) {
+                    String text = ((LabeledText) node).getText();
+                    mainTabPane.getTabs().removeIf(ele -> StrUtil.equals(ele.getId(), "domainName:" + text));
+                }
             }
         });
         try {
-            mainTabPane.getTabs().get(0).setContent(FXMLLoader.load(new ClassPathResource(GenConstants.DOMAIN_VIEW_FXML_PATH).getURL()));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(new ClassPathResource(GenConstants.DOMAIN_VIEW_FXML_PATH).getURL());
+            mainTabPane.getTabs().get(0).setContent(loader.load());
+            GenComponents.setDomainViewController(loader.getController());
         } catch (Exception e) {
             logError(log, "genIndexController::initialize 初始化主容器异常", e);
         }
+        testButton.setOnAction(event -> {
+            String str = GenComponents.getGenCodeService().gen();
+        });
         finishLoading();
     }
 
@@ -115,7 +124,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
     /**
      * 渲染视图
      */
-    private synchronized void renderAllTableList() {
+    public synchronized void renderAllTableList() {
         Set<String> domainSet = CollUtil.newHashSet();
         domainSet.addAll(GenTableLoadingService.getDomainMap().keySet());
         mainTabPane.getTabs().forEach(tab -> {
@@ -127,7 +136,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
     }
 
     @SneakyThrows
-    private synchronized void renderTableList(String domainName) {
+    public synchronized void renderTableList(String domainName) {
         String finalDomainName = "domainName:" + domainName;
         Map<String, Document> tableMap = GenTableLoadingService.getDomainMap().get(domainName);
         if (tableMap == null) {
@@ -161,6 +170,9 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
             tab.setClosable(true);
             mainTabPane.getTabs().add(tab);
             tab.getTabPane().setFocusTraversable(true);
+            Tooltip tooltip = new Tooltip();
+            tooltip.setText(I18NUtil.getText("点击鼠标中键可关闭标签"));
+            tab.setTooltip(tooltip);
             tab.setContent(FXMLLoader.load(new ClassPathResource(GenConstants.TABLE_VIEW_FXML_PATH).getURL()));
         }
     }
