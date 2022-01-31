@@ -8,7 +8,6 @@ import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableLoadingService;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans.I18NUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -171,7 +170,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
             mainTabPane.getTabs().add(tab);
             tab.getTabPane().setFocusTraversable(true);
             Tooltip tooltip = new Tooltip();
-            tooltip.setText(I18NUtil.getText("点击鼠标中键可关闭标签"));
+            tooltip.setText("点击鼠标中键可关闭标签");
             tab.setTooltip(tooltip);
             tab.setContent(FXMLLoader.load(new ClassPathResource(GenConstants.TABLE_VIEW_FXML_PATH).getURL()));
         }
