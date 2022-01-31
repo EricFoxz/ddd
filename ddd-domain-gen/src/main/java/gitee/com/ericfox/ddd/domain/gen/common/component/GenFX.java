@@ -73,6 +73,7 @@ public class GenFX extends Application {
             debugStage.setTitle("debug");
             debugStage.initOwner(parentStage);
             debugStage.initModality(Modality.NONE);
+            debugStage.getIcons().add(new Image("https://portrait.gitee.com/uploads/avatars/user/564/1692751_EricFox_1579054526.png!avatar30"));
             debugStage.setAlwaysOnTop(true);
             FXMLLoader debugLoader = new FXMLLoader(new ClassPathResource("gen/fxml_home/debug.fxml").getURL());
             debugStage.setScene(new Scene(debugLoader.load()));

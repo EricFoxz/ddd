@@ -3,6 +3,7 @@ package gitee.com.ericfox.ddd.domain.gen.controller;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseLogger;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -15,8 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 public class GenDebugController implements BaseJavaFxController {
     @Getter
     private final BaseLogger logger = new BaseLogger() {
-        private final Font normalFont = Font.font("System", FontWeight.NORMAL, 16);
-        private final Font boldFont = Font.font("System", FontWeight.BOLD, 16);
+        private final Font normalFont = Font.font("System", FontWeight.NORMAL, 12);
+        private final Font boldFont = Font.font("System", FontWeight.BOLD, 12);
 
         @Override
         public void info(String msg) {
@@ -24,6 +25,7 @@ public class GenDebugController implements BaseJavaFxController {
             text.setFill(Color.BLUE);
             text.setFont(normalFont);
             logTextFlow.getChildren().add(text);
+            logScrollPane.setVvalue(1);
         }
 
         @Override
@@ -32,6 +34,7 @@ public class GenDebugController implements BaseJavaFxController {
             text.setFill(Color.ORANGE);
             text.setFont(boldFont);
             logTextFlow.getChildren().add(text);
+            logScrollPane.setVvalue(1);
         }
 
         @Override
@@ -40,6 +43,7 @@ public class GenDebugController implements BaseJavaFxController {
             text.setFill(Color.BLACK);
             text.setFont(normalFont);
             logTextFlow.getChildren().add(text);
+            logScrollPane.setVvalue(1);
         }
 
         @Override
@@ -48,6 +52,7 @@ public class GenDebugController implements BaseJavaFxController {
             text.setFill(Color.RED);
             text.setFont(boldFont);
             logTextFlow.getChildren().add(text);
+            logScrollPane.setVvalue(1);
         }
     };
 
@@ -56,12 +61,15 @@ public class GenDebugController implements BaseJavaFxController {
 
     @FXML
     private TextFlow logTextFlow;
+    @FXML
+    private ScrollPane logScrollPane;
 
     @Override
     public void initialize() {
         clearButton.setOnAction(event -> {
             logTextFlow.getChildren().clear();
         });
+        logScrollPane.setVvalue(1);
     }
 
 }

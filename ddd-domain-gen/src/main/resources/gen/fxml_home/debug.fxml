@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -12,16 +13,16 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0">
                <children>
-                  <ScrollPane hbarPolicy="NEVER" prefHeight="738.0" prefWidth="500.0">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <TextFlow fx:id="logTextFlow" cacheHint="SPEED" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                        </AnchorPane>
-                    </content>
-                  </ScrollPane>
                   <Button fx:id="clearButton" layoutX="230.0" layoutY="742.0" mnemonicParsing="false" text="清空" />
+                  <ScrollPane fx:id="logScrollPane" prefHeight="730.0" prefWidth="500.0" vbarPolicy="ALWAYS">
+                     <content>
+                        <TextFlow fx:id="logTextFlow" cacheHint="SPEED">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </TextFlow>
+                     </content>
+                  </ScrollPane>
                </children></AnchorPane>
       </content>
     </Tab>
