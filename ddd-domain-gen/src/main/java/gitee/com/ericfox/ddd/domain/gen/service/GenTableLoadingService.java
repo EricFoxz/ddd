@@ -1,6 +1,8 @@
 package gitee.com.ericfox.ddd.domain.gen.service;
 
 import cn.hutool.core.io.resource.Resource;
+import gitee.com.ericfox.ddd.domain.gen.GenLogger;
+import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
 import gitee.com.ericfox.ddd.domain.gen.factory.GenSerializableFactory;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
@@ -20,7 +22,7 @@ import java.util.function.Consumer;
 
 @Service
 @Slf4j
-public class GenTableLoadingService implements BaseGenService {
+public class GenTableLoadingService implements GenLogger {
     @Getter
     private static final Map<String, Map<String, Document>> domainMap = MapUtil.newConcurrentHashMap();
 
@@ -31,7 +33,7 @@ public class GenTableLoadingService implements BaseGenService {
         logInfo(log, "genTableLoadingService::initAll 正在从运行时环境反序列化表结构...");
         domainMap.clear();
         try {
-            Resource resourceObj = ResourceUtil.getResourceObj("gen/meta_home");
+            Resource resourceObj = ResourceUtil.getResourceObj(GenConstants.META_HOME_PATH);
             File metaHome = FileUtil.file(resourceObj.getUrl());
             if (FileUtil.isDirectory(metaHome)) {
                 GenSerializableFactory genSerializableFactory = GenSerializableFactory.getDefaultInstance();
@@ -47,6 +49,8 @@ public class GenTableLoadingService implements BaseGenService {
                         if (!domainMap.containsKey(domainName)) {
                             tableMap = MapUtil.newConcurrentHashMap();
                             domainMap.put(domainName, tableMap);
+                        } else {
+                            tableMap = domainMap.get(domainName);
                         }
                         List<File> tableList = FileUtil.loopFiles(domainFile);
                         if (CollUtil.isNotEmpty(tableList)) {
@@ -79,13 +83,13 @@ public class GenTableLoadingService implements BaseGenService {
     /**
      * 把xml发布到target运行时环境
      */
-    public void publishToTarget() {
+    private void publishToTarget() {
         logInfo(log, "genTableLoadingService::publishToTarget 1开始发布xml表结构...");
-        String targetPath = URLUtil.getURL("gen/meta_home").getFile();
+        String targetPath = URLUtil.getURL(GenConstants.META_HOME_PATH).getFile();
         //   /E:/idea_projects/ddd/ddd-domain-gen/target/classes/gen/meta_home
         String sourcePath = ReUtil.replaceAll(targetPath, "/target/classes", "/src/main/resources");
         //   /E:/idea_projects/ddd/ddd-domain-gen/src/main/resources/gen/meta_home
-        targetPath = StrUtil.replace(targetPath, "gen/meta_home", "gen");
+        targetPath = StrUtil.replace(targetPath, GenConstants.META_HOME_PATH, "gen");
         FileUtil.copy(sourcePath, targetPath, true);
         logInfo(log, "genTableLoadingService::publishToTarget 2发布完成");
     }
@@ -100,10 +104,11 @@ public class GenTableLoadingService implements BaseGenService {
             @Override
             public void accept(Class<?> aClass) {
                 if (aClass.isAnnotationPresent(RepoEnabledAnnotation.class)) {
-
+                    //TODO-待实现
                 }
             }
         });
+        publishToTarget();
     }
 
     /**
@@ -111,6 +116,8 @@ public class GenTableLoadingService implements BaseGenService {
      */
     public void readTableByOrmHandler(ActionEvent event) {
         logInfo(log, "开始从数据库读取表结构...");
+        //TODO-待实现
+        publishToTarget();
     }
 
 

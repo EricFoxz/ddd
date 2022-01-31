@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="773.0" prefWidth="1083.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+<SplitPane dividerPositions="0.21" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1083.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="gitee.com.ericfox.ddd.domain.gen.controller.GenTableViewController">
+  <items>
+    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0" prefWidth="224.0">
+         <children>
+            <ToolBar fx:id="tableListToolBar" maxHeight="-Infinity" maxWidth="-Infinity" orientation="VERTICAL" prefHeight="728.0" prefWidth="224.0">
+               <items>
+                  <CheckBox fx:id="checkAllCheckBox" layoutX="41.0" layoutY="22.0" mnemonicParsing="false" text="全选" textFill="#00d6ff" wrapText="true">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </CheckBox>
+                  <CheckBox layoutX="51.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefWidth="205.0" text="CheckBox" wrapText="true" />
+               </items>
+               <padding>
+                  <Insets left="10.0" top="15.0" />
+               </padding>
+            </ToolBar>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: none;" />
+  </items>
+</SplitPane>

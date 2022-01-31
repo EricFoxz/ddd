@@ -14,7 +14,7 @@
             <menus>
                 <Menu mnemonicParsing="false" text="文件">
                     <items>
-                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="关闭" />
+                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="退出" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="编辑" visible="false">
@@ -66,11 +66,6 @@
                       <Tab closable="false" text="领域列表">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" />
-                        </content>
-                      </Tab>
-                      <Tab text="表格">
-                        <content>
-                          <AnchorPane />
                         </content>
                       </Tab>
                     </tabs>

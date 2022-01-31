@@ -1,9 +1,9 @@
-package gitee.com.ericfox.ddd.domain.gen.service;
+package gitee.com.ericfox.ddd.domain.gen;
 
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import org.slf4j.Logger;
 
-public interface BaseGenService {
+public interface GenLogger {
     default void logInfo(Logger log, String msg, Object... objects) {
         if (GenComponents.getDebugController() == null) {
             log.info(msg, objects);
