@@ -17,11 +17,7 @@ import java.util.List;
  */
 @Slf4j
 public abstract class JFinalBaseDao<PO extends BasePo<PO>, DAO extends JFinalBaseDao<PO, DAO>> extends Model<DAO> implements BaseDao<PO> {
-    public static final String DAO_NAME_METHOD_NAME = "daoFieldName";
-
-    protected static String daoFieldName() {
-        return "dao";
-    }
+    public static final String DAO_FIELD_NAME = "dao";
 
     public boolean multiInsert(List<DAO> daoList, int batchSize) {
         try {

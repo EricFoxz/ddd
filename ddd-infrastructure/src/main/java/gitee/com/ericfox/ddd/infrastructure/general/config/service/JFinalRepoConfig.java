@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -64,8 +63,7 @@ public class JFinalRepoConfig {
                     RepoEnabledAnnotation annotation = aClass.getAnnotation(RepoEnabledAnnotation.class);
                     if (RepoTypeStrategyEnum.J_FINAL_REPO_STRATEGY.equals(annotation.type())) {
                         Class<DAO> daoClass = ClassUtil.getDaoClassByPoClass((Class<PO>) aClass, jFinalRepoStrategy);
-                        Method daoNameMethod = ReflectUtil.getMethodByName(daoClass, JFinalBaseDao.DAO_NAME_METHOD_NAME);
-                        String daoName = (String) daoNameMethod.invoke(null, (Object[]) null);
+                        String daoName = JFinalBaseDao.DAO_FIELD_NAME;
                         Class<MODEL> daoClassM = (Class<MODEL>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName)).getClass();
                         arp.addMapping(StrUtil.toUnderlineCase(className), annotation.value(), daoClassM);
                     }

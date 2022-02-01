@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.persistent.po.${domainName};
+package gitee.com.ericfox.ddd.infrastructure.persistent.po.${meta.domainName};
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 @Getter
 @RepoEnabledAnnotation(type = RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY)
-public class ${ClassName} implements BasePo<${ClassName}> {
+public class ${meta.ClassName} implements BasePo<${meta.ClassName}> {
     public static final class STRUCTURE {
-        public static String table = "${class_name}";
-        public static String id = "${id}";
+        public static String table = "${meta.class_name}";
+        public static String id = "${meta.idField}";
     }
 
     private Long id;

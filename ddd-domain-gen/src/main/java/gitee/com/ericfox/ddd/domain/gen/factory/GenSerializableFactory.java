@@ -4,6 +4,9 @@ import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.XmlUtil;
 
 import java.io.File;
 
+/**
+ * 序列化工厂类
+ */
 public abstract class GenSerializableFactory {
     /**
      * 从文件反序列化
@@ -15,7 +18,7 @@ public abstract class GenSerializableFactory {
      */
     public abstract <T> void serialization(File dest, T bean);
 
-    public static GenSerializableFactory getDefaultInstance() {
+    public static GenSerializableFactory getXmlFactory() {
         return new GenSerializableFactory() {
             @Override
             public <T> T deserialization(File xmlFile) {

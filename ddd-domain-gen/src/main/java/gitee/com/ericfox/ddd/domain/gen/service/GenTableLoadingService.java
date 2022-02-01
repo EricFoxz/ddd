@@ -36,7 +36,7 @@ public class GenTableLoadingService implements GenLogger {
             Resource resourceObj = ResourceUtil.getResourceObj(GenConstants.META_HOME_PATH);
             File metaHome = FileUtil.file(resourceObj.getUrl());
             if (FileUtil.isDirectory(metaHome)) {
-                GenSerializableFactory genSerializableFactory = GenSerializableFactory.getDefaultInstance();
+                GenSerializableFactory genSerializableFactory = GenSerializableFactory.getXmlFactory();
                 List<File> domainList = FileUtil.loopFiles(metaHome.toPath(), 1, null);
 
                 if (CollUtil.isNotEmpty(domainList)) {

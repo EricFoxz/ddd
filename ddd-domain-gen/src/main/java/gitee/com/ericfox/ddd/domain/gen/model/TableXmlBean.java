@@ -21,20 +21,47 @@ import java.util.Map;
 @Getter
 @Slf4j
 public class TableXmlBean implements GenLogger {
-    private final MetaBean meta = new MetaBean();
-    private final DataBean data = new DataBean();
+    private MetaBean meta = new MetaBean();
+    private DataBean data = new DataBean();
 
     @Data
     public static class MetaBean {
+        /**
+         * 领域名称
+         */
         private String domainName;
+        /**
+         * 表名
+         */
         private String tableName;
+        /**
+         * 持久化策略
+         */
         private RepoTypeStrategyEnum repoTypeStrategyEnum;
+        /**
+         * 类名
+         */
         private String className;
         private String class_name;
         private String ClassName;
-        private final Map<String, String> fields = MapUtil.newLinkedHashMap();
-        private final List<String> indexList = CollUtil.newArrayList();
+        /**
+         * 主键
+         */
+        private String idField;
+        /**
+         * 字段及类型
+         */
+        private Map<String, String> fieldClassMap = MapUtil.newLinkedHashMap();
+        /**
+         * 字段及长度
+         */
+        private Map<String, Integer> fieldLengthMap = MapUtil.newLinkedHashMap();
+        /**
+         * 索引
+         */
+        private List<String> indexList = CollUtil.newArrayList();
 
+        private void setFieldLengthMap() {}
         private void setClass_name(String class_name) {
             setClassName(StrUtil.toCamelCase(class_name));
         }
@@ -42,14 +69,21 @@ public class TableXmlBean implements GenLogger {
         public void setClassName(String className) {
             this.className = StrUtil.toCamelCase(className);
             this.ClassName = StrUtil.upperFirst(this.className);
+            this.class_name = StrUtil.toUnderlineCase(this.className);
         }
     }
 
     @Data
     public static class DataBean {
+        /**
+         * 默认值
+         */
         private Map<String, Serializable> dataMap = MapUtil.newLinkedHashMap();
     }
 
+    /**
+     * 从xml文件加载bean
+     */
     public static TableXmlBean load(File file) {
         return XmlUtil.readObjectFromXml(file);
     }

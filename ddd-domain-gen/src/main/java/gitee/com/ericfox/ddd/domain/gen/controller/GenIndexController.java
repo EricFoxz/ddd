@@ -111,9 +111,14 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
             meta.setTableName("sys_user");
             meta.setClassName("sysUser");
             meta.setDomainName("sys");
+            meta.setIdField("id");
             meta.setRepoTypeStrategyEnum(RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
-            meta.getFields().put("id", ReflectClassNameConstants.LONG);
-            meta.getFields().put("username", ReflectClassNameConstants.STRING);
+            meta.getFieldClassMap().put("id", ReflectClassNameConstants.LONG);
+            meta.getFieldClassMap().put("username", ReflectClassNameConstants.STRING);
+            meta.getFieldClassMap().put("create_time", ReflectClassNameConstants.LONG);
+            meta.getFieldLengthMap().put("id", 8);
+            meta.getFieldLengthMap().put("username", 50);
+            meta.getFieldLengthMap().put("create_time", 8);
             GenComponents.getGenTableWritingService().writeTableXml(bean);
             GenComponents.getGenTableWritingService().publishTablesToRuntime();
         });

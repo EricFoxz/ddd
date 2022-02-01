@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.domain.gen.common.constants;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -12,6 +13,7 @@ public class ReflectClassNameConstants {
     public final static String CHARACTER = Character.class.getName();
     public final static String FLOAT = Float.class.getName();
     public final static String DOUBLE = Double.class.getName();
+    public final static String BIG_DECIMAL = BigDecimal.class.getName();
 
     /**
      * 日期类型的数据不建议存为Date，应改为Long
