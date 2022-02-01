@@ -5,6 +5,7 @@ import gitee.com.ericfox.ddd.domain.gen.controller.GenDomainViewController;
 import gitee.com.ericfox.ddd.domain.gen.controller.GenIndexController;
 import gitee.com.ericfox.ddd.domain.gen.service.GenCodeService;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableLoadingService;
+import gitee.com.ericfox.ddd.domain.gen.service.GenTableWritingService;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +37,14 @@ public class GenComponents {
     @Autowired
     public void setGenTableLoadingService(GenTableLoadingService genTableLoadingService) {
         GenComponents.genTableLoadingService = genTableLoadingService;
+    }
+
+    @Getter
+    private static GenTableWritingService genTableWritingService;
+
+    @Autowired
+    public void setGenTableWritingService(GenTableWritingService genTableWritingService) {
+        GenComponents.genTableWritingService = genTableWritingService;
     }
 
     @Getter

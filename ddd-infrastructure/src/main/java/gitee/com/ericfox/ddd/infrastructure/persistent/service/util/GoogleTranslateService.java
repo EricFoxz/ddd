@@ -3,7 +3,7 @@ package gitee.com.ericfox.ddd.infrastructure.persistent.service.util;
 import cn.hutool.json.JSONArray;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BaseEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.framework.pojo.OkHttpResponse;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.JsonUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.JSONUtil;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
@@ -164,7 +164,7 @@ public class GoogleTranslateService {
 
     @SneakyThrows
     private String parseResult(String inputJson) {
-        JSONArray jsonArray = JsonUtil.parseArray(inputJson);
+        JSONArray jsonArray = JSONUtil.parseArray(inputJson);
         JSONArray jsonArray2 = (JSONArray) jsonArray.get(0);
 //        JSONArray jsonArray3 = (JSONArray) jsonArray2.get(0);
         String result = "";

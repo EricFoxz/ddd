@@ -38,7 +38,7 @@ public class RedisCacheStrategy implements CacheStrategy {
 
     @Override
     public Long flushByPrefix(String prefix) {
-        String UUID = cn.hutool.core.lang.UUID.fastUUID().toString();
+        //String UUID = IdUtil.fastUUID();
         // 扫描指定前缀的key并删除
         String luaFun = "\n" +
                 "redis.replicate_commands()\n" +

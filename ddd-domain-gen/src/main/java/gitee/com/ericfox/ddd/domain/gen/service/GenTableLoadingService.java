@@ -2,8 +2,10 @@ package gitee.com.ericfox.ddd.domain.gen.service;
 
 import cn.hutool.core.io.resource.Resource;
 import gitee.com.ericfox.ddd.domain.gen.GenLogger;
+import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
 import gitee.com.ericfox.ddd.domain.gen.factory.GenSerializableFactory;
+import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
@@ -11,8 +13,6 @@ import javafx.event.ActionEvent;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import java.io.File;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 @Slf4j
 public class GenTableLoadingService implements GenLogger {
     @Getter
-    private static final Map<String, Map<String, Document>> domainMap = MapUtil.newConcurrentHashMap();
+    private static final Map<String, Map<String, TableXmlBean>> domainMap = MapUtil.newConcurrentHashMap();
 
     /**
      * 读取已有的
@@ -45,7 +45,7 @@ public class GenTableLoadingService implements GenLogger {
                             return;
                         }
                         String domainName = FileUtil.getName(domainFile);
-                        Map<String, Document> tableMap = null;
+                        Map<String, TableXmlBean> tableMap = null;
                         if (!domainMap.containsKey(domainName)) {
                             tableMap = MapUtil.newConcurrentHashMap();
                             domainMap.put(domainName, tableMap);
@@ -54,44 +54,19 @@ public class GenTableLoadingService implements GenLogger {
                         }
                         List<File> tableList = FileUtil.loopFiles(domainFile);
                         if (CollUtil.isNotEmpty(tableList)) {
-                            Map<String, Document> finalTableMap = tableMap;
+                            Map<String, TableXmlBean> finalTableMap = tableMap;
                             tableList.forEach(tableFile -> {
-                                Document tableDocument = genSerializableFactory.deserialization(tableFile);
-                                Element class_name_element = XmlUtil.getElementByXPath("/root/meta/class_name", tableDocument);
-                                String class_name = class_name_element.getTextContent();
-                                finalTableMap.put(class_name, tableDocument);
+                                TableXmlBean bean = TableXmlBean.load(tableFile);
+                                finalTableMap.put(bean.getMeta().getTableName(), bean);
                             });
                         }
                     });
                 }
             }
+            logInfo(log, "genTableLoadingService::initAll 加载完成");
         } catch (Exception e) {
             logError(log, "genTableLoadingService::initAll 异常", e);
         }
-    }
-
-    /**
-     * 序列化
-     */
-    public void serializable(String domainName, String tableName) {
-        if (!domainMap.containsKey(domainName) || !domainMap.get(domainName).containsKey(tableName)) {
-
-        }
-        Document document = domainMap.get(domainName).get(tableName);
-    }
-
-    /**
-     * 把xml发布到target运行时环境
-     */
-    private void publishToTarget() {
-        logInfo(log, "genTableLoadingService::publishToTarget 1开始发布xml表结构...");
-        String targetPath = URLUtil.getURL(GenConstants.META_HOME_PATH).getFile();
-        //   /E:/idea_projects/ddd/ddd-domain-gen/target/classes/gen/meta_home
-        String sourcePath = ReUtil.replaceAll(targetPath, "/target/classes", "/src/main/resources");
-        //   /E:/idea_projects/ddd/ddd-domain-gen/src/main/resources/gen/meta_home
-        targetPath = StrUtil.replace(targetPath, GenConstants.META_HOME_PATH, "gen");
-        FileUtil.copy(sourcePath, targetPath, true);
-        logInfo(log, "genTableLoadingService::publishToTarget 2发布完成");
     }
 
     /**
@@ -108,7 +83,7 @@ public class GenTableLoadingService implements GenLogger {
                 }
             }
         });
-        publishToTarget();
+        GenComponents.getGenTableWritingService().publishTablesToRuntime();
     }
 
     /**
@@ -117,7 +92,7 @@ public class GenTableLoadingService implements GenLogger {
     public void readTableByOrmHandler(ActionEvent event) {
         logInfo(log, "开始从数据库读取表结构...");
         //TODO-待实现
-        publishToTarget();
+        GenComponents.getGenTableWritingService().publishTablesToRuntime();
     }
 
 

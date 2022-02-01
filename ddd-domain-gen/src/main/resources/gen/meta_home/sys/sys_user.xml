@@ -1,7 +1,32 @@
-<root>
-    <meta>
-        <ClassName>SysUser</ClassName>
-        <className>sysUser</className>
-        <class_name>sys_user</class_name>
-    </meta>
-</root>
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_171" class="java.beans.XMLDecoder">
+ <object class="gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean" id="TableFxmlBean0">
+  <void id="TableFxmlBean$MetaBean0" property="meta">
+   <void property="className">
+    <string>sysUser</string>
+   </void>
+   <void property="domainName">
+    <string>sys</string>
+   </void>
+   <void property="fields">
+    <void method="put">
+     <string>id</string>
+     <string>java.lang.Long</string>
+    </void>
+    <void method="put">
+     <string>username</string>
+     <string>java.lang.String</string>
+    </void>
+   </void>
+   <void property="repoTypeStrategyEnum">
+    <object class="java.lang.Enum" method="valueOf">
+     <class>gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum</class>
+     <string>LUCENE_REPO_STRATEGY</string>
+    </object>
+   </void>
+   <void property="tableName">
+    <string>sys_user</string>
+   </void>
+  </void>
+ </object>
+</java>

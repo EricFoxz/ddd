@@ -5,7 +5,10 @@ import gitee.com.ericfox.ddd.domain.gen.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenFX;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
+import gitee.com.ericfox.ddd.domain.gen.common.constants.ReflectClassNameConstants;
+import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableLoadingService;
+import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import javafx.application.Platform;
@@ -17,7 +20,6 @@ import javafx.scene.input.MouseButton;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
-import org.w3c.dom.Document;
 
 import java.util.Map;
 import java.util.Set;
@@ -103,7 +105,17 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
             logError(log, "genIndexController::initialize 初始化主容器异常", e);
         }
         testButton.setOnAction(event -> {
-            String str = GenComponents.getGenCodeService().gen();
+            //String str = GenComponents.getGenCodeService().genPo("sys", "sys_user");
+            TableXmlBean bean = new TableXmlBean();
+            TableXmlBean.MetaBean meta = bean.getMeta();
+            meta.setTableName("sys_user");
+            meta.setClassName("sysUser");
+            meta.setDomainName("sys");
+            meta.setRepoTypeStrategyEnum(RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
+            meta.getFields().put("id", ReflectClassNameConstants.LONG);
+            meta.getFields().put("username", ReflectClassNameConstants.STRING);
+            GenComponents.getGenTableWritingService().writeTableXml(bean);
+            GenComponents.getGenTableWritingService().publishTablesToRuntime();
         });
         finishLoading();
     }
@@ -137,7 +149,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
     @SneakyThrows
     public synchronized void renderTableList(String domainName) {
         String finalDomainName = "domainName:" + domainName;
-        Map<String, Document> tableMap = GenTableLoadingService.getDomainMap().get(domainName);
+        Map<String, TableXmlBean> tableMap = GenTableLoadingService.getDomainMap().get(domainName);
         if (tableMap == null) {
             AtomicReference<Tab> removeTab = new AtomicReference<>();
             Tab tab;

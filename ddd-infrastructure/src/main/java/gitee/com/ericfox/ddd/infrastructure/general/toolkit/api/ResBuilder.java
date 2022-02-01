@@ -2,7 +2,7 @@ package gitee.com.ericfox.ddd.infrastructure.general.toolkit.api;
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ApiProperties;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.JsonUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.JSONUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -175,7 +175,7 @@ public class ResBuilder {
      * @return String
      */
     public String getJsonData() {
-        return JsonUtil.toJsonStr(data);
+        return JSONUtil.toJsonStr(data);
     }
 
     /**

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.ConditionalOnPropertyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.JsonUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.JSONUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.SecureUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -109,7 +109,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
                 if (null == params[i]) {
                     paramString.append("nullParams");
                 } else {
-                    paramString.append(JsonUtil.toJsonStr(params[i]));
+                    paramString.append(JSONUtil.toJsonStr(params[i]));
                 }
                 if (i != params.length - 1) {
                     paramString.append(":");
@@ -170,7 +170,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
                     ) {
                         paramString.append(params[i]);
                     } else {
-                        paramString.append(JsonUtil.toJsonStr(params[i]));
+                        paramString.append(JSONUtil.toJsonStr(params[i]));
                     }
                 }
                 if (i != params.length - 1) {
