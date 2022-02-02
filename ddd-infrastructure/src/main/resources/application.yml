@@ -1,5 +1,5 @@
 spring:
   application:
-    name: '领域驱动工程'
+    name: 'ddd'
   profiles:
     active: dev

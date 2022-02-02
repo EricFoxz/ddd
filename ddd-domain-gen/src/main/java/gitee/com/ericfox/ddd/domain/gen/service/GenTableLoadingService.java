@@ -1,6 +1,9 @@
 package gitee.com.ericfox.ddd.domain.gen.service;
 
 import cn.hutool.core.io.resource.Resource;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.DbKit;
+import com.jfinal.plugin.activerecord.Record;
 import gitee.com.ericfox.ddd.domain.gen.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
@@ -84,15 +87,38 @@ public class GenTableLoadingService implements GenLogger {
             }
         });
         GenComponents.getGenTableWritingService().publishTablesToRuntime();
+        logInfo(log, "genTableLoadingService::readTableByJavaClassHandler 读取完成");
     }
 
     /**
      * 从数据库读取表结构
      */
     public void readTableByOrmHandler(ActionEvent event) {
-        logInfo(log, "开始从数据库读取表结构...");
-        //TODO-待实现
+        logInfo(log, "genTableLoadingService::readTableByOrmHandler 开始从数据库读取表结构...");
+        try {
+            String databaseName = DbKit.getConfig().getConnection().getCatalog();
+            List<Record> recordList = Db.find("select * from information_schema.tables where table_schema = '" + databaseName + "'");
+            recordList.forEach(record -> {
+                String tableName = record.getStr("TABLE_NAME");
+                String domainName = StrUtil.splitToArray(tableName, '_', -1)[0];
+                List<Record> columns = Db.find("select * from information_schema.columns where table_schema = '" + databaseName + "' and table_name='" + tableName + "'");
+                TableXmlBean xmlBean = new TableXmlBean();
+                TableXmlBean.MetaBean meta = xmlBean.getMeta();
+                meta.setTableName(tableName);
+                meta.setDomainName(domainName);
+                for (Record column : columns) {
+                    if ("PRI".equals(column.get("COLUMN_KEY", ""))) {
+                        meta.setIdField(column.getStr("COLUMN_NAME"));
+                    }
+                }
+//                xmlBean.getMeta().set
+            });
+        } catch (Exception e) {
+            logError(log, "genTableLoadingService::readTableByOrmHandler");
+        }
+
         GenComponents.getGenTableWritingService().publishTablesToRuntime();
+        logInfo(log, "genTableLoadingService::readTableByOrmHandler 读取完成");
     }
 
 

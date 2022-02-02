@@ -31,13 +31,13 @@ public class GenTableWritingService implements GenLogger {
      * 把xml发布到target运行时环境
      */
     public void publishTablesToRuntime() {
-        logInfo(log, "genTableLoadingService::publishToTarget 1开始发布xml表结构...");
+        logInfo(log, "genTableWritingService::publishTablesToRuntime 1开始发布xml表结构...");
         String targetPath = URLUtil.getURL(GenConstants.META_HOME_PATH).getFile();
         //   /E:/idea_projects/ddd/ddd-domain-gen/target/classes/gen/meta_home
         String sourcePath = ReUtil.replaceAll(targetPath, "/target/classes", "/src/main/resources");
         //   /E:/idea_projects/ddd/ddd-domain-gen/src/main/resources/gen/meta_home
         targetPath = StrUtil.replace(targetPath, GenConstants.META_HOME_PATH, "gen");
         FileUtil.copy(sourcePath, targetPath, true);
-        logInfo(log, "genTableLoadingService::publishToTarget 2发布完成");
+        logInfo(log, "genTableWritingService::publishTablesToRuntime 2发布完成");
     }
 }

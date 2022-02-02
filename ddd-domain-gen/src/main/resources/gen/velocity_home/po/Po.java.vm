@@ -6,15 +6,19 @@ import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Setter
 @Getter
-@RepoEnabledAnnotation(type = RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY)
+@RepoEnabledAnnotation(type = RepoTypeStrategyEnum.${meta.repoTypeStrategyEnum.name})
 public class ${meta.ClassName} implements BasePo<${meta.ClassName}> {
     public static final class STRUCTURE {
-        public static String table = "${meta.class_name}";
+        public static String table = "${meta.tableName}";
         public static String id = "${meta.idField}";
     }
 
+#foreach($item in $meta.fieldClassMap.entrySet())
+    private ${item.value} ${item.key};
+#end
     private Long id;
     private String username;
 }

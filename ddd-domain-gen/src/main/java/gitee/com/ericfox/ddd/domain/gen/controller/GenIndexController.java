@@ -69,7 +69,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
         readTableByOrmButton.setOnAction(event -> {
             beginLoading();
             asyncExecute(() -> {
-                GenComponents.getGenTableLoadingService().readTableByJavaClassHandler(event);
+                GenComponents.getGenTableLoadingService().readTableByOrmHandler(event);
                 finishLoading();
             });
         });
@@ -105,22 +105,22 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
             logError(log, "genIndexController::initialize 初始化主容器异常", e);
         }
         testButton.setOnAction(event -> {
-            //String str = GenComponents.getGenCodeService().genPo("sys", "sys_user");
-            TableXmlBean bean = new TableXmlBean();
-            TableXmlBean.MetaBean meta = bean.getMeta();
-            meta.setTableName("sys_user");
-            meta.setClassName("sysUser");
-            meta.setDomainName("sys");
-            meta.setIdField("id");
-            meta.setRepoTypeStrategyEnum(RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
-            meta.getFieldClassMap().put("id", ReflectClassNameConstants.LONG);
-            meta.getFieldClassMap().put("username", ReflectClassNameConstants.STRING);
-            meta.getFieldClassMap().put("create_time", ReflectClassNameConstants.LONG);
-            meta.getFieldLengthMap().put("id", 8);
-            meta.getFieldLengthMap().put("username", 50);
-            meta.getFieldLengthMap().put("create_time", 8);
-            GenComponents.getGenTableWritingService().writeTableXml(bean);
-            GenComponents.getGenTableWritingService().publishTablesToRuntime();
+            String str = GenComponents.getGenCodeService().genPo("sys", "sys_user");
+//            TableXmlBean bean = new TableXmlBean();
+//            TableXmlBean.MetaBean meta = bean.getMeta();
+//            meta.setTableName("sys_user");
+//            meta.setClassName("sysUser");
+//            meta.setDomainName("sys");
+//            meta.setIdField("id");
+//            meta.setRepoTypeStrategyEnum(RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
+//            meta.getFieldClassMap().put("id", ReflectClassNameConstants.LONG);
+//            meta.getFieldClassMap().put("username", ReflectClassNameConstants.STRING);
+//            meta.getFieldClassMap().put("create_time", ReflectClassNameConstants.LONG);
+//            meta.getFieldLengthMap().put("id", 8);
+//            meta.getFieldLengthMap().put("username", 50);
+//            meta.getFieldLengthMap().put("create_time", 8);
+//            GenComponents.getGenTableWritingService().writeTableXml(bean);
+//            GenComponents.getGenTableWritingService().publishTablesToRuntime();
         });
         finishLoading();
     }

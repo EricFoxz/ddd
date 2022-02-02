@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.StringWriter;
@@ -18,6 +19,9 @@ import java.util.Properties;
 @Slf4j
 @Service
 public class GenCodeService implements GenLogger {
+    @Value("${spring.application.name}")
+    private String projectName;
+
     @SneakyThrows
     public String genPo(String domainName, String tableName) {
         TableXmlBean tableXmlBean = GenTableLoadingService.getDomainMap().get(domainName).get(tableName);
