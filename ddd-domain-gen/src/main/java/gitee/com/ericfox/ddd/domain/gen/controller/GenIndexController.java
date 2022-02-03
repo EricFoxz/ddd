@@ -5,11 +5,10 @@ import gitee.com.ericfox.ddd.domain.gen.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenFX;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
-import gitee.com.ericfox.ddd.domain.gen.common.constants.ReflectClassNameConstants;
 import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableLoadingService;
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.FileUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -21,20 +20,32 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 public class GenIndexController implements BaseJavaFxController, GenLogger {
+    /**
+     * 导入功能
+     */
     @FXML
-    private Button readTableByJavaButton;
+    private MenuButton importMenuButton;
     @FXML
-    private Button readTableByOrmButton;
+    private MenuItem importTableByMySqlMenuItem;
+    @FXML
+    private MenuItem importTableByJavaMenuItem;
+    @FXML
+    private MenuItem importTableByXmlMenuItem;
+
     @FXML
     private Button initAllButton;
     @FXML
     private Button testButton;
+
+    @FXML
+    private ProgressBar indexProgressBar;
 
     @FXML
     private MenuItem debugModelMenuItem;
@@ -47,7 +58,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
     @Override
     public void initialize() {
         beginLoading();
-        //从XML获取数据结构
+        //从项目中的xml获取数据结构
         initAllButton.setOnAction(event -> {
             beginLoading();
             asyncExecute(() -> {
@@ -58,21 +69,33 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
             });
         });
         //从java代码获取数据结构
-        readTableByJavaButton.setOnAction(event -> {
+        importTableByJavaMenuItem.setOnAction(event -> {
             beginLoading();
             asyncExecute(() -> {
-                GenComponents.getGenTableLoadingService().readTableByJavaClassHandler(event);
+                GenComponents.getGenTableLoadingService().importTableByJavaClass(null, null);
                 finishLoading();
             });
         });
-        //从数据库获取数据结构
-        readTableByOrmButton.setOnAction(event -> {
+        //从MySql数据库获取数据结构
+        importTableByMySqlMenuItem.setOnAction(event -> {
             beginLoading();
             asyncExecute(() -> {
-                GenComponents.getGenTableLoadingService().readTableByOrmHandler(event);
+                //TODO
+                GenComponents.getGenTableLoadingService().importTableByMySql("", "", "");
                 finishLoading();
             });
         });
+        //从XML导入数据结构
+        importTableByXmlMenuItem.setOnAction(event -> {
+            beginLoading();
+            asyncExecute(() -> {
+                //TODO
+                File file = FileUtil.file();
+                GenComponents.getGenTableLoadingService().importTableByXml(file);
+                finishLoading();
+            });
+        });
+
         //Debug菜单按钮
         debugModelMenuItem.setOnAction(event -> {
             try {
@@ -126,15 +149,15 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
     }
 
     public void beginLoading() {
-        readTableByJavaButton.setDisable(true);
-        readTableByOrmButton.setDisable(true);
+        importMenuButton.setDisable(true);
         initAllButton.setDisable(true);
+        indexProgressBar.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
     }
 
     public void finishLoading() {
-        readTableByJavaButton.setDisable(false);
-        readTableByOrmButton.setDisable(false);
+        importMenuButton.setDisable(false);
         initAllButton.setDisable(false);
+        indexProgressBar.setProgress(0);
     }
 
     /**

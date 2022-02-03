@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.domain.gen.service;
 
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.io.resource.Resource;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.DbKit;
@@ -8,11 +9,11 @@ import gitee.com.ericfox.ddd.domain.gen.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
 import gitee.com.ericfox.ddd.domain.gen.factory.GenSerializableFactory;
+import gitee.com.ericfox.ddd.domain.gen.model.TableMySqlBean;
 import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
-import javafx.event.ActionEvent;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class GenTableLoadingService implements GenLogger {
     private static final Map<String, Map<String, TableXmlBean>> domainMap = MapUtil.newConcurrentHashMap();
 
     /**
-     * 读取已有的
+     * 加载已有的表结构
      */
     public synchronized void initAll() {
         logInfo(log, "genTableLoadingService::initAll 正在从运行时环境反序列化表结构...");
@@ -73,10 +74,10 @@ public class GenTableLoadingService implements GenLogger {
     }
 
     /**
-     * 从java读取表结构
+     * 从java导入表结构
      */
-    public void readTableByJavaClassHandler(ActionEvent event) {
-        logInfo(log, "genTableLoadingService::readTableByJavaClassHandler 开始从java代码读取表结构...");
+    public void importTableByJavaClass(String domainName, String tableName) {
+        logInfo(log, "genTableLoadingService::importTableByJavaClass 开始从java代码读取表结构...");
         Set<Class<?>> classes = ClassUtil.scanPackage(BasePo.class.getPackage().getName());
         classes.forEach(new Consumer<Class<?>>() {
             @Override
@@ -87,39 +88,67 @@ public class GenTableLoadingService implements GenLogger {
             }
         });
         GenComponents.getGenTableWritingService().publishTablesToRuntime();
-        logInfo(log, "genTableLoadingService::readTableByJavaClassHandler 读取完成");
+        logInfo(log, "genTableLoadingService::importTableByJavaClass 读取完成");
     }
 
     /**
-     * 从数据库读取表结构
+     * 从MySql数据库导入表结构
      */
-    public void readTableByOrmHandler(ActionEvent event) {
-        logInfo(log, "genTableLoadingService::readTableByOrmHandler 开始从数据库读取表结构...");
+    public void importTableByMySql(String url, String username, String password) {
+        logInfo(log, "genTableLoadingService::importTableByMySql 开始从数据库读取表结构...");
         try {
+            /* 指定数据库链接*/
+            /*ActiveRecordPlugin arp = SpringUtil.getBean(ActiveRecordPlugin.class);
+            String driverClass = SpringUtil.getProperty("spring.datasource.hikari.driver-class-name");
+            if (StrUtil.isBlank(url)) {
+                url = SpringUtil.getProperty("spring.datasource.url");
+                username = SpringUtil.getProperty("spring.datasource.hikari.username");
+                password = SpringUtil.getProperty("spring.datasource.hikari.password");
+            }
+            HikariCpPlugin hikariCpPlugin = new HikariCpPlugin(url, username, password, driverClass);
+            if (arp != null) {
+                arp.stop();
+            } else {
+                arp = new ActiveRecordPlugin(hikariCpPlugin);
+            }
+            arp.setShowSql(true);
+            arp.getEngine().setSourceFactory(new ClassPathSourceFactory());
+            arp.getEngine().getSourceFactory();
+            arp.addSqlTemplate("infrastructure/jfinal-sql-templates/baseRepo.sql");
+            hikariCpPlugin.start();
+            arp.start();*/
+
             String databaseName = DbKit.getConfig().getConnection().getCatalog();
-            List<Record> recordList = Db.find("select * from information_schema.tables where table_schema = '" + databaseName + "'");
-            recordList.forEach(record -> {
-                String tableName = record.getStr("TABLE_NAME");
-                String domainName = StrUtil.splitToArray(tableName, '_', -1)[0];
-                List<Record> columns = Db.find("select * from information_schema.columns where table_schema = '" + databaseName + "' and table_name='" + tableName + "'");
-                TableXmlBean xmlBean = new TableXmlBean();
-                TableXmlBean.MetaBean meta = xmlBean.getMeta();
-                meta.setTableName(tableName);
-                meta.setDomainName(domainName);
-                for (Record column : columns) {
-                    if ("PRI".equals(column.get("COLUMN_KEY", ""))) {
-                        meta.setIdField(column.getStr("COLUMN_NAME"));
-                    }
+            List<Record> tableRecordList = Db.find("select * from information_schema.tables where table_schema = '" + databaseName + "'");
+            tableRecordList.forEach(tableRecord -> {
+                CopyOptions copyOptions = CopyOptions.create().ignoreCase();
+                TableMySqlBean mySqlBean = BeanUtil.mapToBean(tableRecord.getColumns(), TableMySqlBean.class, false, copyOptions);
+                List<Record> columnRecordList = Db.find("select * from information_schema.columns where table_schema = '" + databaseName + "' and table_name='" + mySqlBean.getTable_name() + "'");
+                columnRecordList.forEach(columnRecord -> {
+                    TableMySqlBean.ColumnSchemaBean columnSchema = BeanUtil.mapToBean(columnRecord.getColumns(), TableMySqlBean.ColumnSchemaBean.class, false, copyOptions);
+                    mySqlBean.getColumnSchemaList().add(columnSchema);
+                });
+                TableXmlBean tableXml = TableXmlBean.load(mySqlBean);
+                String domainName = tableXml.getMeta().getDomainName();
+                String tableName = tableXml.getMeta().getTableName();
+                if (!domainMap.containsKey(domainName)) {
+                    domainMap.put(domainName, MapUtil.newConcurrentHashMap());
                 }
-//                xmlBean.getMeta().set
+                domainMap.get(domainName).put(tableName, tableXml);
+                GenComponents.getGenTableWritingService().writeTableXml(tableXml);
             });
         } catch (Exception e) {
-            logError(log, "genTableLoadingService::readTableByOrmHandler");
+            logError(log, "genTableLoadingService::importTableByMySql", e);
         }
 
         GenComponents.getGenTableWritingService().publishTablesToRuntime();
-        logInfo(log, "genTableLoadingService::readTableByOrmHandler 读取完成");
+        logInfo(log, "genTableLoadingService::importTableByMySql 读取完成");
     }
 
-
+    /**
+     * 从XML文件导入表结构
+     */
+    public void importTableByXml(File file) {
+        //TODO
+    }
 }

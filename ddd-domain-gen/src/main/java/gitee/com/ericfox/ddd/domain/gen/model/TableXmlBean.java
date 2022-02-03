@@ -61,7 +61,10 @@ public class TableXmlBean implements GenLogger {
          */
         private List<String> indexList = CollUtil.newArrayList();
 
-        private void setFieldLengthMap() {}
+        private void setFieldLengthMap() {
+        }
+
+        @Deprecated
         private void setClass_name(String class_name) {
             setClassName(StrUtil.toCamelCase(class_name));
         }
@@ -84,6 +87,27 @@ public class TableXmlBean implements GenLogger {
     /**
      * 从xml文件加载bean
      */
+    public static TableXmlBean load(TableMySqlBean mySqlBean) {
+        TableXmlBean xmlBean = new TableXmlBean();
+        String tableName = mySqlBean.getTable_name();
+        String domainName = StrUtil.contains(tableName, '_') ? StrUtil.splitToArray(tableName, '_', -1)[0] : "_known";
+        MetaBean meta = xmlBean.getMeta();
+        meta.setTableName(tableName);
+        meta.setDomainName(domainName);
+        mySqlBean.getColumnSchemaList().forEach(columnSchema -> {
+            String column_name = columnSchema.getColumn_name();
+            if ("PRI".equals(columnSchema.getColumn_key())) { //主键
+                meta.setIdField(column_name);
+            }
+            meta.getFieldClassMap().put(column_name, columnSchema.getData_type());
+            meta.getFieldLengthMap().put(column_name, columnSchema.getCharacter_maximum_length());
+            meta.setRepoTypeStrategyEnum(RepoTypeStrategyEnum.J_FINAL_REPO_STRATEGY);
+            meta.setDomainName(domainName);
+            meta.setClassName(tableName);
+        });
+        return xmlBean;
+    }
+
     public static TableXmlBean load(File file) {
         return XmlUtil.readObjectFromXml(file);
     }
