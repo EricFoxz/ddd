@@ -23,13 +23,15 @@ import java.util.Map;
 @Slf4j
 @ToString
 public class TableXmlBean implements GenLogger {
-    private String comment;
-
     private MetaBean meta = new MetaBean();
     private DataBean data = new DataBean();
 
     @Data
     public static class MetaBean {
+        /**
+         * 注释
+         */
+        private String tableComment;
         /**
          * 领域名称
          */
@@ -99,8 +101,8 @@ public class TableXmlBean implements GenLogger {
         TableXmlBean xmlBean = new TableXmlBean();
         String tableName = mySqlBean.getTable_name();
         String domainName = StrUtil.contains(tableName, '_') ? StrUtil.splitToArray(tableName, '_', -1)[0] : "_unknown";
-        xmlBean.setComment(StrUtil.isBlank(mySqlBean.getTable_comment()) ? tableName : mySqlBean.getTable_comment());
         MetaBean meta = xmlBean.getMeta();
+        meta.setTableComment(StrUtil.isBlank(mySqlBean.getTable_comment()) ? null : mySqlBean.getTable_comment());
         meta.setTableName(tableName);
         meta.setDomainName(domainName);
         mySqlBean.getColumnSchemaList().forEach(columnSchema -> {

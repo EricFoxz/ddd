@@ -1,7 +1,5 @@
 package gitee.com.ericfox.ddd.domain.gen.controller;
 
-import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
-import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseLogger;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
@@ -12,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import lombok.Getter;
@@ -21,39 +18,36 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GenDebugController implements BaseJavaFxController {
     @Getter
-    private final BaseLogger logger = new BaseLogger() {
-        private final Font normalFont = Font.font(GenConstants.DEFAULT_FONT_FAMILY, FontWeight.NORMAL, 12);
-        private final Font boldFont = Font.font(GenConstants.DEFAULT_FONT_FAMILY, FontWeight.BOLD, 12);
-
+    public final BaseLogger logger = new BaseLogger() {
         @Override
-        public void info(String... msg) {
+        public void info(Font font, String... msg) {
             Text text = getText(msg);
             text.setFill(Color.BLUE);
-            text.setFont(normalFont);
+            text.setFont(font);
             print(text);
         }
 
         @Override
-        public void warn(String... msg) {
+        public void warn(Font font, String... msg) {
             Text text = getText(msg);
             text.setFill(Color.ORANGE);
-            text.setFont(boldFont);
+            text.setFont(font);
             print(text);
         }
 
         @Override
-        public void debug(String... msg) {
+        public void debug(Font font, String... msg) {
             Text text = getText(msg);
             text.setFill(Color.BLACK);
-            text.setFont(normalFont);
+            text.setFont(font);
             print(text);
         }
 
         @Override
-        public void error(String... msg) {
+        public void error(Font font, String... msg) {
             Text text = getText(msg);
             text.setFill(Color.RED);
-            text.setFont(boldFont);
+            text.setFont(font);
             print(text);
         }
 

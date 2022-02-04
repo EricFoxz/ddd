@@ -4,8 +4,8 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.MySqlRepoStrategy;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.LuceneRepoStrategy;
+import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.MySqlRepoStrategy;
 import lombok.SneakyThrows;
 
 import java.util.List;

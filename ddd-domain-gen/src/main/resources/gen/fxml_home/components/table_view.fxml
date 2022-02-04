@@ -11,11 +11,14 @@
   <items>
     <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0" prefWidth="224.0">
          <children>
-            <ScrollPane hbarPolicy="NEVER" maxWidth="224.0" prefHeight="728.0" prefWidth="224.0">
+            <ScrollPane hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="224.0" prefHeight="728.0" prefWidth="224.0">
                <content>
                   <ToolBar fx:id="tableListToolBar" orientation="VERTICAL" prefWidth="224.0">
                      <items>
-                        <CheckBox fx:id="checkAllCheckBox" mnemonicParsing="false" text="全选" />
+                        <CheckBox fx:id="checkAllCheckBox" mnemonicParsing="false">
+                           <graphic>
+                              <Button fx:id="sortAllButton" mnemonicParsing="false" text="排序" />
+                           </graphic></CheckBox>
                      </items>
                   </ToolBar>
                </content>

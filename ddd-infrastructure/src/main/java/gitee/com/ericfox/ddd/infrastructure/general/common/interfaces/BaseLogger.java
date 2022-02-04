@@ -1,11 +1,13 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.interfaces;
 
+import javafx.scene.text.Font;
+
 public interface BaseLogger {
-    void info(String... msg);
+    void info(Font font, String... msg);
 
-    void warn(String... msg);
+    void warn(Font font, String... msg);
 
-    void debug(String... msg);
+    void debug(Font font, String... msg);
 
-    void error(String... msg);
+    void error(Font font, String... msg);
 }
