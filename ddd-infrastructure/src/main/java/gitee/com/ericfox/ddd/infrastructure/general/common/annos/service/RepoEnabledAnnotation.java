@@ -16,5 +16,5 @@ public @interface RepoEnabledAnnotation {
      */
     String value() default "id";
 
-    RepoTypeStrategyEnum type() default RepoTypeStrategyEnum.J_FINAL_REPO_STRATEGY;
+    RepoTypeStrategyEnum type() default RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY;
 }

@@ -13,7 +13,7 @@ public class GenSchemaFactory {
     }
 
     public static GenSchemaFactory getMySqlInstance() {
-        return new GenSchemaFactory(RepoTypeStrategyEnum.J_FINAL_REPO_STRATEGY);
+        return new GenSchemaFactory(RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY);
     }
 
     public static GenSchemaFactory getLuceneInstance() {

@@ -11,7 +11,7 @@ import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReflectUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalBaseDao;
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalRepoStrategy;
+import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.MySqlRepoStrategy;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -39,7 +39,7 @@ public class JFinalRepoConfig {
     private String driverClassName;
 
     @Resource
-    private JFinalRepoStrategy jFinalRepoStrategy;
+    private MySqlRepoStrategy mySqlRepoStrategy;
 
     @Bean
     @SneakyThrows
@@ -61,8 +61,8 @@ public class JFinalRepoConfig {
                 String className = aClass.getSimpleName();
                 if (aClass.isAnnotationPresent(RepoEnabledAnnotation.class)) {
                     RepoEnabledAnnotation annotation = aClass.getAnnotation(RepoEnabledAnnotation.class);
-                    if (RepoTypeStrategyEnum.J_FINAL_REPO_STRATEGY.equals(annotation.type())) {
-                        Class<DAO> daoClass = ClassUtil.getDaoClassByPoClass((Class<PO>) aClass, jFinalRepoStrategy);
+                    if (RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY.equals(annotation.type())) {
+                        Class<DAO> daoClass = ClassUtil.getDaoClassByPoClass((Class<PO>) aClass, mySqlRepoStrategy);
                         String daoName = JFinalBaseDao.DAO_FIELD_NAME;
                         Class<MODEL> daoClassM = (Class<MODEL>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName)).getClass();
                         arp.addMapping(StrUtil.toUnderlineCase(className), annotation.value(), daoClassM);

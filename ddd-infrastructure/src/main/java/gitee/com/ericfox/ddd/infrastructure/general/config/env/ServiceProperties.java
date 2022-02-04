@@ -32,7 +32,7 @@ public class ServiceProperties {
     @Getter
     @Setter
     public static class RepoStrategyBean {
-        private RepoPropertiesEnum defaultStrategy = RepoPropertiesEnum.J_FINAL_REPO_STRATEGY;
+        private RepoPropertiesEnum defaultStrategy = RepoPropertiesEnum.MY_SQL_REPO_STRATEGY;
         private JFinalBean jFinal;
         private LuceneBean lucene;
 
@@ -51,7 +51,7 @@ public class ServiceProperties {
         }
 
         public enum RepoPropertiesEnum implements BasePropertiesEnum<RepoTypeStrategyEnum> {
-            J_FINAL_REPO_STRATEGY,
+            MY_SQL_REPO_STRATEGY,
             LUCENE_REPO_STRATEGY;
 
             @Override
@@ -61,7 +61,7 @@ public class ServiceProperties {
 
             @Override
             public RepoTypeStrategyEnum toBizEnum() {
-                return RepoTypeStrategyEnum.J_FINAL_REPO_STRATEGY.getEnumByName(this.name());
+                return RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY.getEnumByName(this.name());
             }
         }
     }

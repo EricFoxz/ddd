@@ -111,7 +111,7 @@ public class TableXmlBean implements GenLogger {
             meta.getFieldClassMap().put(column_name, columnSchema.getData_type());
             meta.getFieldLengthMap().put(column_name, columnSchema.getCharacter_maximum_length());
             meta.getFieldCommentMap().put(column_name, columnSchema.getColumn_comment());
-            meta.setRepoTypeStrategyEnum(RepoTypeStrategyEnum.J_FINAL_REPO_STRATEGY);
+            meta.setRepoTypeStrategyEnum(RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY);
             meta.setDomainName(domainName);
             meta.setClassName(tableName);
         });

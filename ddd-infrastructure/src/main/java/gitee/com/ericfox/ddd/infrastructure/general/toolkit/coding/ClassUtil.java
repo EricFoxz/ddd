@@ -4,7 +4,7 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalRepoStrategy;
+import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.MySqlRepoStrategy;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.LuceneRepoStrategy;
 import lombok.SneakyThrows;
 
@@ -19,7 +19,7 @@ public class ClassUtil extends cn.hutool.core.util.ClassUtil {
         //TODO-适配更多持久化方式
         if (strategy instanceof LuceneRepoStrategy) {
             return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", fullName) + ".repository." + domainName.get(0) + ".lucene." + simpleName + "Dao");
-        } else if (strategy instanceof JFinalRepoStrategy) {
+        } else if (strategy instanceof MySqlRepoStrategy) {
             return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", fullName) + ".repository." + domainName.get(0) + ".j_final." + simpleName + "Dao");
         }
         return null;

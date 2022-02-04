@@ -22,9 +22,9 @@ import java.util.regex.Pattern;
 /**
  * 实现jFinal方式持久化
  */
-@Component("jFinalRepoStrategy")
+@Component("mySqlRepoStrategy")
 @SuppressWarnings("unchecked")
-public class JFinalRepoStrategy implements RepoStrategy {
+public class MySqlRepoStrategy implements RepoStrategy {
     private static final CopyOptions updateCopyOptions = CopyOptions.create().ignoreCase().ignoreNullValue();
 
     public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> ENTITY findById(ENTITY entity) {

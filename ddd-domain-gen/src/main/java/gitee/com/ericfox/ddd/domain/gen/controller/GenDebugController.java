@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.domain.gen.controller;
 
+import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseLogger;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
@@ -71,12 +72,12 @@ public class GenDebugController implements BaseJavaFxController {
         /**
          * 输出到log，当超过1000行后，每次输出移除前10行
          */
-        private synchronized void print(Node node) {
+        private synchronized void print(Text text) {
             ObservableList<Node> children = logTextFlow.getChildren();
             if (CollUtil.size(children) - 1000 > 10) {
                 children.remove(0, 10);
             }
-            children.add(node);
+            children.add(text);
             logScrollPane.setVvalue(1);
         }
     };

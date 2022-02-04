@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 
 public interface GenLogger {
     default void logInfo(Logger log, String msg, Object... objects) {
+        GenComponents.getIndexController().getIndexInfoText().setText(msg);
         if (GenComponents.getDebugController() == null) {
             log.info(msg, objects);
         } else {
@@ -13,6 +14,7 @@ public interface GenLogger {
     }
 
     default void logWarn(Logger log, String msg, Object... objects) {
+        GenComponents.getIndexController().getIndexInfoText().setText(msg);
         if (GenComponents.getDebugController() == null) {
             log.warn(msg, objects);
         } else {
@@ -21,6 +23,7 @@ public interface GenLogger {
     }
 
     default void logDebug(Logger log, String msg, Object... objects) {
+        GenComponents.getIndexController().getIndexInfoText().setText(msg);
         if (GenComponents.getDebugController() == null) {
             log.debug(msg, objects);
         } else {
@@ -29,6 +32,7 @@ public interface GenLogger {
     }
 
     default void logError(Logger log, String msg, Object... objects) {
+        GenComponents.getIndexController().getIndexInfoText().setText(msg);
         if (GenComponents.getDebugController() == null) {
             log.error(msg, objects);
         } else {

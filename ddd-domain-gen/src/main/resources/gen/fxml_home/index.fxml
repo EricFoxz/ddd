@@ -45,6 +45,11 @@
                         </MenuButton>
                                 <Button fx:id="testButton" alignment="CENTER" layoutX="28.0" layoutY="148.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="TEST" />
                         <ProgressBar fx:id="indexProgressBar" prefHeight="18.0" prefWidth="150.0" progress="0.0" />
+                        <Text fx:id="indexInfoText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="150.0">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Text>
                             </items>
                         </ToolBar>
                     </children>

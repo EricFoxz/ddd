@@ -19,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +58,9 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
      */
     @FXML
     private ProgressBar indexProgressBar;
+    @FXML
+    @Getter
+    private Text indexInfoText;
 
     /**
      * debug模式组件
