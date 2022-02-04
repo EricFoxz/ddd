@@ -53,7 +53,7 @@ public class GenFX extends Application {
             indexStage.initStyle(StageStyle.DECORATED);
             indexStage.show();
             GenComponents.setIndexStage(indexStage);
-            GenComponents.setIndexStage(indexStage);
+            GenComponents.setIndexController(rootLoader.getController());
             indexStage.setOnCloseRequest(event -> {
                 Stage debugStage = GenComponents.getDebugStage();
                 if (debugStage != null) {

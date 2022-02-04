@@ -19,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
@@ -30,7 +31,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 public class GenIndexController implements BaseJavaFxController, GenLogger {
-    private static final String DOMAIN_TAB_PREFIX = "domainName:";
+    public static final String DOMAIN_TAB_PREFIX = "domainName:";
     /**
      * 导入功能组件
      */
@@ -72,6 +73,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
      * 主视图组件
      */
     @FXML
+    @Getter
     private TabPane mainTabPane;
 
     @Override
@@ -211,7 +213,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
      * 加载表详情页签
      */
     @SneakyThrows
-    public synchronized void renderTableListView(String domainName) {
+    public synchronized Tab renderTableListView(String domainName) {
         String finalDomainName = DOMAIN_TAB_PREFIX + domainName;
         Map<String, TableXmlBean> tableMap = GenTableLoadingService.getDomainMap().get(domainName);
         if (tableMap == null) {
@@ -225,7 +227,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
             if ((tab = removeTab.get()) != null) {
                 mainTabPane.getTabs().remove(tab);
             }
-            return;
+            return null;
         }
         Tab tab;
         AtomicReference<Tab> existTab = new AtomicReference<>();
@@ -260,5 +262,6 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
         } else {
             mainTabPane.getTabs().add(tab);
         }
+        return tab;
     }
 }
