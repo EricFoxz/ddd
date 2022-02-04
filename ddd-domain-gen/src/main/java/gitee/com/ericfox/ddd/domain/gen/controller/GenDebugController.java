@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.domain.gen.controller;
 
+import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseLogger;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
@@ -20,8 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 public class GenDebugController implements BaseJavaFxController {
     @Getter
     private final BaseLogger logger = new BaseLogger() {
-        private final Font normalFont = Font.font("System", FontWeight.NORMAL, 12);
-        private final Font boldFont = Font.font("System", FontWeight.BOLD, 12);
+        private final Font normalFont = Font.font(GenConstants.DEFAULT_FONT_FAMILY, FontWeight.NORMAL, 12);
+        private final Font boldFont = Font.font(GenConstants.DEFAULT_FONT_FAMILY, FontWeight.BOLD, 12);
 
         @Override
         public void info(String... msg) {

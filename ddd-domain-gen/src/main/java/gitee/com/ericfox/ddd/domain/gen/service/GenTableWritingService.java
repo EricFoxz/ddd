@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.domain.gen.service;
 
-import gitee.com.ericfox.ddd.domain.gen.GenLogger;
+import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
 import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;

@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.domain.gen.controller;
 
 import com.sun.javafx.scene.control.skin.LabeledText;
-import gitee.com.ericfox.ddd.domain.gen.GenLogger;
+import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenFX;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
@@ -149,7 +149,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
             logError(log, "genIndexController::initialize 初始化主容器异常", e);
         }
         testButton.setOnAction(event -> {
-            String str = GenComponents.getGenCodeService().genPo("sys", "sys_user");
+            String str = GenComponents.getGenCodeService().genPo(GenTableLoadingService.getDomainMap().get("sys").get("sys_user"));
 //            TableXmlBean bean = new TableXmlBean();
 //            TableXmlBean.MetaBean meta = bean.getMeta();
 //            meta.setTableName("sys_user");
@@ -255,7 +255,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
         GenComponents.putGenTableViewController(domainName, tableViewController);
         Tooltip tooltip = new Tooltip();
         tooltip.setText("点击鼠标中键可关闭标签");
-        tooltip.setFont(Font.font("System", FontWeight.NORMAL, 14));
+        tooltip.setFont(Font.font(GenConstants.DEFAULT_FONT_FAMILY, FontWeight.NORMAL, 14));
         tab.setTooltip(tooltip);
         if (index >= 0) {
             mainTabPane.getTabs().set(index, tab);

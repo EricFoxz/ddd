@@ -1,12 +1,11 @@
 package gitee.com.ericfox.ddd.domain.gen.controller;
 
-import gitee.com.ericfox.ddd.domain.gen.GenLogger;
+import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableLoadingService;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tab;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 public class GenDomainViewController implements BaseJavaFxController, GenLogger {
     @FXML
     private BarChart<String, Number> domainBarChart;
-    @FXML
-    private CategoryAxis domainNameCategoryAxis;
 
     @Override
     public void initialize() {

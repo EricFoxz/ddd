@@ -11,28 +11,52 @@
   <items>
     <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0" prefWidth="224.0">
          <children>
-            <ToolBar fx:id="tableListToolBar" maxHeight="-Infinity" maxWidth="-Infinity" orientation="VERTICAL" prefHeight="728.0" prefWidth="224.0">
-               <items>
-                  <CheckBox fx:id="checkAllCheckBox" layoutX="41.0" layoutY="22.0" mnemonicParsing="false" text="全选" textFill="#00d6ff" wrapText="true">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </CheckBox>
-                  <CheckBox layoutX="51.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefWidth="205.0" text="CheckBox" wrapText="true" />
-               </items>
-               <padding>
-                  <Insets left="10.0" top="15.0" />
-               </padding>
-            </ToolBar>
+            <ScrollPane hbarPolicy="NEVER" maxWidth="224.0" prefHeight="728.0" prefWidth="224.0">
+               <content>
+                  <ToolBar fx:id="tableListToolBar" orientation="VERTICAL" prefWidth="224.0">
+                     <items>
+                        <CheckBox fx:id="checkAllCheckBox" mnemonicParsing="false" text="全选" />
+                     </items>
+                  </ToolBar>
+               </content>
+            </ScrollPane>
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: none;">
          <children>
-            <TabPane layoutX="14.0" layoutY="14.0" prefHeight="701.0" prefWidth="823.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="codeTabPane" disable="true" layoutX="14.0" layoutY="14.0" prefHeight="701.0" prefWidth="823.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Po" />
-                <Tab text="Dao" />
-                  <Tab text="Entity" />
-                  <Tab text="Dto" />
+                <Tab text="Po">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                              <TextArea editable="false" />
+                           </content>
+                        </ScrollPane>
+                     </content></Tab>
+                <Tab text="Dao">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                               <TextArea editable="false" />
+                           </content>
+                        </ScrollPane>
+                     </content></Tab>
+                  <Tab text="Entity">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                               <TextArea editable="false" />
+                           </content>
+                        </ScrollPane>
+                     </content></Tab>
+                  <Tab text="Dto">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                               <TextArea editable="false" />
+                           </content>
+                        </ScrollPane>
+                     </content></Tab>
               </tabs>
             </TabPane>
          </children></AnchorPane>

@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.domain.gen;
+package gitee.com.ericfox.ddd.domain.gen.common;
 
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import org.slf4j.Logger;

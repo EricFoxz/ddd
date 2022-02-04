@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.domain.gen.model;
 
-import gitee.com.ericfox.ddd.domain.gen.GenLogger;
+import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.MapUtil;
@@ -9,6 +9,7 @@ import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.XmlUtil;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
 
@@ -20,6 +21,7 @@ import java.util.Map;
 @Setter
 @Getter
 @Slf4j
+@ToString
 public class TableXmlBean implements GenLogger {
     private String comment;
 
