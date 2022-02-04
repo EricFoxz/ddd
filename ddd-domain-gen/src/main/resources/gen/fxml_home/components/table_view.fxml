@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-<SplitPane dividerPositions="0.21" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1083.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="gitee.com.ericfox.ddd.domain.gen.controller.GenTableViewController">
+<SplitPane dividerPositions="0.21" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1083.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gitee.com.ericfox.ddd.domain.gen.controller.GenTableViewController">
   <items>
     <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="728.0" prefWidth="224.0">
          <children>
@@ -25,6 +25,16 @@
                </padding>
             </ToolBar>
          </children></AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: none;" />
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: none;">
+         <children>
+            <TabPane layoutX="14.0" layoutY="14.0" prefHeight="701.0" prefWidth="823.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Po" />
+                <Tab text="Dao" />
+                  <Tab text="Entity" />
+                  <Tab text="Dto" />
+              </tabs>
+            </TabPane>
+         </children></AnchorPane>
   </items>
 </SplitPane>

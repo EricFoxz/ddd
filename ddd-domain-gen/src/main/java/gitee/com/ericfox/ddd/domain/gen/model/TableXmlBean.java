@@ -21,6 +21,8 @@ import java.util.Map;
 @Getter
 @Slf4j
 public class TableXmlBean implements GenLogger {
+    private String comment;
+
     private MetaBean meta = new MetaBean();
     private DataBean data = new DataBean();
 
@@ -57,6 +59,10 @@ public class TableXmlBean implements GenLogger {
          */
         private Map<String, Integer> fieldLengthMap = MapUtil.newLinkedHashMap();
         /**
+         * 字段及注释
+         */
+        private Map<String, String> fieldCommentMap = MapUtil.newLinkedHashMap();
+        /**
          * 索引
          */
         private List<String> indexList = CollUtil.newArrayList();
@@ -81,7 +87,7 @@ public class TableXmlBean implements GenLogger {
         /**
          * 默认值
          */
-        private Map<String, Serializable> dataMap = MapUtil.newLinkedHashMap();
+        private Map<String, Serializable> defaultValueMap = MapUtil.newLinkedHashMap();
     }
 
     /**
@@ -91,6 +97,7 @@ public class TableXmlBean implements GenLogger {
         TableXmlBean xmlBean = new TableXmlBean();
         String tableName = mySqlBean.getTable_name();
         String domainName = StrUtil.contains(tableName, '_') ? StrUtil.splitToArray(tableName, '_', -1)[0] : "_known";
+        xmlBean.setComment(StrUtil.isBlank(mySqlBean.getTable_comment()) ? tableName : mySqlBean.getTable_comment());
         MetaBean meta = xmlBean.getMeta();
         meta.setTableName(tableName);
         meta.setDomainName(domainName);
@@ -101,10 +108,12 @@ public class TableXmlBean implements GenLogger {
             }
             meta.getFieldClassMap().put(column_name, columnSchema.getData_type());
             meta.getFieldLengthMap().put(column_name, columnSchema.getCharacter_maximum_length());
+            meta.getFieldCommentMap().put(column_name, columnSchema.getColumn_comment());
             meta.setRepoTypeStrategyEnum(RepoTypeStrategyEnum.J_FINAL_REPO_STRATEGY);
             meta.setDomainName(domainName);
             meta.setClassName(tableName);
         });
+        DataBean data = xmlBean.getData();
         return xmlBean;
     }
 

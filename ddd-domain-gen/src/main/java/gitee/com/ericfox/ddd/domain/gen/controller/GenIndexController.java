@@ -11,11 +11,14 @@ import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.FileUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
@@ -27,8 +30,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 public class GenIndexController implements BaseJavaFxController, GenLogger {
+    private static final String DOMAIN_TAB_PREFIX = "domainName:";
     /**
-     * 导入功能
+     * 导入功能组件
      */
     @FXML
     private MenuButton importMenuButton;
@@ -39,19 +43,34 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
     @FXML
     private MenuItem importTableByXmlMenuItem;
 
+    /**
+     * 初始化组件
+     */
     @FXML
     private Button initAllButton;
     @FXML
     private Button testButton;
 
+    /**
+     * 进度条组件
+     */
     @FXML
     private ProgressBar indexProgressBar;
 
+    /**
+     * debug模式组件
+     */
     @FXML
     private MenuItem debugModelMenuItem;
+    /**
+     * 退出按钮组件
+     */
     @FXML
     private MenuItem closeMenuItem;
 
+    /**
+     * 主视图组件
+     */
     @FXML
     private TabPane mainTabPane;
 
@@ -64,7 +83,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
             asyncExecute(() -> {
                 GenComponents.getGenTableLoadingService().initAll();
                 GenComponents.getDomainViewController().refresh();
-                renderAllTableList();
+                renderAllTableList(true);
                 finishLoading();
             });
         });
@@ -80,7 +99,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
         importTableByMySqlMenuItem.setOnAction(event -> {
             beginLoading();
             asyncExecute(() -> {
-                //TODO
+                //TODO-支持 可配置数据库
                 GenComponents.getGenTableLoadingService().importTableByMySql("", "", "");
                 finishLoading();
             });
@@ -89,7 +108,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
         importTableByXmlMenuItem.setOnAction(event -> {
             beginLoading();
             asyncExecute(() -> {
-                //TODO
+                //TODO-支持 导入导出功能
                 File file = FileUtil.file();
                 GenComponents.getGenTableLoadingService().importTableByXml(file);
                 finishLoading();
@@ -115,7 +134,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
                 Node node = event.getPickResult().getIntersectedNode();
                 if (node instanceof LabeledText) {
                     String text = ((LabeledText) node).getText();
-                    mainTabPane.getTabs().removeIf(ele -> StrUtil.equals(ele.getId(), "domainName:" + text));
+                    mainTabPane.getTabs().removeIf(ele -> StrUtil.equals(ele.getId(), DOMAIN_TAB_PREFIX + text));
                 }
             }
         });
@@ -148,35 +167,52 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
         finishLoading();
     }
 
+    /**
+     * 开始执行，禁用交互
+     */
     public void beginLoading() {
-        importMenuButton.setDisable(true);
         initAllButton.setDisable(true);
+        importMenuButton.setDisable(true);
         indexProgressBar.setProgress(ProgressBar.INDETERMINATE_PROGRESS);
     }
 
+    /**
+     * 结束执行，启用交互
+     */
     public void finishLoading() {
-        importMenuButton.setDisable(false);
         initAllButton.setDisable(false);
+        importMenuButton.setDisable(false);
         indexProgressBar.setProgress(0);
     }
 
     /**
      * 渲染视图
+     *
+     * @param force true先移除所有的领域标签页，达到全部更新的效果。false不移除已有标签页
      */
-    public synchronized void renderAllTableList() {
+    public synchronized void renderAllTableList(boolean force) {
+        logDebug(log, "开始渲染所有领域视图");
+        ObservableList<Tab> tabs = mainTabPane.getTabs();
+        if (force && tabs.size() > 1) {
+            tabs.remove(1, tabs.size());
+        }
         Set<String> domainSet = CollUtil.newHashSet();
         domainSet.addAll(GenTableLoadingService.getDomainMap().keySet());
         mainTabPane.getTabs().forEach(tab -> {
-            if (StrUtil.startWith(tab.getId(), "domainName:")) {
+            if (StrUtil.startWith(tab.getId(), DOMAIN_TAB_PREFIX)) {
                 domainSet.add(tab.getId());
             }
         });
-        domainSet.forEach(this::renderTableList);
+        domainSet.forEach(this::renderTableListView);
+        logDebug(log, "渲染完成");
     }
 
+    /**
+     * 加载表详情页签
+     */
     @SneakyThrows
-    public synchronized void renderTableList(String domainName) {
-        String finalDomainName = "domainName:" + domainName;
+    public synchronized void renderTableListView(String domainName) {
+        String finalDomainName = DOMAIN_TAB_PREFIX + domainName;
         Map<String, TableXmlBean> tableMap = GenTableLoadingService.getDomainMap().get(domainName);
         if (tableMap == null) {
             AtomicReference<Tab> removeTab = new AtomicReference<>();
@@ -201,18 +237,28 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
             });
         });
         tab = existTab.get();
-        if (tab != null) { //更新
-        } else { //创建
-            tab = new Tab();
-            tab.setText(domainName);
-            tab.setId(finalDomainName);
-            tab.setClosable(true);
+        int index = -1;
+        if (tab != null) {
+            index = mainTabPane.getTabs().indexOf(tab);
+        }
+        tab = new Tab();
+        tab.setText(domainName);
+        tab.setId(finalDomainName);
+        tab.setClosable(true);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(new ClassPathResource(GenConstants.TABLE_VIEW_FXML_PATH).getURL());
+        tab.setContent(fxmlLoader.load());
+        GenTableViewController tableViewController = fxmlLoader.getController();
+        tableViewController.setDomainName(domainName);
+        GenComponents.putGenTableViewController(domainName, tableViewController);
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText("点击鼠标中键可关闭标签");
+        tooltip.setFont(Font.font("System", FontWeight.NORMAL, 14));
+        tab.setTooltip(tooltip);
+        if (index >= 0) {
+            mainTabPane.getTabs().set(index, tab);
+        } else {
             mainTabPane.getTabs().add(tab);
-            tab.getTabPane().setFocusTraversable(true);
-            Tooltip tooltip = new Tooltip();
-            tooltip.setText("点击鼠标中键可关闭标签");
-            tab.setTooltip(tooltip);
-            tab.setContent(FXMLLoader.load(new ClassPathResource(GenConstants.TABLE_VIEW_FXML_PATH).getURL()));
         }
     }
 }

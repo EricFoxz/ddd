@@ -3,14 +3,18 @@ package gitee.com.ericfox.ddd.domain.gen.common.component;
 import gitee.com.ericfox.ddd.domain.gen.controller.GenDebugController;
 import gitee.com.ericfox.ddd.domain.gen.controller.GenDomainViewController;
 import gitee.com.ericfox.ddd.domain.gen.controller.GenIndexController;
+import gitee.com.ericfox.ddd.domain.gen.controller.GenTableViewController;
 import gitee.com.ericfox.ddd.domain.gen.service.GenCodeService;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableLoadingService;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableWritingService;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.MapUtil;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 @Component
 public class GenComponents {
@@ -30,6 +34,18 @@ public class GenComponents {
     @Setter
     @Getter
     private static GenDomainViewController domainViewController;
+
+    private static final Map<String, GenTableViewController> genTableViewControllerMap = MapUtil.newConcurrentHashMap();
+
+    public static void putGenTableViewController(String domainName, GenTableViewController genTableViewController) {
+        genTableViewController.setDomainName(domainName);
+        genTableViewController.ready();
+        genTableViewControllerMap.put(domainName, genTableViewController);
+    }
+
+    public static GenTableViewController setGenTableViewController(String domainName) {
+        return genTableViewControllerMap.get(domainName);
+    }
 
     @Getter
     private static GenTableLoadingService genTableLoadingService;

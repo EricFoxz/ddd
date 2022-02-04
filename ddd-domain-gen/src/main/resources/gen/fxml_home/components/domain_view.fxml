@@ -9,7 +9,7 @@
    <content>
       <BarChart fx:id="domainBarChart" prefHeight="730.0" prefWidth="1083.0">
         <xAxis>
-          <CategoryAxis label="领域名称">
+          <CategoryAxis fx:id="domainNameCategoryAxis" label="领域名称">
                <tickLabelFont>
                   <Font size="12.0" />
                </tickLabelFont></CategoryAxis>
