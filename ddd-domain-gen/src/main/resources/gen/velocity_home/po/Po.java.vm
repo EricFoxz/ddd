@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.persistent.po.${meta.domainName};
+package ${rootPackage}.infrastructure.persistent.po.${meta.domainName};
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
@@ -6,7 +6,9 @@ import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import lombok.Getter;
 import lombok.Setter;
 
-
+/**
+ * ${meta.tableComment}
+ */
 @Setter
 @Getter
 @RepoEnabledAnnotation(type = RepoTypeStrategyEnum.${meta.repoTypeStrategyEnum.name})
@@ -17,8 +19,13 @@ public class ${meta.ClassName} implements BasePo<${meta.ClassName}> {
     }
 
 #foreach($item in $meta.fieldClassMap.entrySet())
-    private ${item.value} ${item.key};
+    /**
+     * ${meta.fieldCommentMap.get(${item.key})}
+     */
+#if(${strUtil.startWith(${item.value.name}, "java.lang")})
+    private ${item.value.simpleName} ${item.key};
+#else
+    private ${item.value.name} ${item.key};
 #end
-    private Long id;
-    private String username;
+#end
 }

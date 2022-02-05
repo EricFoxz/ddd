@@ -4,7 +4,10 @@ import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableLoadingService;
+import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;
+import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.FileUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,7 +16,10 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 
+import javax.annotation.Resource;
+import java.io.File;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -21,6 +27,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GenTableViewController implements BaseJavaFxController, GenLogger {
     public static final String TABLE_CHECK_BOX_PREFIX = "tableCheckBox:";
+    @Resource
+    private CustomProperties customProperties;
 
     @Setter
     private String domainName;
@@ -33,6 +41,12 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
     private CheckBox checkAllCheckBox;
     @FXML
     private TabPane codeTabPane;
+
+    @FXML
+    private TextArea poTextArea;
+    private TextArea daoTextArea;
+    private TextArea entityTextArea;
+    private TextArea dtoTextArea;
 
     @Override
     public void initialize() {
@@ -110,8 +124,22 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
      * 渲染代码
      */
     private void renderCode(TableXmlBean tableXml) {
+        logInfo(log, "genTableViewController::renderCode 预览代码");
         codeTabPane.setDisable(false);
         String poCode = GenComponents.getGenCodeService().genPo(tableXml);
+        poTextArea.setText(poCode);
+    }
+
+    private void genCode(TableXmlBean tableXml) {
+        logInfo(log, "genTableViewController::genCode 正在生成代码");
+        try {
+            //TODO
+            String poCode = GenComponents.getGenCodeService().genPo(tableXml);
+            File file = FileUtil.file(new ClassPathResource(customProperties.getRootPackage() + "").getURL());
+        } catch (Exception e) {
+            logError(log, "生成代码异常", e);
+            throw new ProjectFrameworkException("生成代码异常" + e.getMessage());
+        }
     }
 
     private void sortAll() {

@@ -17,7 +17,14 @@
                      <items>
                         <CheckBox fx:id="checkAllCheckBox" mnemonicParsing="false">
                            <graphic>
-                              <Button fx:id="sortAllButton" mnemonicParsing="false" text="排序" />
+                              <ToolBar prefHeight="40.0" prefWidth="200.0">
+                                <items>
+                                    <Button fx:id="sortAllButton" mnemonicParsing="false" text="排序" />
+                                    <Button mnemonicParsing="false" text="生成" />
+                                    <ChoiceBox prefWidth="150.0" />
+                                    <Button layoutX="122.0" layoutY="14.0" mnemonicParsing="false" text="批量删除" />
+                                </items>
+                              </ToolBar>
                            </graphic></CheckBox>
                      </items>
                   </ToolBar>
@@ -32,31 +39,31 @@
                      <content>
                         <ScrollPane>
                            <content>
-                              <TextArea editable="false" />
+                              <TextArea fx:id="poTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
                            </content>
                         </ScrollPane>
                      </content></Tab>
                 <Tab text="Dao">
                      <content>
-                        <ScrollPane>
+                        <ScrollPane fx:id="daoTextArea">
                            <content>
-                               <TextArea editable="false" />
+                               <TextArea editable="false" minHeight="672.0" minWidth="823.0" />
                            </content>
                         </ScrollPane>
                      </content></Tab>
                   <Tab text="Entity">
                      <content>
-                        <ScrollPane>
+                        <ScrollPane fx:id="entityTextArea">
                            <content>
-                               <TextArea editable="false" />
+                               <TextArea editable="false" minHeight="672.0" minWidth="823.0" />
                            </content>
                         </ScrollPane>
                      </content></Tab>
                   <Tab text="Dto">
                      <content>
-                        <ScrollPane>
+                        <ScrollPane fx:id="dtoTextArea">
                            <content>
-                               <TextArea editable="false" />
+                               <TextArea editable="false" minHeight="672.0" minWidth="823.0" />
                            </content>
                         </ScrollPane>
                      </content></Tab>

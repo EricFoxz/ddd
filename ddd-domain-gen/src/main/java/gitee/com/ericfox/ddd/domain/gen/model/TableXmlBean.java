@@ -1,6 +1,7 @@
 package gitee.com.ericfox.ddd.domain.gen.model;
 
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
+import gitee.com.ericfox.ddd.domain.gen.common.enums.MySqlDataTypeEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.MapUtil;
@@ -57,7 +58,7 @@ public class TableXmlBean implements GenLogger {
         /**
          * 字段及类型
          */
-        private Map<String, String> fieldClassMap = MapUtil.newLinkedHashMap();
+        private Map<String, Class<?>> fieldClassMap = MapUtil.newLinkedHashMap();
         /**
          * 字段及长度
          */
@@ -102,7 +103,7 @@ public class TableXmlBean implements GenLogger {
         String tableName = mySqlBean.getTable_name();
         String domainName = StrUtil.contains(tableName, '_') ? StrUtil.splitToArray(tableName, '_', -1)[0] : "_unknown";
         MetaBean meta = xmlBean.getMeta();
-        meta.setTableComment(StrUtil.isBlank(mySqlBean.getTable_comment()) ? null : mySqlBean.getTable_comment());
+        meta.setTableComment(StrUtil.isBlank(mySqlBean.getTable_comment()) ? mySqlBean.getTable_name() : mySqlBean.getTable_comment());
         meta.setTableName(tableName);
         meta.setDomainName(domainName);
         mySqlBean.getColumnSchemaList().forEach(columnSchema -> {
@@ -110,7 +111,7 @@ public class TableXmlBean implements GenLogger {
             if ("PRI".equals(columnSchema.getColumn_key())) { //主键
                 meta.setIdField(column_name);
             }
-            meta.getFieldClassMap().put(column_name, columnSchema.getData_type());
+            meta.getFieldClassMap().put(column_name, MySqlDataTypeEnum.getJavaClassByCode(columnSchema.getData_type()));
             meta.getFieldLengthMap().put(column_name, columnSchema.getCharacter_maximum_length());
             meta.getFieldCommentMap().put(column_name, columnSchema.getColumn_comment());
             meta.setRepoTypeStrategyEnum(RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY);
