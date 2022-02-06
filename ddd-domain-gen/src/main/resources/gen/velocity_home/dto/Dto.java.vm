@@ -1,0 +1,33 @@
+package ${rootPackage}.apis.model.dto.${meta.domainName};
+
+import com.github.pagehelper.PageInfo;
+import gitee.com.ericfox.ddd.apis.model.dto.sys.base.${meta.ClassName}DtoBase;
+import gitee.com.ericfox.ddd.domain.sys.model.sys_user.${meta.ClassName}Entity;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+
+@Setter
+@Getter
+public class ${meta.ClassName}Dto extends ${meta.ClassName}DtoBase {
+    @Override
+    public ${meta.ClassName}Dto fromEntity(${meta.ClassName}Entity entity) {
+        return super.fromEntity(entity);
+    }
+
+    @Override
+    public List<${meta.ClassName}Dto> fromEntityList(List<${meta.ClassName}Entity> entityList) {
+        return super.fromEntityList(entityList);
+    }
+
+    @Override
+    public List<${meta.ClassName}Dto> fromEntities(${meta.ClassName}Entity... entities) {
+        return super.fromEntities(entities);
+    }
+
+    @Override
+    public PageInfo<${meta.ClassName}Dto> fromEntityPage(PageInfo<${meta.ClassName}Entity> entityPage) {
+        return super.fromEntityPage(entityPage);
+    }
+}

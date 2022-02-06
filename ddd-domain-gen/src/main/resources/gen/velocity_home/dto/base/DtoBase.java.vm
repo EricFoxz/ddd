@@ -1,0 +1,55 @@
+package ${rootPackage}.apis.model.dto.${meta.domainName}.base;
+
+import com.github.pagehelper.PageInfo;
+import ${rootPackage}.apis.model.dto.${meta.domainName}.${meta.ClassName}Dto;
+import ${rootPackage}.domain.sys.model.${meta.class_name}.${meta.ClassName}Entity;
+import ${rootPackage}.infrastructure.general.common.interfaces.BaseDto;
+import ${rootPackage}.infrastructure.general.toolkit.coding.BeanUtil;
+import ${rootPackage}.infrastructure.general.toolkit.coding.CollUtil;
+import ${rootPackage}.infrastructure.persistent.po.${meta.domainName}.${meta.ClassName};
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+
+@Setter
+@Getter
+public abstract class ${meta.ClassName}DtoBase implements BaseDto<${meta.ClassName}, ${meta.ClassName}Entity, ${meta.ClassName}Dto> {
+#foreach($item in $meta.fieldClassMap.entrySet())
+    /**
+     * ${meta.fieldCommentMap.get(${item.key})}
+     */
+#if(${strUtil.startWith(${item.value.name}, "java.lang")})
+    private ${item.value.simpleName} ${item.key};
+#else
+    private ${item.value.name} ${item.key};
+#end
+#end
+
+    @Override
+    public ${meta.ClassName}Dto fromEntity(${meta.ClassName}Entity entity) {
+        ${meta.ClassName}Dto dto = new ${meta.ClassName}Dto();
+        BeanUtil.copyProperties(entity, dto, false);
+        return dto;
+    }
+
+    @Override
+    public List<${meta.ClassName}Dto> fromEntityList(List<${meta.ClassName}Entity> entityList) {
+        return BeanUtil.copyToList(entityList, ${meta.ClassName}Dto.class);
+    }
+
+    @Override
+    public List<${meta.ClassName}Dto> fromEntities(${meta.ClassName}Entity... entities) {
+        return fromEntityList(CollUtil.newArrayList(entities));
+    }
+
+    @Override
+    public PageInfo<${meta.ClassName}Dto> fromEntityPage(PageInfo<${meta.ClassName}Entity> entityPage) {
+        PageInfo<${meta.ClassName}Dto> pageInfo = new PageInfo<>();
+        pageInfo.setPageNum(entityPage.getPageNum());
+        pageInfo.setPageSize(entityPage.getPageSize());
+        pageInfo.setTotal(entityPage.getTotal());
+        pageInfo.setList(fromEntityList(entityPage.getList()));
+        return pageInfo;
+    }
+}
