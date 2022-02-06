@@ -75,6 +75,7 @@ public class GenCodeService implements GenLogger {
      */
     public String getDao(TableXmlBean tableXmlBean) {
         VelocityContext context = new VelocityContext();
-        return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/dao/" + tableXmlBean.getMeta().getRepoTypeStrategyEnum().getCode() + "/Dao.java.vm");
+        tableXmlBean.getMeta().getIdField();
+        return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/dao/" + StrUtil.toUnderlineCase(tableXmlBean.getMeta().getRepoTypeStrategyEnum().getCode()) + "/Dao.java.vm");
     }
 }

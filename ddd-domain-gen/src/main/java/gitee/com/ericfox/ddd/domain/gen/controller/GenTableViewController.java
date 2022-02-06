@@ -44,8 +44,11 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
 
     @FXML
     private TextArea poTextArea;
+    @FXML
     private TextArea daoTextArea;
+    @FXML
     private TextArea entityTextArea;
+    @FXML
     private TextArea dtoTextArea;
 
     @Override
@@ -127,7 +130,9 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         logInfo(log, "genTableViewController::renderCode 预览代码");
         codeTabPane.setDisable(false);
         String poCode = GenComponents.getGenCodeService().genPo(tableXml);
+        String daoCode = GenComponents.getGenCodeService().getDao(tableXml);
         poTextArea.setText(poCode);
+        daoTextArea.setText(daoCode);
     }
 
     private void genCode(TableXmlBean tableXml) {

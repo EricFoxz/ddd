@@ -1,0 +1,33 @@
+package ${rootPackage}.infrastructure.persistent.repository.${meta.domainName}.my_sql;
+
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
+import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalBaseDao;
+import org.springframework.stereotype.Repository;
+
+import java.io.Serializable;
+
+@Repository
+public class ${meta.ClassName}Dao extends JFinalBaseDao<${meta.ClassName}, ${meta.ClassName}Dao> {
+    public static final ${meta.ClassName}Dao dao = new ${meta.ClassName}Dao().dao();
+
+#foreach($item in $meta.fieldClassMap.entrySet())
+    /**
+     * ${meta.fieldCommentMap.get(${item.key})}
+     */
+#if(${strUtil.startWith(${item.value.name}, "java.lang")})
+    private ${item.value.simpleName} ${item.key};
+#else
+    private ${item.value.name} ${item.key};
+#end
+#end
+
+    @Override
+    public Serializable getId() {
+        return ${meta.idField};
+    }
+
+    @Override
+    public Class<${meta.ClassName}> poClass() {
+        return ${meta.ClassName}.class;
+    }
+}

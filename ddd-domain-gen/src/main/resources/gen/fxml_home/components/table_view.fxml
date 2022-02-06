@@ -45,25 +45,25 @@
                      </content></Tab>
                 <Tab text="Dao">
                      <content>
-                        <ScrollPane fx:id="daoTextArea">
+                        <ScrollPane>
                            <content>
-                               <TextArea editable="false" minHeight="672.0" minWidth="823.0" />
+                               <TextArea fx:id="daoTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
                            </content>
                         </ScrollPane>
                      </content></Tab>
                   <Tab text="Entity">
                      <content>
-                        <ScrollPane fx:id="entityTextArea">
+                        <ScrollPane>
                            <content>
-                               <TextArea editable="false" minHeight="672.0" minWidth="823.0" />
+                               <TextArea fx:id="entityTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
                            </content>
                         </ScrollPane>
                      </content></Tab>
                   <Tab text="Dto">
                      <content>
-                        <ScrollPane fx:id="dtoTextArea">
+                        <ScrollPane>
                            <content>
-                               <TextArea editable="false" minHeight="672.0" minWidth="823.0" />
+                               <TextArea fx:id="dtoTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
                            </content>
                         </ScrollPane>
                      </content></Tab>
