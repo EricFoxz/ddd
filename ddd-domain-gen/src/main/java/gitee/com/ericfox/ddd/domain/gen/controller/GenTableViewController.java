@@ -129,17 +129,26 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
     private void renderCode(TableXmlBean tableXml) {
         logInfo(log, "genTableViewController::renderCode 预览代码");
         codeTabPane.setDisable(false);
-        String poCode = GenComponents.getGenCodeService().genPo(tableXml);
-        String daoCode = GenComponents.getGenCodeService().getDao(tableXml);
+        String poCode = GenComponents.getGenCodeService().getPoCode(tableXml);
+        String daoCode = GenComponents.getGenCodeService().getDaoCode(tableXml);
+        String entityCode = GenComponents.getGenCodeService().getEntityCode(tableXml);
+        String entityBaseCode = GenComponents.getGenCodeService().getEntityBaseCode(tableXml);
+        String dtoCode = GenComponents.getGenCodeService().getDtoCode(tableXml);
+        String dtoBaseCode = GenComponents.getGenCodeService().getDtoBaseCode(tableXml);
+        String serviceCode = GenComponents.getGenCodeService().getServiceCode(tableXml);
+        String serviceBaseCode = GenComponents.getGenCodeService().getServiceBaseCode(tableXml);
+        String pageParamCode = GenComponents.getGenCodeService().getPageParamCode(tableXml);
         poTextArea.setText(poCode);
         daoTextArea.setText(daoCode);
+        entityTextArea.setText(entityCode);
+        dtoTextArea.setText(dtoCode);
     }
 
     private void genCode(TableXmlBean tableXml) {
         logInfo(log, "genTableViewController::genCode 正在生成代码");
         try {
             //TODO
-            String poCode = GenComponents.getGenCodeService().genPo(tableXml);
+            String poCode = GenComponents.getGenCodeService().getPoCode(tableXml);
             File file = FileUtil.file(new ClassPathResource(customProperties.getRootPackage() + "").getURL());
         } catch (Exception e) {
             logError(log, "生成代码异常", e);

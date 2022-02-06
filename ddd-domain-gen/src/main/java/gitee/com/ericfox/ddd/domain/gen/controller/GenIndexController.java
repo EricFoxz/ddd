@@ -153,7 +153,7 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
             logError(log, "genIndexController::initialize 初始化主容器异常", e);
         }
         testButton.setOnAction(event -> {
-            String str = GenComponents.getGenCodeService().genPo(GenTableLoadingService.getDomainMap().get("sys").get("sys_user"));
+            String str = GenComponents.getGenCodeService().getPoCode(GenTableLoadingService.getDomainMap().get("sys").get("sys_user"));
 //            TableXmlBean bean = new TableXmlBean();
 //            TableXmlBean.MetaBean meta = bean.getMeta();
 //            meta.setTableName("sys_user");

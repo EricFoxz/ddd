@@ -1,0 +1,59 @@
+package ${rootPackage}.domain.sys.model.${meta.class_name};
+
+import cn.hutool.core.bean.copier.CopyOptions;
+import ${rootPackage}.infrastructure.general.common.interfaces.BaseCondition;
+import ${rootPackage}.infrastructure.general.common.interfaces.BaseEntity;
+import ${rootPackage}.infrastructure.general.toolkit.coding.BeanUtil;
+import ${rootPackage}.infrastructure.general.toolkit.coding.SpringUtil;
+import ${rootPackage}.infrastructure.persistent.po.${meta.domainName}.${meta.ClassName};
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+public class ${meta.ClassName}EntityBase implements BaseEntity<${meta.ClassName}, ${meta.ClassName}Entity> {
+    private static ${meta.ClassName}Service ${meta.className}Service;
+    protected BaseCondition<?> _condition;
+    protected ${meta.ClassName} po;
+
+#foreach($item in $meta.fieldClassMap.entrySet())
+    /**
+     * ${meta.fieldCommentMap.get(${item.key})}
+     */
+#if(${strUtil.startWith(${item.value.name}, "java.lang")})
+    private ${item.value.simpleName} ${item.key};
+#else
+    private ${item.value.name} ${item.key};
+#end
+#end
+
+    public synchronized ${meta.ClassName}ServiceBase getService() {
+        if (${meta.className}Service == null) {
+            ${meta.className}Service = SpringUtil.getBean(${meta.ClassName}Service.class);
+        }
+        return ${meta.className}Service;
+    }
+
+    @Override
+    public ${meta.ClassName} toPo() {
+        if (po == null) {
+            po = new ${meta.ClassName}();
+        }
+        BeanUtil.copyProperties(this, po, CopyOptions.create().ignoreNullValue());
+        return po;
+    }
+
+    @Override
+    public ${meta.ClassName}Entity fromPo(${meta.ClassName} po) {
+        this.po = po;
+        return (${meta.ClassName}Entity) this;
+    }
+
+    protected void setPo(${meta.ClassName} po) {
+        this.po = po;
+    }
+
+    protected ${meta.ClassName} getPo() {
+        return po;
+    }
+}

@@ -65,7 +65,7 @@ public class GenCodeService implements GenLogger {
     /**
      * po代码
      */
-    public String genPo(TableXmlBean tableXmlBean) {
+    public String getPoCode(TableXmlBean tableXmlBean) {
         VelocityContext context = new VelocityContext();
         return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/po/Po.java.vm");
     }
@@ -73,9 +73,43 @@ public class GenCodeService implements GenLogger {
     /**
      * dao代码
      */
-    public String getDao(TableXmlBean tableXmlBean) {
+    public String getDaoCode(TableXmlBean tableXmlBean) {
         VelocityContext context = new VelocityContext();
-        tableXmlBean.getMeta().getIdField();
         return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/dao/" + StrUtil.toUnderlineCase(tableXmlBean.getMeta().getRepoTypeStrategyEnum().getCode()) + "/Dao.java.vm");
+    }
+
+    public String getDtoCode(TableXmlBean tableXmlBean) {
+        VelocityContext context = new VelocityContext();
+        return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/dto/Dto.java.vm");
+    }
+
+    public String getDtoBaseCode(TableXmlBean tableXmlBean) {
+        VelocityContext context = new VelocityContext();
+        return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/dto/base/DtoBase.java.vm");
+    }
+
+    public String getEntityCode(TableXmlBean tableXmlBean) {
+        VelocityContext context = new VelocityContext();
+        return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/entity/Entity.java.vm");
+    }
+
+    public String getEntityBaseCode(TableXmlBean tableXmlBean) {
+        VelocityContext context = new VelocityContext();
+        return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/entity/base/EntityBase.java.vm");
+    }
+
+    public String getServiceCode(TableXmlBean tableXmlBean) {
+        VelocityContext context = new VelocityContext();
+        return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/entity/Service.java.vm");
+    }
+
+    public String getServiceBaseCode(TableXmlBean tableXmlBean) {
+        VelocityContext context = new VelocityContext();
+        return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/entity/base/ServiceBase.java.vm");
+    }
+
+    public String getPageParamCode(TableXmlBean tableXmlBean) {
+        VelocityContext context = new VelocityContext();
+        return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/param/PageParam.java.vm");
     }
 }
