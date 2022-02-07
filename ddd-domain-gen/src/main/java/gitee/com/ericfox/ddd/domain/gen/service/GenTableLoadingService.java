@@ -8,7 +8,6 @@ import com.jfinal.plugin.activerecord.Record;
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
-import gitee.com.ericfox.ddd.domain.gen.factory.GenSerializableFactory;
 import gitee.com.ericfox.ddd.domain.gen.model.TableMySqlBean;
 import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
@@ -40,7 +39,6 @@ public class GenTableLoadingService implements GenLogger {
             Resource resourceObj = ResourceUtil.getResourceObj(GenConstants.META_HOME_PATH);
             File metaHome = FileUtil.file(resourceObj.getUrl());
             if (FileUtil.isDirectory(metaHome)) {
-                GenSerializableFactory genSerializableFactory = GenSerializableFactory.getXmlFactory();
                 List<File> domainList = FileUtil.loopFiles(metaHome.toPath(), 1, null);
 
                 if (CollUtil.isNotEmpty(domainList)) {
@@ -49,7 +47,7 @@ public class GenTableLoadingService implements GenLogger {
                             return;
                         }
                         String domainName = FileUtil.getName(domainFile);
-                        Map<String, TableXmlBean> tableMap = null;
+                        Map<String, TableXmlBean> tableMap;
                         if (!domainMap.containsKey(domainName)) {
                             tableMap = MapUtil.newConcurrentHashMap();
                             domainMap.put(domainName, tableMap);
@@ -58,10 +56,9 @@ public class GenTableLoadingService implements GenLogger {
                         }
                         List<File> tableList = FileUtil.loopFiles(domainFile);
                         if (CollUtil.isNotEmpty(tableList)) {
-                            Map<String, TableXmlBean> finalTableMap = tableMap;
                             tableList.forEach(tableFile -> {
                                 TableXmlBean bean = TableXmlBean.load(tableFile);
-                                finalTableMap.put(bean.getMeta().getTableName(), bean);
+                                tableMap.put(bean.getMeta().getTableName(), bean);
                             });
                         }
                     });

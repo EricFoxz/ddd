@@ -20,7 +20,7 @@ public class ClassUtil extends cn.hutool.core.util.ClassUtil {
         if (strategy instanceof LuceneRepoStrategy) {
             return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", fullName) + ".repository." + domainName.get(0) + ".lucene." + simpleName + "Dao");
         } else if (strategy instanceof MySqlRepoStrategy) {
-            return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", fullName) + ".repository." + domainName.get(0) + ".j_final." + simpleName + "Dao");
+            return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", fullName) + ".repository." + domainName.get(0) + ".my_sql." + simpleName + "Dao");
         }
         return null;
     }
