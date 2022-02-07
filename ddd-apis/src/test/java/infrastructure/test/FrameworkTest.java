@@ -1,6 +1,9 @@
 package infrastructure.test;
 
 import gitee.com.ericfox.ddd.apis.ApiApplication;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ClassUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.URLUtil;
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,5 +21,13 @@ public class FrameworkTest extends Parent {
     public void test0001() {
         System.out.println(FrameworkTest.STRUCTURE.id);
         System.out.println(Parent.STRUCTURE.id);
+    }
+
+    @Test
+    public void test0002() {
+        // /E:/idea_projects/ddd/ddd-infrastructure/target/classes/gitee/com/ericfox/ddd/infrastructure/persistent/po
+        // /E:/idea_projects/ddd/ddd-infrastructure/src/main/java/gitee/com/ericfox/ddd/infrastructure/persistent/po/sys
+        ClassUtil.getClassPaths(BasePo.class.getPackage().getName());
+        System.out.println(URLUtil.getURL(BasePo.class.getName().replaceAll("[.]", "/")).getFile());
     }
 }

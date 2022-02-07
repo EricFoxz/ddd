@@ -22,7 +22,7 @@
                               <ToolBar prefHeight="40.0" prefWidth="200.0">
                                 <items>
                                     <Button fx:id="sortAllButton" mnemonicParsing="false" text="排序" />
-                                    <Button mnemonicParsing="false" text="生成" />
+                                    <Button fx:id="writeButton" mnemonicParsing="false" text="写代码" />
                                     <ChoiceBox prefWidth="150.0" />
                                     <Button layoutX="122.0" layoutY="14.0" mnemonicParsing="false" text="批量删除" />
                                 </items>

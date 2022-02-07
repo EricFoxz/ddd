@@ -6,10 +6,8 @@ import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableLoadingService;
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.FileUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.IoUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,8 +23,10 @@ import org.springframework.core.io.ClassPathResource;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -48,6 +48,8 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
     private Button sortAllButton;
     @FXML
     private CheckBox checkAllCheckBox;
+    @FXML
+    private Button writeButton;
     @FXML
     private TabPane codeTabPane;
 
@@ -100,6 +102,9 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
             if (MouseButton.PRIMARY.equals(event.getButton())) {
                 selectAll(checkAllCheckBox.isSelected());
             }
+        });
+        writeButton.setOnAction(event -> {
+            this.multiWriteCode();
         });
         Font font = null;
         try {
@@ -176,6 +181,7 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         CheckBox checkBox = exist.get();
         if (checkBox == null) {
             checkBox = new CheckBox();
+            checkBox.setUserData(tableXml);
             SplitMenuButton splitMenuButton = new SplitMenuButton();
             splitMenuButton.setText(tableXml.getMeta().getTableName());
             splitMenuButton.setUserData(tableXml);
@@ -232,15 +238,40 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
     /**
      * 把生成的代码写进项目
      */
-    private void writeCode(TableXmlBean tableXml) {
+    private void multiWriteCode() {
         logInfo(log, "genTableViewController::genCode 正在生成代码");
         try {
-            //TODO
-            String poCode = GenComponents.getGenCodeService().getPoCode(tableXml);
-            File file = FileUtil.file(new ClassPathResource(customProperties.getRootPackage() + "").getURL());
+            List<TableXmlBean> list = CollUtil.newArrayList();
+            tableListToolBar.getItems().forEach(node -> {
+                if (node instanceof CheckBox && node.getUserData() != null && ((CheckBox) node).isSelected()) {
+                    TableXmlBean tableXml = (TableXmlBean) node.getUserData();
+                    list.add(tableXml);
+                }
+            });
+            if (CollUtil.isEmpty(list)) {
+                logInfo(log, "没有选中任何表");
+            }
+            list.forEach(this::writeCode);
         } catch (Exception e) {
             logError(log, "生成代码异常", e);
             throw new ProjectFrameworkException("生成代码异常" + e.getMessage());
+        }
+    }
+
+    private void writeCode(TableXmlBean tableXml) {
+        try {
+            if (YES.equals(poLabel.getText())) {
+                String poCode = GenComponents.getGenCodeService().getPoCode(tableXml);
+                String filePath = ClassUtil.getClassPaths(BasePo.class.getPackage().getName()).stream().findFirst().get().replaceAll("/target/classes", "/src/main/java") + "/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().toMap().get("ClassName") + ".java";
+                File file = FileUtil.file(filePath);
+                FileUtil.touch(file);
+                IoUtil.writeUtf8(new FileOutputStream(file), true, poCode);
+            }
+            if (YES.equals(daoLabel.getText())) {
+
+            }
+        } catch (Exception e) {
+            logError(log, "genTableViewController::writeCode 生成代码失败", e);
         }
     }
 
