@@ -33,12 +33,12 @@ public class ServiceProperties {
     @Setter
     public static class RepoStrategyBean {
         private RepoPropertiesEnum defaultStrategy = RepoPropertiesEnum.MY_SQL_REPO_STRATEGY;
-        private JFinalBean jFinal;
+        private MySqlBean mySql;
         private LuceneBean lucene;
 
         @Setter
         @Getter
-        public static class JFinalBean {
+        public static class MySqlBean {
             private boolean enable = true;
         }
 

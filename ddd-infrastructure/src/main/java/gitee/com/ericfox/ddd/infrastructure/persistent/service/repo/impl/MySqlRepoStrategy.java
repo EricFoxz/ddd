@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
- * 实现jFinal方式持久化
+ * 实现mySql方式持久化
  */
 @Component("mySqlRepoStrategy")
 @SuppressWarnings("unchecked")

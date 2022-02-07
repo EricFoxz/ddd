@@ -52,7 +52,7 @@ public class JFinalRepoConfig {
         arp.addSqlTemplate("infrastructure/jfinal-sql-templates/baseRepo.sql");
         hikariCpPlugin.start();
 
-        //扫描PO，加载采用jFinal策略的类
+        //扫描PO，加载采用mySql策略的类
         Set<Class<?>> classes = ClassUtil.scanPackage(BasePo.class.getPackage().getName());
         classes.forEach(new Consumer<Class<?>>() {
             @Override

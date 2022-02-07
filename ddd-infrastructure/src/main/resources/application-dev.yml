@@ -69,7 +69,7 @@ custom:
     repo-strategy: #持久化策略
       #默认策略，一般用不到，因为面向切面编程的设计思想，ORM方式与最终载体是在PO实体类上采用注解的方式配置的
       default-strategy: my_sql_repo_strategy
-      j-final:
+      my-sql:
         enable: true
       lucene:
         enable: true
