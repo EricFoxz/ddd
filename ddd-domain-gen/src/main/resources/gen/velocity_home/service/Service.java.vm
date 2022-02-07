@@ -1,0 +1,10 @@
+package ${rootPackage}.domain.sys.model.${meta.class_name};
+
+import ${rootPackage}.infrastructure.general.common.Constants;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.stereotype.Service;
+
+@Service
+@CacheConfig(cacheNames = "${meta.ClassName}Service", keyGenerator = Constants.KEY_GENERATOR)
+public class ${meta.ClassName}Service extends ${meta.ClassName}ServiceBase {
+}

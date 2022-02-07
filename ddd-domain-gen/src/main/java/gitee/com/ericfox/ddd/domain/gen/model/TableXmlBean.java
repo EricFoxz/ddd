@@ -3,10 +3,7 @@ package gitee.com.ericfox.ddd.domain.gen.model;
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.enums.MySqlDataTypeEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.MapUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.XmlUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -84,6 +81,12 @@ public class TableXmlBean implements GenLogger {
             this.className = StrUtil.toCamelCase(className);
             this.ClassName = StrUtil.upperFirst(this.className);
             this.class_name = StrUtil.toUnderlineCase(this.className);
+        }
+
+        public Map<String, Object> toMap() {
+            Map<String, Object> map = BeanUtil.beanToMap(this);
+            map.put("ClassName", this.ClassName);
+            return map;
         }
     }
 

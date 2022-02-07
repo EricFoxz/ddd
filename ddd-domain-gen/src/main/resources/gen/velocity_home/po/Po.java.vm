@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @RepoEnabledAnnotation(type = RepoTypeStrategyEnum.${meta.repoTypeStrategyEnum.name})
-public class ${meta.ClassName} implements BasePo<${meta.ClassName}> {
+public class ${meta.get("ClassName")} implements BasePo<${meta.ClassName}> {
     public static final class STRUCTURE {
         public static String table = "${meta.tableName}";
         public static String id = "${meta.idField}";

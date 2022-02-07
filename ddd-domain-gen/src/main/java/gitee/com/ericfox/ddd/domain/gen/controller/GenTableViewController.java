@@ -8,18 +8,24 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFra
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.FileUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.IoUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -27,6 +33,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GenTableViewController implements BaseJavaFxController, GenLogger {
     public static final String TABLE_CHECK_BOX_PREFIX = "tableCheckBox:";
+    private static final String YES = "√";
+    private static final String NO = "×";
+
     @Resource
     private CustomProperties customProperties;
 
@@ -42,14 +51,45 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
     @FXML
     private TabPane codeTabPane;
 
+    /**
+     * 代码视图
+     */
+    @FXML
+    private Label poLabel;
     @FXML
     private TextArea poTextArea;
     @FXML
+    private Label daoLabel;
+    @FXML
     private TextArea daoTextArea;
+    @FXML
+    private Label entityLabel;
     @FXML
     private TextArea entityTextArea;
     @FXML
+    private Label entityBaseLabel;
+    @FXML
+    private TextArea entityBaseTextArea;
+    @FXML
+    private Label dtoLabel;
+    @FXML
     private TextArea dtoTextArea;
+    @FXML
+    private Label dtoBaseLabel;
+    @FXML
+    private TextArea dtoBaseTextArea;
+    @FXML
+    private Label serviceLabel;
+    @FXML
+    private TextArea serviceTextArea;
+    @FXML
+    private Label serviceBaseLabel;
+    @FXML
+    private TextArea serviceBaseTextArea;
+    @FXML
+    private Label pageParamLabel;
+    @FXML
+    private TextArea pageParamTextArea;
 
     @Override
     public void initialize() {
@@ -61,6 +101,46 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
                 selectAll(checkAllCheckBox.isSelected());
             }
         });
+        Font font = null;
+        try {
+            InputStream inputStream = new ClassPathResource("infrastructure/font/YaHei.Consolas.1.12.ttf").getInputStream();
+            font = Font.loadFont(inputStream, 14);
+            IoUtil.close(inputStream);
+        } catch (Exception e) {
+            logError(log, "genTableViewController::initialize 加载字体失败", e);
+        }
+        poTextArea.setFont(font);
+        daoTextArea.setFont(font);
+        entityTextArea.setFont(font);
+        entityBaseTextArea.setFont(font);
+        dtoTextArea.setFont(font);
+        dtoBaseTextArea.setFont(font);
+        serviceTextArea.setFont(font);
+        serviceBaseTextArea.setFont(font);
+        pageParamTextArea.setFont(font);
+        //label点击事件
+        EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Label label = (Label) event.getPickResult().getIntersectedNode().getParent();
+                if (NO.equals(label.getText())) {
+                    label.setTextFill(Paint.valueOf("LIME"));
+                    label.setText(YES);
+                } else if (YES.equals(label.getText())) {
+                    label.setTextFill(Paint.valueOf("RED"));
+                    label.setText(NO);
+                }
+            }
+        };
+        poLabel.setOnMouseClicked(eventHandler);
+        daoLabel.setOnMouseClicked(eventHandler);
+        entityLabel.setOnMouseClicked(eventHandler);
+        entityBaseLabel.setOnMouseClicked(eventHandler);
+        dtoLabel.setOnMouseClicked(eventHandler);
+        dtoBaseLabel.setOnMouseClicked(eventHandler);
+        serviceLabel.setOnMouseClicked(eventHandler);
+        serviceBaseLabel.setOnMouseClicked(eventHandler);
+        pageParamLabel.setOnMouseClicked(eventHandler);
     }
 
     @Override
@@ -141,10 +221,18 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         poTextArea.setText(poCode);
         daoTextArea.setText(daoCode);
         entityTextArea.setText(entityCode);
+        entityBaseTextArea.setText(entityBaseCode);
         dtoTextArea.setText(dtoCode);
+        dtoBaseTextArea.setText(dtoBaseCode);
+        serviceTextArea.setText(serviceCode);
+        serviceBaseTextArea.setText(serviceBaseCode);
+        pageParamTextArea.setText(pageParamCode);
     }
 
-    private void genCode(TableXmlBean tableXml) {
+    /**
+     * 把生成的代码写进项目
+     */
+    private void writeCode(TableXmlBean tableXml) {
         logInfo(log, "genTableViewController::genCode 正在生成代码");
         try {
             //TODO

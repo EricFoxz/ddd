@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.StringWriter;
+import java.util.Map;
 import java.util.Properties;
 
 @Slf4j
@@ -45,12 +46,16 @@ public class GenCodeService implements GenLogger {
         context.put("strUtil", strUtil);
         context.put("dateUtil", dateUtil);
         context.put("rootPackage", customProperties.getRootPackage());
-        BeanUtil.beanToMap(tableXml).forEach(context::put);
+        Map<String, Object> metaMap = tableXml.getMeta().toMap();
+        context.put("meta", metaMap);
+        Map<String, Object> dataMap = BeanUtil.beanToMap(tableXml.getData());
+        context.put("data", dataMap);
         Template template = null;
         try {
             template = Velocity.getTemplate(path);
             if (template == null) {
-                throw new ProjectFrameworkException("");
+                logError(log, "genCodeService::getCodeByTableXmlBean velocity模板初始化失败: " + path);
+                throw new ProjectFrameworkException("genCodeService::getCodeByTableXmlBean velocity模板初始化失败: " + path);
             }
         } catch (Exception e) {
             logError(log, "genCodeService::getCodeByTableXmlBean 加载模板异常");
@@ -100,12 +105,12 @@ public class GenCodeService implements GenLogger {
 
     public String getServiceCode(TableXmlBean tableXmlBean) {
         VelocityContext context = new VelocityContext();
-        return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/entity/Service.java.vm");
+        return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/service/Service.java.vm");
     }
 
     public String getServiceBaseCode(TableXmlBean tableXmlBean) {
         VelocityContext context = new VelocityContext();
-        return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/entity/base/ServiceBase.java.vm");
+        return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/service/base/ServiceBase.java.vm");
     }
 
     public String getPageParamCode(TableXmlBean tableXmlBean) {

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.media.*?>
 <?import javafx.scene.layout.*?>
@@ -42,7 +44,16 @@
                               <TextArea fx:id="poTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
                            </content>
                         </ScrollPane>
-                     </content></Tab>
+                     </content>
+                     <graphic>
+                        <Label fx:id="poLabel" text="√" textFill="LIME">
+                           <tooltip>
+                              <Tooltip text="点击切换是否生成该文件" />
+                           </tooltip>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Label>
+                     </graphic></Tab>
                 <Tab text="Dao">
                      <content>
                         <ScrollPane>
@@ -50,7 +61,17 @@
                                <TextArea fx:id="daoTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
                            </content>
                         </ScrollPane>
-                     </content></Tab>
+                     </content>
+                     <graphic>
+                        <Label fx:id="daoLabel" text="√" textFill="LIME">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="点击切换是否生成该文件" />
+                           </tooltip>
+                        </Label>
+                     </graphic></Tab>
                   <Tab text="Entity">
                      <content>
                         <ScrollPane>
@@ -58,7 +79,34 @@
                                <TextArea fx:id="entityTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
                            </content>
                         </ScrollPane>
-                     </content></Tab>
+                     </content>
+                     <graphic>
+                        <Label fx:id="entityLabel" text="√" textFill="LIME">
+                           <tooltip>
+                              <Tooltip text="点击切换是否生成该文件" />
+                           </tooltip>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Label>
+                     </graphic></Tab>
+                  <Tab text="EntityBase">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                              <TextArea fx:id="entityBaseTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                     <graphic>
+                        <Label fx:id="entityBaseLabel" text="√" textFill="LIME">
+                           <tooltip>
+                              <Tooltip text="点击切换是否生成该文件" />
+                           </tooltip>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Label>
+                     </graphic>
+                  </Tab>
                   <Tab text="Dto">
                      <content>
                         <ScrollPane>
@@ -66,7 +114,88 @@
                                <TextArea fx:id="dtoTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
                            </content>
                         </ScrollPane>
-                     </content></Tab>
+                     </content>
+                     <graphic>
+                        <Label fx:id="dtoLabel" text="√" textFill="LIME">
+                           <tooltip>
+                              <Tooltip text="点击切换是否生成该文件" />
+                           </tooltip>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Label>
+                     </graphic></Tab>
+                  <Tab text="DtoBase">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                              <TextArea fx:id="dtoBaseTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                     <graphic>
+                        <Label fx:id="dtoBaseLabel" text="√" textFill="LIME">
+                           <tooltip>
+                              <Tooltip text="点击切换是否生成该文件" />
+                           </tooltip>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Label>
+                     </graphic>
+                  </Tab>
+                  <Tab text="Service">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                              <TextArea fx:id="serviceTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                     <graphic>
+                        <Label fx:id="serviceLabel" text="√" textFill="LIME">
+                           <tooltip>
+                              <Tooltip text="点击切换是否生成该文件" />
+                           </tooltip>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Label>
+                     </graphic>
+                  </Tab>
+                  <Tab text="ServiceBase">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                              <TextArea fx:id="serviceBaseTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                     <graphic>
+                        <Label fx:id="serviceBaseLabel" text="√" textFill="LIME">
+                           <tooltip>
+                              <Tooltip text="点击切换是否生成该文件" />
+                           </tooltip>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Label>
+                     </graphic>
+                  </Tab>
+                  <Tab text="pageParam">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                              <TextArea fx:id="pageParamTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                     <graphic>
+                        <Label fx:id="pageParamLabel" text="√" textFill="LIME">
+                           <tooltip>
+                              <Tooltip text="点击切换是否生成该文件" />
+                           </tooltip>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Label>
+                     </graphic>
+                  </Tab>
               </tabs>
             </TabPane>
          </children></AnchorPane>
