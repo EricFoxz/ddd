@@ -23,7 +23,6 @@ import org.springframework.core.io.ClassPathResource;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
@@ -239,7 +238,7 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
      * 把生成的代码写进项目
      */
     private void multiWriteCode() {
-        logInfo(log, "genTableViewController::genCode 正在生成代码");
+        logInfo(log, "genTableViewController::multiWriteCode 正在生成代码");
         try {
             List<TableXmlBean> list = CollUtil.newArrayList();
             tableListToolBar.getItems().forEach(node -> {
@@ -250,8 +249,10 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
             });
             if (CollUtil.isEmpty(list)) {
                 logInfo(log, "没有选中任何表");
+                return;
             }
             list.forEach(this::writeCode);
+            logInfo(log, "genTableViewController::multiWriteCode 生成代码完成");
         } catch (Exception e) {
             logError(log, "生成代码异常", e);
             throw new ProjectFrameworkException("生成代码异常" + e.getMessage());
@@ -259,19 +260,15 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
     }
 
     private void writeCode(TableXmlBean tableXml) {
-        try {
-            if (YES.equals(poLabel.getText())) {
-                String poCode = GenComponents.getGenCodeService().getPoCode(tableXml);
-                String filePath = ClassUtil.getClassPaths(BasePo.class.getPackage().getName()).stream().findFirst().get().replaceAll("/target/classes", "/src/main/java") + "/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().toMap().get("ClassName") + ".java";
-                File file = FileUtil.file(filePath);
-                FileUtil.touch(file);
-                IoUtil.writeUtf8(new FileOutputStream(file), true, poCode);
-            }
-            if (YES.equals(daoLabel.getText())) {
+        if (YES.equals(poLabel.getText())) {
+            String poCode = GenComponents.getGenCodeService().getPoCode(tableXml);
+            String filePath = ClassUtil.getClassPaths(BasePo.class.getPackage().getName()).stream().findFirst().get().replaceAll("/target/classes", "/src/main/java") + "/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().toMap().get("ClassName") + ".java";
+            File file = FileUtil.file(filePath);
+            FileUtil.touch(file);
+            IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, poCode);
+        }
+        if (YES.equals(daoLabel.getText())) {
 
-            }
-        } catch (Exception e) {
-            logError(log, "genTableViewController::writeCode 生成代码失败", e);
         }
     }
 
@@ -297,5 +294,6 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
                     return 0;
                 }).collect(Collectors.toList())
         );
+        logInfo(log, "genTableViewController::sortAll 排序完成");
     }
 }

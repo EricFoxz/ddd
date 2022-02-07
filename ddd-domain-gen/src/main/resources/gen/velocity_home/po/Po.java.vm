@@ -1,5 +1,6 @@
 package ${rootPackage}.infrastructure.persistent.po.${meta.domainName};
 
+import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.FieldLength;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
@@ -22,6 +23,9 @@ public class ${meta.get("ClassName")} implements BasePo<${meta.ClassName}> {
     /**
      * ${meta.fieldCommentMap.get(${item.key})}
      */
+#if($meta.fieldLengthMap.containsKey(${item.key}) && !!$meta.fieldLengthMap.get(${item.key}))
+    @FieldLength($meta.fieldLengthMap.get(${item.key}))
+#end
 #if(${strUtil.startWith(${item.value.name}, "java.lang")})
     private ${item.value.simpleName} ${item.key};
 #else

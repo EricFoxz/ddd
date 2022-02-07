@@ -84,7 +84,7 @@ public class TableXmlBean implements GenLogger {
         }
 
         public Map<String, Object> toMap() {
-            Map<String, Object> map = BeanUtil.beanToMap(this);
+            Map<String, Object> map = BeanUtil.beanToMap(this, false, true);
             map.put("ClassName", this.ClassName);
             return map;
         }
