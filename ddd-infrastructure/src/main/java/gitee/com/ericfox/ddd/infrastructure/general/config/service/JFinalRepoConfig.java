@@ -26,7 +26,7 @@ import java.util.function.Consumer;
  * JFinal持久化配置类
  */
 @Configuration
-@ConditionalOnProperty(prefix = "custom.service.repo-strategy.j-final", value = {"enable"})
+@ConditionalOnProperty(prefix = "custom.service.repo-strategy.my-sql", value = {"enable"})
 @SuppressWarnings("unchecked")
 public class JFinalRepoConfig {
     @Value("${spring.datasource.url}")

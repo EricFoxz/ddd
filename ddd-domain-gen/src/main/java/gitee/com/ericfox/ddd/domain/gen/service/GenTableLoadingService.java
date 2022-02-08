@@ -11,6 +11,7 @@ import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
 import gitee.com.ericfox.ddd.domain.gen.model.TableMySqlBean;
 import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
+import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import lombok.Getter;
@@ -134,12 +135,12 @@ public class GenTableLoadingService implements GenLogger {
                 domainMap.get(domainName).put(tableName, tableXml);
                 GenComponents.getGenTableWritingService().writeTableXml(tableXml);
             });
+            logInfo(log, "genTableLoadingService::importTableByMySql 读取完成");
         } catch (Exception e) {
-            logError(log, "genTableLoadingService::importTableByMySql", e);
+            logError(log, "genTableLoadingService::importTableByMySql", e.getMessage());
+            throw new ProjectFrameworkException("genTableLoadingService::importTableByMySql " + e.getMessage());
         }
-
         GenComponents.getGenTableWritingService().publishTablesToRuntime();
-        logInfo(log, "genTableLoadingService::importTableByMySql 读取完成");
     }
 
     /**
