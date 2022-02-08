@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.persistent.repository.sys.my_sql;
+package gitee.com.ericfox.ddd.infrastructure.persistent.dao.sys.my_sql;
 
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalBaseDao;

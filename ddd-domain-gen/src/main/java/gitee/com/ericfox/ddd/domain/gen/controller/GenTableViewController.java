@@ -4,11 +4,13 @@ import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableLoadingService;
+import gitee.com.ericfox.ddd.domain.gen.service.GenTableWritingService;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.IoUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
@@ -313,15 +314,12 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
      * 生成/写入代码
      */
     private void writeCode(TableXmlBean tableXml) {
+        GenTableWritingService writingService = GenComponents.getGenTableWritingService();
         if (YES.equals(poLabel.getText())) {
-            String poCode = GenComponents.getGenCodeService().getPoCode(tableXml);
-            String filePath = ClassUtil.getClassPaths(BasePo.class.getPackage().getName()).stream().findFirst().get().replaceAll("/target/classes", "/src/main/java") + "/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().toMap().get("ClassName") + ".java";
-            File file = FileUtil.file(filePath);
-            FileUtil.touch(file);
-            IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, poCode);
+            writingService.writePoCode(tableXml);
         }
         if (YES.equals(daoLabel.getText())) {
-
+            writingService.writeDaoCode(tableXml);
         }
     }
 
