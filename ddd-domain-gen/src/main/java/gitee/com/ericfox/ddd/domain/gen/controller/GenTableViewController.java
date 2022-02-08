@@ -4,6 +4,7 @@ import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableLoadingService;
+import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
@@ -47,6 +48,8 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
     private Button sortAllButton;
     @FXML
     private CheckBox checkAllCheckBox;
+    @FXML
+    private ChoiceBox<String> repoTypeChoiceBox;
     @FXML
     private Button writeButton;
     @FXML
@@ -102,6 +105,34 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
                 selectAll(checkAllCheckBox.isSelected());
             }
         });
+        //存储类型
+        for (RepoTypeStrategyEnum value : RepoTypeStrategyEnum.values()) {
+            repoTypeChoiceBox.getItems().add(value.getCode());
+        }
+        repoTypeChoiceBox.setOnAction(event -> {
+            String str = repoTypeChoiceBox.getSelectionModel().getSelectedItem();
+            RepoTypeStrategyEnum repoEnum = RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY.getEnumByCode(str);
+            if (repoEnum == null) {
+                return;
+            }
+            List<TableXmlBean> list = CollUtil.newArrayList();
+            tableListToolBar.getItems().forEach(node -> {
+                if (node instanceof CheckBox && node.getUserData() != null && ((CheckBox) node).isSelected()) {
+                    TableXmlBean tableXml = (TableXmlBean) node.getUserData();
+                    list.add(tableXml);
+                }
+            });
+            if (CollUtil.isEmpty(list)) {
+                logInfo(log, "没有选中任何表");
+                return;
+            }
+            list.forEach(item -> {
+                this.changeRepo(item, repoEnum);
+            });
+            codeTabPane.setDisable(false);
+            GenComponents.getGenTableWritingService().publishTablesToRuntime();
+        });
+        //生成按钮
         writeButton.setOnAction(event -> {
             this.multiWriteCode();
         });
@@ -178,25 +209,32 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
             }
         });
         CheckBox checkBox = exist.get();
-        if (checkBox == null) {
-            checkBox = new CheckBox();
-            checkBox.setUserData(tableXml);
-            SplitMenuButton splitMenuButton = new SplitMenuButton();
-            splitMenuButton.setText(tableXml.getMeta().getTableName());
-            splitMenuButton.setUserData(tableXml);
-            splitMenuButton.setId(TABLE_CHECK_BOX_PREFIX + tableXml.getMeta().getTableName());
-            splitMenuButton.setOnMouseClicked(event -> {
-                renderCode(tableXml);
-            });
-            splitMenuButton.setMaxWidth(190);
-            if (StrUtil.isNotBlank(tableXml.getMeta().getTableComment())) {
-                splitMenuButton.setTooltip(new Tooltip(tableXml.getMeta().getTableComment()));
-            }
+        int index = tableListToolBar.getItems().indexOf(checkBox);
+        checkBox = new CheckBox();
+        checkBox.setUserData(tableXml);
+        SplitMenuButton splitMenuButton = new SplitMenuButton();
+        splitMenuButton.setText(tableXml.getMeta().getTableName());
+        splitMenuButton.setUserData(tableXml);
+        splitMenuButton.setId(TABLE_CHECK_BOX_PREFIX + tableXml.getMeta().getTableName());
+        splitMenuButton.setOnMouseClicked(event -> {
+            renderCode(tableXml);
+        });
+        splitMenuButton.setMaxWidth(190);
+        Label label = new Label(tableXml.getMeta().getRepoTypeStrategyEnum().getCode());
+        label.setTextFill(Paint.valueOf("BLUE"));
+        splitMenuButton.setGraphic(label);
+        splitMenuButton.setTooltip(new Tooltip(tableXml.getMeta().getTableName()));
+        if (StrUtil.isNotBlank(tableXml.getMeta().getTableComment())) {
+            splitMenuButton.setTooltip(new Tooltip(tableXml.getMeta().getTableComment()));
+        }
+        checkBox.setId(TABLE_CHECK_BOX_PREFIX + tableXml.getMeta().getTableName());
+        checkBox.setText(null);
+        checkBox.setWrapText(true);
+        checkBox.setGraphic(splitMenuButton);
+        if (index >= 0) {
+            tableListToolBar.getItems().set(index, checkBox);
+        } else {
             tableListToolBar.getItems().add(checkBox);
-            checkBox.setId(TABLE_CHECK_BOX_PREFIX + tableXml.getMeta().getTableName());
-            checkBox.setText(null);
-            checkBox.setWrapText(true);
-            checkBox.setGraphic(splitMenuButton);
         }
     }
 
@@ -259,6 +297,21 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         }
     }
 
+    /**
+     * 改变持久化方式
+     */
+    private void changeRepo(TableXmlBean tableXml, RepoTypeStrategyEnum repoEnum) {
+        String domainName = tableXml.getMeta().getDomainName();
+        String tableName = tableXml.getMeta().getTableName();
+        tableXml.getMeta().setRepoTypeStrategyEnum(repoEnum);
+        GenTableLoadingService.getDomainMap().get(domainName).put(tableName, tableXml);
+        renderTableName(tableXml);
+        GenComponents.getGenTableWritingService().writeTableXml(tableXml);
+    }
+
+    /**
+     * 生成/写入代码
+     */
     private void writeCode(TableXmlBean tableXml) {
         if (YES.equals(poLabel.getText())) {
             String poCode = GenComponents.getGenCodeService().getPoCode(tableXml);
