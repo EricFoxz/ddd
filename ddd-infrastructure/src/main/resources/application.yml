@@ -1,7 +1,8 @@
 spring:
   application:
-    name: 'ddd领域'
+    name: 'ddd领域驱动'
   profiles:
     active: dev
 custom:
+  project-name: 'ddd'
   root-package: 'gitee.com.ericfox.ddd'

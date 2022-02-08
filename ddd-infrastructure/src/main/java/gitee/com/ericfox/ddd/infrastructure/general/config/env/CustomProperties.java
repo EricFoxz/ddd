@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "custom", ignoreInvalidFields = true)
 public class CustomProperties {
+    private String projectName;
     private String rootPackage;
     private ServiceProperties service;
     private ApiProperties api;

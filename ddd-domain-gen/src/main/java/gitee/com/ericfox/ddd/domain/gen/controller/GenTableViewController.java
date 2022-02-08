@@ -321,6 +321,27 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         if (YES.equals(daoLabel.getText())) {
             writingService.writeDaoCode(tableXml);
         }
+        if (YES.equals(entityLabel.getText())) {
+            writingService.writeEntityCode(tableXml);
+        }
+        if (YES.equals(entityBaseLabel.getText())) {
+            writingService.writeEntityBaseCode(tableXml);
+        }
+        if (YES.equals(serviceLabel.getText())) {
+            writingService.writeServiceCode(tableXml);
+        }
+        if (YES.equals(serviceBaseLabel.getText())) {
+            writingService.writeServiceBaseCode(tableXml);
+        }
+        if (YES.equals(dtoLabel.getText())) {
+            writingService.writeDtoCode(tableXml);
+        }
+        if (YES.equals(dtoBaseLabel.getText())) {
+            writingService.writeDtoBaseCode(tableXml);
+        }
+        if (YES.equals(pageParamLabel.getText())) {
+            writingService.writePageParamCode(tableXml);
+        }
     }
 
     private void sortAll() {
