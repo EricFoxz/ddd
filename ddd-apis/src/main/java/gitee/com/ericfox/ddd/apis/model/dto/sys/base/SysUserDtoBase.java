@@ -10,16 +10,19 @@ import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Setter
 @Getter
-public abstract class SysUserDtoBase implements BaseDto<SysUser, SysUserEntity, SysUserDto> {
+public abstract class SysUserDtoBase implements BaseDto<SysUser, SysUserEntity, SysUserDto>, Serializable {
+    private Long id;
+    private String username;
+
     @Override
-    public SysUserDto fromEntity(SysUserEntity entity) {
-        SysUserDto sysUserDto = new SysUserDto();
-        BeanUtil.copyProperties(entity, sysUserDto, false);
-        return sysUserDto;
+    public <T extends BaseDto> T fromEntity(SysUserEntity entity) {
+        BeanUtil.copyProperties(entity, this, false);
+        return (T) this;
     }
 
     @Override

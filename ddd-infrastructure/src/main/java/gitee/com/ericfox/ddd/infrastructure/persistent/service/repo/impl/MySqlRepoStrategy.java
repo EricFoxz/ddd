@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 /**
  * 实现mySql方式持久化
  */
-@Component("mySqlRepoStrategy")
+@Component
 @SuppressWarnings("unchecked")
 public class MySqlRepoStrategy implements RepoStrategy {
     private static final CopyOptions updateCopyOptions = CopyOptions.create().ignoreCase().ignoreNullValue();
@@ -71,8 +71,9 @@ public class MySqlRepoStrategy implements RepoStrategy {
     public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> ENTITY insert(ENTITY entity) {
         PO po = entity.toPo();
         JFinalBaseDao dao = getDao(po);
-        Model<?> result = dao.put(dao);
-        BeanUtil.copyProperties(result.toRecord().getColumns(), po, false);
+        dao.put(BeanUtil.beanToMap(po));
+        dao.save();
+        Object o = dao.get(PO.STRUCTURE.id);
         return entity;
     }
 

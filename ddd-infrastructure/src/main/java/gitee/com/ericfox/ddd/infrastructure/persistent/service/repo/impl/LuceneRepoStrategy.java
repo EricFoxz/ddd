@@ -38,7 +38,7 @@ import java.util.stream.Stream;
 /**
  * 实现Lucene方式持久化
  */
-@Component("luceneRepoStrategy")
+@Component
 @Slf4j
 @SuppressWarnings("unchecked")
 public class LuceneRepoStrategy implements RepoStrategy {

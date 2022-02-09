@@ -5,14 +5,16 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDto;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReflectUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
 @Slf4j
 public class Dto {
+    @SneakyThrows
     public static <PO extends BasePo<PO>, ENTITY extends BaseEntity<PO, ENTITY>, DTO extends BaseDto<PO, ENTITY, DTO>> DTO fromEntity(Class<DTO> dtoClass, ENTITY entity) {
-        DTO dto = ReflectUtil.newInstance(dtoClass);
+        DTO dto = dtoClass.newInstance();
         dto.fromEntity(entity);
         return dto;
     }
