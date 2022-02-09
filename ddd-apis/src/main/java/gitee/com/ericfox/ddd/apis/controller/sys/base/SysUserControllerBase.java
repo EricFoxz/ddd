@@ -63,10 +63,10 @@ public abstract class SysUserControllerBase implements BaseController<SysUser, S
 
     @Override
     @DeleteMapping("/remove")
-    public ResponseEntity<?> remove(SysUserEntity sysUser) {
-        boolean b = sysUserService.deleteById(sysUser);
+    public ResponseEntity<?> remove(SysUserEntity entity) {
+        boolean b = sysUserService.deleteById(entity);
         if (b) {
-            return ResBuilder.defValue.success().putIntoData("id", sysUser.getId()).build();
+            return ResBuilder.defValue.success().putIntoData("id", entity.getId()).build();
         }
         return ResBuilder.defValue.noContent().build();
     }

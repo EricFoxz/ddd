@@ -21,40 +21,39 @@ public abstract class SysUserServiceBase implements BaseService<SysUser, SysUser
     @Transactional(readOnly = true)
     @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
     public SysUserEntity findById(Long id) {
-        SysUserEntity sysUser = new SysUserEntity();
-        sysUser.setId(id);
-        return repoService.findById(sysUser);
+        SysUserEntity entity = new SysUserEntity();
+        entity.setId(id);
+        return repoService.findById(entity);
     }
 
     @Transactional(readOnly = true)
     @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
-    public PageInfo<SysUserEntity> queryPage(SysUserEntity sysUser, int pageNum, int pageSize) {
-        PageInfo<SysUserEntity> sysUserPageInfo = repoService.queryPage(sysUser, pageNum, pageSize);
-        return sysUserPageInfo;
+    public PageInfo<SysUserEntity> queryPage(SysUserEntity entity, int pageNum, int pageSize) {
+        return repoService.queryPage(entity, pageNum, pageSize);
     }
 
     @Transactional(readOnly = true)
     @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
-    public List<SysUserEntity> queryList(SysUserEntity sysUser, int pageSize) {
-        return repoService.queryList(sysUser, pageSize);
+    public List<SysUserEntity> queryList(SysUserEntity entity, int pageSize) {
+        return repoService.queryList(entity, pageSize);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
-    public SysUserEntity insert(SysUserEntity sysUser) {
-        return repoService.insert(sysUser);
+    public SysUserEntity insert(SysUserEntity entity) {
+        return repoService.insert(entity);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
-    public boolean update(SysUserEntity sysUser) {
-        return repoService.updateById(sysUser);
+    public boolean update(SysUserEntity entity) {
+        return repoService.updateById(entity);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
-    public boolean deleteById(SysUserEntity sysUser) {
-        return repoService.deleteById(sysUser);
+    public boolean deleteById(SysUserEntity entity) {
+        return repoService.deleteById(entity);
     }
 
     @CacheEvict(allEntries = true, beforeInvocation = false)

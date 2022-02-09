@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.*;
 public class SysUserController extends SysUserControllerBase {
     @Override
     @PutMapping("/create")
-    public ResponseEntity<?> create(@RequestBody SysUserEntity sysUser) {
+    public ResponseEntity<?> create(@RequestBody SysUserEntity entity) {
         return ResBuilder.noData().setStatus(HttpStatus.SERVICE_UNAVAILABLE).build();
     }
 
     @Override
     @PatchMapping("/edit")
-    public ResponseEntity<?> edit(SysUserEntity sysUser) {
+    public ResponseEntity<?> edit(SysUserEntity entity) {
         return ResBuilder.noData().setStatus(HttpStatus.SERVICE_UNAVAILABLE).build();
     }
 
     @Override
     @DeleteMapping("/remove")
-    public ResponseEntity<?> remove(SysUserEntity sysUser) {
+    public ResponseEntity<?> remove(SysUserEntity entity) {
         return ResBuilder.noData().setStatus(HttpStatus.SERVICE_UNAVAILABLE).build();
     }
 
