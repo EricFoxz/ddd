@@ -135,7 +135,7 @@ public class GenTableWritingService implements GenLogger {
 
     public void writeControllerBaseCode(TableXmlBean tableXml) {
         String controllerBaseCode = GenComponents.getGenCodeService().getControllerBaseCode(tableXml);
-        String filePath = getApisPath() + "/controller/" + tableXml.getMeta().getDomainName() + "/base/" + tableXml.getMeta().toMap().get("ClassName") + "Controller.java";
+        String filePath = getApisPath() + "/controller/" + tableXml.getMeta().getDomainName() + "/base/" + tableXml.getMeta().toMap().get("ClassName") + "ControllerBase.java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, controllerBaseCode);
