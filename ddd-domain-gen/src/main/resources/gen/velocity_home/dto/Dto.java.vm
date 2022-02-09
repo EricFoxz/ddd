@@ -1,8 +1,8 @@
 package ${rootPackage}.apis.model.dto.${meta.domainName};
 
 import com.github.pagehelper.PageInfo;
-import gitee.com.ericfox.ddd.apis.model.dto.${meta.domainName}.base.${meta.ClassName}DtoBase;
-import gitee.com.ericfox.ddd.domain.${meta.domainName}.model.${meta.class_name}.${meta.ClassName}Entity;
+import ${rootPackage}.apis.model.dto.${meta.domainName}.base.${meta.ClassName}DtoBase;
+import ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name}.${meta.ClassName}Entity;
 import lombok.Getter;
 import lombok.Setter;
 

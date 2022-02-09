@@ -1,7 +1,7 @@
 package ${rootPackage}.infrastructure.persistent.dao.${meta.domainName}.my_sql_repo_strategy;
 
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.${meta.domainName}.${meta.ClassName};
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalBaseDao;
+import ${rootPackage}.infrastructure.persistent.po.${meta.domainName}.${meta.ClassName};
+import ${rootPackage}.infrastructure.persistent.service.repo.impl.JFinalBaseDao;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;

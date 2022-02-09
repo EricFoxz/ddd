@@ -1,31 +1,36 @@
 package ${rootPackage}.infrastructure.persistent.po.${meta.domainName};
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.FieldLength;
-import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
+import ${rootPackage}.infrastructure.general.common.annos.framework.FieldLength;
+import ${rootPackage}.infrastructure.general.common.annos.framework.FieldLength;
+import ${rootPackage}.infrastructure.general.common.annos.framework.TableComment;
+import ${rootPackage}.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
+import ${rootPackage}.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
+import ${rootPackage}.infrastructure.persistent.po.BasePo;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * ${meta.tableComment}
  */
+@TableComment("${meta.tableComment}")
 @Setter
 @Getter
 @RepoEnabledAnnotation(type = RepoTypeStrategyEnum.${meta.repoTypeStrategyEnum.name})
 public class ${meta.get("ClassName")} implements BasePo<${meta.ClassName}> {
     public static final class STRUCTURE {
+        public static String domainName = "${meta.domainName}";
         public static String table = "${meta.tableName}";
         public static String id = "${meta.idField}";
     }
 
 #foreach($item in $meta.fieldClassMap.entrySet())
     /**
-     * ${meta.fieldCommentMap.get(${item.key})}
+     * $!{meta.fieldCommentMap.get(${item.key})}
      */
 #if($meta.fieldLengthMap.containsKey(${item.key}) && !!$meta.fieldLengthMap.get(${item.key}))
     @FieldLength($meta.fieldLengthMap.get(${item.key}))
 #end
+    @FieldComment("$!{meta.fieldCommentMap.get(${item.key})}")
 #if(${strUtil.startWith(${item.value.name}, "java.lang")})
     private ${item.value.simpleName} ${item.key};
 #else

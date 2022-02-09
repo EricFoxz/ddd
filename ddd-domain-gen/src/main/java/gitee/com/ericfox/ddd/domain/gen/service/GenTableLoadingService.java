@@ -83,18 +83,17 @@ public class GenTableLoadingService implements GenLogger {
             public void accept(Class<?> clazz) {
                 if (!BasePo.class.isAssignableFrom(clazz)) {
                     return;
-                } else {
-                    if (clazz.isAnnotationPresent(RepoEnabledAnnotation.class)) {
-                        TableJavaBean<? extends BasePo<?>> tableJava = new TableJavaBean(clazz);
-                        TableXmlBean tableXml = TableXmlBean.load(tableJava);
-                        String domainName = tableXml.getMeta().getDomainName();
-                        String tableName = tableXml.getMeta().getTableName();
-                        if (!domainMap.containsKey(domainName)) {
-                            domainMap.put(domainName, MapUtil.newConcurrentHashMap());
-                        }
-                        domainMap.get(domainName).put(tableName, tableXml);
-                        GenComponents.getGenTableWritingService().writeTableXml(tableXml);
+                }
+                if (clazz.isAnnotationPresent(RepoEnabledAnnotation.class)) {
+                    TableJavaBean<? extends BasePo<?>> tableJava = new TableJavaBean(clazz);
+                    TableXmlBean tableXml = TableXmlBean.load(tableJava);
+                    String domainName = tableXml.getMeta().getDomainName();
+                    String tableName = tableXml.getMeta().getTableName();
+                    if (!domainMap.containsKey(domainName)) {
+                        domainMap.put(domainName, MapUtil.newConcurrentHashMap());
                     }
+                    domainMap.get(domainName).put(tableName, tableXml);
+                    GenComponents.getGenTableWritingService().writeTableXml(tableXml);
                 }
             }
         });
