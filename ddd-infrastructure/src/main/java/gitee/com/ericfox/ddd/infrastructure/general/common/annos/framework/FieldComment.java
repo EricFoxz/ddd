@@ -8,6 +8,6 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface FieldLength {
-    int value();
+public @interface FieldComment {
+    String value() default "";
 }

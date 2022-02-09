@@ -27,6 +27,7 @@ public interface BasePo<PO extends BasePo<PO>> extends Serializable {
     }
 
     final class STRUCTURE {
+        public static String domainName;
         public static String table;
         public static String id;
     }

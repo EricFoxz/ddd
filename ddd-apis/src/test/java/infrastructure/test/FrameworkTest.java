@@ -30,4 +30,5 @@ public class FrameworkTest extends Parent {
         ClassUtil.getClassPaths(BasePo.class.getPackage().getName());
         System.out.println(URLUtil.getURL(BasePo.class.getName().replaceAll("[.]", "/")).getFile());
     }
+
 }

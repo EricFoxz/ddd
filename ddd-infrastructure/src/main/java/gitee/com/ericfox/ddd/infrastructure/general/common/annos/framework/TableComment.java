@@ -5,9 +5,9 @@ import java.lang.annotation.*;
 /**
  * 字段长度
  */
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface FieldLength {
-    int value();
+public @interface TableComment {
+    String value() default "";
 }

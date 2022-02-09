@@ -10,7 +10,7 @@ import java.lang.annotation.*;
  * 根据枚举判断是否注入
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.TYPE})
 @Documented
 @Conditional({OnPropertyEnumCondition.class})
 public @interface ConditionalOnPropertyEnum {

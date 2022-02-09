@@ -156,7 +156,7 @@ public class GenTableWritingService implements GenLogger {
     /**
      * 基础设施层真实路径
      */
-    private String getInfrastructurePath() {
+    public String getInfrastructurePath() {
         String infrastructurePath = Constants.PROJECT_ROOT_PATH;
         infrastructurePath += "/" + customProperties.getProjectName() + "-infrastructure/src/main/java/" + customProperties.getRootPackage().replaceAll("[.]", "/") + "/infrastructure";
         return infrastructurePath;
@@ -165,7 +165,7 @@ public class GenTableWritingService implements GenLogger {
     /**
      * 领域层真实路径
      */
-    private String getDomainPath(TableXmlBean tableXml) {
+    public String getDomainPath(TableXmlBean tableXml) {
         String domainPath = Constants.PROJECT_ROOT_PATH;
         domainPath += "/" + customProperties.getProjectName() + "-domain-" + tableXml.getMeta().getDomainName() + "/src/main/java/" + customProperties.getRootPackage().replaceAll("[.]", "/") + "/domain/" + tableXml.getMeta().getDomainName();
         return domainPath;
@@ -174,7 +174,7 @@ public class GenTableWritingService implements GenLogger {
     /**
      * 接口层真实路径
      */
-    private String getApisPath() {
+    public String getApisPath() {
         String apisPath = Constants.PROJECT_ROOT_PATH;
         apisPath += "/" + customProperties.getProjectName() + "-apis/src/main/java/" + customProperties.getRootPackage().replaceAll("[.]", "/") + "/apis";
         return apisPath;

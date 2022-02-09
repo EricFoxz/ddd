@@ -8,6 +8,7 @@ import com.jfinal.plugin.activerecord.Record;
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
+import gitee.com.ericfox.ddd.domain.gen.model.TableJavaBean;
 import gitee.com.ericfox.ddd.domain.gen.model.TableMySqlBean;
 import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
@@ -74,19 +75,31 @@ public class GenTableLoadingService implements GenLogger {
     /**
      * 从java导入表结构
      */
-    public void importTableByJavaClass(String domainName, String tableName) {
+    public <PO extends BasePo<PO>> void importTableByJavaClass(String domainName, String tableName) {
         logInfo(log, "genTableLoadingService::importTableByJavaClass 开始从java代码读取表结构...");
         Set<Class<?>> classes = ClassUtil.scanPackage(BasePo.class.getPackage().getName());
         classes.forEach(new Consumer<Class<?>>() {
             @Override
-            public void accept(Class<?> aClass) {
-                if (aClass.isAnnotationPresent(RepoEnabledAnnotation.class)) {
-                    //TODO-待实现
+            public void accept(Class<?> clazz) {
+                if (!BasePo.class.isAssignableFrom(clazz)) {
+                    return;
+                } else {
+                    if (clazz.isAnnotationPresent(RepoEnabledAnnotation.class)) {
+                        TableJavaBean<? extends BasePo<?>> tableJava = new TableJavaBean(clazz);
+                        TableXmlBean tableXml = TableXmlBean.load(tableJava);
+                        String domainName = tableXml.getMeta().getDomainName();
+                        String tableName = tableXml.getMeta().getTableName();
+                        if (!domainMap.containsKey(domainName)) {
+                            domainMap.put(domainName, MapUtil.newConcurrentHashMap());
+                        }
+                        domainMap.get(domainName).put(tableName, tableXml);
+                        GenComponents.getGenTableWritingService().writeTableXml(tableXml);
+                    }
                 }
             }
         });
-        GenComponents.getGenTableWritingService().publishTablesToRuntime();
         logInfo(log, "genTableLoadingService::importTableByJavaClass 读取完成");
+        GenComponents.getGenTableWritingService().publishTablesToRuntime();
     }
 
     /**

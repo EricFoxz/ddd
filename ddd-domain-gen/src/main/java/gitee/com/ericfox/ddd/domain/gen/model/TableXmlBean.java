@@ -2,8 +2,13 @@ package gitee.com.ericfox.ddd.domain.gen.model;
 
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.enums.MySqlDataTypeEnum;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.FieldComment;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.FieldLength;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.TableComment;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -108,6 +113,7 @@ public class TableXmlBean implements GenLogger {
         MetaBean meta = xmlBean.getMeta();
         meta.setTableComment(StrUtil.isBlank(mySqlBean.getTable_comment()) ? mySqlBean.getTable_name() : mySqlBean.getTable_comment());
         meta.setTableName(tableName);
+        meta.setClassName(tableName);
         meta.setDomainName(domainName);
         mySqlBean.getColumnSchemaList().forEach(columnSchema -> {
             String toCamelCase = StrUtil.toCamelCase(columnSchema.getColumn_name());
@@ -122,11 +128,42 @@ public class TableXmlBean implements GenLogger {
             }
             meta.getFieldCommentMap().put(toCamelCase, columnSchema.getColumn_comment());
             meta.setRepoTypeStrategyEnum(RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY);
-            meta.setDomainName(domainName);
-            meta.setClassName(tableName);
         });
         DataBean data = xmlBean.getData();
         return xmlBean;
+    }
+
+    public static <PO extends BasePo<PO>> TableXmlBean load(TableJavaBean<PO> tableJava) {
+        TableXmlBean tableXml = new TableXmlBean();
+        MetaBean meta = tableXml.getMeta();
+        TableComment tableCommentAnnotation = tableJava.getClazz().getAnnotation(TableComment.class);
+        if (tableCommentAnnotation != null) {
+            meta.setTableComment(tableCommentAnnotation.value());
+        }
+        meta.setDomainName(tableJava.getStructure().getDomainName());
+        meta.setTableName(tableJava.getStructure().getTableName());
+        meta.setClassName(tableJava.getStructure().getTableName());
+        meta.setIdField(tableJava.getStructure().getId());
+        RepoEnabledAnnotation repoEnabledAnnotation = tableJava.getClazz().getAnnotation(RepoEnabledAnnotation.class);
+        if (repoEnabledAnnotation != null) {
+            meta.setRepoTypeStrategyEnum(repoEnabledAnnotation.type());
+        } else {
+            meta.setRepoTypeStrategyEnum(RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY);
+        }
+        tableJava.getFieldList().forEach(field -> {
+            String fieldName = field.getName();
+            FieldComment fieldCommentAnnotation = field.getAnnotation(FieldComment.class);
+            if (fieldCommentAnnotation != null) {
+                meta.getFieldCommentMap().put(fieldName, fieldCommentAnnotation.value());
+            }
+            FieldLength fieldLengthAnnotation = field.getAnnotation(FieldLength.class);
+            if (fieldLengthAnnotation != null) {
+                meta.getFieldLengthMap().put(fieldName, fieldLengthAnnotation.value());
+            }
+            meta.getFieldClassMap().put(fieldName, field.getType());
+        });
+        DataBean data = tableXml.getData();
+        return tableXml;
     }
 
     public static TableXmlBean load(File file) {
