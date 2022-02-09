@@ -9,5 +9,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface FieldLength {
-    int value();
+    int length();
+    int scale();
 }

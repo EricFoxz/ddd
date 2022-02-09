@@ -32,7 +32,7 @@ public class ${meta.get("ClassName")} implements BasePo<${meta.ClassName}> {
      */
 #end
 #if($meta.fieldLengthMap.containsKey(${item.key}) && !!$meta.fieldLengthMap.get(${item.key}))
-    @FieldLength($meta.fieldLengthMap.get(${item.key}))
+    @FieldLength(length = $meta.fieldLengthMap.get(${item.key}), scale = $meta.fieldLengthMap.get(${item.key}))
 #end
     @FieldComment("$!{meta.fieldCommentMap.get(${item.key})}")
 #if(${strUtil.startWith(${item.value.name}, "java.lang")})

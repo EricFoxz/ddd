@@ -23,19 +23,19 @@ public class SysUser implements BasePo<SysUser> {
         public static String id = "id";
     }
 
-    @FieldLength(20)
+    @FieldLength(length = 20, scale = 0)
     @FieldComment("")
     private Long id;
     /**
      * 用户名
      */
-    @FieldLength(32)
+    @FieldLength(length = 32, scale = 0)
     @FieldComment("用户名")
     private String username;
-    @FieldLength(10)
+    @FieldLength(length = 10, scale = 0)
     @FieldComment("")
     private java.math.BigDecimal money;
-    @FieldLength(65535)
+    @FieldLength(length = 65535, scale = 0)
     @FieldComment("")
     private String userInfo;
 }

@@ -1,6 +1,8 @@
 package gitee.com.ericfox.ddd.domain.gen.common.enums;
 
+import gitee.com.ericfox.ddd.domain.gen.model.TableMySqlBean;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BaseEnum;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 
 import java.math.BigDecimal;
@@ -63,6 +65,29 @@ public enum MySqlDataTypeEnum implements BaseEnum<MySqlDataTypeEnum, String> {
         this.javaClass = javaClass;
     }
 
+    public static Class<?> getJavaClassByDataType(String code) {
+        for (MySqlDataTypeEnum value : values()) {
+            if (StrUtil.equalsIgnoreCase(value.code, code)) {
+                return value.javaClass;
+            }
+        }
+        return null;
+    }
+
+    public static Integer getLengthByColumn(TableMySqlBean.ColumnSchemaBean columnSchema) {
+        if (columnSchema.getCharacter_maximum_length() != null) {
+            return columnSchema.getCharacter_maximum_length();
+        }
+        return ReUtil.getFirstNumber(columnSchema.getColumn_type());
+    }
+
+    public static Integer getScaleByColumn(TableMySqlBean.ColumnSchemaBean columnSchema) {
+        if (columnSchema.getNumeric_scale() != null) {
+            return columnSchema.getNumeric_scale();
+        }
+        return 0;
+    }
+
     @Override
     public String getName() {
         return this.getName();
@@ -75,15 +100,6 @@ public enum MySqlDataTypeEnum implements BaseEnum<MySqlDataTypeEnum, String> {
 
     public Class<?> getJavaClass() {
         return javaClass;
-    }
-
-    public static Class<?> getJavaClassByCode(String code) {
-        for (MySqlDataTypeEnum value : values()) {
-            if (StrUtil.equalsIgnoreCase(value.code, code)) {
-                return value.javaClass;
-            }
-        }
-        return null;
     }
 
     @Override

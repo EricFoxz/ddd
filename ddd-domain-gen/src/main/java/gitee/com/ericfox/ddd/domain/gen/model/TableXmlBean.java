@@ -66,6 +66,10 @@ public class TableXmlBean implements GenLogger {
          */
         private Map<String, Integer> fieldLengthMap = MapUtil.newLinkedHashMap();
         /**
+         * 字段及精度
+         */
+        private Map<String, Integer> fieldScaleMap = MapUtil.newLinkedHashMap();
+        /**
          * 字段及注释
          */
         private Map<String, String> fieldCommentMap = MapUtil.newLinkedHashMap();
@@ -120,12 +124,9 @@ public class TableXmlBean implements GenLogger {
             if ("PRI".equals(columnSchema.getColumn_key())) { //主键
                 meta.setIdField(toCamelCase);
             }
-            meta.getFieldClassMap().put(toCamelCase, MySqlDataTypeEnum.getJavaClassByCode(columnSchema.getData_type()));
-            if (columnSchema.getCharacter_maximum_length() != null) {
-                meta.getFieldLengthMap().put(toCamelCase, columnSchema.getCharacter_maximum_length());
-            } else {
-                meta.getFieldLengthMap().put(toCamelCase, ReUtil.getFirstNumber(columnSchema.getColumn_type()));
-            }
+            meta.getFieldClassMap().put(toCamelCase, MySqlDataTypeEnum.getJavaClassByDataType(columnSchema.getData_type()));
+            meta.getFieldLengthMap().put(toCamelCase, MySqlDataTypeEnum.getLengthByColumn(columnSchema));
+            meta.getFieldScaleMap().put(toCamelCase, MySqlDataTypeEnum.getScaleByColumn(columnSchema));
             meta.getFieldCommentMap().put(toCamelCase, columnSchema.getColumn_comment());
             meta.setRepoTypeStrategyEnum(RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY);
         });
@@ -158,7 +159,11 @@ public class TableXmlBean implements GenLogger {
             }
             FieldLength fieldLengthAnnotation = field.getAnnotation(FieldLength.class);
             if (fieldLengthAnnotation != null) {
-                meta.getFieldLengthMap().put(fieldName, fieldLengthAnnotation.value());
+                meta.getFieldLengthMap().put(fieldName, fieldLengthAnnotation.length());
+                meta.getFieldScaleMap().put(fieldName, fieldLengthAnnotation.scale());
+            } else {
+                meta.getFieldLengthMap().put(fieldName, 0);
+                meta.getFieldScaleMap().put(fieldName, 0);
             }
             meta.getFieldClassMap().put(fieldName, field.getType());
         });
