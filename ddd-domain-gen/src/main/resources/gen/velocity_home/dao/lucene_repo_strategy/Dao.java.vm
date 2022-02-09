@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class ${meta.ClassName}Dao} extends ${meta.ClassName} implements LuceneBaseDao<${meta.ClassName}> {
+public class ${meta.ClassName}Dao extends ${meta.ClassName} implements LuceneBaseDao<${meta.ClassName}> {
 #foreach($item in $meta.fieldClassMap.entrySet())
     /**
      * ${meta.fieldCommentMap.get(${item.key})}
