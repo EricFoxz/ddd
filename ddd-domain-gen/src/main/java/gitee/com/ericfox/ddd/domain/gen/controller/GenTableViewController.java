@@ -95,6 +95,10 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
     private Label pageParamLabel;
     @FXML
     private TextArea pageParamTextArea;
+    @FXML
+    private Label detailParamLabel;
+    @FXML
+    private TextArea detailParamTextArea;
 
     @Override
     public void initialize() {
@@ -155,6 +159,7 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         serviceTextArea.setFont(font);
         serviceBaseTextArea.setFont(font);
         pageParamTextArea.setFont(font);
+        detailParamTextArea.setFont(font);
         //label点击事件
         EventHandler<MouseEvent> eventHandler = event -> {
             Label label = (Label) event.getPickResult().getIntersectedNode().getParent();
@@ -175,6 +180,7 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         serviceLabel.setOnMouseClicked(eventHandler);
         serviceBaseLabel.setOnMouseClicked(eventHandler);
         pageParamLabel.setOnMouseClicked(eventHandler);
+        detailParamLabel.setOnMouseClicked(eventHandler);
     }
 
     @Override
@@ -339,6 +345,9 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         }
         if (YES.equals(pageParamLabel.getText())) {
             writingService.writePageParamCode(tableXml);
+        }
+        if (YES.equals(detailParamLabel.getText())) {
+            writingService.writeDetailParamCode(tableXml);
         }
     }
 

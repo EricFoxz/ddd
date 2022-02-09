@@ -197,6 +197,25 @@
                            </cursor></Label>
                      </graphic>
                   </Tab>
+                  <Tab text="detailParam">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                              <TextArea fx:id="detailParamTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                     <graphic>
+                        <Label fx:id="detailParamLabel1" text="√" textFill="LIME">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="点击切换是否生成该文件" />
+                           </tooltip>
+                        </Label>
+                     </graphic>
+                  </Tab>
               </tabs>
             </TabPane>
          </children></AnchorPane>
