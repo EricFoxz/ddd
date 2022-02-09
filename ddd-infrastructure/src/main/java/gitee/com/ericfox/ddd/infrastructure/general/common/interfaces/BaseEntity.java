@@ -5,6 +5,10 @@ import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 
 @SuppressWarnings("unchecked")
 public interface BaseEntity<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO, ENTITY>> {
+    void setId(Long id);
+
+    Long getId();
+
     PO toPo();
 
     ENTITY fromPo(PO po);

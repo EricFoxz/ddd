@@ -8,6 +8,7 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.IdUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,9 @@ public class RepoService implements RepoStrategy {
 
     @Override
     public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> ENTITY insert(ENTITY entity) {
+        if (entity.getId() == null) {
+            entity.setId(IdUtil.getSnowflakeNextId());
+        }
         String beanName = getBeanName(entity);
         return strategyMap.get(beanName).insert(entity);
     }
@@ -75,6 +79,11 @@ public class RepoService implements RepoStrategy {
     @Override
     public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean multiInsert(List<ENTITY> entityList) {
         if (CollUtil.isNotEmpty(entityList)) {
+            for (ENTITY entity : entityList) {
+                if (entity.getId() == null) {
+                    entity.setId(IdUtil.getSnowflakeNextId());
+                }
+            }
             String beanName = getBeanName(entityList.get(0));
             return strategyMap.get(beanName).multiInsert(entityList);
         }
