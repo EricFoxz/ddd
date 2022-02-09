@@ -117,4 +117,9 @@ public class GenCodeService implements GenLogger {
         VelocityContext context = new VelocityContext();
         return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/param/PageParam.java.vm");
     }
+
+    public String getDetailParamCode(TableXmlBean tableXmlBean) {
+        VelocityContext context = new VelocityContext();
+        return getCodeByTableXmlBean(tableXmlBean, context, "gen/velocity_home/param/DetailParam.java.vm");
+    }
 }

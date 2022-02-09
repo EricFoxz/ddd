@@ -186,7 +186,7 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
     @Override
     public void ready() {
         if (GenTableLoadingService.getDomainMap().containsKey(domainName)) {
-            renderTableNames(GenTableLoadingService.getDomainMap().get(domainName).values(), true);
+            renderTableNameList(GenTableLoadingService.getDomainMap().get(domainName).values(), true);
         }
     }
 
@@ -195,7 +195,7 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
      *
      * @param force 是否强制重新加载（会先清空再加载）
      */
-    public void renderTableNames(Collection<TableXmlBean> tableXmlBeanList, boolean force) {
+    public void renderTableNameList(Collection<TableXmlBean> tableXmlBeanList, boolean force) {
         ObservableList<Node> itemList = tableListToolBar.getItems();
         if (force && itemList.size() > 1) {
             tableListToolBar.getItems().remove(1, itemList.size());
@@ -218,15 +218,15 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         checkBox = new CheckBox();
         checkBox.setUserData(tableXml);
         SplitMenuButton splitMenuButton = new SplitMenuButton();
-        splitMenuButton.setText(tableXml.getMeta().getTableName());
+        splitMenuButton.setText(tableXml.getMeta().getRepoTypeStrategyEnum().getCode().replaceAll("RepoStrategy", ""));
+        splitMenuButton.setTextFill(Paint.valueOf("BLUE"));
         splitMenuButton.setUserData(tableXml);
         splitMenuButton.setId(TABLE_CHECK_BOX_PREFIX + tableXml.getMeta().getTableName());
         splitMenuButton.setOnMouseClicked(event -> {
             renderCode(tableXml);
         });
         splitMenuButton.setMaxWidth(190);
-        Label label = new Label(tableXml.getMeta().getRepoTypeStrategyEnum().getCode());
-        label.setTextFill(Paint.valueOf("BLUE"));
+        Label label = new Label(tableXml.getMeta().getTableName());
         splitMenuButton.setGraphic(label);
         splitMenuButton.setTooltip(new Tooltip(tableXml.getMeta().getTableName()));
         if (StrUtil.isNotBlank(tableXml.getMeta().getTableComment())) {
@@ -266,6 +266,7 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         String serviceCode = GenComponents.getGenCodeService().getServiceCode(tableXml);
         String serviceBaseCode = GenComponents.getGenCodeService().getServiceBaseCode(tableXml);
         String pageParamCode = GenComponents.getGenCodeService().getPageParamCode(tableXml);
+        String detailParamCode = GenComponents.getGenCodeService().getDetailParamCode(tableXml);
         poTextArea.setText(poCode);
         daoTextArea.setText(daoCode);
         entityTextArea.setText(entityCode);
@@ -275,6 +276,7 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         serviceTextArea.setText(serviceCode);
         serviceBaseTextArea.setText(serviceBaseCode);
         pageParamTextArea.setText(pageParamCode);
+        detailParamTextArea.setText(detailParamCode);
     }
 
     /**

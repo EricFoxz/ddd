@@ -206,7 +206,7 @@
                         </ScrollPane>
                      </content>
                      <graphic>
-                        <Label fx:id="detailParamLabel1" text="√" textFill="LIME">
+                        <Label fx:id="detailParamLabel" text="√" textFill="LIME">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
