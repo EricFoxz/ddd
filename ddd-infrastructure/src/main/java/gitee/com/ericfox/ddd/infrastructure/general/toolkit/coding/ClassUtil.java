@@ -1,32 +1,24 @@
 package gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding;
 
+import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.LuceneRepoStrategy;
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.MySqlRepoStrategy;
 import lombok.SneakyThrows;
 
 import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class ClassUtil extends cn.hutool.core.util.ClassUtil {
-    public static <PO extends BasePo<PO>, DAO extends BaseDao<PO>> Class<DAO> getDaoClassByPoClass(Class<PO> clazz, RepoStrategy strategy) {
+    public static <PO extends BasePo<PO>, DAO extends BaseDao<PO>> Class<DAO> getDaoClassByPoClass(Class<PO> clazz, RepoTypeStrategyEnum repoTypeStrategyEnum) {
         String fullName = clazz.getName();
         String simpleName = clazz.getSimpleName();
         List<String> domainName = ReUtil.findAll("\\.([^.]+)\\." + simpleName, fullName, 1);
-        //TODO-适配更多持久化方式
-        if (strategy instanceof LuceneRepoStrategy) {
-            return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", fullName) + ".dao." + domainName.get(0) + ".lucene." + simpleName + "Dao");
-        } else if (strategy instanceof MySqlRepoStrategy) {
-            return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", fullName) + ".dao." + domainName.get(0) + ".my_sql." + simpleName + "Dao");
-        }
-        return null;
+        return ClassUtil.loadClass(ReUtil.delLast("\\.po\\..*", fullName) + ".dao." + domainName.get(0) + "." + StrUtil.toUnderlineCase(repoTypeStrategyEnum.getCode()) + "." + simpleName + "Dao");
     }
 
-    public static <PO extends BasePo<PO>, DAO extends BaseDao<PO>> Class<DAO> getDaoClassByPo(PO po, RepoStrategy strategy) {
-        return getDaoClassByPoClass((Class<PO>) po.getClass(), strategy);
+    public static <PO extends BasePo<PO>, DAO extends BaseDao<PO>> Class<DAO> getDaoClassByPo(PO po, RepoTypeStrategyEnum repoTypeStrategyEnum) {
+        return getDaoClassByPoClass((Class<PO>) po.getClass(), repoTypeStrategyEnum);
     }
 
     @SneakyThrows

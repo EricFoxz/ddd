@@ -62,7 +62,7 @@ public class JFinalRepoConfig {
                 if (aClass.isAnnotationPresent(RepoEnabledAnnotation.class)) {
                     RepoEnabledAnnotation annotation = aClass.getAnnotation(RepoEnabledAnnotation.class);
                     if (RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY.equals(annotation.type())) {
-                        Class<DAO> daoClass = ClassUtil.getDaoClassByPoClass((Class<PO>) aClass, mySqlRepoStrategy);
+                        Class<DAO> daoClass = ClassUtil.getDaoClassByPoClass((Class<PO>) aClass, RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY);
                         String daoName = JFinalBaseDao.DAO_FIELD_NAME;
                         Class<MODEL> daoClassM = (Class<MODEL>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName)).getClass();
                         arp.addMapping(StrUtil.toUnderlineCase(className), annotation.value(), daoClassM);

@@ -3,6 +3,7 @@ package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl;
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.LuceneFieldKey;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.LuceneFieldTypeEnum;
+import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectRepoException;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseCondition;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
@@ -70,7 +71,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
         }
         Class<DAO> daoClass = null;
         if (dao == null) {
-            daoClass = ClassUtil.getDaoClassByPo(po, this);
+            daoClass = ClassUtil.getDaoClassByPo(po, RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
             dao = ReflectUtil.newInstance(daoClass);
         }
         IndexSearcher indexSearcher = getIndexSearcher((Class<PO>) po.getClass());
@@ -92,7 +93,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
         }
         try {
             PO po = entity.toPo();
-            Class<DAO> daoClass = ClassUtil.getDaoClassByPo(po, this);
+            Class<DAO> daoClass = ClassUtil.getDaoClassByPo(po, RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
             DAO dao = ReflectUtil.newInstance(daoClass);
             String idFieldName = dao.primaryKeyFieldName();
             Serializable id = BeanUtil.getProperty(po, idFieldName);
@@ -121,7 +122,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
         }
         try {
             PO t = entityList.get(0).toPo();
-            Class<DAO> daoClass = ClassUtil.getDaoClassByPo(t, this);
+            Class<DAO> daoClass = ClassUtil.getDaoClassByPo(t, RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
             DAO dao = ReflectUtil.newInstance(daoClass);
             String idFieldName = dao.primaryKeyFieldName();
             List<Serializable> idList = CollUtil.newArrayList();
@@ -174,7 +175,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
         }
         try {
             List<DAO> daoList = CollUtil.newArrayList();
-            Class<DAO> daoClass = ClassUtil.getDaoClassByPo(entityList.get(0).toPo(), this);
+            Class<DAO> daoClass = ClassUtil.getDaoClassByPo(entityList.get(0).toPo(), RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
             for (ENTITY tmpV : entityList) {
                 DAO dao = BeanUtil.toBean(tmpV.toPo(), daoClass);
                 daoList.add(dao);
@@ -197,7 +198,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
     @SneakyThrows
     public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean updateById(ENTITY entity) {
         PO po = entity.toPo();
-        Class<DAO> daoClass = ClassUtil.getDaoClassByPo(po, this);
+        Class<DAO> daoClass = ClassUtil.getDaoClassByPo(po, RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
         DAO dao = ReflectUtil.newInstance(daoClass);
         String primaryKeyName = dao.primaryKeyFieldName();
         Document document = findDocumentById(dao, po);
@@ -215,7 +216,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
 
     @Override
     public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> PageInfo<ENTITY> queryPage(ENTITY entity, int pageNum, int pageSize) {
-        Class<DAO> daoClass = ClassUtil.getDaoClassByPo(entity.toPo(), this);
+        Class<DAO> daoClass = ClassUtil.getDaoClassByPo(entity.toPo(), RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
         Query query = EasyQuery.parseCondition(daoClass, entity, true);
         return queryPage(entity, pageNum, pageSize, query, Sort.INDEXORDER);
     }
@@ -283,7 +284,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
     @SneakyThrows
     public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> List<ENTITY> queryList(ENTITY entity, int limit) {
         PO po = entity.toPo();
-        Class<DAO> daoClass = ClassUtil.getDaoClassByPo(po, this);
+        Class<DAO> daoClass = ClassUtil.getDaoClassByPo(po, RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
         IndexSearcher indexSearcher = getIndexSearcher((Class<PO>) po.getClass());
         Query query = EasyQuery.exactMultiFieldQuery(daoClass, po, true);
         TopDocs topDocs = indexSearcher.search(query, limit);
@@ -314,14 +315,14 @@ public class LuceneRepoStrategy implements RepoStrategy {
     }
 
     private <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> PO parseToPo(Document document, ENTITY entity) {
-        return parseToPo(document, ClassUtil.getClass((PO) entity.toPo()));
+        return parseToPo(document, ClassUtil.getClass(entity.toPo()));
     }
 
     @SneakyThrows
     private <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> PO parseToPo(Document document, Class<PO> clazz) {
         Field[] superFields = null;
         PO po = ReflectUtil.newInstance(clazz);
-        Class<LuceneBaseDao<PO>> daoClass = ClassUtil.getDaoClassByPo(po, this);
+        Class<LuceneBaseDao<PO>> daoClass = ClassUtil.getDaoClassByPo(po, RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
         if (null != daoClass) {
             superFields = daoClass.getDeclaredFields();
         }
@@ -389,7 +390,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
     }
 
     private <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> Document parseToDocument(PO po) {
-        Class<DAO> daoClass = ClassUtil.getDaoClassByPo(po, this);
+        Class<DAO> daoClass = ClassUtil.getDaoClassByPo(po, RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
         DAO dao = ReflectUtil.newInstance(daoClass);
         return parseToDocument(dao);
     }
@@ -475,7 +476,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
     @SneakyThrows
     private synchronized <PO extends BasePo<PO>, DAO extends LuceneBaseDao<PO>> IndexWriter getIndexWriter(Class<PO> clazz) {
         String className = clazz.getSimpleName();
-        Class<BaseDao<PO>> daoClass = ClassUtil.getDaoClassByPoClass(clazz, this);
+        Class<BaseDao<PO>> daoClass = ClassUtil.getDaoClassByPoClass(clazz, RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
         DAO dao = (DAO) ReflectUtil.newInstance(daoClass);
         if (indexWriterMap.containsKey(className) && indexWriterMap.get(className) != null) {
             return indexWriterMap.get(className);

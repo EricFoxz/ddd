@@ -3,6 +3,7 @@ package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.github.pagehelper.PageInfo;
 import com.jfinal.plugin.activerecord.*;
+import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseCondition;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
@@ -159,7 +160,7 @@ public class MySqlRepoStrategy implements RepoStrategy {
         if (toPoMethod != null) {
             po = ReflectUtil.invoke(po, toPoMethod, (Object) null);
         }
-        Class<DAO> daoClass = ClassUtil.getDaoClassByPo(po, this);
+        Class<DAO> daoClass = ClassUtil.getDaoClassByPo(po, RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY);
         return ReflectUtil.newInstance(daoClass);
     }
 
