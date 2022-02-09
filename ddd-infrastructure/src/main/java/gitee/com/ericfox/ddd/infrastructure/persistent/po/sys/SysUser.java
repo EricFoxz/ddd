@@ -23,9 +23,6 @@ public class SysUser implements BasePo<SysUser> {
         public static String id = "id";
     }
 
-    /**
-     * 
-     */
     @FieldLength(20)
     @FieldComment("")
     private Long id;
@@ -35,15 +32,9 @@ public class SysUser implements BasePo<SysUser> {
     @FieldLength(32)
     @FieldComment("用户名")
     private String username;
-    /**
-     * 
-     */
     @FieldLength(10)
     @FieldComment("")
     private java.math.BigDecimal money;
-    /**
-     * 
-     */
     @FieldLength(65535)
     @FieldComment("")
     private String userInfo;

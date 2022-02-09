@@ -16,21 +16,12 @@ public class SysUserEntityBase implements BaseEntity<SysUser, SysUserEntity> {
     protected BaseCondition<?> _condition;
     protected SysUser po;
 
-    /**
-     * 
-     */
     private Long id;
     /**
      * 用户名
      */
     private String username;
-    /**
-     * 
-     */
     private java.math.BigDecimal money;
-    /**
-     * 
-     */
     private String userInfo;
 
     @Override

@@ -15,21 +15,12 @@ import java.util.List;
 @Setter
 @Getter
 public abstract class SysUserDtoBase implements BaseDto<SysUser, SysUserEntity, SysUserDto> {
-    /**
-     * 
-     */
     private Long id;
     /**
      * 用户名
      */
     private String username;
-    /**
-     * 
-     */
     private java.math.BigDecimal money;
-    /**
-     * 
-     */
     private String userInfo;
 
     @Override
