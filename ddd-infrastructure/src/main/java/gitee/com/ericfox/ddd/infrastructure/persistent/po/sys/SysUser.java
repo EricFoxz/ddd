@@ -20,7 +20,7 @@ public class SysUser implements BasePo<SysUser> {
     }
 
     /**
-     * 
+     *
      */
     private Long id;
     /**
