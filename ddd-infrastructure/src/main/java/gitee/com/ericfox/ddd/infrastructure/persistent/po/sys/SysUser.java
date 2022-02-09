@@ -28,4 +28,6 @@ public class SysUser implements BasePo<SysUser> {
      */
     @FieldLength(32)
     private String username;
+
+    private String userInfo;
 }

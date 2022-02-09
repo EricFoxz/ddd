@@ -3,8 +3,10 @@ package gitee.com.ericfox.ddd.infrastructure.general.common.interfaces;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans.SimpleCondition;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 
+import java.io.Serializable;
+
 @SuppressWarnings("unchecked")
-public interface BaseEntity<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO, ENTITY>> {
+public interface BaseEntity<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO, ENTITY>> extends Serializable {
     void setId(Long id);
 
     Long getId();
@@ -13,18 +15,18 @@ public interface BaseEntity<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO,
 
     ENTITY fromPo(PO po);
 
-    <SERVICE extends BaseService<ENTITY>> SERVICE getService();
+    <SERVICE extends BaseService<PO, ENTITY>> SERVICE service();
 
     default boolean create() {
-        return getService().insert((ENTITY) this) != null;
+        return service().insert((ENTITY) this) != null;
     }
 
     default boolean delete() {
-        return getService().deleteById((ENTITY) this);
+        return service().deleteById((ENTITY) this);
     }
 
     default boolean update() {
-        return getService().update((ENTITY) this);
+        return service().update((ENTITY) this);
     }
 
     BaseCondition<?> get_condition();

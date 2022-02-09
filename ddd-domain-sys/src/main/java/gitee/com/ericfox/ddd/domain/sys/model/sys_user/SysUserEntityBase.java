@@ -19,7 +19,7 @@ public class SysUserEntityBase implements BaseEntity<SysUser, SysUserEntity> {
     private Long id;
     private String username;
 
-    public synchronized SysUserServiceBase getService() {
+    public synchronized SysUserService service() {
         if (sysUserService == null) {
             sysUserService = SpringUtil.getBean(SysUserService.class);
         }
@@ -38,6 +38,7 @@ public class SysUserEntityBase implements BaseEntity<SysUser, SysUserEntity> {
     @Override
     public SysUserEntity fromPo(SysUser po) {
         this.po = po;
+        BeanUtil.copyProperties(po, this, CopyOptions.create().ignoreNullValue());
         return (SysUserEntity) this;
     }
 

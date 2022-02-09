@@ -19,23 +19,20 @@ public abstract class SysUserDtoBase implements BaseDto<SysUser, SysUserEntity, 
     private Long id;
     private String username;
 
-    @Override
-    public <T extends BaseDto> T fromEntity(SysUserEntity entity) {
-        BeanUtil.copyProperties(entity, this, false);
-        return (T) this;
+    public SysUserDto fromEntity(SysUserEntity entity) {
+        SysUserDto dto = new SysUserDto();
+        BeanUtil.copyProperties(entity, dto, false);
+        return dto;
     }
 
-    @Override
     public List<SysUserDto> fromEntityList(List<SysUserEntity> entityList) {
         return BeanUtil.copyToList(entityList, SysUserDto.class);
     }
 
-    @Override
     public List<SysUserDto> fromEntities(SysUserEntity... entities) {
         return fromEntityList(CollUtil.newArrayList(entities));
     }
 
-    @Override
     public PageInfo<SysUserDto> fromEntityPage(PageInfo<SysUserEntity> entityPage) {
         PageInfo<SysUserDto> pageInfo = new PageInfo<>();
         pageInfo.setPageNum(entityPage.getPageNum());

@@ -14,7 +14,7 @@ import java.util.List;
  * @param <DTO>
  */
 public interface BaseDto<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO, ENTITY>, DTO extends BaseDto<PO, ENTITY, DTO>> extends Serializable {
-    <T extends BaseDto> T fromEntity(ENTITY entity);
+    DTO fromEntity(ENTITY entity);
 
     List<DTO> fromEntityList(List<ENTITY> entityList);
 

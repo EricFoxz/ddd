@@ -27,6 +27,12 @@ import java.util.regex.Pattern;
 @SuppressWarnings("unchecked")
 public class MySqlRepoStrategy implements RepoStrategy {
     private static final CopyOptions updateCopyOptions = CopyOptions.create().ignoreCase().ignoreNullValue();
+    private static final CopyOptions dbToJavaBeanCopyOptions = CopyOptions.create().setFieldNameEditor(fieldName -> {
+        if (StrUtil.isNotBlank(fieldName)) {
+            return StrUtil.toCamelCase(fieldName);
+        }
+        return null;
+    });
 
     public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> ENTITY findById(ENTITY entity) {
         PO t = entity.toPo();
@@ -73,7 +79,6 @@ public class MySqlRepoStrategy implements RepoStrategy {
         JFinalBaseDao dao = getDao(po);
         dao.put(BeanUtil.beanToMap(po));
         dao.save();
-        Object o = dao.get(PO.STRUCTURE.id);
         return entity;
     }
 
@@ -108,7 +113,7 @@ public class MySqlRepoStrategy implements RepoStrategy {
         SQL whereSql = EasyQuery.parseWhereCondition(entity, true);
         SqlPara sqlPara = new SqlPara();
         String tableName = (String) t.getClass().getDeclaredClasses()[0].getField("table").get(null);
-        sqlPara.setSql("SELECT " + CollUtil.join(t.fields(), ",") + " FROM " + tableName + whereSql.toString());
+        sqlPara.setSql("SELECT " + CollUtil.join(t.fields(true), ",") + " FROM " + tableName + whereSql.toString());
         for (Object value : whereSql.getParamList()) {
             sqlPara.addPara(value);
         }
@@ -117,7 +122,7 @@ public class MySqlRepoStrategy implements RepoStrategy {
         if (paginate.getList() != null) {
             for (Record tmp : paginate.getList()) {
                 PO tmpPo = ReflectUtil.newInstance((Class<PO>) t.getClass());
-                BeanUtil.copyProperties(tmp.getColumns(), tmpPo, false);
+                BeanUtil.copyProperties(tmp.getColumns(), tmpPo, dbToJavaBeanCopyOptions);
                 ENTITY vInstance = (ENTITY) ReflectUtil.newInstance(entity.getClass());
                 result.add(vInstance.fromPo(tmpPo));
             }
@@ -137,7 +142,7 @@ public class MySqlRepoStrategy implements RepoStrategy {
         SQL whereSql = EasyQuery.parseWhereCondition(entity, true);
         SqlPara sqlPara = new SqlPara();
         String tableName = (String) po.getClass().getDeclaredClasses()[0].getField("table").get(null);
-        sqlPara.setSql("SELECT " + CollUtil.join(po.fields(), ",") + " FROM " + tableName + whereSql.toString());
+        sqlPara.setSql("SELECT " + CollUtil.join(po.fields(true), ",") + " FROM " + tableName + whereSql.toString());
         for (Object value : whereSql.getParamList()) {
             sqlPara.addPara(value);
         }
@@ -146,8 +151,7 @@ public class MySqlRepoStrategy implements RepoStrategy {
         if (list != null) {
             for (Record tmp : list) {
                 PO tmpPo = ReflectUtil.newInstance((Class<PO>) po.getClass());
-                BeanUtil.copyProperties(tmp.getColumns(), tmpPo, false);
-                BeanUtil.copyProperties(tmp.getColumns(), tmpPo, false);
+                BeanUtil.copyProperties(tmp.getColumns(), tmpPo, dbToJavaBeanCopyOptions);
                 ENTITY vInstance = (ENTITY) ReflectUtil.newInstance(entity.getClass());
                 result.add(vInstance.fromPo(tmpPo));
             }

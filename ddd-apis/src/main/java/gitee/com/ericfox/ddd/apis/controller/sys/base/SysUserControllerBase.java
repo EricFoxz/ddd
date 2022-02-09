@@ -23,40 +23,40 @@ public abstract class SysUserControllerBase implements BaseController<SysUser, S
 
     @GetMapping("/{id}")
     public ResponseEntity<?> detail(@PathVariable Long id) {
-        SysUserDto sysUserDto = Dto.fromEntity(SysUserDto.class, sysUserService.findById(id));
-        return ResBuilder.defValue.success().setData(sysUserDto).build();
+        SysUserDto dto = Dto.fromEntity(SysUserDto.class, sysUserService.findById(id));
+        return ResBuilder.defValue.success().setData(dto).build();
     }
 
     @GetMapping("/page/{pageNum}/{pageSize}")
-    public ResponseEntity<?> page(SysUserPageParam sysUserPagePram) {
-        SysUserEntity sysUserEntity = sysUserPagePram.toEntity();
-        sysUserEntity.set_condition(sysUserEntity.toCondition());
-        PageInfo<SysUserDto> pageInfo = Dto.fromEntityPage(SysUserDto.class, sysUserService.queryPage(sysUserEntity, sysUserPagePram.getPageNum(), sysUserPagePram.getPageSize()));
+    public ResponseEntity<?> page(SysUserPageParam pageParam) {
+        SysUserEntity entity = pageParam.toEntity();
+        entity.set_condition(entity.toCondition());
+        PageInfo<SysUserDto> pageInfo = Dto.fromEntityPage(SysUserDto.class, sysUserService.queryPage(entity, pageParam.getPageNum(), pageParam.getPageSize()));
         return ResBuilder.defValue.success().setData(pageInfo).build();
     }
 
     @Override
     @GetMapping("/list/{pageSize}")
-    public ResponseEntity<?> list(SysUserPageParam param) {
-        List<SysUserEntity> sysUserEntityList = sysUserService.queryList(param.toEntity(), param.getPageSize());
+    public ResponseEntity<?> list(SysUserPageParam pageParam) {
+        List<SysUserEntity> sysUserEntityList = sysUserService.queryList(pageParam.toEntity(), pageParam.getPageSize());
         List<SysUserDto> list = Dto.fromEntityList(SysUserDto.class, sysUserEntityList);
         return ResBuilder.defValue.success().setData(list).build();
     }
 
     @Override
     @PutMapping("/create")
-    public ResponseEntity<?> create(@RequestBody SysUserEntity sysUser) {
-        sysUserService.insert(sysUser);
-        SysUserDto dto = Dto.fromEntity(SysUserDto.class, sysUser);
+    public ResponseEntity<?> create(@RequestBody SysUserEntity entity) {
+        sysUserService.insert(entity);
+        SysUserDto dto = Dto.fromEntity(SysUserDto.class, entity);
         return ResBuilder.defValue.created().setData(dto).build();
     }
 
     @Override
     @PatchMapping("/edit")
-    public ResponseEntity<?> edit(SysUserEntity sysUser) {
-        boolean b = sysUserService.update(sysUser);
+    public ResponseEntity<?> edit(SysUserEntity entity) {
+        boolean b = sysUserService.update(entity);
         if (b) {
-            return ResBuilder.defValue.success().putIntoData("id", sysUser.getId()).build();
+            return ResBuilder.defValue.success().putIntoData("id", entity.getId()).build();
         }
         return ResBuilder.defValue.noContent().build();
     }
