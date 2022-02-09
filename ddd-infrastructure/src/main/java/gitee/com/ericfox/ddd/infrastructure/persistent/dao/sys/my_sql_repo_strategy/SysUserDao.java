@@ -10,8 +10,22 @@ import java.io.Serializable;
 public class SysUserDao extends JFinalBaseDao<SysUser, SysUserDao> {
     public static final SysUserDao dao = new SysUserDao().dao();
 
+    /**
+     * 
+     */
     private Long id;
+    /**
+     * 用户名
+     */
     private String username;
+    /**
+     * 
+     */
+    private java.math.BigDecimal money;
+    /**
+     * 
+     */
+    private String userInfo;
 
     @Override
     public Serializable getId() {

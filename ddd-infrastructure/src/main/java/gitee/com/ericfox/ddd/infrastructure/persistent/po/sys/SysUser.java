@@ -24,8 +24,10 @@ public class SysUser implements BasePo<SysUser> {
     }
 
     /**
-     *
+     * 
      */
+    @FieldLength(20)
+    @FieldComment("")
     private Long id;
     /**
      * 用户名
@@ -33,7 +35,16 @@ public class SysUser implements BasePo<SysUser> {
     @FieldLength(32)
     @FieldComment("用户名")
     private String username;
-
-    @FieldComment("用户信息")
+    /**
+     * 
+     */
+    @FieldLength(10)
+    @FieldComment("")
+    private java.math.BigDecimal money;
+    /**
+     * 
+     */
+    @FieldLength(65535)
+    @FieldComment("")
     private String userInfo;
 }

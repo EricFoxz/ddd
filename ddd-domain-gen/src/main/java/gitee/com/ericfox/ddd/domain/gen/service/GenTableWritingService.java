@@ -118,11 +118,11 @@ public class GenTableWritingService implements GenLogger {
     }
 
     public void writeDetailParamCode(TableXmlBean tableXml) {
-        String pageParamCode = GenComponents.getGenCodeService().getPageParamCode(tableXml);
+        String detailParamCode = GenComponents.getGenCodeService().getDetailParamCode(tableXml);
         String filePath = getApisPath() + "/model/param/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "DetailParam.java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
-        IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, pageParamCode);
+        IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, detailParamCode);
     }
 
     /**

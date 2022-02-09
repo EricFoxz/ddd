@@ -29,7 +29,8 @@ public abstract class SysUserServiceBase implements BaseService<SysUser, SysUser
     @Transactional(readOnly = true)
     @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
     public PageInfo<SysUserEntity> queryPage(SysUserEntity entity, int pageNum, int pageSize) {
-        return repoService.queryPage(entity, pageNum, pageSize);
+        PageInfo<SysUserEntity> pageInfo = repoService.queryPage(entity, pageNum, pageSize);
+        return pageInfo;
     }
 
     @Transactional(readOnly = true)

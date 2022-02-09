@@ -17,8 +17,8 @@ public class SysUserDto extends SysUserDtoBase {
     }
 
     @Override
-    public List<SysUserDto> fromEntityList(List<SysUserEntity> sysUserEntities) {
-        return super.fromEntityList(sysUserEntities);
+    public List<SysUserDto> fromEntityList(List<SysUserEntity> entityList) {
+        return super.fromEntityList(entityList);
     }
 
     @Override

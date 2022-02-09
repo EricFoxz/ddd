@@ -1,6 +1,6 @@
 package ${rootPackage}.infrastructure.persistent.po.${meta.domainName};
 
-import ${rootPackage}.infrastructure.general.common.annos.framework.FieldLength;
+import ${rootPackage}.infrastructure.general.common.annos.framework.FieldComment;
 import ${rootPackage}.infrastructure.general.common.annos.framework.FieldLength;
 import ${rootPackage}.infrastructure.general.common.annos.framework.TableComment;
 import ${rootPackage}.infrastructure.general.common.annos.service.RepoEnabledAnnotation;

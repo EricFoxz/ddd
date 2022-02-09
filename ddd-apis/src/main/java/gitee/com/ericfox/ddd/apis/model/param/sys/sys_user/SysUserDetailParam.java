@@ -9,8 +9,8 @@ public class SysUserDetailParam implements BaseDetailParam<SysUser, SysUserEntit
 
     @Override
     public SysUserEntity toEntity() {
-        SysUserEntity sysUser = new SysUserEntity();
-        BeanUtil.copyProperties(this, sysUser, false);
-        return sysUser;
+        SysUserEntity entity = new SysUserEntity();
+        BeanUtil.copyProperties(this, entity, false);
+        return entity;
     }
 }

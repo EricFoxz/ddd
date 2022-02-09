@@ -13,12 +13,27 @@ public class SysUserPageParam implements BasePageParam<SysUser, SysUserEntity> {
     private Integer pageNum = 1;
     private Integer pageSize = 10;
 
+    /**
+     *
+     */
+    private Long id;
+    /**
+     * 用户名
+     */
     private String username;
+    /**
+     *
+     */
+    private java.math.BigDecimal money;
+    /**
+     *
+     */
+    private String userInfo;
 
     @Override
     public SysUserEntity toEntity() {
-        SysUserEntity sysUser = new SysUserEntity();
-        BeanUtil.copyProperties(this, sysUser, false);
-        return sysUser;
+        SysUserEntity entity = new SysUserEntity();
+        BeanUtil.copyProperties(this, entity, false);
+        return entity;
     }
 }
