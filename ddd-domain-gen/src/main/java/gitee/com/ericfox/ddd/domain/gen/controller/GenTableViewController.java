@@ -132,6 +132,7 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
             });
             codeTabPane.setDisable(false);
             GenComponents.getGenTableWritingService().publishTablesToRuntime();
+            repoTypeChoiceBox.setValue(null);
         });
         //生成按钮
         writeButton.setOnAction(event -> {
