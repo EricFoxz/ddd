@@ -11,20 +11,18 @@ import lombok.Setter;
 @Getter
 public class ${meta.ClassName}Dao extends ${meta.ClassName} implements LuceneBaseDao<${meta.ClassName}> {
 #foreach($item in $meta.fieldClassMap.entrySet())
+#if(!!$meta.fieldCommentMap.get(${item.key}))
     /**
      * ${meta.fieldCommentMap.get(${item.key})}
      */
+#end
+    @LuceneFieldKey(type = LuceneFieldTypeEnum.${item.value.simpleName.toUpperCase()}_POINT, needSort = )
 #if(${strUtil.startWith(${item.value.name}, "java.lang")})
     private ${item.value.simpleName} ${item.key};
 #else
     private ${item.value.name} ${item.key};
 #end
 #end
-
-    @LuceneFieldKey(type = LuceneFieldTypeEnum.LONG_POINT, needSort = true)
-    private Long id;
-    @LuceneFieldKey(type = LuceneFieldTypeEnum.STRING_FIELD, needSort = true)
-    private String username;
 
     @Override
     public Class<${meta.ClassName}> poClass() {

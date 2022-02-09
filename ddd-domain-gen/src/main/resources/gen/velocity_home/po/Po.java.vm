@@ -9,9 +9,11 @@ import ${rootPackage}.infrastructure.persistent.po.BasePo;
 import lombok.Getter;
 import lombok.Setter;
 
+#if(!!$meta.tableComment)
 /**
  * ${meta.tableComment}
  */
+#end
 @TableComment("${meta.tableComment}")
 @Setter
 @Getter
@@ -24,9 +26,11 @@ public class ${meta.get("ClassName")} implements BasePo<${meta.ClassName}> {
     }
 
 #foreach($item in $meta.fieldClassMap.entrySet())
+#if(!!$meta.fieldCommentMap.get(${item.key}))
     /**
      * $!{meta.fieldCommentMap.get(${item.key})}
      */
+#end
 #if($meta.fieldLengthMap.containsKey(${item.key}) && !!$meta.fieldLengthMap.get(${item.key}))
     @FieldLength($meta.fieldLengthMap.get(${item.key}))
 #end

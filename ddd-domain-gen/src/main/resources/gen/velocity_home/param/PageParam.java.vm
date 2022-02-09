@@ -14,9 +14,11 @@ public class ${meta.ClassName}PageParam implements BasePageParam<${meta.ClassNam
     private Integer pageSize = 10;
 
 #foreach($item in $meta.fieldClassMap.entrySet())
+#if(!!$meta.fieldCommentMap.get(${item.key}))
     /**
      * ${meta.fieldCommentMap.get(${item.key})}
      */
+#end
 #if(${strUtil.startWith(${item.value.name}, "java.lang")})
     private ${item.value.simpleName} ${item.key};
 #else
