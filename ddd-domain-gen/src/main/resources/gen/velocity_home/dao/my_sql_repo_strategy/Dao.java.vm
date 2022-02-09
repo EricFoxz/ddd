@@ -1,4 +1,4 @@
-package ${rootPackage}.infrastructure.persistent.repository.${meta.domainName}.my_sql;
+package ${rootPackage}.infrastructure.persistent.dao.${meta.domainName}.my_sql_repo_strategy;
 
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalBaseDao;
