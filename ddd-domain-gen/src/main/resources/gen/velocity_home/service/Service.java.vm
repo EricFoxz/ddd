@@ -1,4 +1,4 @@
-package ${rootPackage}.domain.sys.model.${meta.class_name};
+package ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name};
 
 import ${rootPackage}.infrastructure.general.common.Constants;
 import org.springframework.cache.annotation.CacheConfig;

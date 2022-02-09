@@ -2,7 +2,7 @@ package ${rootPackage}.infrastructure.persistent.dao.${meta.domainName}.lucene_r
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.LuceneFieldKey;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.LuceneFieldTypeEnum;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
+import gitee.com.ericfox.ddd.infrastructure.persistent.po.${meta.domainName}.${meta.ClassName};
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.LuceneBaseDao;
 import lombok.Getter;
 import lombok.Setter;

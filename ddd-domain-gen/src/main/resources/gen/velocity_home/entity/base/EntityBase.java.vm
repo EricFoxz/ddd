@@ -1,4 +1,4 @@
-package ${rootPackage}.domain.sys.model.${meta.class_name};
+package ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name};
 
 import cn.hutool.core.bean.copier.CopyOptions;
 import ${rootPackage}.infrastructure.general.common.interfaces.BaseCondition;
