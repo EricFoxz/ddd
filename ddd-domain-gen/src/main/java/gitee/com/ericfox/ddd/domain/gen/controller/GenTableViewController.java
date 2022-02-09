@@ -99,6 +99,14 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
     private Label detailParamLabel;
     @FXML
     private TextArea detailParamTextArea;
+    @FXML
+    private Label controllerLabel;
+    @FXML
+    private TextArea controllerTextArea;
+    @FXML
+    private Label controllerBaseLabel;
+    @FXML
+    private TextArea controllerBaseTextArea;
 
     @Override
     public void initialize() {
@@ -160,6 +168,8 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         serviceBaseTextArea.setFont(font);
         pageParamTextArea.setFont(font);
         detailParamTextArea.setFont(font);
+        controllerTextArea.setFont(font);
+        controllerBaseTextArea.setFont(font);
         //label点击事件
         EventHandler<MouseEvent> eventHandler = event -> {
             Label label = (Label) event.getPickResult().getIntersectedNode().getParent();
@@ -181,6 +191,8 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         serviceBaseLabel.setOnMouseClicked(eventHandler);
         pageParamLabel.setOnMouseClicked(eventHandler);
         detailParamLabel.setOnMouseClicked(eventHandler);
+        controllerLabel.setOnMouseClicked(eventHandler);
+        controllerBaseLabel.setOnMouseClicked(eventHandler);
     }
 
     @Override
@@ -267,6 +279,8 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         String serviceBaseCode = GenComponents.getGenCodeService().getServiceBaseCode(tableXml);
         String pageParamCode = GenComponents.getGenCodeService().getPageParamCode(tableXml);
         String detailParamCode = GenComponents.getGenCodeService().getDetailParamCode(tableXml);
+        String controllerCode = GenComponents.getGenCodeService().getControllerCode(tableXml);
+        String controllerBaseCode = GenComponents.getGenCodeService().getControllerBaseCode(tableXml);
         poTextArea.setText(poCode);
         daoTextArea.setText(daoCode);
         entityTextArea.setText(entityCode);
@@ -277,6 +291,8 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         serviceBaseTextArea.setText(serviceBaseCode);
         pageParamTextArea.setText(pageParamCode);
         detailParamTextArea.setText(detailParamCode);
+        controllerTextArea.setText(controllerCode);
+        controllerBaseTextArea.setText(controllerBaseCode);
     }
 
     /**
@@ -350,6 +366,12 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         }
         if (YES.equals(detailParamLabel.getText())) {
             writingService.writeDetailParamCode(tableXml);
+        }
+        if (YES.equals(controllerLabel.getText())) {
+            writingService.writeControllerCode(tableXml);
+        }
+        if (YES.equals(controllerBaseLabel.getText())) {
+            writingService.writeControllerBaseCode(tableXml);
         }
     }
 

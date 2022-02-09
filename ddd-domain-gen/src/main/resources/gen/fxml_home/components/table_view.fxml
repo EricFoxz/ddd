@@ -179,7 +179,7 @@
                            </cursor></Label>
                      </graphic>
                   </Tab>
-                  <Tab text="pageParam">
+                  <Tab text="PageParam">
                      <content>
                         <ScrollPane>
                            <content>
@@ -197,7 +197,7 @@
                            </cursor></Label>
                      </graphic>
                   </Tab>
-                  <Tab text="detailParam">
+                  <Tab text="DetailParam">
                      <content>
                         <ScrollPane>
                            <content>
@@ -207,6 +207,44 @@
                      </content>
                      <graphic>
                         <Label fx:id="detailParamLabel" text="√" textFill="LIME">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="点击切换是否生成该文件" />
+                           </tooltip>
+                        </Label>
+                     </graphic>
+                  </Tab>
+                  <Tab text="Controller">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                              <TextArea fx:id="controllerTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                     <graphic>
+                        <Label fx:id="controllerLabel" text="√" textFill="LIME">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <tooltip>
+                              <Tooltip text="点击切换是否生成该文件" />
+                           </tooltip>
+                        </Label>
+                     </graphic>
+                  </Tab>
+                  <Tab text="ControllerBase">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                              <TextArea fx:id="controllerBaseTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                     <graphic>
+                        <Label fx:id="controllerBaseLabel" text="√" textFill="LIME">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

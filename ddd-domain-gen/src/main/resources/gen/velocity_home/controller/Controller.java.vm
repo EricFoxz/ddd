@@ -1,0 +1,32 @@
+package ${rootPackage}.apis.controller.${meta.domainName};
+
+import ${rootPackage}.apis.controller.${meta.domainName}.base.${meta.ClassName}ControllerBase;
+import ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name}.${meta.ClassName}Entity;
+import ${rootPackage}.infrastructure.general.toolkit.api.ResBuilder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@RequestMapping("/${meta.domainName}/user")
+public class ${meta.ClassName}Controller extends ${meta.ClassName}ControllerBase {
+    @Override
+    @PutMapping("/create")
+    public ResponseEntity<?> create(@RequestBody ${meta.ClassName}Entity entity) {
+        return ResBuilder.noData().setStatus(HttpStatus.SERVICE_UNAVAILABLE).build();
+    }
+
+    @Override
+    @PatchMapping("/edit")
+    public ResponseEntity<?> edit(${meta.ClassName}Entity entity) {
+        return ResBuilder.noData().setStatus(HttpStatus.SERVICE_UNAVAILABLE).build();
+    }
+
+    @Override
+    @DeleteMapping("/remove")
+    public ResponseEntity<?> remove(${meta.ClassName}Entity entity) {
+        return ResBuilder.noData().setStatus(HttpStatus.SERVICE_UNAVAILABLE).build();
+    }
+
+}

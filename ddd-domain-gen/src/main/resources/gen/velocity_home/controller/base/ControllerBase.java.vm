@@ -1,0 +1,73 @@
+package ${rootPackage}.apis.controller.${meta.domainName}.base;
+
+import com.github.pagehelper.PageInfo;
+import ${rootPackage}.apis.assembler.Dto;
+import ${rootPackage}.apis.controller.BaseController;
+import ${rootPackage}.apis.model.dto.${meta.domainName}.${meta.ClassName}Dto;
+import ${rootPackage}.apis.model.param.${meta.domainName}.${meta.class_name}.${meta.ClassName}DetailParam;
+import ${rootPackage}.apis.model.param.${meta.domainName}.${meta.class_name}.${meta.ClassName}PageParam;
+import ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name}.${meta.ClassName}Entity;
+import ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name}.${meta.ClassName}Service;
+import ${rootPackage}.infrastructure.general.toolkit.api.ResBuilder;
+import ${rootPackage}.infrastructure.persistent.po.${meta.domainName}.${meta.ClassName};
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+@ResponseBody
+public abstract class ${meta.ClassName}ControllerBase implements BaseController<${meta.ClassName}, ${meta.ClassName}Entity, ${meta.ClassName}PageParam, ${meta.ClassName}DetailParam> {
+    @Resource
+    ${meta.ClassName}Service ${meta.className}Service;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> detail(@PathVariable Long id) {
+        ${meta.ClassName}Dto dto = Dto.fromEntity(${meta.ClassName}Dto.class, ${meta.className}Service.findById(id));
+        return ResBuilder.defValue.success().setData(dto).build();
+    }
+
+    @GetMapping("/page/{pageNum}/{pageSize}")
+    public ResponseEntity<?> page(${meta.ClassName}PageParam pageParam) {
+        ${meta.ClassName}Entity entity = pageParam.toEntity();
+        entity.set_condition(entity.toCondition());
+        PageInfo<${meta.ClassName}Dto> pageInfo = Dto.fromEntityPage(${meta.ClassName}Dto.class, ${meta.className}Service.queryPage(entity, pageParam.getPageNum(), pageParam.getPageSize()));
+        return ResBuilder.defValue.success().setData(pageInfo).build();
+    }
+
+    @Override
+    @GetMapping("/list/{pageSize}")
+    public ResponseEntity<?> list(${meta.ClassName}PageParam pageParam) {
+        List<${meta.ClassName}Entity> ${meta.className}EntityList = ${meta.className}Service.queryList(pageParam.toEntity(), pageParam.getPageSize());
+        List<${meta.ClassName}Dto> list = Dto.fromEntityList(${meta.ClassName}Dto.class, ${meta.className}EntityList);
+        return ResBuilder.defValue.success().setData(list).build();
+    }
+
+    @Override
+    @PutMapping("/create")
+    public ResponseEntity<?> create(@RequestBody ${meta.ClassName}Entity entity) {
+        ${meta.className}Service.insert(entity);
+        ${meta.ClassName}Dto dto = Dto.fromEntity(${meta.ClassName}Dto.class, entity);
+        return ResBuilder.defValue.created().setData(dto).build();
+    }
+
+    @Override
+    @PatchMapping("/edit")
+    public ResponseEntity<?> edit(${meta.ClassName}Entity entity) {
+        boolean b = ${meta.className}Service.update(entity);
+        if (b) {
+            return ResBuilder.defValue.success().putIntoData("id", entity.getId()).build();
+        }
+        return ResBuilder.defValue.noContent().build();
+    }
+
+    @Override
+    @DeleteMapping("/remove")
+    public ResponseEntity<?> remove(${meta.ClassName}Entity entity) {
+        boolean b = ${meta.className}Service.deleteById(entity);
+        if (b) {
+            return ResBuilder.defValue.success().putIntoData("id", entity.getId()).build();
+        }
+        return ResBuilder.defValue.noContent().build();
+    }
+}

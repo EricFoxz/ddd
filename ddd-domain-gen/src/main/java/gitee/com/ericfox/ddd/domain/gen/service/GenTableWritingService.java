@@ -125,6 +125,22 @@ public class GenTableWritingService implements GenLogger {
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, detailParamCode);
     }
 
+    public void writeControllerCode(TableXmlBean tableXml) {
+        String controllerCode = GenComponents.getGenCodeService().getControllerCode(tableXml);
+        String filePath = getApisPath() + "/controller/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "Controller.java";
+        File file = FileUtil.file(filePath);
+        FileUtil.touch(file);
+        IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, controllerCode);
+    }
+
+    public void writeControllerBaseCode(TableXmlBean tableXml) {
+        String controllerBaseCode = GenComponents.getGenCodeService().getControllerBaseCode(tableXml);
+        String filePath = getApisPath() + "/controller/" + tableXml.getMeta().getDomainName() + "/base/" + tableXml.getMeta().toMap().get("ClassName") + "Controller.java";
+        File file = FileUtil.file(filePath);
+        FileUtil.touch(file);
+        IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, controllerBaseCode);
+    }
+
     /**
      * 序列化
      */
