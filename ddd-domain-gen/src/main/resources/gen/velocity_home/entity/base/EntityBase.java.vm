@@ -27,7 +27,8 @@ public class ${meta.ClassName}EntityBase implements BaseEntity<${meta.ClassName}
 #end
 #end
 
-    public synchronized ${meta.ClassName}ServiceBase getService() {
+    @Override
+    public synchronized ${meta.ClassName}Service service() {
         if (${meta.className}Service == null) {
             ${meta.className}Service = SpringUtil.getBean(${meta.ClassName}Service.class);
         }

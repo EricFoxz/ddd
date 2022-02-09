@@ -3,6 +3,7 @@ package ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name};
 import com.github.pagehelper.PageInfo;
 import ${rootPackage}.infrastructure.general.common.Constants;
 import ${rootPackage}.infrastructure.general.common.interfaces.BaseService;
+import ${rootPackage}.infrastructure.persistent.po.${meta.domainName}.${meta.ClassName};
 import ${rootPackage}.infrastructure.persistent.service.repo.RepoService;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -13,7 +14,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @CacheConfig(cacheNames = "${meta.ClassName}Service", keyGenerator = Constants.KEY_GENERATOR)
-public abstract class ${meta.ClassName}ServiceBase implements BaseService<${meta.ClassName}Entity> {
+public abstract class ${meta.ClassName}ServiceBase implements BaseService<${meta.ClassName}, ${meta.ClassName}Entity> {
     @Resource
     RepoService repoService;
 
