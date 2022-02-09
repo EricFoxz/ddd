@@ -155,17 +155,14 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         serviceBaseTextArea.setFont(font);
         pageParamTextArea.setFont(font);
         //label点击事件
-        EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Label label = (Label) event.getPickResult().getIntersectedNode().getParent();
-                if (NO.equals(label.getText())) {
-                    label.setTextFill(Paint.valueOf("LIME"));
-                    label.setText(YES);
-                } else if (YES.equals(label.getText())) {
-                    label.setTextFill(Paint.valueOf("RED"));
-                    label.setText(NO);
-                }
+        EventHandler<MouseEvent> eventHandler = event -> {
+            Label label = (Label) event.getPickResult().getIntersectedNode().getParent();
+            if (NO.equals(label.getText())) {
+                label.setTextFill(Paint.valueOf("LIME"));
+                label.setText(YES);
+            } else if (YES.equals(label.getText())) {
+                label.setTextFill(Paint.valueOf("RED"));
+                label.setText(NO);
             }
         };
         poLabel.setOnMouseClicked(eventHandler);
