@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.general.config.service;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.ConditionalOnPropertyEnum;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.ConditionalOnPropertyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.MapUtil;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl;
 
 import com.github.pagehelper.PageInfo;
-import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.LuceneFieldKey;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.service.LuceneFieldKey;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.LuceneFieldTypeEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectRepoException;

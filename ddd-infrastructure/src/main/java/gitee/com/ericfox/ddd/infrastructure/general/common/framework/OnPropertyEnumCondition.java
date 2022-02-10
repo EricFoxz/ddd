@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.framework;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.ConditionalOnPropertyEnum;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.ConditionalOnPropertyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BaseEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BasePropertiesEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;

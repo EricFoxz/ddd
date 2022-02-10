@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework;
+package gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework;
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BasePropertiesEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.framework.OnPropertyEnumCondition;

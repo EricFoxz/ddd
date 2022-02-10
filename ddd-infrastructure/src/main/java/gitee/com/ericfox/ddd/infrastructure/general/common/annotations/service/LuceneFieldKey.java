@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.general.common.annos.service;
+package gitee.com.ericfox.ddd.infrastructure.general.common.annotations.service;
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.LuceneFieldTypeEnum;
 

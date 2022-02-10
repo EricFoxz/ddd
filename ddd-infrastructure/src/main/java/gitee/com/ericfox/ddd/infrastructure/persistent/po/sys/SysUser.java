@@ -1,9 +1,9 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.po.sys;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.FieldComment;
-import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.FieldLength;
-import gitee.com.ericfox.ddd.infrastructure.general.common.annos.framework.TableComment;
-import gitee.com.ericfox.ddd.infrastructure.general.common.annos.service.RepoEnabledAnnotation;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.FieldComment;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.FieldLength;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.TableComment;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.service.RepoEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import lombok.Getter;
