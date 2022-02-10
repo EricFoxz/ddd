@@ -13,11 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-@CacheConfig(cacheNames = "SysUserService", keyGenerator = Constants.KEY_GENERATOR)
+@CacheConfig(cacheNames = "ServiceCache:SysUserService", keyGenerator = Constants.KEY_GENERATOR)
 public abstract class SysUserServiceBase implements BaseService<SysUser, SysUserEntity> {
     @Resource
     RepoService repoService;
 
+    @Override
     @Transactional(readOnly = true)
     @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
     public SysUserEntity findById(Long id) {
@@ -26,6 +27,7 @@ public abstract class SysUserServiceBase implements BaseService<SysUser, SysUser
         return repoService.findById(entity);
     }
 
+    @Override
     @Transactional(readOnly = true)
     @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
     public PageInfo<SysUserEntity> queryPage(SysUserEntity entity, int pageNum, int pageSize) {
@@ -33,30 +35,42 @@ public abstract class SysUserServiceBase implements BaseService<SysUser, SysUser
         return pageInfo;
     }
 
+    @Override
     @Transactional(readOnly = true)
     @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
     public List<SysUserEntity> queryList(SysUserEntity entity, int pageSize) {
         return repoService.queryList(entity, pageSize);
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
     public SysUserEntity insert(SysUserEntity entity) {
         return repoService.insert(entity);
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
     public boolean update(SysUserEntity entity) {
         return repoService.updateById(entity);
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
     public boolean deleteById(SysUserEntity entity) {
         return repoService.deleteById(entity);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true, beforeInvocation = false)
+    public boolean multiDeleteById(List<SysUserEntity> entityList) {
+        return repoService.multiDeleteById(entityList);
+    }
+
+    @Override
     @CacheEvict(allEntries = true, beforeInvocation = false)
     public void cacheEvict() {
     }

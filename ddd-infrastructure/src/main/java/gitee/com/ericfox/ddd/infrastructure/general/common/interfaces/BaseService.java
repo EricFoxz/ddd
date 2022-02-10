@@ -17,4 +17,8 @@ public interface BaseService<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO
     boolean update(ENTITY entity);
 
     boolean deleteById(ENTITY entity);
+
+    boolean multiDeleteById(List<ENTITY> entityList);
+
+    void cacheEvict();
 }

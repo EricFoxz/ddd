@@ -105,7 +105,6 @@ public class GenIndexController implements BaseJavaFxController, GenLogger {
         importTableByMySqlMenuItem.setOnAction(event -> {
             beginLoading();
             asyncExecute(() -> {
-                //TODO-支持 可配置数据库
                 GenComponents.getGenTableLoadingService().importTableByMySql("", "", "");
                 finishLoading();
             });

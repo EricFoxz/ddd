@@ -6,6 +6,8 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface BaseController<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO, ENTITY>, PARAM extends BasePageParam<PO, ENTITY>, N extends BaseDetailParam<PO, ENTITY>> {
     ResponseEntity<?> detail(Long id);
 
@@ -18,4 +20,6 @@ public interface BaseController<PO extends BasePo<PO>, ENTITY extends BaseEntity
     ResponseEntity<?> edit(ENTITY ENTITY);
 
     ResponseEntity<?> remove(ENTITY ENTITY);
+
+    ResponseEntity<?> multiRemove(List<ENTITY> list);
 }

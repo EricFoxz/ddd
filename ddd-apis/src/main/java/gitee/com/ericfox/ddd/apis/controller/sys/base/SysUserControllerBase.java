@@ -70,4 +70,14 @@ public abstract class SysUserControllerBase implements BaseController<SysUser, S
         }
         return ResBuilder.defValue.noContent().build();
     }
+
+    @Override
+    @DeleteMapping("/multiRemove")
+    public ResponseEntity<?> multiRemove(List<SysUserEntity> entityList) {
+        boolean b = sysUserService.multiDeleteById(entityList);
+        if (b) {
+            return ResBuilder.defValue.success().put("data", entityList).build();
+        }
+        return ResBuilder.defValue.noContent().build();
+    }
 }

@@ -7,5 +7,4 @@ package gitee.com.ericfox.ddd.infrastructure.general.common.interfaces;
  * @param <AGG>    聚合实现类
  */
 public interface BaseAgg<ENTITY extends BaseEntity, AGG extends BaseAgg<ENTITY, AGG>> {
-    AGG fromEntity(ENTITY entity);
 }
