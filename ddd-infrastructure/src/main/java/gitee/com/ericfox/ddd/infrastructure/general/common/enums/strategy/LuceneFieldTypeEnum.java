@@ -1,10 +1,12 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy;
 
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BaseEnum;
+import lombok.Getter;
 
 /**
  * lucene文档的数据类型枚举类
  */
+@Getter
 public enum LuceneFieldTypeEnum implements BaseEnum<LuceneFieldTypeEnum, Integer> {
     STRING_FIELD(1, "字符串，会被索引，不分词"),
     TEXT_FIELD(2, "文本，会被索引，分词"),
@@ -14,26 +16,16 @@ public enum LuceneFieldTypeEnum implements BaseEnum<LuceneFieldTypeEnum, Integer
     BINARY_POINT(6, "二进制数据，不会索引，不分词");
 
     private final Integer code;
-    private final String description;
+    private final String comment;
 
-    LuceneFieldTypeEnum(Integer code, String description) {
+    LuceneFieldTypeEnum(Integer code, String comment) {
         this.code = code;
-        this.description = description;
+        this.comment = comment;
     }
 
     @Override
     public String getName() {
         return this.name();
-    }
-
-    @Override
-    public Integer getCode() {
-        return code;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
     }
 
     @Override

@@ -6,7 +6,7 @@ import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import java.io.Serializable;
 
 @SuppressWarnings("unchecked")
-public interface BaseEntity<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO, ENTITY>> extends Serializable {
+public interface BaseEntity<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO, ENTITY>> extends BaseContext.BasePartPlaceThing, Serializable {
     void setId(Long id);
 
     Long getId();

@@ -4,6 +4,7 @@ import gitee.com.ericfox.ddd.domain.gen.model.TableMySqlBean;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BaseEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.sql.Time;
@@ -13,6 +14,7 @@ import java.util.Date;
 /**
  * MySql数据类型枚举类
  */
+@Getter
 public enum MySqlDataTypeEnum implements BaseEnum<MySqlDataTypeEnum, String> {
     TINYINT("tinyint", "", Integer.class),
     SMALLINT("smallint", "", Integer.class),
@@ -56,12 +58,12 @@ public enum MySqlDataTypeEnum implements BaseEnum<MySqlDataTypeEnum, String> {
 //    JSON("json", "");
 
     private final String code;
-    private final String description;
+    private final String comment;
     private final Class<?> javaClass;
 
-    MySqlDataTypeEnum(String code, String description, Class<?> javaClass) {
+    MySqlDataTypeEnum(String code, String comment, Class<?> javaClass) {
         this.code = code;
-        this.description = description;
+        this.comment = comment;
         this.javaClass = javaClass;
     }
 
@@ -91,20 +93,6 @@ public enum MySqlDataTypeEnum implements BaseEnum<MySqlDataTypeEnum, String> {
     @Override
     public String getName() {
         return this.getName();
-    }
-
-    @Override
-    public String getCode() {
-        return code;
-    }
-
-    public Class<?> getJavaClass() {
-        return javaClass;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
     }
 
     @Override

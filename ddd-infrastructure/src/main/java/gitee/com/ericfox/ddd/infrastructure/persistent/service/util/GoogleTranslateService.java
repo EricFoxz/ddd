@@ -4,6 +4,7 @@ import cn.hutool.json.JSONArray;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BaseEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.framework.pojo.OkHttpResponse;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.JSONUtil;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
@@ -12,32 +13,23 @@ import java.net.URLEncoder;
 
 @Service
 public class GoogleTranslateService {
+    @Getter
     public enum TL implements BaseEnum<GoogleTranslateService.TL, String> {
         TL_EN("en", "英语"),
         TL_JA("ja", "日语"),
         TL_ZH_CN("zh-CN", "中文");
 
         private final String code;
-        private final String description;
+        private final String comment;
 
-        TL(String code, String description) {
+        TL(String code, String comment) {
             this.code = code;
-            this.description = description;
+            this.comment = comment;
         }
 
         @Override
         public String getName() {
             return this.name();
-        }
-
-        @Override
-        public String getCode() {
-            return this.code;
-        }
-
-        @Override
-        public String getDescription() {
-            return this.description;
         }
 
         @Override

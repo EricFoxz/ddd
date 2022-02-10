@@ -19,7 +19,7 @@ public interface BaseEnum<T extends BaseEnum<T, U>, U extends Serializable> {
     /**
      * 描述
      */
-    String getDescription();
+    String getComment();
 
     /**
      * 该类的所有枚举array
@@ -55,10 +55,10 @@ public interface BaseEnum<T extends BaseEnum<T, U>, U extends Serializable> {
     /**
      * 通过描述获取枚举
      */
-    default T getEnumByDescription(U description) {
+    default T getEnumByComment(U comment) {
         T[] enums = getEnums();
         for (T anEnum : enums) {
-            if (anEnum.getDescription().equals(description)) {
+            if (anEnum.getComment().equals(comment)) {
                 return anEnum;
             }
         }

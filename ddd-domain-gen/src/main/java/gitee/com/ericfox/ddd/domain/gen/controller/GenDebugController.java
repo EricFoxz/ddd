@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.domain.gen.controller;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseLogger;
+import gitee.com.ericfox.ddd.domain.gen.common.GenBaseLogger;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import javafx.collections.ObservableList;
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GenDebugController implements BaseJavaFxController {
     @Getter
-    public final BaseLogger logger = new BaseLogger() {
+    public final GenBaseLogger logger = new GenBaseLogger() {
         @Override
         public void info(Font font, String... msg) {
             Text text = getText(msg);

@@ -1,5 +1,8 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum HttpStatusEnum implements BaseEnum<HttpStatusEnum, Integer> {
     OK(200, "OK"),//请求成功并返回实体资源
     CREATED(201, "Created"),//创建资源成功
@@ -40,26 +43,18 @@ public enum HttpStatusEnum implements BaseEnum<HttpStatusEnum, Integer> {
 //    GATEWAY_TIMEOUT(504, "Gateway Timeout"),
 //    HTTP_VERSION_NOT_SUPPORTED(505, "HTTP Version Not Supported");
 
-    public int code;
+    public Integer code;
 
-    public String description;
+    public String comment;
 
-    HttpStatusEnum(int code, String description) {
+    HttpStatusEnum(int code, String comment) {
         this.code = code;
-        this.description = description;
+        this.comment = comment;
     }
 
     @Override
     public String getName() {
         return this.name();
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     @Override

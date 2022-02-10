@@ -1,8 +1,8 @@
-package gitee.com.ericfox.ddd.infrastructure.general.common.interfaces;
+package gitee.com.ericfox.ddd.domain.gen.common;
 
 import javafx.scene.text.Font;
 
-public interface BaseLogger {
+public interface GenBaseLogger {
     void info(Font font, String... msg);
 
     void warn(Font font, String... msg);
