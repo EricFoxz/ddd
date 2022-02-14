@@ -6,33 +6,20 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SysUserContext implements BaseContext<SysUserEntity, SysUserContext.Rule, SysUserContext.Moment, SysUserContext.Description> {
-    private SysUserEntity partPlaceThing;
+public class SysUserContext implements BaseContext {
     private Rule rule;
     private Moment moment;
-    private Description description;
-
-    @Override
-    public void run() {
-    }
 
     public enum Rule implements BaseContext.BaseRule {
         MANAGER,
+        WEB_USER,
+        APP_USER,
     }
 
     public enum Moment implements BaseContext.BaseMoment {
         DEFAULT,
     }
 
-    @Getter
-    public enum Description implements BaseContext.BaseDescription {
-        REGISTER("注册"),
-        LOGIN("登录"),
-        ;
-        private final String comment;
-
-        Description(String comment) {
-            this.comment = comment;
-        }
+    public abstract static class Description implements BaseContext.BaseDescription {
     }
 }

@@ -1,11 +1,7 @@
 package gitee.com.ericfox.ddd.domain.sys.model.sys_user;
 
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
 public class SysUserEntity extends SysUserEntityBase {
     @Override
     public SysUser toPo() {

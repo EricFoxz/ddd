@@ -74,8 +74,11 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
         );
     }
 
+    /**
+     * service缓存key生成器
+     */
     @Bean
-    public KeyGenerator keyGenerator() {
+    public KeyGenerator serviceCacheKeyGenerator() {
         return (Object target, Method method, Object... params) -> {
             StringBuilder finalResult = new StringBuilder();
             // 必须有类名作为前缀，避免走入 Default 之后取的方法名一样造成无法类型转换
@@ -119,15 +122,18 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
             String finalParam = paramString.toString();
             String sha256 = SecureUtil.sha256(finalParam);
 
-            log.debug("redisCacheConfig::keyGenerator Method <{}>, Param <{}> SHA256 <{}>", method.getName(), finalParam, sha256);
+            log.debug("redisCacheConfig::serviceCacheKeyGenerator Method <{}>, Param <{}> SHA256 <{}>", method.getName(), finalParam, sha256);
 
             finalResult.append(sha256);
             return finalResult.toString();
         };
     }
 
+    /**
+     * service方法缓存key生成器
+     */
     @Bean
-    public KeyGenerator keyGeneratorToServiceParam() {
+    public KeyGenerator serviceFunctionCacheKeyGenerator() {
         return (Object target, Method method, Object... params) -> {
             StringBuilder finalResult = new StringBuilder();
             finalResult.append(target.getClass().getSimpleName());
@@ -181,7 +187,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
             String finalParam = paramString.toString();
             String sha256 = SecureUtil.sha256(finalParam);
 
-            log.debug("redisCacheConfig::keyGeneratorToServiceParam Param <{}>, SHA <{}>", finalParam, sha256);
+            log.debug("redisCacheConfig::serviceFunctionCacheKeyGenerator Param <{}>, SHA <{}>", finalParam, sha256);
 
             finalResult.append(sha256);
             return finalResult.toString();

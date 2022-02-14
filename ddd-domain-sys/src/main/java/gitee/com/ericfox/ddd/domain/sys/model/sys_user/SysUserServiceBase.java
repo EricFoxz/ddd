@@ -13,14 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-@CacheConfig(cacheNames = "ServiceCache:SysUserService", keyGenerator = Constants.KEY_GENERATOR)
+@CacheConfig(cacheNames = "ServiceCache:SysUserService", keyGenerator = Constants.SERVICE_CACHE_KEY_GENERATOR)
 public abstract class SysUserServiceBase implements BaseService<SysUser, SysUserEntity> {
     @Resource
     RepoService repoService;
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
+    @Cacheable(keyGenerator = Constants.SERVICE_FUNCTION_CACHE_KEY_GENERATOR)
     public SysUserEntity findById(Long id) {
         SysUserEntity entity = new SysUserEntity();
         entity.setId(id);
@@ -29,7 +29,7 @@ public abstract class SysUserServiceBase implements BaseService<SysUser, SysUser
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
+    @Cacheable(keyGenerator = Constants.SERVICE_FUNCTION_CACHE_KEY_GENERATOR)
     public PageInfo<SysUserEntity> queryPage(SysUserEntity entity, int pageNum, int pageSize) {
         PageInfo<SysUserEntity> pageInfo = repoService.queryPage(entity, pageNum, pageSize);
         return pageInfo;
@@ -37,7 +37,7 @@ public abstract class SysUserServiceBase implements BaseService<SysUser, SysUser
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
+    @Cacheable(keyGenerator = Constants.SERVICE_FUNCTION_CACHE_KEY_GENERATOR)
     public List<SysUserEntity> queryList(SysUserEntity entity, int pageSize) {
         return repoService.queryList(entity, pageSize);
     }

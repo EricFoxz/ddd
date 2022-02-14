@@ -11,10 +11,14 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class SysUserEntityBase implements BaseEntity<SysUser, SysUserEntity> {
-    private static SysUserService sysUserService;
+public abstract class SysUserEntityBase implements BaseEntity<SysUser, SysUserEntity> {
+    private static SysUserService _sysUserService;
     protected BaseCondition<?> _condition;
-    protected SysUser po;
+    protected SysUser _po;
+
+    SysUserContext.Rule _rule;
+    SysUserContext.Moment _moment;
+    SysUserContext.Description _description;
 
     private Long id;
     /**
@@ -26,32 +30,29 @@ public class SysUserEntityBase implements BaseEntity<SysUser, SysUserEntity> {
 
     @Override
     public synchronized SysUserService service() {
-        if (sysUserService == null) {
-            sysUserService = SpringUtil.getBean(SysUserService.class);
+        if (_sysUserService == null) {
+            _sysUserService = SpringUtil.getBean(SysUserService.class);
         }
-        return sysUserService;
+        return _sysUserService;
+    }
+
+    @Override
+    public void run() {
+        _description.apply(this);
     }
 
     @Override
     public SysUser toPo() {
-        if (po == null) {
-            po = new SysUser();
+        if (_po == null) {
+            _po = new SysUser();
         }
-        BeanUtil.copyProperties(this, po, CopyOptions.create().ignoreNullValue());
-        return po;
+        BeanUtil.copyProperties(this, _po, CopyOptions.create().ignoreNullValue());
+        return _po;
     }
 
     @Override
     public SysUserEntity fromPo(SysUser po) {
-        this.po = po;
+        this._po = po;
         return (SysUserEntity) this;
-    }
-
-    protected void setPo(SysUser po) {
-        this.po = po;
-    }
-
-    protected SysUser getPo() {
-        return po;
     }
 }
