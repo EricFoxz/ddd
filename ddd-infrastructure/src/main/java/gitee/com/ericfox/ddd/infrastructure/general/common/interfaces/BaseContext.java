@@ -1,7 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.interfaces;
 
 import java.io.Serializable;
-import java.util.function.Function;
 
 /**
  * 上下文
@@ -17,6 +16,6 @@ public interface BaseContext extends Serializable {
     interface BaseMoment {
     }
 
-    interface BaseDescription extends Function {
+    interface BaseDescription {
     }
 }

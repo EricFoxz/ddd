@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @CacheConfig(cacheNames = "ServiceCache:SysUserService", keyGenerator = Constants.SERVICE_CACHE_KEY_GENERATOR)
-public abstract class SysUserServiceBase implements BaseService<SysUser, SysUserEntity> {
+public abstract class SysUserServiceBase implements BaseService<SysUser, SysUserEntity>, SysUserContext.Description {
     @Resource
     RepoService repoService;
 

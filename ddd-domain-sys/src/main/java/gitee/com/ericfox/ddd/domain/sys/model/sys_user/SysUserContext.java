@@ -20,6 +20,6 @@ public class SysUserContext implements BaseContext {
         DEFAULT,
     }
 
-    public abstract static class Description implements BaseContext.BaseDescription {
+    public interface Description extends BaseContext.BaseDescription {
     }
 }

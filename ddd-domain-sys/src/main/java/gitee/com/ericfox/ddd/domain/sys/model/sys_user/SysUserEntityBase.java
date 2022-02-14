@@ -18,7 +18,6 @@ public abstract class SysUserEntityBase implements BaseEntity<SysUser, SysUserEn
 
     SysUserContext.Rule _rule;
     SysUserContext.Moment _moment;
-    SysUserContext.Description _description;
 
     private Long id;
     /**
@@ -34,11 +33,6 @@ public abstract class SysUserEntityBase implements BaseEntity<SysUser, SysUserEn
             _sysUserService = SpringUtil.getBean(SysUserService.class);
         }
         return _sysUserService;
-    }
-
-    @Override
-    public void run() {
-        _description.apply(this);
     }
 
     @Override
