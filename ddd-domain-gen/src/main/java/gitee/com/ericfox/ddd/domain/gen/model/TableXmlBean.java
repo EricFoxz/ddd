@@ -113,7 +113,7 @@ public class TableXmlBean implements GenLogger {
     public static TableXmlBean load(TableMySqlBean mySqlBean) {
         TableXmlBean xmlBean = new TableXmlBean();
         String tableName = mySqlBean.getTable_name();
-        String domainName = StrUtil.contains(tableName, '_') ? StrUtil.splitToArray(tableName, '_', -1)[0] : "_unknown";
+        String domainName = StrUtil.contains(tableName, '_') ? StrUtil.splitToArray(tableName, '_', -1)[0] : "_unknown" ;
         MetaBean meta = xmlBean.getMeta();
         meta.setTableComment(StrUtil.isBlank(mySqlBean.getTable_comment()) ? mySqlBean.getTable_name() : mySqlBean.getTable_comment());
         meta.setTableName(tableName);

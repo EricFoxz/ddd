@@ -6,16 +6,20 @@ import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.BeanUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.FileUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ResourceUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.StringWriter;
 import java.util.Map;
 import java.util.Properties;
@@ -37,6 +41,15 @@ public class GenCodeService implements GenLogger {
         } catch (Exception e) {
             logError(log, "genCodeService::init velocity初始化失败");
         }
+    }
+
+    /**
+     * 获取模板原文
+     */
+    @SneakyThrows
+    public String getTemplateCodeWithOutRendering(String path) {
+        File file = new ClassPathResource(path).getFile();
+        return FileUtil.readUtf8String(file);
     }
 
     /**

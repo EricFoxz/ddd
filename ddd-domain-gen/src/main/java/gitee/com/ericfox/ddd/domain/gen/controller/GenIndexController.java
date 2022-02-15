@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 public class GenIndexController implements BaseJavaFxController, GenLogger {
-    public static final String DOMAIN_TAB_PREFIX = "domainName:";
+    public static final String DOMAIN_TAB_PREFIX = "domainName:" ;
     /**
      * 导入功能组件
      */

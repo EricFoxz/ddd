@@ -33,9 +33,9 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class GenTableViewController implements BaseJavaFxController, GenLogger {
-    public static final String TABLE_CHECK_BOX_PREFIX = "tableCheckBox:";
-    private static final String YES = "√";
-    private static final String NO = "×";
+    public static final String TABLE_CHECK_BOX_PREFIX = "tableCheckBox:" ;
+    private static final String YES = "√" ;
+    private static final String NO = "×" ;
 
     @Resource
     private CustomProperties customProperties;
