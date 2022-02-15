@@ -1,11 +1,7 @@
 package ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name};
 
 import ${rootPackage}.infrastructure.persistent.po.${meta.domainName}.${meta.ClassName};
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
 public class ${meta.ClassName}Entity extends ${meta.ClassName}EntityBase {
     @Override
     public ${meta.ClassName} toPo() {

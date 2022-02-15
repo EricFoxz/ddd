@@ -70,4 +70,14 @@ public abstract class ${meta.ClassName}ControllerBase implements BaseController<
         }
         return ResBuilder.defValue.noContent().build();
     }
+
+    @Override
+    @DeleteMapping("/multiRemove")
+    public ResponseEntity<?> multiRemove(List<${meta.ClassName}Entity> entityList) {
+        boolean b = ${meta.className}Service.multiDeleteById(entityList);
+        if (b) {
+            return ResBuilder.defValue.success().put("data", entityList).build();
+        }
+        return ResBuilder.defValue.noContent().build();
+    }
 }

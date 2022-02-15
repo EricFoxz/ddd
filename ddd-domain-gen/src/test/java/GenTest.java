@@ -5,6 +5,7 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.IoUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.MapUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import lombok.SneakyThrows;
@@ -17,6 +18,7 @@ import javax.annotation.Resource;
 import java.io.FileOutputStream;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.regex.Pattern;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GenApplication.class)
@@ -56,6 +58,7 @@ public class GenTest {
                 .put("gen/velocity_home/param/DetailParam.java.vm", genCodeService.getTemplateCodeWithOutRendering("gen/velocity_home/param/DetailParam.java.vm"))
                 .put("gen/velocity_home/controller/Controller.java.vm", genCodeService.getTemplateCodeWithOutRendering("gen/velocity_home/controller/Controller.java.vm"))
                 .put("gen/velocity_home/controller/base/ControllerBase.java.vm", genCodeService.getTemplateCodeWithOutRendering("gen/velocity_home/controller/base/ControllerBase.java.vm"))
+                .put("gen/velocity_home/context/Context.java.vm", genCodeService.getTemplateCodeWithOutRendering("gen/velocity_home/context/Context.java.vm"))
                 .build();
         map.forEach(new BiConsumer<String, String>() {
             @Override
@@ -65,8 +68,8 @@ public class GenTest {
                 value = StrUtil.replace(value, class_name, "${meta.class_name}");
                 value = StrUtil.replace(value, className, "${meta.className}");
                 value = StrUtil.replace(value, customProperties.getRootPackage(), "${rootPackage}");
-                value = StrUtil.replace(value, "." + domainName + ".", ".${meta.domainName}.");
-                IoUtil.writeUtf8(new FileOutputStream(genResourcePath + "/" + key), true, (Object) value);
+                value = ReUtil.replaceAll(value, Pattern.compile("\\b(" + domainName + ")\\b"), "${meta.domainName}");
+                IoUtil.writeUtf8(new FileOutputStream(genResourcePath + "/" + key), true, value);
             }
         });
     }

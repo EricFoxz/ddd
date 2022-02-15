@@ -13,50 +13,64 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-@CacheConfig(cacheNames = "${meta.ClassName}Service", keyGenerator = Constants.KEY_GENERATOR)
-public abstract class ${meta.ClassName}ServiceBase implements BaseService<${meta.ClassName}, ${meta.ClassName}Entity> {
+@CacheConfig(cacheNames = "ServiceCache:${meta.ClassName}Service", keyGenerator = Constants.SERVICE_CACHE_KEY_GENERATOR)
+public abstract class ${meta.ClassName}ServiceBase implements BaseService<${meta.ClassName}, ${meta.ClassName}Entity>, ${meta.ClassName}Context.Description {
     @Resource
     RepoService repoService;
 
+    @Override
     @Transactional(readOnly = true)
-    @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
+    @Cacheable(keyGenerator = Constants.SERVICE_FUNCTION_CACHE_KEY_GENERATOR)
     public ${meta.ClassName}Entity findById(Long id) {
         ${meta.ClassName}Entity entity = new ${meta.ClassName}Entity();
         entity.setId(id);
         return repoService.findById(entity);
     }
 
+    @Override
     @Transactional(readOnly = true)
-    @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
+    @Cacheable(keyGenerator = Constants.SERVICE_FUNCTION_CACHE_KEY_GENERATOR)
     public PageInfo<${meta.ClassName}Entity> queryPage(${meta.ClassName}Entity entity, int pageNum, int pageSize) {
         PageInfo<${meta.ClassName}Entity> pageInfo = repoService.queryPage(entity, pageNum, pageSize);
         return pageInfo;
     }
 
+    @Override
     @Transactional(readOnly = true)
-    @Cacheable(keyGenerator = Constants.KEY_GENERATOR_TO_SERVICE_PARAM)
+    @Cacheable(keyGenerator = Constants.SERVICE_FUNCTION_CACHE_KEY_GENERATOR)
     public List<${meta.ClassName}Entity> queryList(${meta.ClassName}Entity entity, int pageSize) {
         return repoService.queryList(entity, pageSize);
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
     public ${meta.ClassName}Entity insert(${meta.ClassName}Entity entity) {
         return repoService.insert(entity);
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
     public boolean update(${meta.ClassName}Entity entity) {
         return repoService.updateById(entity);
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(allEntries = true, beforeInvocation = false)
     public boolean deleteById(${meta.ClassName}Entity entity) {
         return repoService.deleteById(entity);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(allEntries = true, beforeInvocation = false)
+    public boolean multiDeleteById(List<${meta.ClassName}Entity> entityList) {
+        return repoService.multiDeleteById(entityList);
+    }
+
+    @Override
     @CacheEvict(allEntries = true, beforeInvocation = false)
     public void cacheEvict() {
     }
