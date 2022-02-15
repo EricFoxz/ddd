@@ -76,13 +76,9 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
     @FXML
     private TextArea entityBaseTextArea;
     @FXML
-    private Label dtoLabel;
+    private Label contextLabel;
     @FXML
-    private TextArea dtoTextArea;
-    @FXML
-    private Label dtoBaseLabel;
-    @FXML
-    private TextArea dtoBaseTextArea;
+    private TextArea contextTextArea;
     @FXML
     private Label serviceLabel;
     @FXML
@@ -91,6 +87,14 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
     private Label serviceBaseLabel;
     @FXML
     private TextArea serviceBaseTextArea;
+    @FXML
+    private Label dtoLabel;
+    @FXML
+    private TextArea dtoTextArea;
+    @FXML
+    private Label dtoBaseLabel;
+    @FXML
+    private TextArea dtoBaseTextArea;
     @FXML
     private Label pageParamLabel;
     @FXML
@@ -162,10 +166,11 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         daoTextArea.setFont(font);
         entityTextArea.setFont(font);
         entityBaseTextArea.setFont(font);
-        dtoTextArea.setFont(font);
-        dtoBaseTextArea.setFont(font);
+        contextTextArea.setFont(font);
         serviceTextArea.setFont(font);
         serviceBaseTextArea.setFont(font);
+        dtoTextArea.setFont(font);
+        dtoBaseTextArea.setFont(font);
         pageParamTextArea.setFont(font);
         detailParamTextArea.setFont(font);
         controllerTextArea.setFont(font);
@@ -185,10 +190,11 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         daoLabel.setOnMouseClicked(eventHandler);
         entityLabel.setOnMouseClicked(eventHandler);
         entityBaseLabel.setOnMouseClicked(eventHandler);
-        dtoLabel.setOnMouseClicked(eventHandler);
-        dtoBaseLabel.setOnMouseClicked(eventHandler);
+        contextLabel.setOnMouseClicked(eventHandler);
         serviceLabel.setOnMouseClicked(eventHandler);
         serviceBaseLabel.setOnMouseClicked(eventHandler);
+        dtoLabel.setOnMouseClicked(eventHandler);
+        dtoBaseLabel.setOnMouseClicked(eventHandler);
         pageParamLabel.setOnMouseClicked(eventHandler);
         detailParamLabel.setOnMouseClicked(eventHandler);
         controllerLabel.setOnMouseClicked(eventHandler);
@@ -273,10 +279,11 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         String daoCode = GenComponents.getGenCodeService().getDaoCode(tableXml);
         String entityCode = GenComponents.getGenCodeService().getEntityCode(tableXml);
         String entityBaseCode = GenComponents.getGenCodeService().getEntityBaseCode(tableXml);
-        String dtoCode = GenComponents.getGenCodeService().getDtoCode(tableXml);
-        String dtoBaseCode = GenComponents.getGenCodeService().getDtoBaseCode(tableXml);
+        String contextCode = GenComponents.getGenCodeService().getContextCode(tableXml);
         String serviceCode = GenComponents.getGenCodeService().getServiceCode(tableXml);
         String serviceBaseCode = GenComponents.getGenCodeService().getServiceBaseCode(tableXml);
+        String dtoCode = GenComponents.getGenCodeService().getDtoCode(tableXml);
+        String dtoBaseCode = GenComponents.getGenCodeService().getDtoBaseCode(tableXml);
         String pageParamCode = GenComponents.getGenCodeService().getPageParamCode(tableXml);
         String detailParamCode = GenComponents.getGenCodeService().getDetailParamCode(tableXml);
         String controllerCode = GenComponents.getGenCodeService().getControllerCode(tableXml);
@@ -285,10 +292,11 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         daoTextArea.setText(daoCode);
         entityTextArea.setText(entityCode);
         entityBaseTextArea.setText(entityBaseCode);
-        dtoTextArea.setText(dtoCode);
-        dtoBaseTextArea.setText(dtoBaseCode);
+        contextTextArea.setText(contextCode);
         serviceTextArea.setText(serviceCode);
         serviceBaseTextArea.setText(serviceBaseCode);
+        dtoTextArea.setText(dtoCode);
+        dtoBaseTextArea.setText(dtoBaseCode);
         pageParamTextArea.setText(pageParamCode);
         detailParamTextArea.setText(detailParamCode);
         controllerTextArea.setText(controllerCode);
@@ -348,6 +356,9 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         }
         if (YES.equals(entityBaseLabel.getText())) {
             writingService.writeEntityBaseCode(tableXml);
+        }
+        if (YES.equals(contextLabel.getText())) {
+            writingService.writeContextCode(tableXml);
         }
         if (YES.equals(serviceLabel.getText())) {
             writingService.writeServiceCode(tableXml);

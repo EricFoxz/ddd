@@ -1,6 +1,6 @@
 package ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name};
 
-import cn.hutool.core.bean.copier.CopyOptions;
+import ${rootPackage}.infrastructure.general.common.Constants;
 import ${rootPackage}.infrastructure.general.common.interfaces.BaseCondition;
 import ${rootPackage}.infrastructure.general.common.interfaces.BaseEntity;
 import ${rootPackage}.infrastructure.general.toolkit.coding.BeanUtil;
@@ -12,9 +12,12 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ${meta.ClassName}EntityBase implements BaseEntity<${meta.ClassName}, ${meta.ClassName}Entity> {
-    private static ${meta.ClassName}Service ${meta.className}Service;
+    private static ${meta.ClassName}Service _${meta.className}Service;
     protected BaseCondition<?> _condition;
-    protected ${meta.ClassName} po;
+    protected ${meta.ClassName} _po;
+
+    ${meta.ClassName}Context.Rule _rule;
+    ${meta.ClassName}Context.Moment _moment;
 
 #foreach($item in $meta.fieldClassMap.entrySet())
 #if(!!$meta.fieldCommentMap.get(${item.key}))
@@ -31,32 +34,25 @@ public class ${meta.ClassName}EntityBase implements BaseEntity<${meta.ClassName}
 
     @Override
     public synchronized ${meta.ClassName}Service service() {
-        if (${meta.className}Service == null) {
-            ${meta.className}Service = SpringUtil.getBean(${meta.ClassName}Service.class);
+        if (_${meta.className}Service == null) {
+            _${meta.className}Service = SpringUtil.getBean(${meta.ClassName}Service.class);
         }
-        return ${meta.className}Service;
+        return _${meta.className}Service;
     }
 
     @Override
     public ${meta.ClassName} toPo() {
-        if (po == null) {
-            po = new ${meta.ClassName}();
+        if (_po == null) {
+            _po = new ${meta.ClassName}();
         }
-        BeanUtil.copyProperties(this, po, CopyOptions.create().ignoreNullValue());
-        return po;
+        BeanUtil.copyProperties(this, _po, Constants.IGNORE_NULL_VALUE_COPY_OPTIONS);
+        return _po;
     }
 
     @Override
-    public ${meta.ClassName}Entity fromPo(${meta.ClassName} po) {
-        this.po = po;
+    public ${meta.ClassName}Entity fromPo(${meta.ClassName} _po) {
+        this._po = _po;
+        BeanUtil.copyProperties(_po, this, Constants.IGNORE_NULL_VALUE_COPY_OPTIONS);
         return (${meta.ClassName}Entity) this;
-    }
-
-    protected void setPo(${meta.ClassName} po) {
-        this.po = po;
-    }
-
-    protected ${meta.ClassName} getPo() {
-        return po;
     }
 }

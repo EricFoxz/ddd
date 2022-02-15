@@ -23,7 +23,7 @@ public class SysUser implements BasePo<SysUser> {
         public static String id = "id";
     }
 
-    @FieldLength(length = 20, scale = 0)
+    @FieldLength(length = 19, scale = 0)
     @FieldComment("")
     private Long id;
     /**
@@ -32,7 +32,7 @@ public class SysUser implements BasePo<SysUser> {
     @FieldLength(length = 32, scale = 0)
     @FieldComment("用户名")
     private String username;
-    @FieldLength(length = 10, scale = 0)
+    @FieldLength(length = 10, scale = 2)
     @FieldComment("")
     private java.math.BigDecimal money;
     @FieldLength(length = 65535, scale = 0)

@@ -3,6 +3,7 @@ package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.github.pagehelper.PageInfo;
 import com.jfinal.plugin.activerecord.*;
+import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
 import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseCondition;
 import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
@@ -26,13 +27,8 @@ import java.util.regex.Pattern;
 @Component
 @SuppressWarnings("unchecked")
 public class MySqlRepoStrategy implements RepoStrategy {
-    private static final CopyOptions updateCopyOptions = CopyOptions.create().ignoreCase().ignoreNullValue();
-    private static final CopyOptions dbToJavaBeanCopyOptions = CopyOptions.create().setFieldNameEditor(fieldName -> {
-        if (StrUtil.isNotBlank(fieldName)) {
-            return StrUtil.toCamelCase(fieldName);
-        }
-        return null;
-    });
+    private static final CopyOptions updateCopyOptions = Constants.IGNORE_NULL_VALUE_COPY_OPTIONS;
+    private static final CopyOptions dbToJavaBeanCopyOptions = Constants.CAMEL_CASE_KEY_COPY_OPTIONS;
 
     public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> ENTITY findById(ENTITY entity) {
         PO t = entity.toPo();

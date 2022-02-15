@@ -108,39 +108,23 @@
                            </cursor></Label>
                      </graphic>
                   </Tab>
-                  <Tab text="Dto">
+                  <Tab text="Context">
                      <content>
                         <ScrollPane>
                            <content>
-                               <TextArea fx:id="dtoTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
+                              <TextArea fx:id="contextTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
                            </content>
                         </ScrollPane>
                      </content>
                      <graphic>
-                        <Label fx:id="dtoLabel" text="√" textFill="LIME">
+                        <Label fx:id="contextLabel" text="√" textFill="LIME">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                            <tooltip>
                               <Tooltip text="点击切换是否生成该文件" />
                            </tooltip>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></Label>
-                     </graphic></Tab>
-                  <Tab text="DtoBase">
-                     <content>
-                        <ScrollPane>
-                           <content>
-                              <TextArea fx:id="dtoBaseTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
-                           </content>
-                        </ScrollPane>
-                     </content>
-                     <graphic>
-                        <Label fx:id="dtoBaseLabel" text="√" textFill="LIME">
-                           <tooltip>
-                              <Tooltip text="点击切换是否生成该文件" />
-                           </tooltip>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></Label>
+                        </Label>
                      </graphic>
                   </Tab>
                   <Tab text="Service">
@@ -171,6 +155,41 @@
                      </content>
                      <graphic>
                         <Label fx:id="serviceBaseLabel" text="√" textFill="LIME">
+                           <tooltip>
+                              <Tooltip text="点击切换是否生成该文件" />
+                           </tooltip>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Label>
+                     </graphic>
+                  </Tab>
+                  <Tab text="Dto">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                               <TextArea fx:id="dtoTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                     <graphic>
+                        <Label fx:id="dtoLabel" text="√" textFill="LIME">
+                           <tooltip>
+                              <Tooltip text="点击切换是否生成该文件" />
+                           </tooltip>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Label>
+                     </graphic></Tab>
+                  <Tab text="DtoBase">
+                     <content>
+                        <ScrollPane>
+                           <content>
+                              <TextArea fx:id="dtoBaseTextArea" editable="false" minHeight="672.0" minWidth="823.0" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                     <graphic>
+                        <Label fx:id="dtoBaseLabel" text="√" textFill="LIME">
                            <tooltip>
                               <Tooltip text="点击切换是否生成该文件" />
                            </tooltip>

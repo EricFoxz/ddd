@@ -66,6 +66,17 @@ public class GenTableWritingService implements GenLogger {
     }
 
     /**
+     * 写入Context代码
+     */
+    public void writeContextCode(TableXmlBean tableXml) {
+        String entityBaseCode = GenComponents.getGenCodeService().getContextCode(tableXml);
+        String filePath = getDomainPath(tableXml) + "/model/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "Context.java" ;
+        File file = FileUtil.file(filePath);
+        FileUtil.touch(file);
+        IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, entityBaseCode);
+    }
+
+    /**
      * 写入Service代码
      */
     public void writeServiceCode(TableXmlBean tableXml) {
