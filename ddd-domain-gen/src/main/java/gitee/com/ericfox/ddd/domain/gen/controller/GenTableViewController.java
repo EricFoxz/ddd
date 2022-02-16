@@ -141,6 +141,7 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
             });
             if (CollUtil.isEmpty(list)) {
                 logInfo(log, "没有选中任何表");
+                repoTypeChoiceBox.setValue(null);
                 return;
             }
             list.forEach(item -> {
