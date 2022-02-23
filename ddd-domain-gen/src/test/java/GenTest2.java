@@ -1,4 +1,4 @@
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.ReUtil;
 import org.junit.Test;
 
 import java.util.regex.Pattern;

@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.apis.controller;
 
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
+import gitee.com.ericfox.ddd.common.toolkit.api.ResBuilder;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.cache.CacheService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

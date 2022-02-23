@@ -17,6 +17,6 @@ public class ${meta.ClassName}Dao extends JFinalBaseDao<${meta.ClassName}, ${met
 
     @Override
     public Class<${meta.ClassName}> poClass() {
-        return ${meta.ClassName}.class;
+        return ${meta.ClassName}.class ;
     }
 }

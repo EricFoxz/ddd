@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.infrastructure.general.config.service;
 
+import gitee.com.ericfox.ddd.common.toolkit.coding.FileUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.FileUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;

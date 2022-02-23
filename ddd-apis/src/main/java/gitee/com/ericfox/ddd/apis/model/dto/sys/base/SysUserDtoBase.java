@@ -2,10 +2,10 @@ package gitee.com.ericfox.ddd.apis.model.dto.sys.base;
 
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.apis.model.dto.sys.SysUserDto;
+import gitee.com.ericfox.ddd.common.interfaces.BaseDto;
+import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
-import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDto;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.BeanUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import lombok.Getter;
 import lombok.Setter;

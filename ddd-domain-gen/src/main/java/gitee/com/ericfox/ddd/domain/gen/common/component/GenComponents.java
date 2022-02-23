@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.domain.gen.common.component;
 
+import gitee.com.ericfox.ddd.common.toolkit.coding.MapUtil;
 import gitee.com.ericfox.ddd.domain.gen.controller.GenDebugController;
 import gitee.com.ericfox.ddd.domain.gen.controller.GenDomainViewController;
 import gitee.com.ericfox.ddd.domain.gen.controller.GenIndexController;
@@ -7,7 +8,6 @@ import gitee.com.ericfox.ddd.domain.gen.controller.GenTableViewController;
 import gitee.com.ericfox.ddd.domain.gen.service.GenCodeService;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableLoadingService;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableWritingService;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.MapUtil;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;

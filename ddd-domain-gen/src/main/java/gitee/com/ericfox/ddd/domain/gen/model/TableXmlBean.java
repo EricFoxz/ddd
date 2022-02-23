@@ -1,14 +1,14 @@
 package gitee.com.ericfox.ddd.domain.gen.model;
 
+import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
+import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.toolkit.coding.*;
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.enums.MySqlDataTypeEnum;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.FieldComment;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.FieldLength;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.TableComment;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.service.RepoEnabledAnnotation;
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -113,7 +113,7 @@ public class TableXmlBean implements GenLogger {
     public static TableXmlBean load(TableMySqlBean mySqlBean) {
         TableXmlBean xmlBean = new TableXmlBean();
         String tableName = mySqlBean.getTable_name();
-        String domainName = StrUtil.contains(tableName, '_') ? StrUtil.splitToArray(tableName, '_', -1)[0] : "_unknown" ;
+        String domainName = StrUtil.contains(tableName, '_') ? StrUtil.splitToArray(tableName, '_', -1)[0] : "_unknown";
         MetaBean meta = xmlBean.getMeta();
         meta.setTableComment(StrUtil.isBlank(mySqlBean.getTable_comment()) ? mySqlBean.getTable_name() : mySqlBean.getTable_comment());
         meta.setTableName(tableName);

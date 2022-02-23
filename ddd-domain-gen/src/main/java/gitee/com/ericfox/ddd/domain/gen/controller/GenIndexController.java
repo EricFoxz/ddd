@@ -1,15 +1,15 @@
 package gitee.com.ericfox.ddd.domain.gen.controller;
 
 import com.sun.javafx.scene.control.skin.LabeledText;
+import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.FileUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenFX;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
 import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableLoadingService;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.FileUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 public class GenIndexController implements BaseJavaFxController, GenLogger {
-    public static final String DOMAIN_TAB_PREFIX = "domainName:" ;
+    public static final String DOMAIN_TAB_PREFIX = "domainName:";
     /**
      * 导入功能组件
      */

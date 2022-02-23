@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.chart.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-
-<ScrollPane hbarPolicy="ALWAYS" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="1083.0" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gitee.com.ericfox.ddd.domain.gen.controller.GenDomainViewController">
-   <content>
-      <BarChart fx:id="domainBarChart" prefHeight="730.0" prefWidth="1083.0">
-        <xAxis>
-          <CategoryAxis label="领域名称">
-               <tickLabelFont>
-                  <Font size="12.0" />
-               </tickLabelFont></CategoryAxis>
-        </xAxis>
-        <yAxis>
-          <NumberAxis label="表数量" minorTickCount="1" side="LEFT" upperBound="2.0">
-               <tickLabelFont>
-                  <Font size="12.0" />
-               </tickLabelFont></NumberAxis>
-        </yAxis>
-      </BarChart>
-   </content>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.text.Font?>
+<ScrollPane hbarPolicy="ALWAYS" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="730.0" prefWidth="1083.0" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gitee.com.ericfox.ddd.domain.gen.controller.GenDomainViewController">
+    <content>
+        <BarChart fx:id="domainBarChart" prefHeight="730.0" prefWidth="1083.0">
+            <xAxis>
+                <CategoryAxis label="领域名称">
+                    <tickLabelFont>
+                        <Font size="12.0"/>
+                    </tickLabelFont>
+                </CategoryAxis>
+            </xAxis>
+            <yAxis>
+                <NumberAxis label="表数量" minorTickCount="1" side="LEFT" upperBound="2.0">
+                    <tickLabelFont>
+                        <Font size="12.0"/>
+                    </tickLabelFont>
+                </NumberAxis>
+            </yAxis>
+        </BarChart>
+    </content>
 </ScrollPane>

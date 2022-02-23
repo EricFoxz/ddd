@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.domain.gen.factory;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
+import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
 
 /**
  * 表结构工厂类

@@ -2,9 +2,9 @@ package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
-import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
+import gitee.com.ericfox.ddd.common.interfaces.BaseDao;
+import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.toolkit.coding.ArrayUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;

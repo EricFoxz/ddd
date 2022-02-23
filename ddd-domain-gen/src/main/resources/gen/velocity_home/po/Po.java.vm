@@ -19,26 +19,27 @@ import lombok.Setter;
 @Getter
 @RepoEnabledAnnotation(type = RepoTypeStrategyEnum.${meta.repoTypeStrategyEnum.name})
 public class ${meta.get("ClassName")} implements BasePo<${meta.ClassName}> {
-    public static final class STRUCTURE {
-        public static String domainName = "${meta.domainName}";
-        public static String table = "${meta.tableName}";
-        public static String id = "${meta.idField}";
-    }
+
+public static final class STRUCTURE {
+    public static String domainName = "${meta.domainName}";
+    public static String table = "${meta.tableName}";
+    public static String id = "${meta.idField}";
+}
 
 #foreach($item in $meta.fieldClassMap.entrySet())
-#if(!!$meta.fieldCommentMap.get(${item.key}))
+    #if(!!$meta.fieldCommentMap.get(${item.key}))
     /**
      * $!{meta.fieldCommentMap.get(${item.key})}
      */
-#end
-#if($meta.fieldLengthMap.containsKey(${item.key}) && !!$meta.fieldLengthMap.get(${item.key}))
+    #end
+    #if($meta.fieldLengthMap.containsKey(${item.key}) && !!$meta.fieldLengthMap.get(${item.key}))
     @FieldLength(length = $meta.fieldLengthMap.get(${item.key}), scale = $meta.fieldScaleMap.get(${item.key}))
-#end
-    @FieldComment("$!{meta.fieldCommentMap.get(${item.key})}")
-#if(${strUtil.startWith(${item.value.name}, "java.lang")})
+    #end
+@FieldComment("$!{meta.fieldCommentMap.get(${item.key})}")
+    #if(${strUtil.startWith(${item.value.name}, "java.lang")})
     private ${item.value.simpleName} ${item.key};
-#else
+    #else
     private ${item.value.name} ${item.key};
-#end
+    #end
 #end
 }

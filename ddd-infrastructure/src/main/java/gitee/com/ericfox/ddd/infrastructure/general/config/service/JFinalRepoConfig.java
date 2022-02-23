@@ -4,12 +4,13 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.hikaricp.HikariCpPlugin;
 import com.jfinal.template.source.ClassPathSourceFactory;
+import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
+import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.toolkit.coding.ClassUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.ReflectUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.service.RepoEnabledAnnotation;
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ClassUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReflectUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
+import gitee.com.ericfox.ddd.infrastructure.general.common.toolkit.trans.ClassTransUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalBaseDao;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.MySqlRepoStrategy;
 import lombok.SneakyThrows;
@@ -62,7 +63,7 @@ public class JFinalRepoConfig {
                 if (aClass.isAnnotationPresent(RepoEnabledAnnotation.class)) {
                     RepoEnabledAnnotation annotation = aClass.getAnnotation(RepoEnabledAnnotation.class);
                     if (RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY.equals(annotation.type())) {
-                        Class<DAO> daoClass = ClassUtil.getDaoClassByPoClass((Class<PO>) aClass, RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY);
+                        Class<DAO> daoClass = ClassTransUtil.getDaoClassByPoClass((Class<PO>) aClass, RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY);
                         String daoName = JFinalBaseDao.DAO_FIELD_NAME;
                         Class<MODEL> daoClassM = (Class<MODEL>) ReflectUtil.getStaticFieldValue(ReflectUtil.getField(daoClass, daoName)).getClass();
                         arp.addMapping(StrUtil.toUnderlineCase(className), annotation.value(), daoClassM);

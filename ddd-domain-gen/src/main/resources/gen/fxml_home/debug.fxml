@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.Pane?>
-
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gitee.com.ericfox.ddd.domain.gen.controller.GenDebugController">
-  <tabs>
-    <Tab text="log">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0">
-               <children>
-                  <Button fx:id="clearButton" layoutX="230.0" layoutY="742.0" mnemonicParsing="false" text="清空" />
-                  <ScrollPane fx:id="logScrollPane" prefHeight="730.0" prefWidth="500.0" vbarPolicy="ALWAYS">
-                     <content>
-                        <TextFlow fx:id="logTextFlow" cacheHint="SPEED" minHeight="1.0">
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                        </TextFlow>
-                     </content>
-                  </ScrollPane>
-               </children></AnchorPane>
-      </content>
-    </Tab>
-  </tabs>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.TextFlow?>
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
+         prefWidth="500.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="gitee.com.ericfox.ddd.domain.gen.controller.GenDebugController">
+    <tabs>
+        <Tab text="log">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0">
+                    <children>
+                        <Button fx:id="clearButton" layoutX="230.0" layoutY="742.0" mnemonicParsing="false" text="清空"/>
+                        <ScrollPane fx:id="logScrollPane" prefHeight="730.0" prefWidth="500.0" vbarPolicy="ALWAYS">
+                            <content>
+                                <TextFlow fx:id="logTextFlow" cacheHint="SPEED" minHeight="1.0">
+                                    <opaqueInsets>
+                                        <Insets/>
+                                    </opaqueInsets>
+                                </TextFlow>
+                            </content>
+                        </ScrollPane>
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+    </tabs>
 </TabPane>

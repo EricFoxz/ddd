@@ -1,9 +1,9 @@
 package infrastructure.test;
 
 import gitee.com.ericfox.ddd.apis.ApiApplication;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ClassUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.URLUtil;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
+import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.toolkit.coding.ClassUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.URLUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

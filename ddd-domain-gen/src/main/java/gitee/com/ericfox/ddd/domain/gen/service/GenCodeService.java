@@ -1,14 +1,14 @@
 package gitee.com.ericfox.ddd.domain.gen.service;
 
 import cn.hutool.core.date.DateUtil;
+import gitee.com.ericfox.ddd.common.exceptions.ProjectFrameworkException;
+import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.FileUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.ResourceUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
-import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.BeanUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.FileUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ResourceUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.Template;

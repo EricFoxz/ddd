@@ -1,8 +1,8 @@
 package gitee.com.ericfox.ddd.apis.controller;
 
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.mq.MqProxy;
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.mq.MqServerService;
+import gitee.com.ericfox.ddd.common.toolkit.api.ResBuilder;
+import gitee.com.ericfox.ddd.starter.mq.interfaces.MqProxy;
+import gitee.com.ericfox.ddd.starter.mq.service.MqServerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

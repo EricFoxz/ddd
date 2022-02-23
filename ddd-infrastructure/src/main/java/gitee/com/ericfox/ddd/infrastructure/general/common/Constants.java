@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common;
 
 import cn.hutool.core.bean.copier.CopyOptions;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 
 public interface Constants {
     CopyOptions IGNORE_NULL_VALUE_COPY_OPTIONS = CopyOptions.create().ignoreNullValue();

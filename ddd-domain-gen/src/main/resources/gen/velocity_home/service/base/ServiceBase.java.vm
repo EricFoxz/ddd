@@ -22,7 +22,7 @@ public abstract class ${meta.ClassName}ServiceBase implements BaseService<${meta
     @Transactional(readOnly = true)
     @Cacheable(keyGenerator = Constants.SERVICE_FUNCTION_CACHE_KEY_GENERATOR)
     public ${meta.ClassName}Entity findById(Long id) {
-        ${meta.ClassName}Entity entity = new ${meta.ClassName}Entity();
+            ${meta.ClassName}Entity entity = new ${meta.ClassName}Entity();
         entity.setId(id);
         return repoService.findById(entity);
     }

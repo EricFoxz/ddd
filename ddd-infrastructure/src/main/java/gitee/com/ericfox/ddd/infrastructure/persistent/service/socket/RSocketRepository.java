@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.socket;
 
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.MapUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;

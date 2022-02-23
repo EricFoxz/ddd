@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.web.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.*?>
-
-<Pane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gitee.com.ericfox.ddd.domain.gen.controller.GenIndexController">
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<Pane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="gitee.com.ericfox.ddd.domain.gen.controller.GenIndexController">
     <children>
         <MenuBar prefHeight="25.0" prefWidth="1280.0">
             <menus>
                 <Menu mnemonicParsing="false" text="文件">
                     <items>
-                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="退出" />
+                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="退出"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="编辑" visible="false">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <MenuItem mnemonicParsing="false" text="Delete"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="帮助">
                     <items>
-                        <MenuItem fx:id="debugModelMenuItem" mnemonicParsing="false" text="Bebug模式" />
+                        <MenuItem fx:id="debugModelMenuItem" mnemonicParsing="false" text="Bebug模式"/>
                     </items>
                 </Menu>
             </menus>
@@ -33,39 +31,50 @@
             <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                     <children>
-                        <ToolBar layoutX="15.0" layoutY="14.0" orientation="VERTICAL" prefHeight="746.0" prefWidth="160.0">
+                        <ToolBar layoutX="15.0" layoutY="14.0" orientation="VERTICAL" prefHeight="746.0"
+                                 prefWidth="160.0">
                             <items>
-                                <Button fx:id="initAllButton" alignment="CENTER" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="检测已有序列化表结构" />
-                        <MenuButton fx:id="importMenuButton" alignment="CENTER" lineSpacing="5.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="导入表结构...">
-                          <items>
-                            <MenuItem fx:id="importTableByMySqlMenuItem" mnemonicParsing="false" text="从MySql数据库导入表结构" />
-                              <MenuItem fx:id="importTableByJavaMenuItem" mnemonicParsing="false" text="从java代码导入表结构" />
-                            <MenuItem fx:id="importTableByXmlMenuItem" mnemonicParsing="false" text="从XML文件导入表结构" />
-                          </items>
-                        </MenuButton>
-                                <Button fx:id="testButton" alignment="CENTER" layoutX="28.0" layoutY="148.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="TEST" />
-                        <ProgressBar fx:id="indexProgressBar" prefHeight="18.0" prefWidth="150.0" progress="0.0" />
-                        <Text fx:id="indexInfoText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="150.0">
-                           <font>
-                              <Font size="10.0" />
-                           </font>
-                        </Text>
+                                <Button fx:id="initAllButton" alignment="CENTER" mnemonicParsing="false"
+                                        prefHeight="23.0" prefWidth="150.0" text="检测已有序列化表结构"/>
+                                <MenuButton fx:id="importMenuButton" alignment="CENTER" lineSpacing="5.0"
+                                            mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="导入表结构...">
+                                    <items>
+                                        <MenuItem fx:id="importTableByMySqlMenuItem" mnemonicParsing="false"
+                                                  text="从MySql数据库导入表结构"/>
+                                        <MenuItem fx:id="importTableByJavaMenuItem" mnemonicParsing="false"
+                                                  text="从java代码导入表结构"/>
+                                        <MenuItem fx:id="importTableByXmlMenuItem" mnemonicParsing="false"
+                                                  text="从XML文件导入表结构"/>
+                                    </items>
+                                </MenuButton>
+                                <Button fx:id="testButton" alignment="CENTER" layoutX="28.0" layoutY="148.0"
+                                        mnemonicParsing="false" prefHeight="23.0" prefWidth="150.0" text="TEST"/>
+                                <ProgressBar fx:id="indexProgressBar" prefHeight="18.0" prefWidth="150.0"
+                                             progress="0.0"/>
+                                <Text fx:id="indexInfoText" strokeType="OUTSIDE" strokeWidth="0.0"
+                                      textAlignment="CENTER" wrappingWidth="150.0">
+                                    <font>
+                                        <Font size="10.0"/>
+                                    </font>
+                                </Text>
                             </items>
                         </ToolBar>
                     </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-               <children>
-                  <TabPane fx:id="mainTabPane" prefHeight="759.0" prefWidth="1083.0" tabClosingPolicy="UNAVAILABLE">
-                    <tabs>
-                      <Tab closable="false" text="领域列表">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" />
-                        </content>
-                      </Tab>
-                    </tabs>
-                  </TabPane>
-               </children></AnchorPane>
+                    <children>
+                        <TabPane fx:id="mainTabPane" prefHeight="759.0" prefWidth="1083.0"
+                                 tabClosingPolicy="UNAVAILABLE">
+                            <tabs>
+                                <Tab closable="false" text="领域列表">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0"/>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                    </children>
+                </AnchorPane>
             </items>
         </SplitPane>
     </children>

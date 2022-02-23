@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.domain.gen.factory;
 
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.XmlUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.XmlUtil;
 
 import java.io.File;
 

@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.annotations.service;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.LuceneFieldTypeEnum;
+import gitee.com.ericfox.ddd.common.enums.strategy.LuceneFieldTypeEnum;
 
 import java.lang.annotation.*;
 

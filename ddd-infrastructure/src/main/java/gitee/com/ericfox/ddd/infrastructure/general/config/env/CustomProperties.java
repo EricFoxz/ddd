@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.general.config.env;
 
+import gitee.com.ericfox.ddd.common.properties.ApiProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

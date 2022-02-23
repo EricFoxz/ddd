@@ -1,8 +1,8 @@
 package gitee.com.ericfox.ddd.apis.controller.sys;
 
 import gitee.com.ericfox.ddd.apis.controller.sys.base.SysUserControllerBase;
+import gitee.com.ericfox.ddd.common.toolkit.api.ResBuilder;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

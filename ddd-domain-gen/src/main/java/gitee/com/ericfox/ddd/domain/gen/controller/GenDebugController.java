@@ -1,8 +1,8 @@
 package gitee.com.ericfox.ddd.domain.gen.controller;
 
+import gitee.com.ericfox.ddd.common.toolkit.coding.ArrayUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.domain.gen.common.GenBaseLogger;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

@@ -1,10 +1,10 @@
 package gitee.com.ericfox.ddd.domain.gen.model;
 
 import cn.hutool.core.bean.BeanDesc;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.BeanUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ClassUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
+import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.ClassUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;

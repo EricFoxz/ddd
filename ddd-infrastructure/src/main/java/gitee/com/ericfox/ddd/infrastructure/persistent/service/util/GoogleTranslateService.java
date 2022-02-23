@@ -1,9 +1,9 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.util;
 
 import cn.hutool.json.JSONArray;
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BaseEnum;
+import gitee.com.ericfox.ddd.common.enums.BaseEnum;
+import gitee.com.ericfox.ddd.common.toolkit.coding.JSONUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.common.framework.pojo.OkHttpResponse;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.JSONUtil;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.net.URLEncoder;
 @Service
 public class GoogleTranslateService {
     @Getter
-    public enum TL implements BaseEnum<GoogleTranslateService.TL, String> {
+    public enum TL implements BaseEnum<TL, String> {
         TL_EN("en", "英语"),
         TL_JA("ja", "日语"),
         TL_ZH_CN("zh-CN", "中文");

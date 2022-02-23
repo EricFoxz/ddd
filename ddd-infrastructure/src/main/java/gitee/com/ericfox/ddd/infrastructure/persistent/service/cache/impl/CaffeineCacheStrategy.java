@@ -1,11 +1,11 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.cache.impl;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;
+import gitee.com.ericfox.ddd.common.exceptions.ProjectFrameworkException;
+import gitee.com.ericfox.ddd.common.toolkit.coding.ArrayUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.SpringUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.config.service.CaffeineCacheConfig;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ArrayUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.SpringUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.cache.CacheStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;

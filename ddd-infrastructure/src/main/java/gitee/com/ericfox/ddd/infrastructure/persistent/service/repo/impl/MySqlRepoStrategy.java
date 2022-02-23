@@ -3,14 +3,15 @@ package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl;
 import cn.hutool.core.bean.copier.CopyOptions;
 import com.github.pagehelper.PageInfo;
 import com.jfinal.plugin.activerecord.*;
+import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
+import gitee.com.ericfox.ddd.common.interfaces.BaseCondition;
+import gitee.com.ericfox.ddd.common.interfaces.BaseDao;
+import gitee.com.ericfox.ddd.common.interfaces.BaseEntity;
+import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.toolkit.coding.*;
+import gitee.com.ericfox.ddd.common.toolkit.trans.SQL;
 import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
-import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseCondition;
-import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseDao;
-import gitee.com.ericfox.ddd.infrastructure.general.common.interfaces.BaseEntity;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans.SQL;
-import gitee.com.ericfox.ddd.infrastructure.persistent.po.BasePo;
+import gitee.com.ericfox.ddd.infrastructure.general.common.toolkit.trans.ClassTransUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
@@ -161,7 +162,7 @@ public class MySqlRepoStrategy implements RepoStrategy {
         if (toPoMethod != null) {
             po = ReflectUtil.invoke(po, toPoMethod, (Object) null);
         }
-        Class<DAO> daoClass = ClassUtil.getDaoClassByPo(po, RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY);
+        Class<DAO> daoClass = ClassTransUtil.getDaoClassByPo(po, RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY);
         return ReflectUtil.newInstance(daoClass);
     }
 

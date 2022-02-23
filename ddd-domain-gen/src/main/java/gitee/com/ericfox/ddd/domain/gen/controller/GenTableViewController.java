@@ -1,16 +1,16 @@
 package gitee.com.ericfox.ddd.domain.gen.controller;
 
+import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
+import gitee.com.ericfox.ddd.common.exceptions.ProjectFrameworkException;
+import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.IoUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableLoadingService;
 import gitee.com.ericfox.ddd.domain.gen.service.GenTableWritingService;
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
-import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.IoUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -33,9 +33,9 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class GenTableViewController implements BaseJavaFxController, GenLogger {
-    public static final String TABLE_CHECK_BOX_PREFIX = "tableCheckBox:" ;
-    private static final String YES = "√" ;
-    private static final String NO = "×" ;
+    public static final String TABLE_CHECK_BOX_PREFIX = "tableCheckBox:";
+    private static final String YES = "√";
+    private static final String NO = "×";
 
     @Resource
     private CustomProperties customProperties;

@@ -1,9 +1,9 @@
 package gitee.com.ericfox.ddd.infrastructure.general.config.env;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.BasePropertiesEnum;
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.CacheTypeStrategyEnum;
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.MqTypeStrategyEnum;
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.RepoTypeStrategyEnum;
+import gitee.com.ericfox.ddd.common.enums.BasePropertiesEnum;
+import gitee.com.ericfox.ddd.common.enums.strategy.CacheTypeStrategyEnum;
+import gitee.com.ericfox.ddd.common.enums.strategy.MqTypeStrategyEnum;
+import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

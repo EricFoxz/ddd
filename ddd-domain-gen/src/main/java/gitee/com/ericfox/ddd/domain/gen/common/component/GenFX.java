@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.domain.gen.common.component;
 
+import gitee.com.ericfox.ddd.common.toolkit.coding.ThreadUtil;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ThreadUtil;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

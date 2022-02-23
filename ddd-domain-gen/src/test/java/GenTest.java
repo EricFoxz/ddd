@@ -1,12 +1,12 @@
+import gitee.com.ericfox.ddd.common.toolkit.coding.IoUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.MapUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.ReUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.domain.gen.GenApplication;
 import gitee.com.ericfox.ddd.domain.gen.model.TableJavaBean;
 import gitee.com.ericfox.ddd.domain.gen.service.GenCodeService;
 import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.IoUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.MapUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.ReUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import lombok.SneakyThrows;
 import org.junit.Test;
@@ -36,9 +36,9 @@ public class GenTest {
 
     @Test
     public void updateTempCode() {
-        String genResourcePath = Constants.PROJECT_ROOT_PATH + "/src/main/resources" ;
+        String genResourcePath = Constants.PROJECT_ROOT_PATH + "/src/main/resources";
 
-        String tableName = "sysUser" ;
+        String tableName = "sysUser";
         String className = StrUtil.toCamelCase(tableName);
         String ClassName = StrUtil.upperFirst(className);
         String class_name = StrUtil.toUnderlineCase(className);

@@ -64,6 +64,7 @@ spring:
     caffeine:
       spec:
 debug: false
+
 custom:
   service:
     repo-strategy: #持久化策略
@@ -97,3 +98,10 @@ custom:
       - /**/*.html
       - /**/*.css
       - /**/*.js
+  starter:
+    mq:
+      enable: true
+      enable-server-mode: true
+      enable-client-mode: false
+      #启用的mq，逗号分割
+      default-strategy: rabbit_mq_strategy

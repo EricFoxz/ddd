@@ -1,8 +1,8 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.service.cache;
 
-import gitee.com.ericfox.ddd.infrastructure.general.common.enums.strategy.CacheTypeStrategyEnum;
+import gitee.com.ericfox.ddd.common.enums.strategy.CacheTypeStrategyEnum;
+import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

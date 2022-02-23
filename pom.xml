@@ -36,6 +36,9 @@
         <module>ddd-domain-sys</module>
         <module>ddd-domain-gen</module>
         <module>ddd-infrastructure</module>
+        <module>ddd-common</module>
+
+        <module>ddd-starter-mq</module>
     </modules>
 
     <dependencies>

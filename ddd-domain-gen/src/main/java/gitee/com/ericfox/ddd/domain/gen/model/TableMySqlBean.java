@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.domain.gen.model;
 
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.CollUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import lombok.Getter;
 import lombok.Setter;
 

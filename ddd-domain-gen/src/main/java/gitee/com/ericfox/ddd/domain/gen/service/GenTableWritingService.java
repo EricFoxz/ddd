@@ -1,12 +1,12 @@
 package gitee.com.ericfox.ddd.domain.gen.service;
 
+import gitee.com.ericfox.ddd.common.toolkit.coding.*;
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
 import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.coding.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class GenTableWritingService implements GenLogger {
      */
     public void writePoCode(TableXmlBean tableXml) {
         String poCode = GenComponents.getGenCodeService().getPoCode(tableXml);
-        String filePath = getInfrastructurePath() + "/persistent/po/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().toMap().get("ClassName") + ".java" ;
+        String filePath = getInfrastructurePath() + "/persistent/po/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().toMap().get("ClassName") + ".java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, poCode);
@@ -37,7 +37,7 @@ public class GenTableWritingService implements GenLogger {
     public void writeDaoCode(TableXmlBean tableXml) {
         String daoCode = GenComponents.getGenCodeService().getDaoCode(tableXml);
         String repoType = StrUtil.toUnderlineCase(tableXml.getMeta().getRepoTypeStrategyEnum().getCode());
-        String filePath = getInfrastructurePath() + "/persistent/dao/" + tableXml.getMeta().getDomainName() + "/" + repoType + "/" + tableXml.getMeta().toMap().get("ClassName") + "Dao.java" ;
+        String filePath = getInfrastructurePath() + "/persistent/dao/" + tableXml.getMeta().getDomainName() + "/" + repoType + "/" + tableXml.getMeta().toMap().get("ClassName") + "Dao.java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, daoCode);
@@ -48,7 +48,7 @@ public class GenTableWritingService implements GenLogger {
      */
     public void writeEntityCode(TableXmlBean tableXml) {
         String entityCode = GenComponents.getGenCodeService().getEntityCode(tableXml);
-        String filePath = getDomainPath(tableXml) + "/model/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "Entity.java" ;
+        String filePath = getDomainPath(tableXml) + "/model/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "Entity.java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, entityCode);
@@ -59,7 +59,7 @@ public class GenTableWritingService implements GenLogger {
      */
     public void writeEntityBaseCode(TableXmlBean tableXml) {
         String entityBaseCode = GenComponents.getGenCodeService().getEntityBaseCode(tableXml);
-        String filePath = getDomainPath(tableXml) + "/model/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "EntityBase.java" ;
+        String filePath = getDomainPath(tableXml) + "/model/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "EntityBase.java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, entityBaseCode);
@@ -70,7 +70,7 @@ public class GenTableWritingService implements GenLogger {
      */
     public void writeContextCode(TableXmlBean tableXml) {
         String entityBaseCode = GenComponents.getGenCodeService().getContextCode(tableXml);
-        String filePath = getDomainPath(tableXml) + "/model/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "Context.java" ;
+        String filePath = getDomainPath(tableXml) + "/model/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "Context.java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, entityBaseCode);
@@ -81,7 +81,7 @@ public class GenTableWritingService implements GenLogger {
      */
     public void writeServiceCode(TableXmlBean tableXml) {
         String serviceCode = GenComponents.getGenCodeService().getServiceCode(tableXml);
-        String filePath = getDomainPath(tableXml) + "/model/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "Service.java" ;
+        String filePath = getDomainPath(tableXml) + "/model/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "Service.java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, serviceCode);
@@ -92,7 +92,7 @@ public class GenTableWritingService implements GenLogger {
      */
     public void writeServiceBaseCode(TableXmlBean tableXml) {
         String serviceBaseCode = GenComponents.getGenCodeService().getServiceBaseCode(tableXml);
-        String filePath = getDomainPath(tableXml) + "/model/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "ServiceBase.java" ;
+        String filePath = getDomainPath(tableXml) + "/model/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "ServiceBase.java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, serviceBaseCode);
@@ -103,7 +103,7 @@ public class GenTableWritingService implements GenLogger {
      */
     public void writeDtoCode(TableXmlBean tableXml) {
         String dtoCode = GenComponents.getGenCodeService().getDtoCode(tableXml);
-        String filePath = getApisPath() + "/model/dto/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "Dto.java" ;
+        String filePath = getApisPath() + "/model/dto/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "Dto.java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, dtoCode);
@@ -114,7 +114,7 @@ public class GenTableWritingService implements GenLogger {
      */
     public void writeDtoBaseCode(TableXmlBean tableXml) {
         String dtoBaseCode = GenComponents.getGenCodeService().getDtoBaseCode(tableXml);
-        String filePath = getApisPath() + "/model/dto/" + tableXml.getMeta().getDomainName() + "/base/" + tableXml.getMeta().toMap().get("ClassName") + "DtoBase.java" ;
+        String filePath = getApisPath() + "/model/dto/" + tableXml.getMeta().getDomainName() + "/base/" + tableXml.getMeta().toMap().get("ClassName") + "DtoBase.java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, dtoBaseCode);
@@ -122,7 +122,7 @@ public class GenTableWritingService implements GenLogger {
 
     public void writePageParamCode(TableXmlBean tableXml) {
         String pageParamCode = GenComponents.getGenCodeService().getPageParamCode(tableXml);
-        String filePath = getApisPath() + "/model/param/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "PageParam.java" ;
+        String filePath = getApisPath() + "/model/param/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "PageParam.java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, pageParamCode);
@@ -130,7 +130,7 @@ public class GenTableWritingService implements GenLogger {
 
     public void writeDetailParamCode(TableXmlBean tableXml) {
         String detailParamCode = GenComponents.getGenCodeService().getDetailParamCode(tableXml);
-        String filePath = getApisPath() + "/model/param/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "DetailParam.java" ;
+        String filePath = getApisPath() + "/model/param/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().getTableName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "DetailParam.java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, detailParamCode);
@@ -138,7 +138,7 @@ public class GenTableWritingService implements GenLogger {
 
     public void writeControllerCode(TableXmlBean tableXml) {
         String controllerCode = GenComponents.getGenCodeService().getControllerCode(tableXml);
-        String filePath = getApisPath() + "/controller/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "Controller.java" ;
+        String filePath = getApisPath() + "/controller/" + tableXml.getMeta().getDomainName() + "/" + tableXml.getMeta().toMap().get("ClassName") + "Controller.java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, controllerCode);
@@ -146,7 +146,7 @@ public class GenTableWritingService implements GenLogger {
 
     public void writeControllerBaseCode(TableXmlBean tableXml) {
         String controllerBaseCode = GenComponents.getGenCodeService().getControllerBaseCode(tableXml);
-        String filePath = getApisPath() + "/controller/" + tableXml.getMeta().getDomainName() + "/base/" + tableXml.getMeta().toMap().get("ClassName") + "ControllerBase.java" ;
+        String filePath = getApisPath() + "/controller/" + tableXml.getMeta().getDomainName() + "/base/" + tableXml.getMeta().toMap().get("ClassName") + "ControllerBase.java";
         File file = FileUtil.file(filePath);
         FileUtil.touch(file);
         IoUtil.writeUtf8(FileUtil.getOutputStream(file), true, controllerBaseCode);
@@ -185,7 +185,7 @@ public class GenTableWritingService implements GenLogger {
      */
     public String getInfrastructurePath() {
         String infrastructurePath = Constants.PROJECT_ROOT_PATH;
-        infrastructurePath += "/" + customProperties.getProjectName() + "-infrastructure/src/main/java/" + customProperties.getRootPackage().replaceAll("[.]", "/") + "/infrastructure" ;
+        infrastructurePath += "/" + customProperties.getProjectName() + "-infrastructure/src/main/java/" + customProperties.getRootPackage().replaceAll("[.]", "/") + "/infrastructure";
         return infrastructurePath;
     }
 
@@ -203,7 +203,7 @@ public class GenTableWritingService implements GenLogger {
      */
     public String getApisPath() {
         String apisPath = Constants.PROJECT_ROOT_PATH;
-        apisPath += "/" + customProperties.getProjectName() + "-apis/src/main/java/" + customProperties.getRootPackage().replaceAll("[.]", "/") + "/apis" ;
+        apisPath += "/" + customProperties.getProjectName() + "-apis/src/main/java/" + customProperties.getRootPackage().replaceAll("[.]", "/") + "/apis";
         return apisPath;
     }
 }
