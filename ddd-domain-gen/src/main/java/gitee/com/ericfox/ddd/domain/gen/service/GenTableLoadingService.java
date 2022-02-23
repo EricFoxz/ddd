@@ -1,7 +1,6 @@
 package gitee.com.ericfox.ddd.domain.gen.service;
 
 import cn.hutool.core.bean.copier.CopyOptions;
-import cn.hutool.core.io.resource.Resource;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.jfinal.plugin.activerecord.Record;
@@ -16,10 +15,12 @@ import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
 import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.service.RepoEnabledAnnotation;
+import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,9 @@ import java.util.function.Consumer;
 @Service
 @Slf4j
 public class GenTableLoadingService implements GenLogger {
+    @Resource
+    private CustomProperties customProperties;
+
     @Getter
     private static final Map<String, Map<String, TableXmlBean>> domainMap = MapUtil.newConcurrentHashMap();
 
@@ -39,8 +43,7 @@ public class GenTableLoadingService implements GenLogger {
         logInfo(log, "genTableLoadingService::initAll 正在从运行时环境反序列化表结构...");
         domainMap.clear();
         try {
-            Resource resourceObj = ResourceUtil.getResourceObj(GenConstants.META_HOME_PATH);
-            File metaHome = FileUtil.file(resourceObj.getUrl());
+            File metaHome = FileUtil.file(ResourceUtil.getResourceObj(GenConstants.META_HOME_PATH).getUrl());
             if (FileUtil.isDirectory(metaHome)) {
                 List<File> domainList = FileUtil.loopFiles(metaHome.toPath(), 1, null);
 
@@ -78,7 +81,7 @@ public class GenTableLoadingService implements GenLogger {
      */
     public <PO extends BasePo<PO>> void importTableByJavaClass(String domainName, String tableName) {
         logInfo(log, "genTableLoadingService::importTableByJavaClass 开始从java代码读取表结构...");
-        Set<Class<?>> classes = ClassUtil.scanPackage(BasePo.class.getPackage().getName());
+        Set<Class<?>> classes = ClassUtil.scanPackage(customProperties.getRootPackage() + ".infrastructure.persistent.po");
         classes.forEach(new Consumer<Class<?>>() {
             @Override
             public void accept(Class<?> clazz) {

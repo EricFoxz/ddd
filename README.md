@@ -2,7 +2,7 @@
 [![EricFox/ddd](https://gitee.com/EricFox/ddd/widgets/widget_card.svg?colors=ff6857,000000,ffffff,e3e9ed,666666,739bff)](https://gitee.com/EricFox/ddd)  
 ## 介绍  
 一个ddd思维，充血模型实现的项目 [https://gitee.com/EricFox/ddd](https://gitee.com/EricFox/ddd)  
-  
+
 ### 基本理念  
 - 避免"基于数据库编程"，领域层的entity并不对应数据库表，虽然会在入库的时候做转换，但业务变化并不直接导致数据库变化  
 - 积极采用策略设计模式，结合注解，延长项目寿命  
@@ -11,7 +11,7 @@
 - 本项目采用的DCI设计模式，适用于业务较为复杂的项目，若项目不大则还应该用MVC模式  
 - 复杂的结构和频繁的反射，导致了对开发人员的素质要求较高，使用前的培训是必要的  
 - 只使用最佳方案，拥抱新的协议和技术，优先轻量级实现，因为AOP的思想，所以若是比较重的技术如果层次抽象的好。也可采用  
-  
+
 ## 软件结构
 ### DCI设计模式 + 四色原型模式
 - 图示
@@ -56,7 +56,7 @@
 	- config 模块配置类
 	- interfaces 接口类
 	- pattern 设计模式所需的类
-	- propertis 配置文件类
+	- properties 配置文件类
 	- service 应用service
 	*Autoconfig.java 自动装配类
 - ddd-common 公共模块（能写进该模块的类需要有一个共同的理念：可移植性强，即就算把代码粘贴到其他项目，哪怕架构不太一样也能轻易改好使用）
