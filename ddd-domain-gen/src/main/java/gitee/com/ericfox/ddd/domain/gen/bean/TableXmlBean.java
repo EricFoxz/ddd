@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.domain.gen.model;
+package gitee.com.ericfox.ddd.domain.gen.bean;
 
 import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.common.interfaces.BasePo;

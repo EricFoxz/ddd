@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.common.properties;
+package gitee.com.ericfox.ddd.infrastructure.general.config.env;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "custom.api", ignoreInvalidFields = true)
 public class ApiProperties {
-    public ResponseBean response;
+    private ResponseBean response;
 
     private String[] staticSources;
 

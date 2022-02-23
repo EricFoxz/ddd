@@ -3,7 +3,7 @@ import gitee.com.ericfox.ddd.common.toolkit.coding.MapUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ReUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.domain.gen.GenApplication;
-import gitee.com.ericfox.ddd.domain.gen.model.TableJavaBean;
+import gitee.com.ericfox.ddd.domain.gen.bean.TableJavaBean;
 import gitee.com.ericfox.ddd.domain.gen.service.GenCodeService;
 import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;

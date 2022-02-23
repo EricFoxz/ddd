@@ -1,4 +1,10 @@
 {
+  "groups": [{
+    "name": "custom.starter.mq",
+    "type": "gitee.com.ericfox.ddd.starter.mq.properties.StarterMqProperties",
+    "sourceType": "gitee.com.ericfox.ddd.starter.mq.properties.StarterMqProperties"
+  }
+  ],
   "properties": [
     {
       "name": "custom.starter.mq.enable",

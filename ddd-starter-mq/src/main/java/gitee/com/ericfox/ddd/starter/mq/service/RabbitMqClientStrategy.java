@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.starter.mq.strategy;
+package gitee.com.ericfox.ddd.starter.mq.service;
 
 import gitee.com.ericfox.ddd.starter.mq.interfaces.MqClientStrategy;
 import gitee.com.ericfox.ddd.starter.mq.interfaces.MqProxy;

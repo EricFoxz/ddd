@@ -3,7 +3,7 @@ package gitee.com.ericfox.ddd.domain.gen.common.enums;
 import gitee.com.ericfox.ddd.common.enums.BaseEnum;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ReUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
-import gitee.com.ericfox.ddd.domain.gen.model.TableMySqlBean;
+import gitee.com.ericfox.ddd.domain.gen.bean.TableMySqlBean;
 import lombok.Getter;
 
 import java.math.BigDecimal;

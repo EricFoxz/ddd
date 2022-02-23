@@ -10,12 +10,12 @@ import org.springframework.kafka.annotation.EnableKafka;
  * Kafka配置类
  */
 @Configuration
-@EnableKafka
 @ConditionalOnPropertyEnum(
-        value = "custom.service.mq-strategy.default-strategy",
+        value = "custom.starter.mq.default-strategy",
         enumClass = StarterMqProperties.MqPropertiesEnum.class,
         includeAnyValue = "kafka_mq_strategy"
 )
-@ConditionalOnProperty(prefix = "custom.service.mq-strategy", value = "enable")
+@ConditionalOnProperty(prefix = "custom.starter.mq", value = "enable")
+@EnableKafka
 public class KafkaMqConfig {
 }

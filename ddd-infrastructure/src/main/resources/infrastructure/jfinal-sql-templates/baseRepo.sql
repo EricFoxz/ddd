@@ -18,6 +18,3 @@ from sys_user
 where;
 #end
 
-
-
-#end

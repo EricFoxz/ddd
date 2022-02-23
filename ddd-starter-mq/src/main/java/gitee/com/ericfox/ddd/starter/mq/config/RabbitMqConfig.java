@@ -26,7 +26,7 @@ import java.util.Map;
 @Configuration
 @Slf4j
 @ConditionalOnPropertyEnum(
-        value = "custom.service.mq-strategy.default-strategy",
+        value = "custom.starter.mq.default-strategy",
         enumClass = StarterMqProperties.MqPropertiesEnum.class,
         includeAnyValue = "rabbit_mq_strategy"
 )

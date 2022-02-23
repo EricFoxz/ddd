@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.domain.gen.model;
+package gitee.com.ericfox.ddd.domain.gen.bean;
 
 import cn.hutool.core.bean.BeanDesc;
 import gitee.com.ericfox.ddd.common.interfaces.BasePo;

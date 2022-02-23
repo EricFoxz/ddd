@@ -1,10 +1,10 @@
 package gitee.com.ericfox.ddd.domain.gen.service;
 
 import gitee.com.ericfox.ddd.common.toolkit.coding.*;
+import gitee.com.ericfox.ddd.domain.gen.bean.TableXmlBean;
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
-import gitee.com.ericfox.ddd.domain.gen.model.TableXmlBean;
 import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import lombok.SneakyThrows;

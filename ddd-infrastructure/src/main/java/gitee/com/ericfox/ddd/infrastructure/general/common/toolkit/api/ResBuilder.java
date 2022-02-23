@@ -1,9 +1,9 @@
-package gitee.com.ericfox.ddd.common.toolkit.api;
+package gitee.com.ericfox.ddd.infrastructure.general.common.toolkit.api;
 
 import gitee.com.ericfox.ddd.common.exceptions.ProjectFrameworkException;
-import gitee.com.ericfox.ddd.common.properties.ApiProperties;
 import gitee.com.ericfox.ddd.common.toolkit.coding.JSONUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.SpringUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.config.env.ApiProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

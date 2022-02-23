@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.apis.controller;
 
-import gitee.com.ericfox.ddd.common.toolkit.api.ResBuilder;
+import gitee.com.ericfox.ddd.infrastructure.general.common.toolkit.api.ResBuilder;
 import gitee.com.ericfox.ddd.starter.mq.interfaces.MqProxy;
 import gitee.com.ericfox.ddd.starter.mq.service.MqServerService;
 import org.springframework.http.ResponseEntity;
