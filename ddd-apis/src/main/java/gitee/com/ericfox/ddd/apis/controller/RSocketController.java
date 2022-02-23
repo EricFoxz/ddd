@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.apis.controller;
 
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.socket.RSocketRepository;
+import gitee.com.ericfox.ddd.infrastructure.service.socket.RSocketRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.RestController;

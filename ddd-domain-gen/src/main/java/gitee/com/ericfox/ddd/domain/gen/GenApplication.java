@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 @SpringBootApplication(
         scanBasePackages = {
                 "gitee.com.ericfox.ddd.infrastructure.general.config",
-                "gitee.com.ericfox.ddd.infrastructure.persistent.service",
+                "gitee.com.ericfox.ddd.infrastructure.service",
                 "gitee.com.ericfox.ddd.domain.gen.common",
                 "gitee.com.ericfox.ddd.domain.gen.service",
         },

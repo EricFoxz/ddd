@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl;
+package gitee.com.ericfox.ddd.infrastructure.service.repo.impl;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;

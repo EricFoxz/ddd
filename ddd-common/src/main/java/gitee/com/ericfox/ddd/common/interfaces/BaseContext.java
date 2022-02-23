@@ -4,10 +4,13 @@ import java.io.Serializable;
 
 /**
  * 上下文
- * 谁/什么地点/什么东西(PartPlaceThing) + 以什么角色（Rule） + 在什么时间（Moment） +  + 做什么（Description）
+ * 什么类型的(Description) + 谁/什么地点/什么东西(PartPlaceThing) + 以什么角色(Rule) + 在什么时间(Moment) + 做什么(Interaction)
  */
 public interface BaseContext extends Serializable {
-    public static interface BasePartPlaceThing {
+    interface BaseDescription {
+    }
+
+    interface BasePartPlaceThing {
     }
 
     interface BaseRule {
@@ -16,6 +19,6 @@ public interface BaseContext extends Serializable {
     interface BaseMoment {
     }
 
-    interface BaseDescription {
+    interface Interaction {
     }
 }

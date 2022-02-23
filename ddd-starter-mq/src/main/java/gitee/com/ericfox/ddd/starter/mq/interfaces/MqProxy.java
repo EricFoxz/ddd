@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.starter.mq.interfaces;
 
-import gitee.com.ericfox.ddd.starter.mq.proxy.MqBroadcastProxy;
-import gitee.com.ericfox.ddd.starter.mq.proxy.MqSingleProxy;
+import gitee.com.ericfox.ddd.starter.mq.pattern.MqBroadcastProxy;
+import gitee.com.ericfox.ddd.starter.mq.pattern.MqSingleProxy;
 
 /**
  * MQ代理模式接口

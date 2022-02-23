@@ -9,7 +9,7 @@ import gitee.com.ericfox.ddd.common.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.SpringUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.cache.CacheStrategy;
+import gitee.com.ericfox.ddd.infrastructure.service.cache.CacheStrategy;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.nullness.qual.NonNull;

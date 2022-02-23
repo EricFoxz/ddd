@@ -8,7 +8,7 @@ import gitee.com.ericfox.ddd.apis.model.param.sys.sys_user.SysUserDetailParam;
 import gitee.com.ericfox.ddd.apis.model.param.sys.sys_user.SysUserPageParam;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserService;
-import gitee.com.ericfox.ddd.infrastructure.general.common.toolkit.api.ResBuilder;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

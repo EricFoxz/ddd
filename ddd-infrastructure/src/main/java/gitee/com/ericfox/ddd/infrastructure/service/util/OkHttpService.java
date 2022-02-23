@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.persistent.service.util;
+package gitee.com.ericfox.ddd.infrastructure.service.util;
 
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.common.framework.pojo.OkHttpResponse;

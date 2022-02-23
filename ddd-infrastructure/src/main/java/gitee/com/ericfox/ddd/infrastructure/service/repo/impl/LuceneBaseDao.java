@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl;
+package gitee.com.ericfox.ddd.infrastructure.service.repo.impl;
 
 import gitee.com.ericfox.ddd.common.interfaces.BaseDao;
 import gitee.com.ericfox.ddd.common.interfaces.BasePo;

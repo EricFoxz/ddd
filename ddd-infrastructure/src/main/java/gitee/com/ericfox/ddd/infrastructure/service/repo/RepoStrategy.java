@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo;
+package gitee.com.ericfox.ddd.infrastructure.service.repo;
 
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.common.interfaces.BaseDao;

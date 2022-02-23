@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.persistent.service.util;
+package gitee.com.ericfox.ddd.infrastructure.service.util;
 
 import cn.hutool.json.JSONArray;
 import gitee.com.ericfox.ddd.common.enums.BaseEnum;

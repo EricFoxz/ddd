@@ -1,10 +1,11 @@
 package gitee.com.ericfox.ddd.domain.sys.model.sys_user;
 
 import com.github.pagehelper.PageInfo;
+import gitee.com.ericfox.ddd.common.interfaces.BaseContext;
 import gitee.com.ericfox.ddd.common.interfaces.BaseService;
 import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoService;
+import gitee.com.ericfox.ddd.infrastructure.service.repo.RepoService;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -14,7 +15,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @CacheConfig(cacheNames = "ServiceCache:SysUserService", keyGenerator = Constants.SERVICE_CACHE_KEY_GENERATOR)
-public abstract class SysUserServiceBase implements BaseService<SysUser, SysUserEntity>, SysUserContext.Description {
+public abstract class SysUserServiceBase implements BaseService<SysUser, SysUserEntity>, BaseContext.Interaction {
     @Resource
     RepoService repoService;
 

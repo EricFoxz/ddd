@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.persistent.service.cache;
+package gitee.com.ericfox.ddd.infrastructure.service.cache;
 
 import gitee.com.ericfox.ddd.common.enums.strategy.CacheTypeStrategyEnum;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;

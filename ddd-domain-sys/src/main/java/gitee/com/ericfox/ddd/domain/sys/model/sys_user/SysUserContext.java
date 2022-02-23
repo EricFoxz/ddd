@@ -10,6 +10,10 @@ public class SysUserContext implements BaseContext {
     private Rule rule;
     private Moment moment;
 
+    public enum Description implements BaseContext.BaseDescription {
+        DEFAULT,
+    }
+
     public enum Rule implements BaseContext.BaseRule {
         MANAGER,
         WEB_USER,
@@ -18,8 +22,5 @@ public class SysUserContext implements BaseContext {
 
     public enum Moment implements BaseContext.BaseMoment {
         DEFAULT,
-    }
-
-    public interface Description extends BaseContext.BaseDescription {
     }
 }

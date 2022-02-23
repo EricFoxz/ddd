@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl;
+package gitee.com.ericfox.ddd.infrastructure.service.repo.impl;
 
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.common.enums.strategy.LuceneFieldTypeEnum;
@@ -10,9 +10,9 @@ import gitee.com.ericfox.ddd.common.interfaces.BasePo;
 import gitee.com.ericfox.ddd.common.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.service.LuceneFieldKey;
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectRepoException;
-import gitee.com.ericfox.ddd.infrastructure.general.common.toolkit.trans.ClassTransUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans.ClassTransUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.RepoStrategy;
+import gitee.com.ericfox.ddd.infrastructure.service.repo.RepoStrategy;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.document.*;

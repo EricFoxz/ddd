@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.persistent.service.socket;
+package gitee.com.ericfox.ddd.infrastructure.service.socket;
 
 import gitee.com.ericfox.ddd.common.toolkit.coding.MapUtil;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.general.common.toolkit.trans;
+package gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans;
 
 import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.common.interfaces.BaseDao;

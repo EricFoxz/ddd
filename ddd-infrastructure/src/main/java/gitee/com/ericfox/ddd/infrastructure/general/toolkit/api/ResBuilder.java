@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.general.common.toolkit.api;
+package gitee.com.ericfox.ddd.infrastructure.general.toolkit.api;
 
 import gitee.com.ericfox.ddd.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.common.toolkit.coding.JSONUtil;

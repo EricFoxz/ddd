@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.dao.sys.my_sql_repo_strategy;
 
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
-import gitee.com.ericfox.ddd.infrastructure.persistent.service.repo.impl.JFinalBaseDao;
+import gitee.com.ericfox.ddd.infrastructure.service.repo.impl.JFinalBaseDao;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Repository;
