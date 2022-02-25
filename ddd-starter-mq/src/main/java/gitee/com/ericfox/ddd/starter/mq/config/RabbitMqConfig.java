@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.api.RabbitListenerErrorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,6 +39,7 @@ public class RabbitMqConfig {
     public final Map<String, Queue> queueMap = MapUtil.newConcurrentHashMap();
 
     @Bean
+    @ConditionalOnMissingBean(MessageHandlerMethodFactory.class)
     public MessageHandlerMethodFactory messageHandlerMethodFactory() {
         DefaultMessageHandlerMethodFactory factory = new DefaultMessageHandlerMethodFactory();
         factory.setMessageConverter(new MappingJackson2MessageConverter());
@@ -45,6 +47,7 @@ public class RabbitMqConfig {
     }
 
     @Bean
+    @ConditionalOnMissingBean(RabbitListenerErrorHandler.class)
     public RabbitListenerErrorHandler rabbitListenerErrorHandler() {
         return (message, message1, e) -> {
             log.error("rabbitMqConfig::rabbitListenerErrorHandler " + e.getMessage() + "|" + e.getFailedMessage());
