@@ -27,6 +27,8 @@
         <lucene.servion>8.5.0</lucene.servion>
         <mmseg4j-solr.version>2.4.0</mmseg4j-solr.version>
         <hive.version>3.1.2</hive.version>
+        <velocity2.version>1.1.1</velocity2.version>
+        <jap.version>1.0.7</jap.version>
     </properties>
 
     <modules>
@@ -38,15 +40,12 @@
         <module>ddd-infrastructure</module>
         <module>ddd-common</module>
 
+        <module>ddd-starter</module>
         <module>ddd-starter-mq</module>
+        <module>ddd-starter-oauth2</module>
     </modules>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -56,6 +55,52 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>gitee.com.ericfox.ddd</groupId>
+                <artifactId>ddd-apis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gitee.com.ericfox.ddd</groupId>
+                <artifactId>ddd-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gitee.com.ericfox.ddd</groupId>
+                <artifactId>ddd-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gitee.com.ericfox.ddd</groupId>
+                <artifactId>ddd-domain-gen</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gitee.com.ericfox.ddd</groupId>
+                <artifactId>ddd-domain-sys</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gitee.com.ericfox.ddd</groupId>
+                <artifactId>ddd-infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gitee.com.ericfox.ddd</groupId>
+                <artifactId>ddd-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gitee.com.ericfox.ddd</groupId>
+                <artifactId>ddd-starter-mq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gitee.com.ericfox.ddd</groupId>
+                <artifactId>ddd-starter-oauth2</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
@@ -110,6 +155,16 @@
                 <groupId>org.apache.hive</groupId>
                 <artifactId>hive-jdbc</artifactId>
                 <version>${hive.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.chandre.velocity2</groupId>
+                <artifactId>spring-boot-starter-velocity2</artifactId>
+                <version>${velocity2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fujieid</groupId>
+                <artifactId>jap-oauth2</artifactId>
+                <version>${jap.version}</version>
             </dependency>
         </dependencies>
 

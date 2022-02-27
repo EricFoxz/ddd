@@ -10,28 +10,18 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>ddd-starter-mq</artifactId>
+    <artifactId>ddd-starter</artifactId>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>gitee.com.ericfox.ddd</groupId>
-            <artifactId>ddd-common</artifactId>
+            <artifactId>ddd-starter-mq</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!--MQ-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
+            <groupId>gitee.com.ericfox.ddd</groupId>
+            <artifactId>ddd-starter-oauth2</artifactId>
         </dependency>
     </dependencies>
 </project>

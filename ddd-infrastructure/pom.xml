@@ -18,12 +18,10 @@
         <dependency>
             <groupId>gitee.com.ericfox.ddd</groupId>
             <artifactId>ddd-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>gitee.com.ericfox.ddd</groupId>
-            <artifactId>ddd-starter-mq</artifactId>
-            <version>${project.version}</version>
+            <artifactId>ddd-starter</artifactId>
         </dependency>
 
         <!--基础包-->

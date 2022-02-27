@@ -18,7 +18,6 @@
         <dependency>
             <groupId>gitee.com.ericfox.ddd</groupId>
             <artifactId>ddd-infrastructure</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

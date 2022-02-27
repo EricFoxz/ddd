@@ -105,3 +105,5 @@ custom:
       enable-client-mode: false
       #启用的mq，逗号分割
       default-strategy: rabbit_mq_strategy
+    oauth2:
+      enable: true

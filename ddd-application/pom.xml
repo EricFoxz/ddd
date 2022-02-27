@@ -23,7 +23,6 @@
         <dependency>
             <groupId>gitee.com.ericfox.ddd</groupId>
             <artifactId>ddd-domain-sys</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
