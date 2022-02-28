@@ -10,22 +10,18 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>ddd-starter</artifactId>
-    <version>1.0.0</version>
+    <artifactId>ddd-starter-cache</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>gitee.com.ericfox.ddd</groupId>
-            <artifactId>ddd-starter-mq</artifactId>
+            <artifactId>ddd-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>gitee.com.ericfox.ddd</groupId>
-            <artifactId>ddd-starter-oauth2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>gitee.com.ericfox.ddd</groupId>
-            <artifactId>ddd-starter-cache</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>

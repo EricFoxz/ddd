@@ -107,3 +107,5 @@ custom:
       default-strategy: rabbit_mq_strategy
     oauth2:
       enable: true
+    cache:
+      enable: true

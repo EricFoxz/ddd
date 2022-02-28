@@ -1,8 +1,8 @@
 package ${rootPackage}.apis.model.param.${meta.domainName}.${meta.class_name};
 
 import ${rootPackage}.apis.model.param.BasePageParam;
+import ${rootPackage}.common.toolkit.coding.BeanUtil;
 import ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name}.${meta.ClassName}Entity;
-import ${rootPackage}.infrastructure.general.toolkit.coding.BeanUtil;
 import ${rootPackage}.infrastructure.persistent.po.${meta.domainName}.${meta.ClassName};
 import lombok.Getter;
 import lombok.Setter;
@@ -13,22 +13,22 @@ public class ${meta.ClassName}PageParam implements BasePageParam<${meta.ClassNam
     private Integer pageNum = 1;
     private Integer pageSize = 10;
 
-    #foreach($item in $meta.fieldClassMap.entrySet())
-        #if(!!$meta.fieldCommentMap.get(${item.key}))
-            /**
-             * ${meta.fieldCommentMap.get(${item.key})}
-             */
-        #end
-        #if(${strUtil.startWith(${item.value.name}, "java.lang")})
-            private ${item.value.simpleName} ${item.key};
-        #else
-            private ${item.value.name} ${item.key};
-        #end
-    #end
+#foreach($item in $meta.fieldClassMap.entrySet())
+#if(!!$meta.fieldCommentMap.get(${item.key}))
+    /**
+     * ${meta.fieldCommentMap.get(${item.key})}
+     */
+#end
+#if(${strUtil.startWith(${item.value.name}, "java.lang")})
+    private ${item.value.simpleName} ${item.key};
+#else
+    private ${item.value.name} ${item.key};
+#end
+#end
 
     @Override
     public ${meta.ClassName}Entity toEntity() {
-            ${meta.ClassName}Entity entity = new ${meta.ClassName}Entity();
+        ${meta.ClassName}Entity entity = new ${meta.ClassName}Entity();
         BeanUtil.copyProperties(this, entity, false);
         return entity;
     }

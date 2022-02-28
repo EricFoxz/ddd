@@ -44,6 +44,12 @@ public class RepoService implements RepoStrategy {
     }
 
     @Override
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> ENTITY findFirst(ENTITY entity) {
+        String beanName = getBeanName(entity);
+        return strategyMap.get(beanName).findById(entity);
+    }
+
+    @Override
     public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> boolean deleteById(ENTITY entity) {
         String beanName = getBeanName(entity);
         return strategyMap.get(beanName).deleteById(entity);

@@ -60,6 +60,15 @@ public class LuceneRepoStrategy implements RepoStrategy {
         return entity.fromPo(parseToPo(document, (Class<PO>) po.getClass()));
     }
 
+    @Override
+    public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> ENTITY findFirst(ENTITY entity) {
+        List<ENTITY> entityList = queryList(entity, 1);
+        if (CollUtil.isNotEmpty(entityList)) {
+            return entityList.get(0);
+        }
+        return null;
+    }
+
     @SneakyThrows
     private <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> Document findDocumentById(PO po) {
         return findDocumentById(null, po);

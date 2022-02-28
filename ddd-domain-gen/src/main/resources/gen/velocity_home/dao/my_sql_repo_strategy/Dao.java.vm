@@ -1,7 +1,7 @@
 package ${rootPackage}.infrastructure.persistent.dao.${meta.domainName}.my_sql_repo_strategy;
 
 import ${rootPackage}.infrastructure.persistent.po.${meta.domainName}.${meta.ClassName};
-import ${rootPackage}.infrastructure.persistent.service.repo.impl.JFinalBaseDao;
+import ${rootPackage}.infrastructure.service.repo.impl.JFinalBaseDao;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Repository;
@@ -17,6 +17,6 @@ public class ${meta.ClassName}Dao extends JFinalBaseDao<${meta.ClassName}, ${met
 
     @Override
     public Class<${meta.ClassName}> poClass() {
-        return ${meta.ClassName}.class ;
+        return ${meta.ClassName}.class;
     }
 }

@@ -31,6 +31,13 @@ public abstract class SysUserServiceBase implements BaseService<SysUser, SysUser
     @Override
     @Transactional(readOnly = true)
     @Cacheable(keyGenerator = Constants.SERVICE_FUNCTION_CACHE_KEY_GENERATOR)
+    public SysUserEntity findFirst(SysUserEntity entity) {
+        return repoService.findFirst(entity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(keyGenerator = Constants.SERVICE_FUNCTION_CACHE_KEY_GENERATOR)
     public PageInfo<SysUserEntity> queryPage(SysUserEntity entity, int pageNum, int pageSize) {
         PageInfo<SysUserEntity> pageInfo = repoService.queryPage(entity, pageNum, pageSize);
         return pageInfo;

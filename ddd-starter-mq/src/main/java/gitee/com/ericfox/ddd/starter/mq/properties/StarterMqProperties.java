@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "custom.starter.mq")
 public class StarterMqProperties {
 
-    private boolean enable = false;
+    private boolean enable = true;
 
     private boolean enableServerMode = true;
 

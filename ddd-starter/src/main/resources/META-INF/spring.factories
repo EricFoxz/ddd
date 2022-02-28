@@ -4,7 +4,8 @@ org.springframework.context.ApplicationContextInitializer=
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 gitee.com.ericfox.ddd.starter.oauth2.StarterOauth2AutoConfig,\
-gitee.com.ericfox.ddd.starter.mq.StarterMqAutoConfig
+gitee.com.ericfox.ddd.starter.mq.StarterMqAutoConfig,\
+gitee.com.ericfox.ddd.starter.cache.StarterCacheAutoConfig
 
 # Application Listeners
 org.springframework.context.ApplicationListener=

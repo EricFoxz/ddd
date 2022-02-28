@@ -21,6 +21,7 @@ public class SysUser implements BasePo<SysUser> {
         public static String domainName = "sys";
         public static String table = "sys_user";
         public static String id = "id";
+        public static String uuid = "uuid";
     }
 
     @FieldLength(length = 19, scale = 0)
@@ -29,8 +30,8 @@ public class SysUser implements BasePo<SysUser> {
     /**
      * 用户名
      */
-    @FieldLength(length = 32, scale = 0)
     @FieldComment("用户名")
+    @FieldLength(length = 32, scale = 0)
     private String username;
     @FieldLength(length = 10, scale = 2)
     @FieldComment("")

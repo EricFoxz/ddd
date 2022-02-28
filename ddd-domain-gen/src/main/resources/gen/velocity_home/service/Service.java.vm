@@ -5,6 +5,6 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 @Service
-@CacheConfig(cacheNames = "${meta.ClassName}Service", keyGenerator = Constants.SERVICE_CACHE_KEY_GENERATOR)
+@CacheConfig(cacheNames = "ServiceCache:${meta.ClassName}Service", keyGenerator = Constants.SERVICE_CACHE_KEY_GENERATOR)
 public class ${meta.ClassName}Service extends ${meta.ClassName}ServiceBase {
 }

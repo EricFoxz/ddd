@@ -43,6 +43,7 @@
         <module>ddd-starter</module>
         <module>ddd-starter-mq</module>
         <module>ddd-starter-oauth2</module>
+        <module>ddd-starter-cache</module>
     </modules>
 
     <dependencies>
@@ -98,6 +99,11 @@
             <dependency>
                 <groupId>gitee.com.ericfox.ddd</groupId>
                 <artifactId>ddd-starter-oauth2</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gitee.com.ericfox.ddd</groupId>
+                <artifactId>ddd-starter-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

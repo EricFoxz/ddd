@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@CacheConfig(cacheNames = "SysUserService", keyGenerator = Constants.SERVICE_CACHE_KEY_GENERATOR)
+@CacheConfig(cacheNames = "ServiceCache:SysUserService", keyGenerator = Constants.SERVICE_CACHE_KEY_GENERATOR)
 public class SysUserService extends SysUserServiceBase {
     /**
      * 用户注册

@@ -1,8 +1,9 @@
 package ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name};
 
 import com.github.pagehelper.PageInfo;
+import ${rootPackage}.common.interfaces.BaseContext;
+import ${rootPackage}.common.interfaces.BaseService;
 import ${rootPackage}.infrastructure.general.common.Constants;
-import ${rootPackage}.infrastructure.general.common.interfaces.BaseService;
 import ${rootPackage}.infrastructure.persistent.po.${meta.domainName}.${meta.ClassName};
 import ${rootPackage}.infrastructure.persistent.service.repo.RepoService;
 import org.springframework.cache.annotation.CacheConfig;
@@ -14,7 +15,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @CacheConfig(cacheNames = "ServiceCache:${meta.ClassName}Service", keyGenerator = Constants.SERVICE_CACHE_KEY_GENERATOR)
-public abstract class ${meta.ClassName}ServiceBase implements BaseService<${meta.ClassName}, ${meta.ClassName}Entity>, ${meta.ClassName}Context.Description {
+public abstract class ${meta.ClassName}ServiceBase implements BaseService<${meta.ClassName}, ${meta.ClassName}Entity>, BaseContext.Interaction {
     @Resource
     RepoService repoService;
 
@@ -25,6 +26,13 @@ public abstract class ${meta.ClassName}ServiceBase implements BaseService<${meta
             ${meta.ClassName}Entity entity = new ${meta.ClassName}Entity();
         entity.setId(id);
         return repoService.findById(entity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(keyGenerator = Constants.SERVICE_FUNCTION_CACHE_KEY_GENERATOR)
+    public ${meta.ClassName}Entity findFirst(${meta.ClassName}Entity entity) {
+        return repoService.findFirst(entity);
     }
 
     @Override

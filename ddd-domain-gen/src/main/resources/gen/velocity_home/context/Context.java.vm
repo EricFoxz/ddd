@@ -1,6 +1,6 @@
 package ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name};
 
-import ${rootPackage}.infrastructure.general.common.interfaces.BaseContext;
+import ${rootPackage}.common.interfaces.BaseContext;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +9,10 @@ import lombok.Setter;
 public class ${meta.ClassName}Context implements BaseContext {
     private Rule rule;
     private Moment moment;
+
+    public enum Description implements BaseContext.BaseDescription {
+        DEFAULT,
+    }
 
     public enum Rule implements BaseContext.BaseRule {
         MANAGER,
