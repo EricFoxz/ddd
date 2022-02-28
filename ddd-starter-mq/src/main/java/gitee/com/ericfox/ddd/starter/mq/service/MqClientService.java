@@ -5,10 +5,8 @@ import gitee.com.ericfox.ddd.starter.mq.interfaces.MqClientStrategy;
 import gitee.com.ericfox.ddd.starter.mq.interfaces.MqProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,10 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * MQ客户端service
  */
 @Service
-@ConditionalOnProperty(prefix = "custom.service.mq-strategy", value = "enable")
+@ConditionalOnProperty(prefix = "custom.starter.mq", value = "enable")
 public class MqClientService implements MqClientStrategy {
-    @Resource
-    private KafkaTemplate<String, Object> kafkaTemplate;
     private final Map<String, MqClientService> strategyMap = new ConcurrentHashMap<>();
 
     @Autowired

@@ -4,22 +4,38 @@ import gitee.com.ericfox.ddd.apis.model.param.BaseDetailParam;
 import gitee.com.ericfox.ddd.apis.model.param.BasePageParam;
 import gitee.com.ericfox.ddd.common.interfaces.BaseEntity;
 import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface BaseController<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO, ENTITY>, PARAM extends BasePageParam<PO, ENTITY>, N extends BaseDetailParam<PO, ENTITY>> {
-    ResponseEntity<?> detail(Long id);
+    default ResponseEntity<?> detail(Long id) {
+        return Constants.getResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+    }
 
-    ResponseEntity<?> page(PARAM param);
+    default ResponseEntity<?> page(PARAM param) {
+        return Constants.getResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+    }
 
-    ResponseEntity<?> list(PARAM param);
+    default ResponseEntity<?> list(PARAM param) {
+        return Constants.getResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+    }
 
-    ResponseEntity<?> create(ENTITY v);
+    default ResponseEntity<?> create(ENTITY v) {
+        return Constants.getResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+    }
 
-    ResponseEntity<?> edit(ENTITY ENTITY);
+    default ResponseEntity<?> edit(ENTITY ENTITY) {
+        return Constants.getResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+    }
 
-    ResponseEntity<?> remove(ENTITY ENTITY);
+    default ResponseEntity<?> remove(ENTITY ENTITY) {
+        return Constants.getResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+    }
 
-    ResponseEntity<?> multiRemove(List<ENTITY> list);
+    default ResponseEntity<?> multiRemove(List<ENTITY> list) {
+        return Constants.getResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+    }
 }

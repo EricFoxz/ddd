@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * MQ服务端service
  */
 @Service
-@ConditionalOnProperty(prefix = "custom.service.mq-strategy", value = "enable")
+@ConditionalOnProperty(prefix = "custom.starter.mq", value = "enable")
 public class MqServerService implements MqServerStrategy {
     private final Map<String, MqServerService> strategyMap = new ConcurrentHashMap<>();
 
