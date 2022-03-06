@@ -12,6 +12,6 @@ import org.springframework.stereotype.Component;
 public class CustomProperties {
     private String projectName;
     private String rootPackage;
-    private ServiceProperties service;
+    private InfrastructureProperties infrastructure;
     private ApiProperties api;
 }

@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.infrastructure.general.config.service;
 
 import gitee.com.ericfox.ddd.common.toolkit.coding.FileUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
+import gitee.com.ericfox.ddd.infrastructure.general.config.env.InfrastructureProperties;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.Analyzer;
@@ -30,7 +30,7 @@ import java.nio.file.Paths;
 @ConditionalOnProperty(prefix = "custom.service.repo-strategy.lucene", value = {"enable"})
 public class LuceneRepoConfig {
     @Resource
-    private ServiceProperties serviceProperties;
+    private InfrastructureProperties infrastructureProperties;
 
     @Bean
     public Analyzer analyzer() {
@@ -40,7 +40,7 @@ public class LuceneRepoConfig {
     @Bean
     @SneakyThrows
     public Directory directory() {
-        String rootPath = serviceProperties.getRepoStrategy().getLucene().getRootPath();
+        String rootPath = infrastructureProperties.getRepoStrategy().getLucene().getRootPath();
         if (!FileUtil.isDirectory(rootPath)) {
             FileUtil.touch(rootPath);
         }
@@ -53,7 +53,7 @@ public class LuceneRepoConfig {
     public IndexWriter indexWriter() {
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig();
         IndexWriter indexWriter = new IndexWriter(directory(), indexWriterConfig);
-        if (serviceProperties.getRepoStrategy().getLucene().getClearWhenStart()) {
+        if (infrastructureProperties.getRepoStrategy().getLucene().getClearWhenStart()) {
             indexWriter.deleteAll();
             indexWriter.commit();
         }

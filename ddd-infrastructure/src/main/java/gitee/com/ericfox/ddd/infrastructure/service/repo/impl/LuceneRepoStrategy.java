@@ -10,7 +10,7 @@ import gitee.com.ericfox.ddd.common.interfaces.BasePo;
 import gitee.com.ericfox.ddd.common.toolkit.coding.*;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.service.LuceneFieldKey;
 import gitee.com.ericfox.ddd.infrastructure.general.common.exceptions.ProjectRepoException;
-import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
+import gitee.com.ericfox.ddd.infrastructure.general.config.env.InfrastructureProperties;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans.ClassTransUtil;
 import gitee.com.ericfox.ddd.infrastructure.service.repo.RepoStrategy;
 import lombok.SneakyThrows;
@@ -44,7 +44,7 @@ import java.util.stream.Stream;
 @SuppressWarnings("unchecked")
 public class LuceneRepoStrategy implements RepoStrategy {
     @Resource
-    ServiceProperties serviceProperties;
+    InfrastructureProperties infrastructureProperties;
 
     private final Map<String, IndexWriter> indexWriterMap = MapUtil.newHashMap(4);
 
@@ -317,7 +317,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
     }
 
     private String buildDirectoryPath(String rootPathName) {
-        String luceneLocalIndexDirectoryPath = serviceProperties.getRepoStrategy().getLucene().getRootPath();
+        String luceneLocalIndexDirectoryPath = infrastructureProperties.getRepoStrategy().getLucene().getRootPath();
         if (StrUtil.endWith(luceneLocalIndexDirectoryPath, File.separator)) {
             return luceneLocalIndexDirectoryPath + rootPathName;
         }

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "custom.service", ignoreInvalidFields = true)
-public class ServiceProperties {
+@ConfigurationProperties(prefix = "custom.infrastructure", ignoreInvalidFields = true)
+public class InfrastructureProperties {
     /**
      * 持久化策略
      */

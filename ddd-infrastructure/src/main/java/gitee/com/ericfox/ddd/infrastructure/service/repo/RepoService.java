@@ -9,7 +9,7 @@ import gitee.com.ericfox.ddd.common.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.IdUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.service.RepoEnabledAnnotation;
-import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
+import gitee.com.ericfox.ddd.infrastructure.general.config.env.InfrastructureProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @SuppressWarnings("unchecked")
 public class RepoService implements RepoStrategy {
     @Resource
-    private ServiceProperties serviceProperties;
+    private InfrastructureProperties infrastructureProperties;
 
     private RepoTypeStrategyEnum repoStrategy;
     private final Map<String, RepoStrategy> strategyMap = new ConcurrentHashMap<>();
@@ -127,7 +127,7 @@ public class RepoService implements RepoStrategy {
         RepoEnabledAnnotation declaredAnnotation = entity.toPo().getClass().getDeclaredAnnotation(RepoEnabledAnnotation.class);
         if (declaredAnnotation == null) {
             if (repoStrategy == null) {
-                repoStrategy = serviceProperties.getRepoStrategy().getDefaultStrategy().toBizEnum();
+                repoStrategy = infrastructureProperties.getRepoStrategy().getDefaultStrategy().toBizEnum();
             }
             return repoStrategy.getCode();
         } else {
