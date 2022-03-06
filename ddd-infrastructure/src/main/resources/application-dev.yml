@@ -64,6 +64,11 @@ spring:
     caffeine:
       spec:
 debug: false
+logging:
+  charset:
+    file: UTF-8
+#  level:
+#    root: debug
 
 custom:
   service:
@@ -78,16 +83,6 @@ custom:
         clear-when-start: true
     cache-strategy: #缓存策略
       enable: true
-      #缓存策略，启用的缓存服务，逗号分割，注：caffeine为java缓存，redis为分布式缓存，目前限定为两种模式：
-      #1、如果设为"caffeine_cache_strategy, redis_cache_strategy"，前者为一级缓存，后者为二级缓存，对一级缓存的update和delete将同步至二级缓存（原子性），如果是分布式，对二级缓存的更新将清空其他节点的一级缓存
-      #2、如果只设置一种缓存，就将只采用一种缓存
-      default-strategy: caffeine_cache_strategy, redis_cache_strategy
-      default-expire-seconds: 3600
-      clear-when-start: false
-    mq-strategy: #mq策略
-      enable: true
-      #启用的mq，逗号分割
-      default-strategy: rabbit_mq_strategy
   api:
     response:
       key-of-error-code: error
@@ -109,3 +104,9 @@ custom:
       enable: true
     cache:
       enable: true
+      #缓存策略，启用的缓存服务，逗号分割，注：caffeine为java缓存，redis为分布式缓存，目前限定为两种模式：
+      #1、如果设为"caffeine_cache_strategy, redis_cache_strategy"，前者为一级缓存，后者为二级缓存，对一级缓存的update和delete将同步至二级缓存（原子性），如果是分布式，对二级缓存的更新将清空其他节点的一级缓存
+      #2、如果只设置一种缓存，就将只采用一种缓存
+      default-strategy: caffeine_cache_strategy, redis_cache_strategy
+      default-expire-seconds: 3600
+      clear-when-start: false

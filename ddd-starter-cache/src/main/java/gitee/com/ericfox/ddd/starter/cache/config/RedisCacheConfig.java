@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.general.config.service;
+package gitee.com.ericfox.ddd.starter.cache.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -7,7 +7,7 @@ import gitee.com.ericfox.ddd.common.annotations.ConditionalOnPropertyEnum;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.JSONUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.SecureUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
+import gitee.com.ericfox.ddd.starter.cache.properties.StarterCacheProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
@@ -39,7 +39,7 @@ import java.util.Map;
 @Configuration
 @ConditionalOnPropertyEnum(
         value = "custom.service.cache-strategy.default-strategy",
-        enumClass = ServiceProperties.CacheStrategyBean.CachePropertiesEnum.class,
+        enumClass = StarterCacheProperties.CachePropertiesEnum.class,
         includeAnyValue = "redis_cache_strategy"
 )
 @ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = "enable")
@@ -49,7 +49,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
     @Resource
     RedisConnectionFactory factory;
     @Resource
-    ServiceProperties serviceProperties;
+    StarterCacheProperties starterCacheProperties;
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Bean
@@ -69,7 +69,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         return new RedisCacheManager(
                 RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory),
-                this.getRedisCacheConfigurationWithTtl(serviceProperties.getCacheStrategy().getDefaultExpireSeconds()),
+                this.getRedisCacheConfigurationWithTtl(starterCacheProperties.getDefaultExpireSeconds()),
                 this.getRedisCacheConfigurationMap() // 指定 key 策略
         );
     }

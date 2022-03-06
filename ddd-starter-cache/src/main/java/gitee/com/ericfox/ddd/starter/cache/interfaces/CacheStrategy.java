@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.service.cache;
+package gitee.com.ericfox.ddd.starter.cache.interfaces;
 
 /**
  * 缓存策略接口

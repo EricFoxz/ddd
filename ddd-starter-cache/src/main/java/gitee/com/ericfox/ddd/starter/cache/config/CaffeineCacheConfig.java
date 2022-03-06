@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.general.config.service;
+package gitee.com.ericfox.ddd.starter.cache.config;
 
 import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.CacheWriter;
@@ -8,8 +8,8 @@ import gitee.com.ericfox.ddd.common.annotations.ConditionalOnPropertyEnum;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.SpringUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
-import gitee.com.ericfox.ddd.infrastructure.service.cache.CacheStrategy;
+import gitee.com.ericfox.ddd.starter.cache.interfaces.CacheStrategy;
+import gitee.com.ericfox.ddd.starter.cache.properties.StarterCacheProperties;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -29,7 +29,7 @@ import java.time.Duration;
 @Configuration
 @ConditionalOnPropertyEnum(
         value = "custom.service.cache-strategy.default-strategy",
-        enumClass = ServiceProperties.CacheStrategyBean.CachePropertiesEnum.class,
+        enumClass = StarterCacheProperties.CachePropertiesEnum.class,
         includeAnyValue = "caffeine_cache_strategy"
 )
 @ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = "enable")
@@ -37,7 +37,7 @@ import java.time.Duration;
 @Slf4j
 public class CaffeineCacheConfig {
     @Resource
-    private ServiceProperties serviceProperties;
+    private StarterCacheProperties starterCacheProperties;
     private CacheStrategy l2Cache = null;
 
     @Bean
@@ -46,7 +46,7 @@ public class CaffeineCacheConfig {
                 .recordStats()
                 .expireAfterWrite(Duration.ofSeconds(7200))
                 .maximumSize(1000);
-        if (ArrayUtil.length(serviceProperties.getCacheStrategy().getDefaultStrategy()) >= 2) { //有2级缓存
+        if (ArrayUtil.length(starterCacheProperties.getDefaultStrategy()) >= 2) { //有2级缓存
 
             caffeine
                     .writer(new CacheWriter<Object, Object>() {
@@ -73,8 +73,8 @@ public class CaffeineCacheConfig {
     }
 
     private CacheStrategy getL2Cache() {
-        if (l2Cache == null && ArrayUtil.length(serviceProperties.getCacheStrategy().getDefaultStrategy()) >= 2) {
-            l2Cache = SpringUtil.getBean(StrUtil.toCamelCase(serviceProperties.getCacheStrategy().getDefaultStrategy()[1].getName()));
+        if (l2Cache == null && ArrayUtil.length(starterCacheProperties.getDefaultStrategy()) >= 2) {
+            l2Cache = SpringUtil.getBean(StrUtil.toCamelCase(starterCacheProperties.getDefaultStrategy()[1].getName()));
         }
         return l2Cache;
     }

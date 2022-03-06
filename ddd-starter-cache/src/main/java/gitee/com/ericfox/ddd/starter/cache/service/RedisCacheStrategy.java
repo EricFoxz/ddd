@@ -1,8 +1,8 @@
-package gitee.com.ericfox.ddd.infrastructure.service.cache.impl;
+package gitee.com.ericfox.ddd.starter.cache.service;
 
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.config.service.RedisCacheConfig;
-import gitee.com.ericfox.ddd.infrastructure.service.cache.CacheStrategy;
+import gitee.com.ericfox.ddd.starter.cache.config.RedisCacheConfig;
+import gitee.com.ericfox.ddd.starter.cache.interfaces.CacheStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.redis.core.RedisTemplate;

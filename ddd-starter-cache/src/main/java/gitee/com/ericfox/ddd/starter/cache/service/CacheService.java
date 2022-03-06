@@ -1,8 +1,9 @@
-package gitee.com.ericfox.ddd.infrastructure.service.cache;
+package gitee.com.ericfox.ddd.starter.cache.service;
 
 import gitee.com.ericfox.ddd.common.enums.strategy.CacheTypeStrategyEnum;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
+import gitee.com.ericfox.ddd.starter.cache.interfaces.CacheStrategy;
+import gitee.com.ericfox.ddd.starter.cache.properties.StarterCacheProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -21,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = "enable")
 public class CacheService implements CacheStrategy {
     @Resource
-    private ServiceProperties serviceProperties;
+    private StarterCacheProperties starterCacheProperties;
 
     private final List<CacheTypeStrategyEnum> strategyEnumList = CollUtil.newArrayList();
 
@@ -52,7 +53,7 @@ public class CacheService implements CacheStrategy {
 
     private String getBeanName() {
         if (CollUtil.isEmpty(this.strategyEnumList)) {
-            for (ServiceProperties.CacheStrategyBean.CachePropertiesEnum defaultStrategy : serviceProperties.getCacheStrategy().getDefaultStrategy()) {
+            for (StarterCacheProperties.CachePropertiesEnum defaultStrategy : starterCacheProperties.getDefaultStrategy()) {
                 this.strategyEnumList.add(defaultStrategy.toBizEnum());
             }
         }

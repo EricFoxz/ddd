@@ -1,12 +1,12 @@
-package gitee.com.ericfox.ddd.infrastructure.service.cache.impl;
+package gitee.com.ericfox.ddd.starter.cache.service;
 
 import gitee.com.ericfox.ddd.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.SpringUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.config.env.ServiceProperties;
-import gitee.com.ericfox.ddd.infrastructure.general.config.service.CaffeineCacheConfig;
-import gitee.com.ericfox.ddd.infrastructure.service.cache.CacheStrategy;
+import gitee.com.ericfox.ddd.starter.cache.config.CaffeineCacheConfig;
+import gitee.com.ericfox.ddd.starter.cache.interfaces.CacheStrategy;
+import gitee.com.ericfox.ddd.starter.cache.properties.StarterCacheProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.cache.caffeine.CaffeineCache;
@@ -25,7 +25,7 @@ public class CaffeineCacheStrategy implements CacheStrategy {
     @Resource
     private CaffeineCache caffeineCache;
     @Resource
-    private ServiceProperties serviceProperties;
+    private StarterCacheProperties starterCacheProperties;
     private CacheStrategy l2Cache = null;
 
     @Override
@@ -55,8 +55,8 @@ public class CaffeineCacheStrategy implements CacheStrategy {
     }
 
     private CacheStrategy getL2Cache() {
-        if (l2Cache == null && ArrayUtil.length(serviceProperties.getCacheStrategy().getDefaultStrategy()) >= 2) {
-            l2Cache = SpringUtil.getBean(StrUtil.toCamelCase(serviceProperties.getCacheStrategy().getDefaultStrategy()[1].getName()));
+        if (l2Cache == null && ArrayUtil.length(starterCacheProperties.getDefaultStrategy()) >= 2) {
+            l2Cache = SpringUtil.getBean(StrUtil.toCamelCase(starterCacheProperties.getDefaultStrategy()[1].getName()));
         }
         return l2Cache;
     }
