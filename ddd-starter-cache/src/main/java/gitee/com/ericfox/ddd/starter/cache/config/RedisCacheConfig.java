@@ -38,7 +38,7 @@ import java.util.Map;
  */
 @Configuration
 @ConditionalOnPropertyEnum(
-        value = "custom.service.cache-strategy.default-strategy",
+        name = "custom.service.cache-strategy.default-strategy",
         enumClass = StarterCacheProperties.CachePropertiesEnum.class,
         includeAnyValue = "redis_cache_strategy"
 )

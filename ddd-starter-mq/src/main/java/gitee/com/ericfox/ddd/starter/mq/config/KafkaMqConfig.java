@@ -11,7 +11,7 @@ import org.springframework.kafka.annotation.EnableKafka;
  */
 @Configuration
 @ConditionalOnPropertyEnum(
-        value = "custom.starter.mq.default-strategy",
+        name = "custom.starter.mq.default-strategy",
         enumClass = StarterMqProperties.MqPropertiesEnum.class,
         includeAnyValue = "kafka_mq_strategy"
 )

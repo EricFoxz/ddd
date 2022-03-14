@@ -28,7 +28,7 @@ import java.time.Duration;
  */
 @Configuration
 @ConditionalOnPropertyEnum(
-        value = "custom.service.cache-strategy.default-strategy",
+        name = "custom.service.cache-strategy.default-strategy",
         enumClass = StarterCacheProperties.CachePropertiesEnum.class,
         includeAnyValue = "caffeine_cache_strategy"
 )

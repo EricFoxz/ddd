@@ -16,7 +16,7 @@ public @interface ConditionalOnPropertyEnum {
     /**
      * 配置文件name
      */
-    String value();
+    String name();
 
     /**
      * 枚举类
