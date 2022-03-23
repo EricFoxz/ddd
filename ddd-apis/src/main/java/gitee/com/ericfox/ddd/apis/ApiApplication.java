@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
                 "gitee.com.ericfox.ddd.starter.*.properties",
                 "gitee.com.ericfox.ddd.starter.*.service",
                 "gitee.com.ericfox.ddd.starter.*.config",
+                "gitee.com.ericfox.ddd.common.config",
         },
         exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class}
 )

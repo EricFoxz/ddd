@@ -15,8 +15,4 @@ import javax.annotation.Resource;
 public class StarterBpmAutoConfig {
     @Resource
     private StarterBpmProperties starterMqProperties;
-
-    public static void main(String[] args) {
-
-    }
 }

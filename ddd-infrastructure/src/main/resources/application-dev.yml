@@ -20,7 +20,7 @@ spring:
     lazy-initialization: false
   rsocket:
     server:
-      port: 9081
+      port: 3001
   kafka:
     producer:
       retries: 0
