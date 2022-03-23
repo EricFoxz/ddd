@@ -15,7 +15,7 @@
 ## 软件结构
 ### DCI设计模式 + 四色原型模式
 - 图示
-  ![DCI设计模式图示](https://images0.cnblogs.com/blog/492619/201309/05132928-5d68253031d7418ea62b6ae96e4b90e3.jpg)
+![DCI设计模式图示](./docs/images/DCI设计模式图示.jpg)
 - 描述：什么类型的(Description) + 谁/什么地点/什么东西(PartPlaceThing) + 以什么角色(Rule) + 在什么时间(Moment) + 做什么(Interaction)
 
 ### 系统依赖关系图示
@@ -104,7 +104,7 @@
 	- [ ] 整合OAuth2
 	- [ ] 流式传输
 	- [ ] 工作流
-	- [ ] 代码生成
+	- [x] 代码生成
 	- [ ] 日志方案
 - [ ] 分布式/微服务
 	- [ ] 尝试使用RSocket实现多实例/微服务之间的通信
