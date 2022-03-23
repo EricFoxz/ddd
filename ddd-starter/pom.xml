@@ -17,15 +17,19 @@
     <dependencies>
         <dependency>
             <groupId>gitee.com.ericfox.ddd</groupId>
+            <artifactId>ddd-starter-bpm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>gitee.com.ericfox.ddd</groupId>
+            <artifactId>ddd-starter-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>gitee.com.ericfox.ddd</groupId>
             <artifactId>ddd-starter-mq</artifactId>
         </dependency>
         <dependency>
             <groupId>gitee.com.ericfox.ddd</groupId>
             <artifactId>ddd-starter-oauth2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>gitee.com.ericfox.ddd</groupId>
-            <artifactId>ddd-starter-cache</artifactId>
         </dependency>
     </dependencies>
 </project>

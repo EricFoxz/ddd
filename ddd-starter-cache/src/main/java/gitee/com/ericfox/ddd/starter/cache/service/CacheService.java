@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 @Service
-@ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = "enable")
+@ConditionalOnProperty(prefix = "custom.starter.cache", value = "enable")
 public class CacheService implements CacheStrategy {
     @Resource
     private StarterCacheProperties starterCacheProperties;

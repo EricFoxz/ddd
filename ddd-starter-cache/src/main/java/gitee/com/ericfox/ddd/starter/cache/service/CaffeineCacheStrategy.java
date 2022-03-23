@@ -18,7 +18,7 @@ import java.util.function.Function;
 /**
  * Caffeine缓存策略实现
  */
-@Component("caffeineCacheStrategy")
+@Component
 @Slf4j
 @ConditionalOnBean(value = CaffeineCacheConfig.class)
 public class CaffeineCacheStrategy implements CacheStrategy {

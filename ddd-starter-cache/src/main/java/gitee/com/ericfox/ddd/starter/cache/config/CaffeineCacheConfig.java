@@ -28,11 +28,11 @@ import java.time.Duration;
  */
 @Configuration
 @ConditionalOnPropertyEnum(
-        name = "custom.service.cache-strategy.default-strategy",
+        name = "custom.starter.cache.default-strategy",
         enumClass = StarterCacheProperties.CachePropertiesEnum.class,
         includeAnyValue = "caffeine_cache_strategy"
 )
-@ConditionalOnProperty(prefix = "custom.service.cache-strategy", value = "enable")
+@ConditionalOnProperty(prefix = "custom.starter.cache", value = "enable")
 @EnableCaching
 @Slf4j
 public class CaffeineCacheConfig {

@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 /**
  * Redis缓存策略实现
  */
-@Component("redisCacheStrategy")
+@Component
 @Slf4j
 @ConditionalOnBean(value = RedisCacheConfig.class)
 public class RedisCacheStrategy implements CacheStrategy {

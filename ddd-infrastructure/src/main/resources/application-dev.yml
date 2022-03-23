@@ -6,6 +6,10 @@ server:
       worker: 30
     buffer-size: 1024
 spring:
+  activiti:
+    database-schema-update: true
+    history-level: full
+    db-history-used: true
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
     hikari:
@@ -64,6 +68,16 @@ spring:
     caffeine:
       spec:
 debug: false
+flowable:
+  async-executor-activate: false
+  #是否开启自动部署流程定义
+  check-process-definitions: true
+  #流程定义文件位置
+  process-definition-location-prefix: classpath*:/starter/bpm/
+  #流程文件后缀
+  process-definition-location-suffixes:
+    - "**.bpmn.xml"
+    - "**.bpmn"
 logging:
   charset:
     file: UTF-8
@@ -87,19 +101,14 @@ custom:
       key-of-error-message: message
       key-of-data: message
     static-sources:
-      - /*.html
-      - /**/*.html
-      - /**/*.css
-      - /**/*.js
+      - "/*.html"
+      - "/**/*.html"
+      - "/**/*.css"
+      - "/**/*.js"
   starter:
-    mq:
+    bpm:
       enable: true
-      enable-server-mode: true
-      enable-client-mode: false
-      #启用的mq，逗号分割
-      default-strategy: rabbit_mq_strategy
-    oauth2:
-      enable: true
+      default-strategy: flowable_strategy
     cache:
       enable: true
       #缓存策略，启用的缓存服务，逗号分割，注：caffeine为java缓存，redis为分布式缓存，目前限定为两种模式：
@@ -108,3 +117,11 @@ custom:
       default-strategy: caffeine_cache_strategy, redis_cache_strategy
       default-expire-seconds: 3600
       clear-when-start: false
+    mq:
+      enable: false
+      enable-server-mode: true
+      enable-client-mode: false
+      #启用的mq，逗号分割
+      default-strategy: rabbit_mq_strategy
+    oauth2:
+      enable: true
