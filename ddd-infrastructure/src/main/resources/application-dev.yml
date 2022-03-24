@@ -102,9 +102,16 @@ custom:
       key-of-data: message
     static-sources:
       - "/*.html"
+      - "/*.ico"
       - "/**/*.html"
       - "/**/*.css"
       - "/**/*.js"
+      - "/**/*.ttf"
+      - "/**/*.ico"
+      - "/**/*.svg"
+      - "/**/*.woff2"
+      - "/**/*.eot"
+      - "/**/*.gz"
   starter:
     bpm:
       enable: true

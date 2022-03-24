@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.ProcessEngineConfiguration;
 import org.flowable.spring.SpringProcessEngineConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,7 @@ import javax.sql.DataSource;
         enumClass = StarterBpmProperties.BpmPropertiesEnum.class,
         includeAnyValue = "flowable_strategy"
 )
+@ConditionalOnProperty(prefix = "custom.starter.bpm", value = "enable")
 @Slf4j
 public class FlowableBpmConfig {
 
