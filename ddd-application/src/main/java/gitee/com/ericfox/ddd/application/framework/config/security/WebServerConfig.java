@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.application.config.security;
+package gitee.com.ericfox.ddd.application.framework.config.security;
 
 import io.undertow.server.DefaultByteBufferPool;
 import io.undertow.websockets.jsr.WebSocketDeploymentInfo;

@@ -1,6 +1,6 @@
-package gitee.com.ericfox.ddd.application.config.security;
+package gitee.com.ericfox.ddd.application.framework.config.security;
 
-import gitee.com.ericfox.ddd.application.service.security.ApplicationSecurityUserDetailsService;
+import gitee.com.ericfox.ddd.application.framework.service.security.ApplicationFrameworkUserDetailsService;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private CustomProperties customProperties;
     @Resource
-    private ApplicationSecurityUserDetailsService userDetailsService;
+    private ApplicationFrameworkUserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {

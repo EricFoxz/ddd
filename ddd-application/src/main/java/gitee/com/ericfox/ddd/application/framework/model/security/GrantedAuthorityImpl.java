@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.application.model.security;
+package gitee.com.ericfox.ddd.application.framework.model.security;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package infrastructure.test;
 
-import gitee.com.ericfox.ddd.apis.ApiApplication;
+import gitee.com.ericfox.ddd.apis.ApisApplication;
 import gitee.com.ericfox.ddd.common.interfaces.BasePo;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ClassUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.URLUtil;
@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = ApiApplication.class)
+@SpringBootTest(classes = ApisApplication.class)
 public class FrameworkTest extends Parent {
     public static final class STRUCTURE {
         public static String id = "id2";

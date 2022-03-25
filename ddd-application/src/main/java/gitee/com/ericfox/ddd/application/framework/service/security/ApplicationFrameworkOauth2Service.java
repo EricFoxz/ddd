@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.application.service.security;
+package gitee.com.ericfox.ddd.application.framework.service.security;
 
 import com.fujieid.jap.core.JapUser;
 import com.fujieid.jap.oauth2.token.AccessToken;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class ApplicationSecurityOauth2Service implements StarterOauth2Service {
+public class ApplicationFrameworkOauth2Service implements StarterOauth2Service {
     @Resource
     private SysUserService sysUserService;
 

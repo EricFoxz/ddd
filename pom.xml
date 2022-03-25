@@ -201,7 +201,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>gitee.com.ericfox.ddd.apis.ApiApplication</mainClass>
+                    <mainClass>gitee.com.ericfox.ddd.apis.ApisApplication</mainClass>
                     <classifier>execute</classifier>
                 </configuration>
             </plugin>

@@ -1,14 +1,15 @@
-package gitee.com.ericfox.ddd.apis;
+package gitee.com.ericfox.ddd.application.framework;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 
 @SpringBootApplication(
         scanBasePackages = {
-                "gitee.com.ericfox.ddd.apis.controller",
-                "gitee.com.ericfox.ddd.application.service",
-                "gitee.com.ericfox.ddd.application.config",
+                "gitee.com.ericfox.ddd.application.*.controller",
+                "gitee.com.ericfox.ddd.application.*.service",
+                "gitee.com.ericfox.ddd.application.*.config",
                 "gitee.com.ericfox.ddd.domain.*.model",
                 "gitee.com.ericfox.ddd.domain.*.service",
                 "gitee.com.ericfox.ddd.infrastructure.general.config",
@@ -21,9 +22,8 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
         },
         exclude = {HibernateJpaAutoConfiguration.class}
 )
-
-public class ApiApplication {
+public class ApplicationApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ApiApplication.class, args);
+        SpringApplication.run(ApplicationApplication.class, args);
     }
 }

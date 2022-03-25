@@ -8,7 +8,7 @@ import com.fujieid.jap.oauth2.OAuthConfig;
 import com.fujieid.jap.oauth2.Oauth2GrantType;
 import com.fujieid.jap.oauth2.Oauth2ResponseType;
 import com.fujieid.jap.oauth2.Oauth2Strategy;
-import gitee.com.ericfox.ddd.application.service.security.ApplicationSecurityOauth2Service;
+import gitee.com.ericfox.ddd.application.framework.service.security.ApplicationFrameworkOauth2Service;
 import gitee.com.ericfox.ddd.common.toolkit.coding.IdUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.URLUtil;
 import lombok.SneakyThrows;
@@ -25,12 +25,12 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/oauth2")
 public class Oauth2Controller {
     @Resource
-    private ApplicationSecurityOauth2Service applicationSecurityOauth2Service;
+    private ApplicationFrameworkOauth2Service applicationFrameworkOauth2Service;
 
     @RequestMapping("/login/jai")
     @SneakyThrows
     public ModelAndView renderAuth(HttpServletRequest request, HttpServletResponse response) {
-        Oauth2Strategy oauth2Strategy = new Oauth2Strategy(applicationSecurityOauth2Service, new JapConfig());
+        Oauth2Strategy oauth2Strategy = new Oauth2Strategy(applicationFrameworkOauth2Service, new JapConfig());
         OAuthConfig config = new OAuthConfig();
         config.setPlatform("jai")
                 .setState(IdUtil.fastSimpleUUID())
