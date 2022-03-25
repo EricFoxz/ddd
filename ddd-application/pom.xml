@@ -15,16 +15,9 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <!--<dependency>
-            <groupId>gitee.com.ericfox.ddd</groupId>
-            <artifactId>ddd-domain</artifactId>
-            <version>${project.version}</version>
-        </dependency>-->
         <dependency>
             <groupId>gitee.com.ericfox.ddd</groupId>
             <artifactId>ddd-domain-sys</artifactId>
         </dependency>
     </dependencies>
-
-
 </project>

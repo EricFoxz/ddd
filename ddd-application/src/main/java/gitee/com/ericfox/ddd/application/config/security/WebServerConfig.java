@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.general.config;
+package gitee.com.ericfox.ddd.application.config.security;
 
 import io.undertow.server.DefaultByteBufferPool;
 import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
@@ -17,6 +17,9 @@ import org.springframework.web.filter.CorsFilter;
  */
 @Configuration
 public class WebServerConfig implements WebServerFactoryCustomizer<UndertowServletWebServerFactory> {
+    /**
+     * 解决启动服务时报Warning问题
+     */
     @Override
     public void customize(UndertowServletWebServerFactory factory) {
         factory.addDeploymentInfoCustomizers(deploymentInfo -> {
@@ -26,6 +29,9 @@ public class WebServerConfig implements WebServerFactoryCustomizer<UndertowServl
         });
     }
 
+    /**
+     * 跨域问题
+     */
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
@@ -33,6 +39,9 @@ public class WebServerConfig implements WebServerFactoryCustomizer<UndertowServl
         return new CorsFilter(urlBasedCorsConfigurationSource);
     }
 
+    /**
+     * 自定义过滤器
+     */
     @Bean
     public FilterRegistrationBean<?> filterRegistrationBean() {
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();

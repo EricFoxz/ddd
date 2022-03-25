@@ -1,8 +1,8 @@
 package gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans;
 
+import gitee.com.ericfox.ddd.common.service.GoogleTranslateService;
 import gitee.com.ericfox.ddd.common.toolkit.coding.PropsUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.SpringUtil;
-import gitee.com.ericfox.ddd.infrastructure.service.util.GoogleTranslateService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Properties;

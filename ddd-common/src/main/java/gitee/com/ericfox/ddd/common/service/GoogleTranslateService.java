@@ -1,9 +1,9 @@
-package gitee.com.ericfox.ddd.infrastructure.service.util;
+package gitee.com.ericfox.ddd.common.service;
 
 import cn.hutool.json.JSONArray;
 import gitee.com.ericfox.ddd.common.enums.BaseEnum;
+import gitee.com.ericfox.ddd.common.pojo.OkHttpResponse;
 import gitee.com.ericfox.ddd.common.toolkit.coding.JSONUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.common.framework.pojo.OkHttpResponse;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;

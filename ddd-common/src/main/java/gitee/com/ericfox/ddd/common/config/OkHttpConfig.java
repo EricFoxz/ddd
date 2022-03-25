@@ -1,13 +1,13 @@
-package gitee.com.ericfox.ddd.infrastructure.general.config.service;
+package gitee.com.ericfox.ddd.common.config;
 
 import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * OkHttp配置列
  */
-@Component
+@Configuration
 public class OkHttpConfig {
     @Bean
     public OkHttpClient okHttpClient() {

@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.general.common.framework.pojo;
+package gitee.com.ericfox.ddd.common.pojo;
 
 import lombok.Getter;
 import lombok.Setter;

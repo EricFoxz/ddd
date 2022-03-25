@@ -1,8 +1,11 @@
-package gitee.com.ericfox.ddd.infrastructure.general.config;
+package gitee.com.ericfox.ddd.application.config.security;
 
+import gitee.com.ericfox.ddd.application.service.security.ApplicationSecurityUserDetailsService;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
+import lombok.SneakyThrows;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -15,6 +18,8 @@ import javax.annotation.Resource;
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private CustomProperties customProperties;
+    @Resource
+    private ApplicationSecurityUserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -33,5 +38,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .sessionManagement()
                 .disable();
+    }
+
+    @Override
+    @SneakyThrows
+    protected void configure(AuthenticationManagerBuilder builder) {
+        builder.userDetailsService(userDetailsService);
     }
 }

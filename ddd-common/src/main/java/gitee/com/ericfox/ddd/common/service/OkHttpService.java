@@ -1,7 +1,7 @@
-package gitee.com.ericfox.ddd.infrastructure.service.util;
+package gitee.com.ericfox.ddd.common.service;
 
+import gitee.com.ericfox.ddd.common.pojo.OkHttpResponse;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.common.framework.pojo.OkHttpResponse;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.springframework.stereotype.Service;

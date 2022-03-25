@@ -2,7 +2,6 @@ package gitee.com.ericfox.ddd.domain.gen;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 
 @SpringBootApplication(
@@ -12,7 +11,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
                 "gitee.com.ericfox.ddd.domain.gen.common",
                 "gitee.com.ericfox.ddd.domain.gen.service",
         },
-        exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class}
+        exclude = {HibernateJpaAutoConfiguration.class}
 )
 public class GenApplication {
     public static void main(String[] args) {
