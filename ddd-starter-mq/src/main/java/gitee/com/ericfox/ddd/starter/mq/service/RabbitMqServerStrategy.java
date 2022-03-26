@@ -1,9 +1,9 @@
 package gitee.com.ericfox.ddd.starter.mq.service;
 
+import gitee.com.ericfox.ddd.common.interfaces.starter.MqProxy;
+import gitee.com.ericfox.ddd.common.interfaces.starter.MqServerService;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.starter.mq.config.RabbitMqConfig;
-import gitee.com.ericfox.ddd.starter.mq.interfaces.MqProxy;
-import gitee.com.ericfox.ddd.starter.mq.interfaces.MqServerStrategy;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 @Component
 @ConditionalOnProperty(prefix = "custom.starter.mq", value = "enable")
 @ConditionalOnBean(RabbitMqConfig.class)
-public class RabbitMqServerStrategy implements MqServerStrategy {
+public class RabbitMqServerStrategy implements MqServerService {
     @Resource
     private RabbitTemplate rabbitTemplate;
 

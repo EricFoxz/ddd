@@ -5,10 +5,10 @@ import com.github.benmanes.caffeine.cache.CacheWriter;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalCause;
 import gitee.com.ericfox.ddd.common.annotations.ConditionalOnPropertyEnum;
+import gitee.com.ericfox.ddd.common.interfaces.starter.CacheService;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.SpringUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
-import gitee.com.ericfox.ddd.starter.cache.interfaces.CacheStrategy;
 import gitee.com.ericfox.ddd.starter.cache.properties.StarterCacheProperties;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ import java.time.Duration;
 public class CaffeineCacheConfig {
     @Resource
     private StarterCacheProperties starterCacheProperties;
-    private CacheStrategy l2Cache = null;
+    private CacheService l2Cache = null;
 
     @Bean
     public CaffeineCache caffeineCache() {
@@ -72,7 +72,7 @@ public class CaffeineCacheConfig {
         return new CaffeineCache("default", caffeine.build());
     }
 
-    private CacheStrategy getL2Cache() {
+    private CacheService getL2Cache() {
         if (l2Cache == null && ArrayUtil.length(starterCacheProperties.getDefaultStrategy()) >= 2) {
             l2Cache = SpringUtil.getBean(StrUtil.toCamelCase(starterCacheProperties.getDefaultStrategy()[1].getName()));
         }

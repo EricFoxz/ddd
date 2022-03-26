@@ -2,8 +2,12 @@ package gitee.com.ericfox.ddd.apis;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 
+/**
+ * Api应用启动类
+ */
 @SpringBootApplication(
         scanBasePackages = {
                 "gitee.com.ericfox.ddd.apis.controller",
@@ -20,7 +24,9 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
                 "gitee.com.ericfox.ddd.common.config",
                 "gitee.com.ericfox.ddd.common.service",
         },
-        exclude = {HibernateJpaAutoConfiguration.class}
+        exclude = {
+                HibernateJpaAutoConfiguration.class
+        }
 )
 public class ApisApplication {
     public static void main(String[] args) {

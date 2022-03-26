@@ -2,9 +2,9 @@ package gitee.com.ericfox.ddd.infrastructure.service.repo;
 
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
-import gitee.com.ericfox.ddd.common.interfaces.BaseDao;
-import gitee.com.ericfox.ddd.common.interfaces.BaseEntity;
-import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BaseDao;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.IdUtil;

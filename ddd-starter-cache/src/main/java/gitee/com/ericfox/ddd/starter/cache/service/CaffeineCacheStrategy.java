@@ -1,11 +1,11 @@
 package gitee.com.ericfox.ddd.starter.cache.service;
 
 import gitee.com.ericfox.ddd.common.exceptions.ProjectFrameworkException;
+import gitee.com.ericfox.ddd.common.interfaces.starter.CacheService;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.SpringUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.starter.cache.config.CaffeineCacheConfig;
-import gitee.com.ericfox.ddd.starter.cache.interfaces.CacheStrategy;
 import gitee.com.ericfox.ddd.starter.cache.properties.StarterCacheProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -21,12 +21,12 @@ import java.util.function.Function;
 @Component
 @Slf4j
 @ConditionalOnBean(value = CaffeineCacheConfig.class)
-public class CaffeineCacheStrategy implements CacheStrategy {
+public class CaffeineCacheStrategy implements CacheService {
     @Resource
     private CaffeineCache caffeineCache;
     @Resource
     private StarterCacheProperties starterCacheProperties;
-    private CacheStrategy l2Cache = null;
+    private CacheService l2Cache = null;
 
     @Override
     public void put(Object key, Object value) {
@@ -54,7 +54,7 @@ public class CaffeineCacheStrategy implements CacheStrategy {
         return (t) -> getL2Cache() == null ? null : getL2Cache().get(key);
     }
 
-    private CacheStrategy getL2Cache() {
+    private CacheService getL2Cache() {
         if (l2Cache == null && ArrayUtil.length(starterCacheProperties.getDefaultStrategy()) >= 2) {
             l2Cache = SpringUtil.getBean(StrUtil.toCamelCase(starterCacheProperties.getDefaultStrategy()[1].getName()));
         }

@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.domain.gen.bean;
 
 import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
-import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import gitee.com.ericfox.ddd.common.toolkit.coding.*;
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.enums.MySqlDataTypeEnum;

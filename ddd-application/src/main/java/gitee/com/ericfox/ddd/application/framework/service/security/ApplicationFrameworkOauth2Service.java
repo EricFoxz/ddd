@@ -1,13 +1,14 @@
 package gitee.com.ericfox.ddd.application.framework.service.security;
 
 import com.fujieid.jap.core.JapUser;
+import com.fujieid.jap.core.JapUserService;
 import com.fujieid.jap.oauth2.token.AccessToken;
 import com.xkcoding.json.JsonUtil;
+import gitee.com.ericfox.ddd.common.interfaces.starter.Oauth2Service;
 import gitee.com.ericfox.ddd.common.toolkit.trans.SimpleCondition;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserService;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
-import gitee.com.ericfox.ddd.starter.oauth2.interfaces.StarterOauth2Service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class ApplicationFrameworkOauth2Service implements StarterOauth2Service {
+public class ApplicationFrameworkOauth2Service implements Oauth2Service, JapUserService {
     @Resource
     private SysUserService sysUserService;
 

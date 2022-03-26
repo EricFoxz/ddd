@@ -39,7 +39,7 @@ public class RSocketConfig {
                 builder
                         .rsocketConnector(connector -> connector.reconnect(Retry.fixedDelay(2, Duration.ofSeconds(2))))
                         .dataMimeType(MediaType.APPLICATION_CBOR)
-                        .transport(TcpClientTransport.create(3002))
+                        .transport(TcpClientTransport.create(3001))
         );
     }
 }

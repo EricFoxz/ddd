@@ -1,8 +1,8 @@
 package gitee.com.ericfox.ddd.starter.cache.service;
 
+import gitee.com.ericfox.ddd.common.interfaces.starter.CacheService;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.starter.cache.config.RedisCacheConfig;
-import gitee.com.ericfox.ddd.starter.cache.interfaces.CacheStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 @Component
 @Slf4j
 @ConditionalOnBean(value = RedisCacheConfig.class)
-public class RedisCacheStrategy implements CacheStrategy {
+public class RedisCacheStrategy implements CacheService {
     @Resource
     RedisTemplate redisTemplate;
 

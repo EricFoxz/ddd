@@ -1,9 +1,9 @@
 package gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans;
 
 import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
-import gitee.com.ericfox.ddd.common.interfaces.BaseDao;
-import gitee.com.ericfox.ddd.common.interfaces.BaseEntity;
-import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BaseDao;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ClassUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ReUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;

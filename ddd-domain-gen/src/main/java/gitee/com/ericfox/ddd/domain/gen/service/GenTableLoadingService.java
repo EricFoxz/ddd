@@ -5,7 +5,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.jfinal.plugin.activerecord.Record;
 import gitee.com.ericfox.ddd.common.exceptions.ProjectFrameworkException;
-import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import gitee.com.ericfox.ddd.common.toolkit.coding.*;
 import gitee.com.ericfox.ddd.domain.gen.bean.TableJavaBean;
 import gitee.com.ericfox.ddd.domain.gen.bean.TableMySqlBean;

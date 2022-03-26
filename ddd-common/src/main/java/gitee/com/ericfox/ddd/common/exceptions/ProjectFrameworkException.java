@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.common.exceptions;
 
-import gitee.com.ericfox.ddd.common.interfaces.ProjectException;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.ProjectException;
 
 /**
  * 持久化异常

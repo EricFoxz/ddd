@@ -1,8 +1,8 @@
 package gitee.com.ericfox.ddd.common.toolkit.trans;
 
 import gitee.com.ericfox.ddd.common.exceptions.ProjectFrameworkException;
-import gitee.com.ericfox.ddd.common.interfaces.BaseCondition;
-import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.interfaces.domain.BaseCondition;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.MapUtil;

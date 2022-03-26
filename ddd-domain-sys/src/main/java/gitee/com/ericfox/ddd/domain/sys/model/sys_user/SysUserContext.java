@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.domain.sys.model.sys_user;
 
-import gitee.com.ericfox.ddd.common.interfaces.BaseContext;
+import gitee.com.ericfox.ddd.common.interfaces.domain.BaseContext;
 import lombok.Getter;
 import lombok.Setter;
 

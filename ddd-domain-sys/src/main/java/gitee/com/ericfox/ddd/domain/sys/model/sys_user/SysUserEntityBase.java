@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.domain.sys.model.sys_user;
 
-import gitee.com.ericfox.ddd.common.interfaces.BaseCondition;
-import gitee.com.ericfox.ddd.common.interfaces.BaseEntity;
+import gitee.com.ericfox.ddd.common.interfaces.domain.BaseCondition;
+import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
 import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.SpringUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;

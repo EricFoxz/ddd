@@ -1,8 +1,8 @@
 package gitee.com.ericfox.ddd.domain.sys.model.sys_user;
 
 import com.github.pagehelper.PageInfo;
-import gitee.com.ericfox.ddd.common.interfaces.BaseContext;
-import gitee.com.ericfox.ddd.common.interfaces.BaseService;
+import gitee.com.ericfox.ddd.common.interfaces.domain.BaseContext;
+import gitee.com.ericfox.ddd.common.interfaces.domain.BaseService;
 import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import gitee.com.ericfox.ddd.infrastructure.service.repo.RepoService;

@@ -1,8 +1,8 @@
 package gitee.com.ericfox.ddd.starter.mq.service;
 
+import gitee.com.ericfox.ddd.common.interfaces.starter.MqClientService;
+import gitee.com.ericfox.ddd.common.interfaces.starter.MqProxy;
 import gitee.com.ericfox.ddd.starter.mq.config.RabbitMqConfig;
-import gitee.com.ericfox.ddd.starter.mq.interfaces.MqClientStrategy;
-import gitee.com.ericfox.ddd.starter.mq.interfaces.MqProxy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.listener.MethodRabbitListenerEndpoint;
 import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
@@ -22,7 +22,7 @@ import javax.annotation.Resource;
 @Component
 @ConditionalOnProperty(prefix = "custom.starter.mq", value = "enable")
 @ConditionalOnBean(RabbitMqConfig.class)
-public class RabbitMqClientStrategy implements MqClientStrategy {
+public class RabbitMqClientStrategy implements MqClientService {
     @Resource
     private RabbitListenerEndpointRegistry rabbitListenerEndpointRegistry;
     @Resource

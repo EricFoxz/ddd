@@ -5,7 +5,7 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.hikaricp.HikariCpPlugin;
 import com.jfinal.template.source.ClassPathSourceFactory;
 import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
-import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ClassUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ReflectUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;

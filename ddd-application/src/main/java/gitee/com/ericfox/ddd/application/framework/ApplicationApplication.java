@@ -1,10 +1,12 @@
 package gitee.com.ericfox.ddd.application.framework;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 
+/**
+ * Application层启动类
+ */
 @SpringBootApplication(
         scanBasePackages = {
                 "gitee.com.ericfox.ddd.application.*.controller",

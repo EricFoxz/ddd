@@ -1,7 +1,7 @@
 package jdk;
 
 import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
-import gitee.com.ericfox.ddd.common.interfaces.BaseDao;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BaseDao;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans.ClassTransUtil;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 

@@ -2,7 +2,7 @@ package gitee.com.ericfox.ddd.apis.model.dto.sys.base;
 
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.apis.model.dto.sys.SysUserDto;
-import gitee.com.ericfox.ddd.common.interfaces.BaseDto;
+import gitee.com.ericfox.ddd.common.interfaces.apis.BaseDto;
 import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;

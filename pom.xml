@@ -31,6 +31,7 @@
         <jap.version>1.0.7</jap.version>
         <activiti.version>7.1.0.M6</activiti.version>
         <flowable.version>6.7.2</flowable.version>
+        <eureka.version>1.4.7.RELEASE</eureka.version>
     </properties>
 
     <modules>
@@ -45,6 +46,7 @@
         <module>ddd-starter</module>
         <module>ddd-starter-bpm</module>
         <module>ddd-starter-cache</module>
+<!--        <module>ddd-starter-cloud</module>-->
         <module>ddd-starter-mq</module>
         <module>ddd-starter-oauth2</module>
     </modules>
@@ -104,6 +106,11 @@
                 <artifactId>ddd-starter-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <!--<dependency>
+                <groupId>gitee.com.ericfox.ddd</groupId>
+                <artifactId>ddd-starter-cloud</artifactId>
+                <version>${project.version}</version>
+            </dependency>-->
             <dependency>
                 <groupId>gitee.com.ericfox.ddd</groupId>
                 <artifactId>ddd-starter-mq</artifactId>
@@ -189,6 +196,11 @@
                 <groupId>org.flowable</groupId>
                 <artifactId>flowable-spring-boot-starter</artifactId>
                 <version>${flowable.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-eureka-server</artifactId>
+                <version>${eureka.version}</version>
             </dependency>
         </dependencies>
 

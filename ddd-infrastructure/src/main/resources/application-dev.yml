@@ -5,6 +5,14 @@ server:
       io: 4
       worker: 30
     buffer-size: 1024
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone:
+        - http://localhost:9080/eureka
+        - http://localhost:9081/eureka
 spring:
   activiti:
     database-schema-update: true
@@ -124,6 +132,9 @@ custom:
       default-strategy: caffeine_cache_strategy, redis_cache_strategy
       default-expire-seconds: 3600
       clear-when-start: false
+    cloud:
+      enable: true
+      default-register-strategy: eureka_register_strategy
     mq:
       enable: false
       enable-server-mode: true

@@ -1,9 +1,9 @@
 package gitee.com.ericfox.ddd.apis.assembler;
 
 import com.github.pagehelper.PageInfo;
-import gitee.com.ericfox.ddd.common.interfaces.BaseDto;
-import gitee.com.ericfox.ddd.common.interfaces.BaseEntity;
-import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.interfaces.apis.BaseDto;
+import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 

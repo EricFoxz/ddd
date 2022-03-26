@@ -1,8 +1,8 @@
 package gitee.com.ericfox.ddd.application.framework.controller.r_socket;
 
+import gitee.com.ericfox.ddd.application.framework.config.r_socket.RSocketConfig;
 import gitee.com.ericfox.ddd.application.framework.model.r_socket.RSocketMessageBean;
 import gitee.com.ericfox.ddd.application.framework.service.r_socket.ApplicationFrameworkRSocketService;
-import gitee.com.ericfox.ddd.application.framework.config.r_socket.RSocketConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -14,6 +14,9 @@ import reactor.core.publisher.Mono;
 import javax.annotation.Resource;
 import java.time.Duration;
 
+/**
+ * RSocket Controller
+ */
 @Slf4j
 @Controller
 @ConditionalOnBean(RSocketConfig.class)

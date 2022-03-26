@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.domain.gen.bean;
 
 import cn.hutool.core.bean.BeanDesc;
-import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ClassUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;

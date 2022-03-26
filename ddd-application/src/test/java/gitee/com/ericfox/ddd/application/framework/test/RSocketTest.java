@@ -14,6 +14,9 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 
+/**
+ * RSocket测试类
+ */
 @Slf4j
 @SpringBootTest
 @RunWith(SpringRunner.class)

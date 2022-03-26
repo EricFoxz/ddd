@@ -1,7 +1,7 @@
 package infrastructure.test;
 
 import gitee.com.ericfox.ddd.apis.ApisApplication;
-import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ClassUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.URLUtil;
 import org.junit.Test;

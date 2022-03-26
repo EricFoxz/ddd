@@ -1,9 +1,9 @@
 package gitee.com.ericfox.ddd.infrastructure.service.repo;
 
 import com.github.pagehelper.PageInfo;
-import gitee.com.ericfox.ddd.common.interfaces.BaseDao;
-import gitee.com.ericfox.ddd.common.interfaces.BaseEntity;
-import gitee.com.ericfox.ddd.common.interfaces.BasePo;
+import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BaseDao;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
