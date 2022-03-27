@@ -1,0 +1,9 @@
+# Initializers
+org.springframework.context.ApplicationContextInitializer=
+
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+gitee.com.ericfox.ddd.starter.StarterAutoConfig
+
+# Application Listeners
+org.springframework.context.ApplicationListener=

@@ -31,22 +31,23 @@
         <jap.version>1.0.7</jap.version>
         <activiti.version>7.1.0.M6</activiti.version>
         <flowable.version>6.7.2</flowable.version>
-        <eureka.version>1.4.7.RELEASE</eureka.version>
+        <springcloud.version>3.1.1</springcloud.version>
+        <zookeeper.version>3.8.0</zookeeper.version>
+        <curator.version>5.2.1</curator.version>
     </properties>
 
     <modules>
         <module>ddd-apis</module>
         <module>ddd-application</module>
-        <!--<module>ddd-domain</module>-->
-        <module>ddd-domain-sys</module>
         <module>ddd-domain-gen</module>
+        <module>ddd-domain-sys</module>
         <module>ddd-infrastructure</module>
         <module>ddd-common</module>
 
         <module>ddd-starter</module>
         <module>ddd-starter-bpm</module>
         <module>ddd-starter-cache</module>
-<!--        <module>ddd-starter-cloud</module>-->
+        <module>ddd-starter-cloud</module>
         <module>ddd-starter-mq</module>
         <module>ddd-starter-oauth2</module>
     </modules>
@@ -106,11 +107,11 @@
                 <artifactId>ddd-starter-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!--<dependency>
+            <dependency>
                 <groupId>gitee.com.ericfox.ddd</groupId>
                 <artifactId>ddd-starter-cloud</artifactId>
                 <version>${project.version}</version>
-            </dependency>-->
+            </dependency>
             <dependency>
                 <groupId>gitee.com.ericfox.ddd</groupId>
                 <artifactId>ddd-starter-mq</artifactId>
@@ -198,9 +199,29 @@
                 <version>${flowable.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-eureka-server</artifactId>
-                <version>${eureka.version}</version>
+                <artifactId>spring-cloud-netflix-dependencies</artifactId>
+                <version>${springcloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+                <version>${springcloud.version}</version>
             </dependency>
         </dependencies>
 

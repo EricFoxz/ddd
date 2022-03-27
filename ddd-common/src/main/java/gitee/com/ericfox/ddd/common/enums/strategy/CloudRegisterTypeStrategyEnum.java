@@ -8,7 +8,8 @@ import lombok.Getter;
  */
 @Getter
 public enum CloudRegisterTypeStrategyEnum implements BaseEnum<CloudRegisterTypeStrategyEnum, String> {
-    EUREKA_REGISTER_STRATEGY("eurekaRegisterStrategy", "eureka");
+    EUREKA_REGISTER_STRATEGY("eurekaRegisterStrategy", "eureka同步服务"),
+    ZOOKEEPER_REGISTER_STRATEGY("zookeeperRegisterStrategy", "zookeeper同步服务");
 
     private final String code;
     private final String comment;
