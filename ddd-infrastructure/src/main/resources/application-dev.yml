@@ -74,7 +74,7 @@ spring:
     password:
   cache:
     caffeine:
-      spec:
+      spec: maximumSize=2000, expireAfterWrite=1800s
 debug: false
 flowable:
   async-executor-activate: false
@@ -137,6 +137,8 @@ custom:
       #1、如果设为"caffeine_cache_strategy, redis_cache_strategy"，前者为一级缓存，后者为二级缓存，对一级缓存的update和delete将同步至二级缓存（原子性），如果是分布式，对二级缓存的更新将清空其他节点的一级缓存
       #2、如果只设置一种缓存，就将只采用一种缓存
       default-strategy: caffeine_cache_strategy, redis_cache_strategy
+      # caffeine配置
+      caffeine-spec: ${spring.cache.caffeine.spec}
       # 默认过期时间
       default-expire-seconds: 3600
       # 启动项目时清空缓存

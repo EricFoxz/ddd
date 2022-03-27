@@ -42,13 +42,18 @@ public class CacheServiceImpl implements CacheService {
     }
 
     @Override
-    public Boolean delete(Object key) {
-        return strategyMap.get(getBeanName()).delete(key);
+    public Boolean remove(Object key) {
+        return strategyMap.get(getBeanName()).remove(key);
     }
 
     @Override
-    public Long flushByPrefix(String prefix) {
-        return strategyMap.get(getBeanName()).flushByPrefix(prefix);
+    public Long removeByPrefix(String prefix) {
+        return strategyMap.get(getBeanName()).removeByPrefix(prefix);
+    }
+
+    @Override
+    public Long removeByPrefix(String module, String prefix) {
+        return strategyMap.get(getBeanName()).removeByPrefix(module, prefix);
     }
 
     private String getBeanName() {

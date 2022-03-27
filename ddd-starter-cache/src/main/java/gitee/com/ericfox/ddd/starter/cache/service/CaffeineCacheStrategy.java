@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.starter.cache.service;
 
+import com.github.benmanes.caffeine.cache.Cache;
 import gitee.com.ericfox.ddd.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.common.interfaces.starter.CacheService;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ArrayUtil;
@@ -9,10 +10,13 @@ import gitee.com.ericfox.ddd.starter.cache.config.CaffeineCacheConfig;
 import gitee.com.ericfox.ddd.starter.cache.properties.StarterCacheProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 /**
@@ -24,6 +28,8 @@ import java.util.function.Function;
 public class CaffeineCacheStrategy implements CacheService {
     @Resource
     private CaffeineCache caffeineCache;
+    @Resource
+    private CacheManager cacheManager;
     @Resource
     private StarterCacheProperties starterCacheProperties;
     private CacheService l2Cache = null;
@@ -40,14 +46,33 @@ public class CaffeineCacheStrategy implements CacheService {
     }
 
     @Override
-    public Boolean delete(Object key) {
+    public Boolean remove(Object key) {
         return caffeineCache.evictIfPresent(key);
     }
 
     @Override
-    public Long flushByPrefix(String prefix) {
-        log.error("caffeineCacheStrategy::flushByPrefix 暂未实现该方法");
-        throw new ProjectFrameworkException("待实现");
+    public Long removeByPrefix(String prefix) {
+        int i = StrUtil.lastIndexOfIgnoreCase(prefix, ":");
+        if (i >= 0) {
+            String module = prefix.substring(0, i);
+            String keyPrefix = prefix.substring(i + 1);
+            return removeByPrefix(module, keyPrefix);
+        }
+        throw new ProjectFrameworkException("没有找到模块名称或前缀为空");
+    }
+
+    public Long removeByPrefix(String module, String prefix) {
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        int i = 0;
+        String finalPrefix = prefix;
+        Cache<?, ?> cache = (Cache<?, ?>) Objects.requireNonNull(cacheManager.getCache(module)).getNativeCache();
+        cache.asMap().keySet().forEach(key -> {
+            if (cn.hutool.core.util.StrUtil.startWith((String) key, finalPrefix)) {
+                cache.invalidate(key);
+                atomicInteger.incrementAndGet();
+            }
+        });
+        return atomicInteger.longValue();
     }
 
     private Function<String, Object> getValueFromL2Cache(Object key) {

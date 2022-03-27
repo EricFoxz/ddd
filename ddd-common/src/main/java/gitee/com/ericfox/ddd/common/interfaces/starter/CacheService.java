@@ -8,7 +8,9 @@ public interface CacheService {
 
     Object get(Object key);
 
-    Boolean delete(Object key);
+    Boolean remove(Object key);
 
-    Long flushByPrefix(String prefix);
+    Long removeByPrefix(String prefix);
+
+    Long removeByPrefix(String module, String prefix);
 }

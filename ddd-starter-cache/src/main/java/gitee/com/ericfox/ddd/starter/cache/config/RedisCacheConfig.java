@@ -9,6 +9,7 @@ import gitee.com.ericfox.ddd.common.toolkit.coding.JSONUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.SecureUtil;
 import gitee.com.ericfox.ddd.starter.cache.properties.StarterCacheProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -66,6 +67,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
     }
 
     @Bean
+    @ConditionalOnMissingBean(CacheManager.class)
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         return new RedisCacheManager(
                 RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory),

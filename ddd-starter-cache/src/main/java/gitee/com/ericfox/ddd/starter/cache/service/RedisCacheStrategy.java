@@ -32,12 +32,12 @@ public class RedisCacheStrategy implements CacheService {
     }
 
     @Override
-    public Boolean delete(Object key) {
+    public Boolean remove(Object key) {
         return redisTemplate.delete(key);
     }
 
     @Override
-    public Long flushByPrefix(String prefix) {
+    public Long removeByPrefix(String prefix) {
         //String UUID = IdUtil.fastUUID();
         // 扫描指定前缀的key并删除
         String luaFun = "\n" +
@@ -69,5 +69,10 @@ public class RedisCacheStrategy implements CacheService {
             log.error("redisCacheStrategy::flushByPrefix 清除指定前缀缓存出错", e);
         }
         return 0L;
+    }
+
+    @Override
+    public Long removeByPrefix(String module, String prefix) {
+        return removeByPrefix(module + ":" + prefix);
     }
 }

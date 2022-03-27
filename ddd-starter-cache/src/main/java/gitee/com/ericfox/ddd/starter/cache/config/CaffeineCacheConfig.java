@@ -1,9 +1,6 @@
 package gitee.com.ericfox.ddd.starter.cache.config;
 
-import com.github.benmanes.caffeine.cache.CacheLoader;
-import com.github.benmanes.caffeine.cache.CacheWriter;
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.RemovalCause;
+import com.github.benmanes.caffeine.cache.*;
 import gitee.com.ericfox.ddd.common.annotations.ConditionalOnPropertyEnum;
 import gitee.com.ericfox.ddd.common.interfaces.starter.CacheService;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ArrayUtil;
@@ -15,10 +12,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCache;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import javax.annotation.Resource;
 import java.time.Duration;
@@ -47,7 +47,6 @@ public class CaffeineCacheConfig {
                 .expireAfterWrite(Duration.ofSeconds(7200))
                 .maximumSize(1000);
         if (ArrayUtil.length(starterCacheProperties.getDefaultStrategy()) >= 2) { //有2级缓存
-
             caffeine
                     .writer(new CacheWriter<Object, Object>() {
                         @Override
@@ -57,7 +56,7 @@ public class CaffeineCacheConfig {
 
                         @Override
                         public void delete(@NonNull Object key, @Nullable Object value, @NonNull RemovalCause cause) {
-                            getL2Cache().delete(key);
+                            getL2Cache().remove(key);
                         }
                     })
                     .build(new CacheLoader<Object, Object>() {
@@ -70,6 +69,14 @@ public class CaffeineCacheConfig {
             new CaffeineCache("default", caffeine.build());
         }
         return new CaffeineCache("default", caffeine.build());
+    }
+
+    @Bean
+    @Primary
+    public CacheManager cacheManager() {
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager();
+        cacheManager.setCaffeineSpec(CaffeineSpec.parse(starterCacheProperties.getCaffeineSpec()));
+        return cacheManager;
     }
 
     private CacheService getL2Cache() {

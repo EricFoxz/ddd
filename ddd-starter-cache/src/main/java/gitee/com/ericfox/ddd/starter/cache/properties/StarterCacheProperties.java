@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class StarterCacheProperties {
     private boolean enable = true;
     private CachePropertiesEnum[] defaultStrategy;
+    private String caffeineSpec;
     private Integer defaultExpireSeconds = 3600;
     private boolean clearWhenStart = false;
 
