@@ -19,7 +19,7 @@
 - 描述：什么类型的(Description) + 谁/什么地点/什么东西(PartPlaceThing) + 以什么角色(Rule) + 在什么时间(Moment) + 做什么(Interaction)
 
 ### 系统依赖关系图示
-![系统依赖关系图示](./docs/images/系统依赖关系图.png)
+![系统依赖关系图示](./docs/images/系统依赖关系图.png)  
 
 ### 目录层级说明
 ```text
@@ -68,44 +68,43 @@
 ```
 
 ## 安装教程
-
-#### 使用说明
-
-#### 参与贡献
-
-#### 特技
-
+  #### 使用说明
+  #### 参与贡献
+  #### 特技
+  
 1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
 2. Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
 3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
 4. [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
 5. Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
 6. Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
-
+  
 ## ddd #TODO list
-- [ ] 缓存问题
-	- [x] Caffeine一级缓存
-	- [x] Redis二级缓存
-	- [x] 策略设计模式
-	- [ ] 并发下的同步，CP和AP的取舍
-	- [Redis注解集成之解决@CacheEvict只能单一清除的扩展 -模糊清除多条缓存](https://blog.csdn.net/qq_33454884/article/details/89330649)
-	- [Caffeine 详解 —— Caffeine 使用](https://zhuanlan.zhihu.com/p/329684099)
-- [x] 整合MQ
-	- [x] RabbitMQ
-	- [x] Kafka
+- [x] 缓存问题
+   - [x] Caffeine一级缓存  
+   - [x] Redis二级缓存  
+   - [x] 策略设计模式  
+   - [x] 并发下的同步，CP和AP的取舍
+   - [Redis注解集成之解决@CacheEvict只能单一清除的扩展 -模糊清除多条缓存](https://blog.csdn.net/qq_33454884/article/details/89330649)
+   - [Caffeine 详解 —— Caffeine 使用](https://zhuanlan.zhihu.com/p/329684099)
+- [x] 整合MQ  
+   - [x] RabbitMQ  
+   - [x] Kafka  
 - [ ] 持久化问题
-	- [ ] ~~分库分表~~(可选)
-	- [ ] 整合MongoDB方式的持久化
-	- [ ] 整合HDFS或HBase
-	- [x] 整合MySQL
-	- [x] 整合lucene
-	- [x] 策略设计模式
+   - [ ] ~~分库分表~~(可选)
+   - [ ] 整合MongoDB方式的持久化
+   - [ ] 整合HDFS或HBase
+   - [x] 整合MySQL  
+   - [x] 整合lucene  
+   - [x] 策略设计模式  
 - [ ] 常用功能
-	- [ ] 整合OAuth2
-	- [ ] 流式传输
-	- [ ] 工作流
-	- [x] 代码生成
-	- [ ] 日志方案
-- [ ] 分布式/微服务
-	- [ ] 尝试使用RSocket实现多实例/微服务之间的通信
+   - [x] 整合OAuth2  
+   - [ ] 流式传输
+   - [x] 工作流  
+   - [x] 代码生成  
+   - [x] 日志方案  
+- [x] 分布式/微服务
+   - [x] 整合RSocket
+   - [x] 整合Zookeeper注册服务
+   - [x] 整合Eureka注册服务
 - [x] 支持starter拓展

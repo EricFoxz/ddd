@@ -1,16 +1,16 @@
 # ddd
-[![EricFox/ddd](https://gitee.com/EricFox/ddd/widgets/widget_card.svg?colors=ff6857,000000,ffffff,e3e9ed,666666,739bff)](https://gitee.com/EricFox/ddd)  
-## 介绍  
-一个ddd思维，充血模型实现的项目 [https://gitee.com/EricFox/ddd](https://gitee.com/EricFox/ddd)  
+[![EricFox/ddd](https://gitee.com/EricFox/ddd/widgets/widget_card.svg?colors=ff6857,000000,ffffff,e3e9ed,666666,739bff)](https://gitee.com/EricFox/ddd)
+## 介绍
+一个ddd思维，充血模型实现的项目 [https://gitee.com/EricFox/ddd](https://gitee.com/EricFox/ddd)
 
-### 基本理念  
-- 避免"基于数据库编程"，领域层的entity并不对应数据库表，虽然会在入库的时候做转换，但业务变化并不直接导致数据库变化  
-- 积极采用策略设计模式，结合注解，延长项目寿命  
-- 多采用防腐层隔离服务与业务  
-- 领域的划分是基于具体业务的，而非服务  
-- 本项目采用的DCI设计模式，适用于业务较为复杂的项目，若项目不大则还应该用MVC模式  
-- 复杂的结构和频繁的反射，导致了对开发人员的素质要求较高，使用前的培训是必要的  
-- 只使用最佳方案，拥抱新的协议和技术，优先轻量级实现，因为AOP的思想，所以若是比较重的技术如果层次抽象的好。也可采用  
+### 基本理念
+- 避免"基于数据库编程"，领域层的entity并不对应数据库表，虽然会在入库的时候做转换，但业务变化并不直接导致数据库变化
+- 积极采用策略设计模式，结合注解，延长项目寿命
+- 多采用防腐层隔离服务与业务
+- 领域的划分是基于具体业务的，而非服务
+- 本项目采用的DCI设计模式，适用于业务较为复杂的项目，若项目不大则还应该用MVC模式
+- 复杂的结构和频繁的反射，导致了对开发人员的素质要求较高，使用前的培训是必要的
+- 只使用最佳方案，拥抱新的协议和技术，优先轻量级实现，因为AOP的思想，所以若是比较重的技术如果层次抽象的好。也可采用
 
 ## 软件结构
 ### DCI设计模式 + 四色原型模式
@@ -19,7 +19,7 @@
 - 描述：什么类型的(Description) + 谁/什么地点/什么东西(PartPlaceThing) + 以什么角色(Rule) + 在什么时间(Moment) + 做什么(Interaction)
 
 ### 系统依赖关系图示
-![系统依赖关系图示](./docs/images/系统依赖关系图.png)
+![系统依赖关系图示](./docs/images/系统依赖关系图.png)  
 
 ### 目录层级说明
 ```text
@@ -68,44 +68,43 @@
 ```
 
 ## 安装教程
+  #### 使用说明
+  #### 参与贡献
+  #### 特技
   
-#### 使用说明
-  
-#### 参与贡献
-  
-#### 特技
-
 1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
 2. Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
 3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
 4. [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
 5. Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
 6. Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
-
+  
 ## ddd #TODO list
-- [ ] 缓存问题
-	- [x] Caffeine一级缓存
-	- [x] Redis二级缓存
-	- [x] 策略设计模式
-	- [ ] 并发下的同步，CP和AP的取舍
-	- [Redis注解集成之解决@CacheEvict只能单一清除的扩展 -模糊清除多条缓存](https://blog.csdn.net/qq_33454884/article/details/89330649)
-	- [Caffeine 详解 —— Caffeine 使用](https://zhuanlan.zhihu.com/p/329684099)
-- [x] 整合MQ
-	- [x] RabbitMQ
-	- [x] Kafka
+- [x] 缓存问题
+   - [x] Caffeine一级缓存  
+   - [x] Redis二级缓存  
+   - [x] 策略设计模式  
+   - [x] 并发下的同步，CP和AP的取舍
+   - [Redis注解集成之解决@CacheEvict只能单一清除的扩展 -模糊清除多条缓存](https://blog.csdn.net/qq_33454884/article/details/89330649)
+   - [Caffeine 详解 —— Caffeine 使用](https://zhuanlan.zhihu.com/p/329684099)
+- [x] 整合MQ  
+   - [x] RabbitMQ  
+   - [x] Kafka  
 - [ ] 持久化问题
-	- [ ] ~~分库分表~~(可选)
-	- [ ] 整合MongoDB方式的持久化
-	- [ ] 整合HDFS或HBase
-	- [x] 整合MySQL
-	- [x] 整合lucene
-	- [x] 策略设计模式
+   - [ ] ~~分库分表~~(可选)
+   - [ ] 整合MongoDB方式的持久化
+   - [ ] 整合HDFS或HBase
+   - [x] 整合MySQL  
+   - [x] 整合lucene  
+   - [x] 策略设计模式  
 - [ ] 常用功能
-	- [ ] 整合OAuth2
-	- [ ] 流式传输
-	- [ ] 工作流
-	- [ ] 代码生成
-	- [ ] 日志方案
-- [ ] 分布式/微服务
-	- [ ] 尝试使用RSocket实现多实例/微服务之间的通信
+   - [x] 整合OAuth2  
+   - [ ] 流式传输
+   - [x] 工作流  
+   - [x] 代码生成  
+   - [x] 日志方案  
+- [x] 分布式/微服务
+   - [x] 整合RSocket
+   - [x] 整合Zookeeper注册服务
+   - [x] 整合Eureka注册服务
 - [x] 支持starter拓展
