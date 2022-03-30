@@ -3,11 +3,10 @@ org.springframework.context.ApplicationContextInitializer=
 
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-gitee.com.ericfox.ddd.starter.cache.StarterCacheAutoConfig,\
 gitee.com.ericfox.ddd.starter.bpm.StarterBpmAutoConfig,\
-gitee.com.ericfox.ddd.starter.oauth2.StarterOauth2AutoConfig,\
+gitee.com.ericfox.ddd.starter.cache.StarterCacheAutoConfig,\
 gitee.com.ericfox.ddd.starter.mq.StarterMqAutoConfig,\
-gitee.com.ericfox.ddd.starter.cloud.StarterCloudAutoConfig
+gitee.com.ericfox.ddd.starter.oauth2.StarterOauth2AutoConfig
 
 # Application Listeners
 org.springframework.context.ApplicationListener=

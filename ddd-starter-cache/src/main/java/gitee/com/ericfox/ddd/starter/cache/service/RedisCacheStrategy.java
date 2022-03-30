@@ -36,6 +36,9 @@ public class RedisCacheStrategy implements CacheService {
         return redisTemplate.delete(key);
     }
 
+    /**
+     * 通过lua实现，删除指定前缀的缓存（原子性操作）
+     */
     @Override
     public Long removeByPrefix(String prefix) {
         //String UUID = IdUtil.fastUUID();
