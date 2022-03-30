@@ -23,10 +23,10 @@
             <groupId>gitee.com.ericfox.ddd</groupId>
             <artifactId>ddd-starter-cache</artifactId>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>gitee.com.ericfox.ddd</groupId>
             <artifactId>ddd-starter-cloud</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>gitee.com.ericfox.ddd</groupId>
             <artifactId>ddd-starter-mq</artifactId>
