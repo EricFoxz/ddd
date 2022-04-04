@@ -31,7 +31,7 @@ import java.util.Map;
         enumClass = StarterMqProperties.MqPropertiesEnum.class,
         includeAnyValue = "rabbit_mq_strategy"
 )
-@ConditionalOnProperty(prefix = "custom.service.mq-strategy", value = "enable")
+@ConditionalOnProperty(prefix = "custom.starter.mq-strategy", value = "enable")
 @EnableRabbit
 public class RabbitMqConfig {
     @Resource

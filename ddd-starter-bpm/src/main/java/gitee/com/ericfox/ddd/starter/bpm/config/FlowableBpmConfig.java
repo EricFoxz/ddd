@@ -25,7 +25,6 @@ import javax.sql.DataSource;
 public class FlowableBpmConfig {
 
     @Bean
-    @Primary
     @ConditionalOnMissingBean(SpringProcessEngineConfiguration.class)
     public SpringProcessEngineConfiguration springProcessEngineConfiguration(DataSourceTransactionManager dataSourceTransactionManager, DataSource dataSource) {
         SpringProcessEngineConfiguration springProcessEngineConfiguration = new SpringProcessEngineConfiguration();

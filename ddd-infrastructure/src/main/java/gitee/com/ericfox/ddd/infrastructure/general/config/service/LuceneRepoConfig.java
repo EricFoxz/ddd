@@ -27,7 +27,7 @@ import java.nio.file.Paths;
  */
 @Configuration
 @Slf4j
-@ConditionalOnProperty(prefix = "custom.service.repo-strategy.lucene", value = {"enable"})
+@ConditionalOnProperty(prefix = "custom.infrastructure.repo-strategy.lucene", value = {"enable"})
 public class LuceneRepoConfig {
     @Resource
     private InfrastructureProperties infrastructureProperties;
