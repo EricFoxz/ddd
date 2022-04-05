@@ -1,0 +1,51 @@
+custom:
+  # 拓展功能
+  starter:
+    # 工作流
+    bpm:
+      enable: true
+      # 工作流引擎
+      default-strategy: flowable_strategy
+    # 缓存
+    cache:
+      enable: true
+      #缓存策略，启用的缓存服务，逗号分割，注：caffeine为java缓存，redis为分布式缓存，目前限定为两种模式：
+      #1、如果设为"caffeine_cache_strategy, redis_cache_strategy"，前者为一级缓存，后者为二级缓存，对一级缓存的update和delete将同步至二级缓存（原子性），如果是分布式，对二级缓存的更新将清空其他节点的一级缓存
+      #2、如果只设置一种缓存，就将只采用一种缓存
+      default-strategy: caffeine_cache_strategy, redis_cache_strategy
+      # caffeine配置
+      caffeine-spec: ${spring.cache.caffeine.spec}
+      # 默认过期时间
+      default-expire-seconds: 3600
+      # 启动项目时清空缓存
+      clear-when-start: false
+    # 分布式
+    cloud:
+      enable: true
+      # 注册服务测试
+      default-register-strategy: eureka_register_strategy
+      # zookeeper配置
+      zookeeper-curator:
+        # 默认端口
+        # 2181: client服务端口
+        # 3888: 选举leader端口
+        # 2888: 集群内通信使用端口
+        client-url:
+          - 127.0.0.1:2181
+        session-timeout-ms: 60000
+        sleep-ms-between-retry: 1000
+        max-retries: 3
+        namespace: ddd
+        connection-timeout-ms: 60000
+    # 消息队列
+    mq:
+      enable: false
+      # 是否服务端
+      enable-server-mode: true
+      # 是否客户端
+      enable-client-mode: false
+      #启用的mq，逗号分割
+      default-strategy: rabbit_mq_strategy
+    # 认证
+    oauth2:
+      enable: true
