@@ -2,12 +2,9 @@ package gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framewor
 
 import java.lang.annotation.*;
 
-/**
- * 字段长度
- */
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface FieldComment {
-    String value() default "";
+public @interface TableKeys {
+    TableKey[] value();
 }

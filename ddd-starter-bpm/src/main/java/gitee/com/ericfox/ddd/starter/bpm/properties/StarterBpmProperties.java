@@ -24,7 +24,7 @@ public class StarterBpmProperties {
 
         @Override
         public BpmTypeStrategyEnum toBizEnum() {
-            return BpmTypeStrategyEnum.FLOWABLE_STRATEGY.getEnumByName(this.name());
+            return BpmTypeStrategyEnum.FLOWABLE_STRATEGY.getEnumByName(getName());
         }
     }
 }

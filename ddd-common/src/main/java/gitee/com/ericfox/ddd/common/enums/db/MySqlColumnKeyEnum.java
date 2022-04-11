@@ -3,18 +3,14 @@ package gitee.com.ericfox.ddd.common.enums.db;
 import gitee.com.ericfox.ddd.common.enums.BaseEnum;
 import lombok.Getter;
 
-/**
- * 数据类型枚举类
- */
 @Getter
-public enum DbDataStructureEnum implements BaseEnum<DbDataStructureEnum, String> {
-    HASH_MAP("hashMap", "哈希MAP"),
-    B_TREE("bTree", "B树");
-
+public enum MySqlColumnKeyEnum implements BaseEnum<MySqlColumnKeyEnum, String> {
+    PRI("PRI", "主键"),
+    MUL("MUL", "非空");
     private final String code;
     private final String comment;
 
-    DbDataStructureEnum(String code, String comment) {
+    MySqlColumnKeyEnum(String code, String comment) {
         this.code = code;
         this.comment = comment;
     }
@@ -25,7 +21,7 @@ public enum DbDataStructureEnum implements BaseEnum<DbDataStructureEnum, String>
     }
 
     @Override
-    public DbDataStructureEnum[] getEnums() {
+    public MySqlColumnKeyEnum[] getEnums() {
         return values();
     }
 }

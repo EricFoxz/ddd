@@ -25,12 +25,12 @@ public class StarterCloudProperties {
 
         @Override
         public String getName() {
-            return this.name();
+            return name();
         }
 
         @Override
         public CloudRegisterTypeStrategyEnum toBizEnum() {
-            return CloudRegisterTypeStrategyEnum.EUREKA_REGISTER_STRATEGY.getEnumByName(this.name());
+            return CloudRegisterTypeStrategyEnum.EUREKA_REGISTER_STRATEGY.getEnumByName(getName());
         }
     }
 

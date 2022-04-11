@@ -21,7 +21,7 @@ public enum CacheTypeStrategyEnum implements BaseEnum<CacheTypeStrategyEnum, Str
 
     @Override
     public String getName() {
-        return this.name();
+        return name();
     }
 
     @Override

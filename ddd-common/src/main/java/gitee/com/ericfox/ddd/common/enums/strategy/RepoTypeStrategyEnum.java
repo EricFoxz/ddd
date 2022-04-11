@@ -21,7 +21,7 @@ public enum RepoTypeStrategyEnum implements BaseEnum<RepoTypeStrategyEnum, Strin
 
     @Override
     public String getName() {
-        return this.name();
+        return name();
     }
 
     @Override

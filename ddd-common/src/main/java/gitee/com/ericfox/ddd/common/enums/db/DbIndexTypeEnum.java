@@ -1,10 +1,12 @@
 package gitee.com.ericfox.ddd.common.enums.db;
 
 import gitee.com.ericfox.ddd.common.enums.BaseEnum;
+import lombok.Getter;
 
 /**
  * 数据库索引类型枚举类
  */
+@Getter
 public enum DbIndexTypeEnum implements BaseEnum<DbIndexTypeEnum, String> {
     NORMAL("normal", "普通索引"),
     @Deprecated
@@ -20,17 +22,7 @@ public enum DbIndexTypeEnum implements BaseEnum<DbIndexTypeEnum, String> {
 
     @Override
     public String getName() {
-        return this.name();
-    }
-
-    @Override
-    public String getCode() {
-        return this.code;
-    }
-
-    @Override
-    public String getComment() {
-        return comment;
+        return name();
     }
 
     @Override

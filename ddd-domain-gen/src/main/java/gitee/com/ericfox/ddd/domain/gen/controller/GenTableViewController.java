@@ -3,6 +3,7 @@ package gitee.com.ericfox.ddd.domain.gen.controller;
 import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.FileUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.IoUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.domain.gen.bean.TableXmlBean;
@@ -20,11 +21,14 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
@@ -53,6 +57,8 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
     private ChoiceBox<String> repoTypeChoiceBox;
     @FXML
     private Button writeButton;
+    @FXML
+    private Button exportSqlButton;
     @FXML
     private TabPane codeTabPane;
 
@@ -154,6 +160,10 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
         //生成按钮
         writeButton.setOnAction(event -> {
             this.multiWriteCode();
+        });
+        //导出为SQL
+        exportSqlButton.setOnAction(event -> {
+            this.multiExportSql();
         });
         Font font = null;
         try {
@@ -325,6 +335,45 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
             logInfo(log, "genTableViewController::multiWriteCode 生成代码完成");
         } catch (Exception e) {
             logError(log, "生成代码异常", e);
+            throw new ProjectFrameworkException("生成代码异常" + e.getMessage());
+        }
+    }
+
+    /**
+     * 把表结构转换为SQL
+     */
+    private void multiExportSql() {
+        logInfo(log, "genTableViewController::multiExportSql 正在导出SQL");
+        try {
+            List<TableXmlBean> list = CollUtil.newArrayList();
+            tableListToolBar.getItems().forEach(node -> {
+                if (node instanceof CheckBox && node.getUserData() != null && ((CheckBox) node).isSelected()) {
+                    TableXmlBean tableXml = (TableXmlBean) node.getUserData();
+                    list.add(tableXml);
+                }
+            });
+            if (CollUtil.isEmpty(list)) {
+                logInfo(log, "没有选中任何表");
+                return;
+            }
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("SQL files (*.sql)", "*.sql");
+            fileChooser.getExtensionFilters().add(extFilter);
+            Stage exportStage = new Stage();
+            File file = fileChooser.showSaveDialog(exportStage);
+            if (file == null)
+                return;
+            if (file.exists()) {//文件已存在，则删除覆盖文件
+                file.delete();
+            }
+            String exportFilePath = file.getAbsolutePath();
+            logDebug(log, "导出文件的路径" + exportFilePath);
+            StringBuilder sqlContent = GenComponents.getGenTableWritingService().exportSqlByXml(list);
+            FileUtil.writeUtf8String(sqlContent.toString(), file);
+            exportStage.close();
+            logInfo(log, "genTableViewController::multiExportSql 导出SQL完成");
+        } catch (Exception e) {
+            logError(log, "导出SQL异常", e);
             throw new ProjectFrameworkException("生成代码异常" + e.getMessage());
         }
     }

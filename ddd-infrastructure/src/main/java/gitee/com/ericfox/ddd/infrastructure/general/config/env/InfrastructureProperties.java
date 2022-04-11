@@ -44,12 +44,12 @@ public class InfrastructureProperties {
 
             @Override
             public String getName() {
-                return this.name();
+                return name();
             }
 
             @Override
             public RepoTypeStrategyEnum toBizEnum() {
-                return RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY.getEnumByName(this.name());
+                return RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY.getEnumByName(getName());
             }
         }
     }

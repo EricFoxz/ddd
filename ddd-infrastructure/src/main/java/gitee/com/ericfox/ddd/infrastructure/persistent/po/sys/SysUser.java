@@ -1,5 +1,7 @@
 package gitee.com.ericfox.ddd.infrastructure.persistent.po.sys;
 
+import gitee.com.ericfox.ddd.common.enums.contants.BooleanEnums;
+import gitee.com.ericfox.ddd.common.enums.db.MySqlDataTypeEnum;
 import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.*;
@@ -14,6 +16,9 @@ import lombok.Setter;
 @TableIndexes(
         @TableIndex(name = "sys_user__username", column = "username")
 )
+@TableKeys(
+        @TableKey("id")
+)
 @Setter
 @Getter
 @RepoEnabledAnnotation(type = RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY)
@@ -25,19 +30,18 @@ public class SysUser implements BasePo<SysUser> {
         public static String uuid = "uuid";
     }
 
-    @FieldLength(length = 19, scale = 0)
-    @FieldComment("")
+    @FieldSchema(dataType = MySqlDataTypeEnum.BIGINT, length = 19, scale = 0)
     private Long id;
     /**
      * 用户名
      */
-    @FieldComment("用户名")
-    @FieldLength(length = 32, scale = 0)
+    @FieldSchema(dataType = MySqlDataTypeEnum.VARCHAR, length = 32, isNullable = BooleanEnums.EnglishCode.NO, comment = "用户名")
     private String username;
-    @FieldLength(length = 10, scale = 2)
-    @FieldComment("")
+    /**
+     * 金额
+     */
+    @FieldSchema(dataType = MySqlDataTypeEnum.DECIMAL, length = 10, scale = 2, isNullable = BooleanEnums.EnglishCode.NO, comment = "金额")
     private java.math.BigDecimal money;
-    @FieldLength(length = 65535, scale = 0)
-    @FieldComment("")
+    @FieldSchema(dataType = MySqlDataTypeEnum.TEXT, length = 65535)
     private String userInfo;
 }

@@ -29,7 +29,7 @@ public class GoogleTranslateService {
 
         @Override
         public String getName() {
-            return this.name();
+            return name();
         }
 
         @Override

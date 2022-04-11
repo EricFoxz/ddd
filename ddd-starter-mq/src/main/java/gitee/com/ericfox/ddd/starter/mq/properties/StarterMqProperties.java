@@ -25,12 +25,12 @@ public class StarterMqProperties {
 
         @Override
         public String getName() {
-            return this.name();
+            return name();
         }
 
         @Override
         public MqTypeStrategyEnum toBizEnum() {
-            return MqTypeStrategyEnum.RABBIT_MQ_STRATEGY.getEnumByName(this.name());
+            return MqTypeStrategyEnum.RABBIT_MQ_STRATEGY.getEnumByName(getName());
         }
     }
 }

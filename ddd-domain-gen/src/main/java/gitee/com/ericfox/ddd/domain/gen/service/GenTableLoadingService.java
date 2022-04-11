@@ -133,14 +133,19 @@ public class GenTableLoadingService implements GenLogger {
             arp.start();*/
 
             String databaseName = DbKit.getConfig().getConnection().getCatalog();
-            List<Record> tableRecordList = Db.find("select * from information_schema.tables where table_schema = '" + databaseName + "'");
+            List<Record> tableRecordList = Db.find("SELECT * FROM information_schema.tables WHERE table_schema = '" + databaseName + "'");
             tableRecordList.forEach(tableRecord -> {
                 CopyOptions copyOptions = Constants.IGNORE_CASE_VALUE_COPY_OPTIONS;
                 TableMySqlBean mySqlBean = BeanUtil.mapToBean(tableRecord.getColumns(), TableMySqlBean.class, false, copyOptions);
-                List<Record> columnRecordList = Db.find("select * from information_schema.columns where table_schema = '" + databaseName + "' and table_name='" + mySqlBean.getTable_name() + "'");
+                List<Record> columnRecordList = Db.find("SELECT * FROM information_schema.columns WHERE table_schema = '" + databaseName + "' AND table_name='" + mySqlBean.getTable_name() + "'");
                 columnRecordList.forEach(columnRecord -> {
                     TableMySqlBean.ColumnSchemaBean columnSchema = BeanUtil.mapToBean(columnRecord.getColumns(), TableMySqlBean.ColumnSchemaBean.class, false, copyOptions);
                     mySqlBean.getColumnSchemaList().add(columnSchema);
+                });
+                List<Record> indexRecordList = Db.find("SHOW INDEX FROM " + mySqlBean.getTable_name());
+                indexRecordList.forEach(indexRecord -> {
+                    TableMySqlBean.IndexSchemaBean indexSchemaBean = BeanUtil.mapToBean(indexRecord.getColumns(), TableMySqlBean.IndexSchemaBean.class, false, copyOptions);
+                    mySqlBean.getIndexSchemaList().add(indexSchemaBean);
                 });
                 TableXmlBean tableXml = TableXmlBean.load(mySqlBean);
                 String domainName = tableXml.getMeta().getDomainName();

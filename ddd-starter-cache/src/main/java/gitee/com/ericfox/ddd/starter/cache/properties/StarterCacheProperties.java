@@ -22,12 +22,12 @@ public class StarterCacheProperties {
 
         @Override
         public String getName() {
-            return this.name();
+            return name();
         }
 
         @Override
         public CacheTypeStrategyEnum toBizEnum() {
-            return CacheTypeStrategyEnum.CAFFEINE_CACHE_STRATEGY.getEnumByName(this.name());
+            return CacheTypeStrategyEnum.CAFFEINE_CACHE_STRATEGY.getEnumByName(getName());
         }
     }
 }

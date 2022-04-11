@@ -1,13 +1,14 @@
 package gitee.com.ericfox.ddd.domain.gen.bean;
 
+import gitee.com.ericfox.ddd.common.enums.contants.BooleanEnums;
+import gitee.com.ericfox.ddd.common.enums.db.MySqlDataTypeEnum;
 import gitee.com.ericfox.ddd.common.enums.strategy.RepoTypeStrategyEnum;
 import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import gitee.com.ericfox.ddd.common.toolkit.coding.*;
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
-import gitee.com.ericfox.ddd.domain.gen.common.enums.MySqlDataTypeEnum;
-import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.FieldComment;
-import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.FieldLength;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.FieldSchema;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.TableComment;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.TableIndex;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.service.RepoEnabledAnnotation;
 import lombok.Data;
 import lombok.Getter;
@@ -18,6 +19,7 @@ import org.w3c.dom.Document;
 
 import java.io.File;
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +36,7 @@ public class TableXmlBean implements GenLogger {
         /**
          * 注释
          */
-        private String tableComment;
+        private String tableComment = "";
         /**
          * 领域名称
          */
@@ -58,6 +60,10 @@ public class TableXmlBean implements GenLogger {
          */
         private String idField;
         /**
+         * 字段结构
+         */
+        private Map<String, FieldSchema> fieldSchemaMap = MapUtil.newLinkedHashMap();
+        /**
          * 字段及类型
          */
         private Map<String, Class<?>> fieldClassMap = MapUtil.newLinkedHashMap();
@@ -76,7 +82,9 @@ public class TableXmlBean implements GenLogger {
         /**
          * 索引
          */
-        private List<String> indexList = CollUtil.newArrayList();
+        private List<TableIndex> indexList = CollUtil.newArrayList();
+
+        private String tableCollation = "utf8mb4_general_ci";
 
         private void setFieldLengthMap() {
         }
@@ -116,6 +124,7 @@ public class TableXmlBean implements GenLogger {
         String domainName = StrUtil.contains(tableName, '_') ? StrUtil.splitToArray(tableName, '_', -1)[0] : "_unknown";
         MetaBean meta = xmlBean.getMeta();
         meta.setTableComment(StrUtil.isBlank(mySqlBean.getTable_comment()) ? mySqlBean.getTable_name() : mySqlBean.getTable_comment());
+        meta.setTableCollation(mySqlBean.getTable_collation());
         meta.setTableName(tableName);
         meta.setClassName(tableName);
         meta.setDomainName(domainName);
@@ -124,9 +133,45 @@ public class TableXmlBean implements GenLogger {
             if ("PRI".equals(columnSchema.getColumn_key())) { //主键
                 meta.setIdField(toCamelCase);
             }
+            meta.getFieldSchemaMap().put(toCamelCase, new FieldSchema() {
+                @Override
+                public Class<? extends Annotation> annotationType() {
+                    return FieldSchema.class;
+                }
+
+                @Override
+                public MySqlDataTypeEnum dataType() {
+                    return MySqlDataTypeEnum.BIGINT.getEnumByCode(columnSchema.getData_type());
+                }
+
+                @Override
+                public int length() {
+                    return MySqlDataTypeEnum.getLengthByColumnTypeString(columnSchema.getColumn_type(), columnSchema.getCharacter_maximum_length());
+                }
+
+                @Override
+                public int scale() {
+                    return columnSchema.getNumeric_scale();
+                }
+
+                @Override
+                public BooleanEnums.EnglishCode isNullable() {
+                    return BooleanEnums.EnglishCode.YES;
+                }
+
+                @Override
+                public String[] defaultValue() {
+                    return new String[]{};
+                }
+
+                @Override
+                public String comment() {
+                    return columnSchema.getColumn_comment();
+                }
+            });
             meta.getFieldClassMap().put(toCamelCase, MySqlDataTypeEnum.getJavaClassByDataType(columnSchema.getData_type()));
-            meta.getFieldLengthMap().put(toCamelCase, MySqlDataTypeEnum.getLengthByColumn(columnSchema));
-            meta.getFieldScaleMap().put(toCamelCase, MySqlDataTypeEnum.getScaleByColumn(columnSchema));
+            meta.getFieldLengthMap().put(toCamelCase, MySqlDataTypeEnum.getLengthByColumnTypeString(columnSchema.getColumn_type(), columnSchema.getCharacter_maximum_length()));
+            meta.getFieldScaleMap().put(toCamelCase, columnSchema.getNumeric_scale());
             meta.getFieldCommentMap().put(toCamelCase, columnSchema.getColumn_comment());
             meta.setRepoTypeStrategyEnum(RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY);
         });
@@ -153,14 +198,11 @@ public class TableXmlBean implements GenLogger {
         }
         tableJava.getFieldList().forEach(field -> {
             String fieldName = field.getName();
-            FieldComment fieldCommentAnnotation = field.getAnnotation(FieldComment.class);
-            if (fieldCommentAnnotation != null) {
-                meta.getFieldCommentMap().put(fieldName, fieldCommentAnnotation.value());
-            }
-            FieldLength fieldLengthAnnotation = field.getAnnotation(FieldLength.class);
-            if (fieldLengthAnnotation != null) {
-                meta.getFieldLengthMap().put(fieldName, fieldLengthAnnotation.length());
-                meta.getFieldScaleMap().put(fieldName, fieldLengthAnnotation.scale());
+            FieldSchema fieldSchemaAnnotation = field.getAnnotation(FieldSchema.class);
+            if (fieldSchemaAnnotation != null) {
+                meta.getFieldLengthMap().put(fieldName, fieldSchemaAnnotation.length());
+                meta.getFieldScaleMap().put(fieldName, fieldSchemaAnnotation.scale());
+                meta.getFieldCommentMap().put(fieldName, fieldSchemaAnnotation.comment());
             } else {
                 meta.getFieldLengthMap().put(fieldName, 0);
                 meta.getFieldScaleMap().put(fieldName, 0);

@@ -4,17 +4,17 @@ import gitee.com.ericfox.ddd.common.enums.BaseEnum;
 import lombok.Getter;
 
 /**
- * 数据类型枚举类
+ * MySql键类型枚举类
  */
 @Getter
-public enum DbDataStructureEnum implements BaseEnum<DbDataStructureEnum, String> {
-    HASH_MAP("hashMap", "哈希MAP"),
-    B_TREE("bTree", "B树");
-
+public enum MySqlTableKeyEnum implements BaseEnum<MySqlTableKeyEnum, String> {
+    PRIMARY_KEY("primaryKey", "主键"),
+    @Deprecated
+    FOREIGN_KEY("foreignKey", "外键，不推荐使用外键，会使迁移性、效率等方方面面受影响");
     private final String code;
     private final String comment;
 
-    DbDataStructureEnum(String code, String comment) {
+    MySqlTableKeyEnum(String code, String comment) {
         this.code = code;
         this.comment = comment;
     }
@@ -25,7 +25,7 @@ public enum DbDataStructureEnum implements BaseEnum<DbDataStructureEnum, String>
     }
 
     @Override
-    public DbDataStructureEnum[] getEnums() {
+    public MySqlTableKeyEnum[] getEnums() {
         return values();
     }
 }

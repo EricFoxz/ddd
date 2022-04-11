@@ -1,5 +1,7 @@
 package gitee.com.ericfox.ddd.common.enums;
 
+import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
+
 import java.io.Serializable;
 
 /**
@@ -42,6 +44,18 @@ public interface BaseEnum<T extends BaseEnum<T, U>, U extends Serializable> {
     /**
      * 通过唯一码code获取枚举
      */
+    default T getEnumByCode(CharSequence code, boolean ignoreCase) {
+        T[] enums = getEnums();
+        for (T anEnum : enums) {
+            if (ignoreCase && StrUtil.equalsIgnoreCase(anEnum.getCode().toString(), code)) {
+                return anEnum;
+            } else if (anEnum.getCode().equals(code)) {
+                return anEnum;
+            }
+        }
+        return null;
+    }
+
     default T getEnumByCode(U code) {
         T[] enums = getEnums();
         for (T anEnum : enums) {

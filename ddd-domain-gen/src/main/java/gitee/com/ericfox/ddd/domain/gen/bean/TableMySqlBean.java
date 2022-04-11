@@ -1,11 +1,20 @@
 package gitee.com.ericfox.ddd.domain.gen.bean;
 
+import gitee.com.ericfox.ddd.common.enums.contants.BooleanEnums;
+import gitee.com.ericfox.ddd.common.enums.db.DbIndexTypeEnum;
+import gitee.com.ericfox.ddd.common.enums.db.MySqlColumnKeyEnum;
+import gitee.com.ericfox.ddd.common.enums.db.MySqlDataTypeEnum;
+import gitee.com.ericfox.ddd.common.enums.db.MySqlTableEngineEnum;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
+import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.FieldSchema;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Mysql表 bean
@@ -17,7 +26,7 @@ public class TableMySqlBean {
     private String table_schema;
     private String table_name;
     private String table_type;
-    private String engine;
+    private MySqlTableEngineEnum engine;
     private Long version;
     private String row_format;
     private Long table_rows;
@@ -38,6 +47,7 @@ public class TableMySqlBean {
     private Character temporary;
 
     private List<ColumnSchemaBean> columnSchemaList = CollUtil.newArrayList();
+    private List<IndexSchemaBean> indexSchemaList = CollUtil.newArrayList();
 
     @Getter
     @Setter
@@ -54,7 +64,7 @@ public class TableMySqlBean {
         private Integer character_octet_length;
         private Integer numeric_precision;
         private Integer numeric_scale;
-        private String datetime_precision;
+        private Integer datetime_precision;
         private String character_set_name;
         private String collation_name;
         private String column_type;
@@ -64,5 +74,134 @@ public class TableMySqlBean {
         private String column_comment;
         private String is_generated;
         private String generation_expression;
+    }
+
+    @Getter
+    @Setter
+    public static class IndexSchemaBean {
+        private String table;
+        private BooleanEnums.NumberCode non_unique;
+        private String key_name;
+        private Integer seq_in_index;
+        private String column_name;
+        private String collation;
+        private String cardinality;
+        private String sun_part;
+        private String packed;
+        private BooleanEnums.EnglishCode Null;
+        private DbIndexTypeEnum index_type;
+        private String comment;
+        private String index_comment;
+
+        public void setNon_unique(Integer non_unique) {
+            this.non_unique = BooleanEnums.NumberCode.YES.getEnumByCode(non_unique);
+        }
+
+        public void setNull(String n) {
+            Null = BooleanEnums.EnglishCode.YES.getEnumByCode(n);
+        }
+
+        public void setIndex_type(String index_type) {
+            this.index_type = DbIndexTypeEnum.NORMAL.getEnumByCode(index_type);
+        }
+    }
+
+    public static TableMySqlBean load(TableXmlBean xmlBean) {
+        final TableMySqlBean mySqlBean = new TableMySqlBean();
+        // 表名
+        mySqlBean.setTable_name(xmlBean.getMeta().getClass_name());
+        // 编码集
+        mySqlBean.setTable_collation(xmlBean.getMeta().getTableCollation());
+        // 表注释
+        mySqlBean.setTable_comment(xmlBean.getMeta().getTableComment());
+        // 存储引擎一律使用InnoDB，用MySql用的就是事务
+        mySqlBean.setEngine(MySqlTableEngineEnum.INNODB);
+        AtomicInteger index = new AtomicInteger(0);
+        xmlBean.getMeta().getFieldClassMap().forEach((key, value) -> {
+            int i = index.incrementAndGet();
+            FieldSchema fieldSchema = xmlBean.getMeta().getFieldSchemaMap().get(key);
+            ColumnSchemaBean columnSchemaBean = new ColumnSchemaBean();
+            columnSchemaBean.setTable_catalog("def");
+            // TODO 库名，暂时不管，库名的约束会增加复杂度，待细化
+            // columnSchemaBean.setTable_schema();
+            // 表名
+            columnSchemaBean.setTable_name(xmlBean.getMeta().getClass_name());
+            // 字段名
+            columnSchemaBean.setColumn_name(StrUtil.toUnderlineCase(key));
+            // 列的序号（123递增）
+            columnSchemaBean.setOrdinal_position(i);
+            // 默认值
+            if (xmlBean.getData().getDefaultValueMap().get(key) == null) {
+                columnSchemaBean.setColumn_default("NULL");
+            } else {
+                columnSchemaBean.setColumn_default("'" + xmlBean.getData().getDefaultValueMap().get(key).toString() + "'");
+            }
+            // 是否为空
+            columnSchemaBean.setIs_nullable(fieldSchema.isNullable().getCode());
+            columnSchemaBean.setData_type(fieldSchema.dataType().getCode());
+            Class<?> javaClass = fieldSchema.dataType().getJavaClass();
+            if (CharSequence.class.isAssignableFrom(javaClass)) { //字符串
+                // 以字符为单位的最大长度
+                columnSchemaBean.setCharacter_maximum_length(fieldSchema.length());
+                // 以字节为单位的最大长度
+                columnSchemaBean.setCharacter_octet_length(fieldSchema.length() >> 2);
+            } else if (Number.class.isAssignableFrom(javaClass)) { // 数字
+                columnSchemaBean.setNumeric_precision(fieldSchema.length());
+                columnSchemaBean.setNumeric_scale(fieldSchema.scale());
+            } else if (Date.class.isAssignableFrom(javaClass) || java.sql.Date.class.isAssignableFrom(javaClass)) {
+                columnSchemaBean.setDatetime_precision(fieldSchema.scale());
+            }
+            columnSchemaBean.setCharacter_set_name("utf8mb4");
+            columnSchemaBean.setCollation_name("utf8mb4_general_ci");
+            // 列类型
+            columnSchemaBean.setColumn_type(MySqlDataTypeEnum.getColumnTypeStringByInfo(fieldSchema.dataType().getName(), columnSchemaBean.getCharacter_maximum_length(), columnSchemaBean.getNumeric_precision(), columnSchemaBean.getNumeric_scale(), columnSchemaBean.getDatetime_precision()));
+            // 列键
+            if (key.equals(xmlBean.getMeta().getIdField())) { //主键
+                columnSchemaBean.setColumn_key(MySqlColumnKeyEnum.PRI.getCode());
+            } else if (fieldSchema.isNullable().equals(BooleanEnums.EnglishCode.NO)) { //非空
+                columnSchemaBean.setColumn_key(MySqlColumnKeyEnum.MUL.getCode());
+            } else {
+                columnSchemaBean.setColumn_key("");
+            }
+            // 拓展事件 如 on update current_timestamp() 表示更新行时同时更新时间戳，暂不考虑
+            columnSchemaBean.setExtra("");
+            columnSchemaBean.setPrivileges("select,insert,update,references");
+            // 列说明
+            columnSchemaBean.setColumn_comment(fieldSchema.comment());
+            columnSchemaBean.setIs_generated("NEVER");
+            columnSchemaBean.setGeneration_expression(null);
+            mySqlBean.getColumnSchemaList().add(columnSchemaBean);
+        });
+        return mySqlBean;
+    }
+
+    /**
+     * 转换为sql语句
+     */
+    public String toSqlString(boolean includeDropSql) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("-- ").append(table_name).append("\n");
+        if (includeDropSql) {
+            sb.append("DROP TABLE ").append(table_name).append(" IF EXISTS;\n");
+        }
+        sb.append("CREATE TABLE ").append(table_name).append(" (\n");
+        AtomicInteger index = new AtomicInteger(0);
+        getColumnSchemaList().forEach(columnSchemaBean -> {
+            int i = index.getAndIncrement();
+            ColumnSchemaBean schemaBean = columnSchemaList.get(i);
+            sb.append("`").append(schemaBean.getTable_name()).append("` ").append(schemaBean.getColumn_type()).append(" DEFAULT ").append(schemaBean.getColumn_default()).append(" COMMENT ").append(schemaBean.getColumn_comment());
+            if (i < columnSchemaList.size() - 1) {
+                sb.append(",");
+            }
+            sb.append("\n");
+        });
+        ArrayList<String> primaryKeyList = CollUtil.newArrayList();
+        columnSchemaList.forEach(columnSchemaBean -> {
+            if (MySqlColumnKeyEnum.PRI.getCode().equals(columnSchemaBean.getColumn_key())) {
+                primaryKeyList.add("`" + columnSchemaBean.getColumn_name() + "`");
+            }
+        });
+        sb.append("PRIMARY KEY (").append(CollUtil.join(primaryKeyList, ",")).append("),\n");
+        return sb.toString();
     }
 }

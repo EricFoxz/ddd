@@ -21,7 +21,7 @@ public enum CloudRegisterTypeStrategyEnum implements BaseEnum<CloudRegisterTypeS
 
     @Override
     public String getName() {
-        return this.name();
+        return name();
     }
 
     @Override

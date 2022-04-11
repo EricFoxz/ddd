@@ -21,7 +21,7 @@ public enum MqTypeStrategyEnum implements BaseEnum<MqTypeStrategyEnum, String> {
 
     @Override
     public String getName() {
-        return this.name();
+        return name();
     }
 
     @Override

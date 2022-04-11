@@ -1,6 +1,7 @@
 package gitee.com.ericfox.ddd.domain.gen.service;
 
 import gitee.com.ericfox.ddd.common.toolkit.coding.*;
+import gitee.com.ericfox.ddd.domain.gen.bean.TableMySqlBean;
 import gitee.com.ericfox.ddd.domain.gen.bean.TableXmlBean;
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -178,6 +180,21 @@ public class GenTableWritingService implements GenLogger {
         targetPath = StrUtil.replace(targetPath, GenConstants.META_HOME_PATH, "gen");
         FileUtil.copy(sourcePath, targetPath, true);
         logInfo(log, "genTableWritingService::publishTablesToRuntime 发布xml表结构完成");
+    }
+
+    /**
+     * 根据表结构导出SQL内容
+     */
+    public StringBuilder exportSqlByXml(List<TableXmlBean> list) {
+        StringBuilder sb = new StringBuilder();
+        if (CollUtil.isEmpty(list)) {
+            return sb;
+        }
+        list.forEach(tableXmlBean -> {
+            TableMySqlBean tableMySqlBean = TableMySqlBean.load(tableXmlBean);
+            sb.append(tableMySqlBean.toSqlString(true));
+        });
+        return sb;
     }
 
     /**
