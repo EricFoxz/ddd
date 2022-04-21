@@ -203,6 +203,7 @@ public class TableXmlBean implements GenLogger {
                 meta.getFieldLengthMap().put(fieldName, fieldSchemaAnnotation.length());
                 meta.getFieldScaleMap().put(fieldName, fieldSchemaAnnotation.scale());
                 meta.getFieldCommentMap().put(fieldName, fieldSchemaAnnotation.comment());
+                meta.getFieldSchemaMap().put(fieldName, fieldSchemaAnnotation);
             } else {
                 meta.getFieldLengthMap().put(fieldName, 0);
                 meta.getFieldScaleMap().put(fieldName, 0);
@@ -222,5 +223,15 @@ public class TableXmlBean implements GenLogger {
 
     public Document toDocument() {
         return XmlUtil.beanToXml(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof TableXmlBean) {
+            TableXmlBean o1 = (TableXmlBean) o;
+            return this.getMeta().getTableName().equals(o1.getMeta().getTableName())
+                    && this.getMeta().getDomainName().equals(o1.getMeta().getDomainName());
+        }
+        return false;
     }
 }

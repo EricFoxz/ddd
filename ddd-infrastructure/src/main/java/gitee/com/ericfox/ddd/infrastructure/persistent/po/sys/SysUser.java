@@ -30,18 +30,21 @@ public class SysUser implements BasePo<SysUser> {
         public static String uuid = "uuid";
     }
 
-    @FieldSchema(dataType = MySqlDataTypeEnum.BIGINT, length = 19, scale = 0)
+    @FieldSchema(dataType = MySqlDataTypeEnum.BIGINT, length = 19, scale = 0, isNullable = BooleanEnums.EnglishCode.NO, comment = "")
     private Long id;
     /**
      * 用户名
      */
-    @FieldSchema(dataType = MySqlDataTypeEnum.VARCHAR, length = 32, isNullable = BooleanEnums.EnglishCode.NO, comment = "用户名")
+    @FieldSchema(dataType = MySqlDataTypeEnum.VARCHAR, length = 32, scale = 0, isNullable = BooleanEnums.EnglishCode.NO, comment = "用户名")
     private String username;
     /**
      * 金额
      */
     @FieldSchema(dataType = MySqlDataTypeEnum.DECIMAL, length = 10, scale = 2, isNullable = BooleanEnums.EnglishCode.NO, comment = "金额")
     private java.math.BigDecimal money;
-    @FieldSchema(dataType = MySqlDataTypeEnum.TEXT, length = 65535)
+    /**
+     * 说明
+     */
+    @FieldSchema(dataType = MySqlDataTypeEnum.TEXT, length = 65535, scale = 0, isNullable = BooleanEnums.EnglishCode.YES, comment = "说明")
     private String userInfo;
 }

@@ -142,7 +142,13 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
             tableListToolBar.getItems().forEach(node -> {
                 if (node instanceof CheckBox && node.getUserData() != null && ((CheckBox) node).isSelected()) {
                     TableXmlBean tableXml = (TableXmlBean) node.getUserData();
-                    list.add(tableXml);
+                    GenTableLoadingService.getDomainMap().forEach((s, map) -> {
+                        map.forEach((key, tableXmlBean) -> {
+                            if(tableXml.equals(tableXmlBean)) {
+                                list.add(tableXmlBean);
+                            }
+                        });
+                    });
                 }
             });
             if (CollUtil.isEmpty(list)) {
@@ -324,7 +330,13 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
             tableListToolBar.getItems().forEach(node -> {
                 if (node instanceof CheckBox && node.getUserData() != null && ((CheckBox) node).isSelected()) {
                     TableXmlBean tableXml = (TableXmlBean) node.getUserData();
-                    list.add(tableXml);
+                    GenTableLoadingService.getDomainMap().forEach((s, map) -> {
+                        map.forEach((key, tableXmlBean) -> {
+                            if(tableXml.equals(tableXmlBean)) {
+                                list.add(tableXmlBean);
+                            }
+                        });
+                    });
                 }
             });
             if (CollUtil.isEmpty(list)) {
@@ -349,7 +361,13 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
             tableListToolBar.getItems().forEach(node -> {
                 if (node instanceof CheckBox && node.getUserData() != null && ((CheckBox) node).isSelected()) {
                     TableXmlBean tableXml = (TableXmlBean) node.getUserData();
-                    list.add(tableXml);
+                    GenTableLoadingService.getDomainMap().forEach((s, map) -> {
+                        map.forEach((key, tableXmlBean) -> {
+                            if(tableXml.equals(tableXmlBean)) {
+                                list.add(tableXmlBean);
+                            }
+                        });
+                    });
                 }
             });
             if (CollUtil.isEmpty(list)) {

@@ -39,4 +39,14 @@ public class TableJavaBean<PO extends BasePo<PO>> {
         private String tableName;
         private String id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof TableJavaBean) {
+            TableJavaBean o1 = (TableJavaBean) o;
+            return this.getStructure().getTableName().equals(o1.getStructure().getTableName())
+                    && this.getStructure().getDomainName().equals(o1.getStructure().getDomainName());
+        }
+        return false;
+    }
 }

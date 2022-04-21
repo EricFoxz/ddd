@@ -201,7 +201,17 @@ public class TableMySqlBean {
                 primaryKeyList.add("`" + columnSchemaBean.getColumn_name() + "`");
             }
         });
-        sb.append("PRIMARY KEY (").append(CollUtil.join(primaryKeyList, ",")).append("),\n");
+        sb.append("PRIMARY KEY (").append(CollUtil.join(primaryKeyList, ",")).append(")");
+        sb.append(",\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='").append(table_comment).append("';\n\n");
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof TableMySqlBean) {
+            TableMySqlBean o1 = (TableMySqlBean) o;
+            return this.getTable_name().equals(o1.getTable_name());
+        }
+        return false;
     }
 }
