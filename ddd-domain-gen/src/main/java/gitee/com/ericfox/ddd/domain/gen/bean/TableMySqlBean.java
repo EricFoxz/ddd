@@ -6,6 +6,7 @@ import gitee.com.ericfox.ddd.common.enums.db.MySqlColumnKeyEnum;
 import gitee.com.ericfox.ddd.common.enums.db.MySqlDataTypeEnum;
 import gitee.com.ericfox.ddd.common.enums.db.MySqlTableEngineEnum;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.MapUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.FieldSchema;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -180,29 +182,67 @@ public class TableMySqlBean {
      */
     public String toSqlString(boolean includeDropSql) {
         StringBuilder sb = new StringBuilder();
+        ArrayList<String> primaryKeyList = CollUtil.newArrayList();
         sb.append("-- ").append(table_name).append("\n");
         if (includeDropSql) {
             sb.append("DROP TABLE ").append(table_name).append(" IF EXISTS;\n");
         }
         sb.append("CREATE TABLE ").append(table_name).append(" (\n");
-        AtomicInteger index = new AtomicInteger(0);
-        getColumnSchemaList().forEach(columnSchemaBean -> {
-            int i = index.getAndIncrement();
-            ColumnSchemaBean schemaBean = columnSchemaList.get(i);
-            sb.append("`").append(schemaBean.getTable_name()).append("` ").append(schemaBean.getColumn_type()).append(" DEFAULT ").append(schemaBean.getColumn_default()).append(" COMMENT ").append(schemaBean.getColumn_comment());
-            if (i < columnSchemaList.size() - 1) {
-                sb.append(",");
+        {
+            AtomicInteger index = new AtomicInteger(0);
+            getColumnSchemaList().forEach(columnSchemaBean -> {
+                int i = index.getAndIncrement();
+                ColumnSchemaBean schemaBean = columnSchemaList.get(i);
+                sb.append("  `").append(schemaBean.getTable_name()).append("` ").append(schemaBean.getColumn_type()).append(" DEFAULT ").append(schemaBean.getColumn_default()).append(" COMMENT ").append(schemaBean.getColumn_comment());
+                if (i < columnSchemaList.size() - 1) {
+                    sb.append(",");
+                }
+                sb.append("\n");
+            });
+
+            columnSchemaList.forEach(columnSchemaBean -> {
+                if (MySqlColumnKeyEnum.PRI.getCode().equals(columnSchemaBean.getColumn_key())) {
+                    primaryKeyList.add("`" + columnSchemaBean.getColumn_name() + "`");
+                }
+            });
+        }
+        sb.append("  PRIMARY KEY (").append(CollUtil.join(primaryKeyList, ",")).append(")");
+        if (CollUtil.isNotEmpty(this.indexSchemaList)) {
+            Map<String, List<IndexSchemaBean>> indexMap = MapUtil.newConcurrentHashMap();
+            sb.append(",\n");
+            indexSchemaList.forEach(indexSchemaBean -> {
+                if (!"PRIMARY".equals(indexSchemaBean.getKey_name())) {
+                    String key = indexSchemaBean.getKey_name();
+                    if (indexMap.get(key) == null) {
+                        indexMap.put(key, CollUtil.newArrayList(indexSchemaBean));
+                    } else {
+                        indexMap.get(key).add(indexSchemaBean);
+                    }
+                }
+            });
+            if (CollUtil.isNotEmpty(indexMap)) {
+                AtomicInteger index = new AtomicInteger(0);
+                indexMap.forEach((key, indexSchemaBeanList) -> {
+                    sb.append("  KEY `").append(key).append("` (");
+                    AtomicInteger index2 = new AtomicInteger(0);
+                    indexSchemaBeanList.forEach(indexSchemaBean -> {
+                        sb.append("`").append(indexSchemaBean.getColumn_name()).append("`");
+                        if (index2.get() != indexSchemaBeanList.size() - 1) {
+                            sb.append(", ");
+                        }
+                    });
+                    sb.append(") USING ").append(indexSchemaBeanList.get(0).getIndex_type());
+                    if (index.get() != indexSchemaList.size() - 1) {
+                        sb.append(",");
+                    }
+                    sb.append("\n");
+                    index.incrementAndGet();
+                });
             }
+        } else {
             sb.append("\n");
-        });
-        ArrayList<String> primaryKeyList = CollUtil.newArrayList();
-        columnSchemaList.forEach(columnSchemaBean -> {
-            if (MySqlColumnKeyEnum.PRI.getCode().equals(columnSchemaBean.getColumn_key())) {
-                primaryKeyList.add("`" + columnSchemaBean.getColumn_name() + "`");
-            }
-        });
-        sb.append("PRIMARY KEY (").append(CollUtil.join(primaryKeyList, ",")).append(")");
-        sb.append(",\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='").append(table_comment).append("';\n\n");
+        }
+        sb.append(") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='").append(table_comment).append("';\n\n");
         return sb.toString();
     }
 
