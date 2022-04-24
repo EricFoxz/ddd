@@ -12,10 +12,7 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -225,13 +222,11 @@ public class TableMySqlBean {
                 indexMap.forEach((key, indexSchemaBeanList) -> {
                     sb.append("  KEY `").append(key).append("` (");
                     AtomicInteger index2 = new AtomicInteger(0);
+                    StringJoiner stringJoiner = new StringJoiner(", ");
                     indexSchemaBeanList.forEach(indexSchemaBean -> {
-                        sb.append("`").append(indexSchemaBean.getColumn_name()).append("`");
-                        if (index2.get() != indexSchemaBeanList.size() - 1) {
-                            sb.append(", ");
-                        }
+                        stringJoiner.add("`" + indexSchemaBean.getColumn_name() + '`');
                     });
-                    sb.append(") USING ").append(indexSchemaBeanList.get(0).getIndex_type());
+                    sb.append(stringJoiner).append(") USING ").append(indexSchemaBeanList.get(0).getIndex_type());
                     if (index.get() != indexSchemaList.size() - 1) {
                         sb.append(",");
                     }
