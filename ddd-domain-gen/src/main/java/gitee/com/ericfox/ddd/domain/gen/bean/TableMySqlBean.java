@@ -8,7 +8,7 @@ import gitee.com.ericfox.ddd.common.enums.db.MySqlTableEngineEnum;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.MapUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.FieldSchema;
+import gitee.com.ericfox.ddd.infrastructure.general.pojo.FieldSchemaBean;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -118,7 +118,7 @@ public class TableMySqlBean {
         AtomicInteger index = new AtomicInteger(0);
         xmlBean.getMeta().getFieldClassMap().forEach((key, value) -> {
             int i = index.incrementAndGet();
-            FieldSchema fieldSchema = xmlBean.getMeta().getFieldSchemaMap().get(key);
+            FieldSchemaBean fieldSchemaBean = xmlBean.getMeta().getFieldSchemaMap().get(key);
             ColumnSchemaBean columnSchemaBean = new ColumnSchemaBean();
             columnSchemaBean.setTable_catalog("def");
             // TODO 库名，暂时不管，库名的约束会增加复杂度，待细化
@@ -136,28 +136,28 @@ public class TableMySqlBean {
                 columnSchemaBean.setColumn_default("'" + xmlBean.getData().getDefaultValueMap().get(key).toString() + "'");
             }
             // 是否为空
-            columnSchemaBean.setIs_nullable(fieldSchema.isNullable().getCode());
-            columnSchemaBean.setData_type(fieldSchema.dataType().getCode());
-            Class<?> javaClass = fieldSchema.dataType().getJavaClass();
+            columnSchemaBean.setIs_nullable(fieldSchemaBean.getIsNullable().getCode());
+            columnSchemaBean.setData_type(fieldSchemaBean.getDataType().getCode());
+            Class<?> javaClass = fieldSchemaBean.getDataType().getJavaClass();
             if (CharSequence.class.isAssignableFrom(javaClass)) { //字符串
                 // 以字符为单位的最大长度
-                columnSchemaBean.setCharacter_maximum_length(fieldSchema.length());
+                columnSchemaBean.setCharacter_maximum_length(fieldSchemaBean.getLength());
                 // 以字节为单位的最大长度
-                columnSchemaBean.setCharacter_octet_length(fieldSchema.length() >> 2);
+                columnSchemaBean.setCharacter_octet_length(fieldSchemaBean.getLength() >> 2);
             } else if (Number.class.isAssignableFrom(javaClass)) { // 数字
-                columnSchemaBean.setNumeric_precision(fieldSchema.length());
-                columnSchemaBean.setNumeric_scale(fieldSchema.scale());
+                columnSchemaBean.setNumeric_precision(fieldSchemaBean.getLength());
+                columnSchemaBean.setNumeric_scale(fieldSchemaBean.getScale());
             } else if (Date.class.isAssignableFrom(javaClass) || java.sql.Date.class.isAssignableFrom(javaClass)) {
-                columnSchemaBean.setDatetime_precision(fieldSchema.scale());
+                columnSchemaBean.setDatetime_precision(fieldSchemaBean.getScale());
             }
             columnSchemaBean.setCharacter_set_name("utf8mb4");
             columnSchemaBean.setCollation_name("utf8mb4_general_ci");
             // 列类型
-            columnSchemaBean.setColumn_type(MySqlDataTypeEnum.getColumnTypeStringByInfo(fieldSchema.dataType().getName(), columnSchemaBean.getCharacter_maximum_length(), columnSchemaBean.getNumeric_precision(), columnSchemaBean.getNumeric_scale(), columnSchemaBean.getDatetime_precision()));
+            columnSchemaBean.setColumn_type(MySqlDataTypeEnum.getColumnTypeStringByInfo(fieldSchemaBean.getDataType().getName(), columnSchemaBean.getCharacter_maximum_length(), columnSchemaBean.getNumeric_precision(), columnSchemaBean.getNumeric_scale(), columnSchemaBean.getDatetime_precision()));
             // 列键
             if (key.equals(xmlBean.getMeta().getIdField())) { //主键
                 columnSchemaBean.setColumn_key(MySqlColumnKeyEnum.PRI.getCode());
-            } else if (fieldSchema.isNullable().equals(BooleanEnums.EnglishCode.NO)) { //非空
+            } else if (fieldSchemaBean.getIsNullable().equals(BooleanEnums.EnglishCode.NO)) { //非空
                 columnSchemaBean.setColumn_key(MySqlColumnKeyEnum.MUL.getCode());
             } else {
                 columnSchemaBean.setColumn_key("");
@@ -166,7 +166,7 @@ public class TableMySqlBean {
             columnSchemaBean.setExtra("");
             columnSchemaBean.setPrivileges("select,insert,update,references");
             // 列说明
-            columnSchemaBean.setColumn_comment(fieldSchema.comment());
+            columnSchemaBean.setColumn_comment(fieldSchemaBean.getComment());
             columnSchemaBean.setIs_generated("NEVER");
             columnSchemaBean.setGeneration_expression(null);
             mySqlBean.getColumnSchemaList().add(columnSchemaBean);

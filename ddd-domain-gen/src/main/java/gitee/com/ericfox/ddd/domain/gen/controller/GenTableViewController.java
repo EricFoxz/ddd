@@ -144,7 +144,7 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
                     TableXmlBean tableXml = (TableXmlBean) node.getUserData();
                     GenTableLoadingService.getDomainMap().forEach((s, map) -> {
                         map.forEach((key, tableXmlBean) -> {
-                            if(tableXml.equals(tableXmlBean)) {
+                            if (tableXml.equals(tableXmlBean)) {
                                 list.add(tableXmlBean);
                             }
                         });
@@ -332,7 +332,7 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
                     TableXmlBean tableXml = (TableXmlBean) node.getUserData();
                     GenTableLoadingService.getDomainMap().forEach((s, map) -> {
                         map.forEach((key, tableXmlBean) -> {
-                            if(tableXml.equals(tableXmlBean)) {
+                            if (tableXml.equals(tableXmlBean)) {
                                 list.add(tableXmlBean);
                             }
                         });
@@ -363,7 +363,7 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
                     TableXmlBean tableXml = (TableXmlBean) node.getUserData();
                     GenTableLoadingService.getDomainMap().forEach((s, map) -> {
                         map.forEach((key, tableXmlBean) -> {
-                            if(tableXml.equals(tableXmlBean)) {
+                            if (tableXml.equals(tableXmlBean)) {
                                 list.add(tableXmlBean);
                             }
                         });

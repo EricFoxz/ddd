@@ -10,23 +10,20 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.TableComment;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.framework.TableIndex;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.service.RepoEnabledAnnotation;
+import gitee.com.ericfox.ddd.infrastructure.general.pojo.FieldSchemaBean;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
 
 import java.io.File;
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
 
-@Setter
-@Getter
+@Data
+@ToString(callSuper = true)
 @Slf4j
-@ToString
 public class TableXmlBean implements GenLogger {
     private MetaBean meta = new MetaBean();
     private DataBean data = new DataBean();
@@ -62,7 +59,7 @@ public class TableXmlBean implements GenLogger {
         /**
          * 字段结构
          */
-        private Map<String, FieldSchema> fieldSchemaMap = MapUtil.newLinkedHashMap();
+        private Map<String, FieldSchemaBean> fieldSchemaMap = MapUtil.newLinkedHashMap();
         /**
          * 字段及类型
          */
@@ -133,42 +130,14 @@ public class TableXmlBean implements GenLogger {
             if ("PRI".equals(columnSchema.getColumn_key())) { //主键
                 meta.setIdField(toCamelCase);
             }
-            meta.getFieldSchemaMap().put(toCamelCase, new FieldSchema() {
-                @Override
-                public Class<? extends Annotation> annotationType() {
-                    return FieldSchema.class;
-                }
-
-                @Override
-                public MySqlDataTypeEnum dataType() {
-                    return MySqlDataTypeEnum.BIGINT.getEnumByCode(columnSchema.getData_type());
-                }
-
-                @Override
-                public int length() {
-                    return MySqlDataTypeEnum.getLengthByColumnTypeString(columnSchema.getColumn_type(), columnSchema.getCharacter_maximum_length());
-                }
-
-                @Override
-                public int scale() {
-                    return columnSchema.getNumeric_scale();
-                }
-
-                @Override
-                public BooleanEnums.EnglishCode isNullable() {
-                    return BooleanEnums.EnglishCode.YES;
-                }
-
-                @Override
-                public String[] defaultValue() {
-                    return new String[]{};
-                }
-
-                @Override
-                public String comment() {
-                    return columnSchema.getColumn_comment();
-                }
-            });
+            FieldSchemaBean fieldSchemaBean = new FieldSchemaBean();
+            fieldSchemaBean.setDataType(MySqlDataTypeEnum.BIGINT.getEnumByCode(columnSchema.getData_type()));
+            fieldSchemaBean.setLength(MySqlDataTypeEnum.getLengthByColumnTypeString(columnSchema.getColumn_type(), columnSchema.getCharacter_maximum_length()));
+            fieldSchemaBean.setScale(columnSchema.getNumeric_scale());
+            fieldSchemaBean.setIsNullable(BooleanEnums.EnglishCode.YES);
+            fieldSchemaBean.setDefaultValue(new String[]{});
+            fieldSchemaBean.setComment(columnSchema.getColumn_comment());
+            meta.getFieldSchemaMap().put(toCamelCase, fieldSchemaBean);
             meta.getFieldClassMap().put(toCamelCase, MySqlDataTypeEnum.getJavaClassByDataType(columnSchema.getData_type()));
             meta.getFieldLengthMap().put(toCamelCase, MySqlDataTypeEnum.getLengthByColumnTypeString(columnSchema.getColumn_type(), columnSchema.getCharacter_maximum_length()));
             meta.getFieldScaleMap().put(toCamelCase, columnSchema.getNumeric_scale());
@@ -203,7 +172,7 @@ public class TableXmlBean implements GenLogger {
                 meta.getFieldLengthMap().put(fieldName, fieldSchemaAnnotation.length());
                 meta.getFieldScaleMap().put(fieldName, fieldSchemaAnnotation.scale());
                 meta.getFieldCommentMap().put(fieldName, fieldSchemaAnnotation.comment());
-                meta.getFieldSchemaMap().put(fieldName, fieldSchemaAnnotation);
+                meta.getFieldSchemaMap().put(fieldName, BeanUtil.annotationToBean(fieldSchemaAnnotation, FieldSchemaBean.class));
             } else {
                 meta.getFieldLengthMap().put(fieldName, 0);
                 meta.getFieldScaleMap().put(fieldName, 0);
