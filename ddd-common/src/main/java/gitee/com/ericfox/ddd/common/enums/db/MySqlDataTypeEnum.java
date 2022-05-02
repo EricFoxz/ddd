@@ -133,7 +133,11 @@ public enum MySqlDataTypeEnum implements BaseEnum<MySqlDataTypeEnum, String> {
         if (mySqlDataTypeEnum.getLength() != null) {
             return mySqlDataTypeEnum.getCode();
         }
-        return mySqlDataTypeEnum.getCode() + "(" + (characterMaximumLength != null ? characterMaximumLength : numericPrecision != null ? numericPrecision + (numericScale != null ? "," + numericScale : "") : datetimePrecision != null ? datetimePrecision : "");
+        String lengthStr = (characterMaximumLength != null ? characterMaximumLength.toString() : numericPrecision != null ? numericPrecision + (numericScale != null ? "," + numericScale : "") : datetimePrecision != null ? datetimePrecision.toString() : "");
+        if (StrUtil.isBlank(lengthStr)) {
+            lengthStr = "(" + lengthStr + ")";
+        }
+        return mySqlDataTypeEnum.getCode() + lengthStr;
     }
 
     @Override

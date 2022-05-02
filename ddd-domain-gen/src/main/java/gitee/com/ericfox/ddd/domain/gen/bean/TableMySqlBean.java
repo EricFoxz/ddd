@@ -185,24 +185,16 @@ public class TableMySqlBean {
             sb.append("DROP TABLE ").append(table_name).append(" IF EXISTS;\n");
         }
         sb.append("CREATE TABLE ").append(table_name).append(" (\n");
-        {
-            AtomicInteger index = new AtomicInteger(0);
-            getColumnSchemaList().forEach(columnSchemaBean -> {
-                int i = index.getAndIncrement();
-                ColumnSchemaBean schemaBean = columnSchemaList.get(i);
-                sb.append("  `").append(schemaBean.getTable_name()).append("` ").append(schemaBean.getColumn_type()).append(" DEFAULT ").append(schemaBean.getColumn_default()).append(" COMMENT ").append(schemaBean.getColumn_comment());
-                if (i < columnSchemaList.size() - 1) {
-                    sb.append(",");
-                }
-                sb.append("\n");
-            });
+        getColumnSchemaList().forEach(columnSchemaBean -> {
+            sb.append("  `").append(columnSchemaBean.getColumn_name()).append("` ").append(columnSchemaBean.getColumn_type()).append(" DEFAULT ").append(columnSchemaBean.getColumn_default()).append(" COMMENT ").append("'").append(columnSchemaBean.getColumn_comment()).append("'");
+            sb.append(",\n");
+        });
 
-            columnSchemaList.forEach(columnSchemaBean -> {
-                if (MySqlColumnKeyEnum.PRI.getCode().equals(columnSchemaBean.getColumn_key())) {
-                    primaryKeyList.add("`" + columnSchemaBean.getColumn_name() + "`");
-                }
-            });
-        }
+        columnSchemaList.forEach(columnSchemaBean -> {
+            if (MySqlColumnKeyEnum.PRI.getCode().equals(columnSchemaBean.getColumn_key())) {
+                primaryKeyList.add("`" + columnSchemaBean.getColumn_name() + "`");
+            }
+        });
         sb.append("  PRIMARY KEY (").append(CollUtil.join(primaryKeyList, ",")).append(")");
         if (CollUtil.isNotEmpty(this.indexSchemaList)) {
             Map<String, List<IndexSchemaBean>> indexMap = MapUtil.newConcurrentHashMap();
