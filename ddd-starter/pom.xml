@@ -29,6 +29,10 @@
         </dependency>-->
         <dependency>
             <groupId>gitee.com.ericfox.ddd</groupId>
+            <artifactId>ddd-starter-filesystem</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>gitee.com.ericfox.ddd</groupId>
             <artifactId>ddd-starter-mq</artifactId>
         </dependency>
         <dependency>

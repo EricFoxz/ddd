@@ -48,6 +48,7 @@
         <module>ddd-starter-bpm</module>
         <module>ddd-starter-cache</module>
         <module>ddd-starter-cloud</module>
+        <module>ddd-starter-filesystem</module>
         <module>ddd-starter-mq</module>
         <module>ddd-starter-oauth2</module>
     </modules>
@@ -110,6 +111,11 @@
             <dependency>
                 <groupId>gitee.com.ericfox.ddd</groupId>
                 <artifactId>ddd-starter-cloud</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gitee.com.ericfox.ddd</groupId>
+                <artifactId>ddd-starter-filesystem</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
