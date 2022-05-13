@@ -1,6 +1,7 @@
 package gitee.com.ericfox.ddd.common.enums.db;
 
 import gitee.com.ericfox.ddd.common.enums.BaseEnum;
+import gitee.com.ericfox.ddd.common.toolkit.coding.NumberUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ReUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import lombok.Getter;
@@ -108,12 +109,15 @@ public enum MySqlDataTypeEnum implements BaseEnum<MySqlDataTypeEnum, String> {
      * 根据数据类型获取长度 如varchar(255) 返回255
      */
     public static int getLengthByColumnTypeString(String column_type) {
-        return getLengthByColumnTypeString(column_type, null);
+        return getLengthByColumnTypeString(column_type, null, null);
     }
 
-    public static int getLengthByColumnTypeString(String column_type, Integer character_maximum_length) {
-        if (character_maximum_length != null) {
+    public static int getLengthByColumnTypeString(String column_type, Integer character_maximum_length, Integer numeric_precision) {
+        if (character_maximum_length != null && character_maximum_length > 0) {
             return character_maximum_length;
+        }
+        if (numeric_precision != null && numeric_precision > 0) {
+            return numeric_precision;
         }
         Integer firstNumber = ReUtil.getFirstNumber(column_type);
         if (firstNumber == null) {

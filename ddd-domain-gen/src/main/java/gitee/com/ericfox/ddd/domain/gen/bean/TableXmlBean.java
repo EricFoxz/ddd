@@ -132,14 +132,14 @@ public class TableXmlBean implements GenLogger {
             }
             FieldSchemaBean fieldSchemaBean = new FieldSchemaBean();
             fieldSchemaBean.setDataType(MySqlDataTypeEnum.BIGINT.getEnumByCode(columnSchema.getData_type()));
-            fieldSchemaBean.setLength(MySqlDataTypeEnum.getLengthByColumnTypeString(columnSchema.getColumn_type(), columnSchema.getCharacter_maximum_length()));
+            fieldSchemaBean.setLength(MySqlDataTypeEnum.getLengthByColumnTypeString(columnSchema.getColumn_type(), columnSchema.getCharacter_maximum_length(), columnSchema.getNumeric_precision()));
             fieldSchemaBean.setScale(columnSchema.getNumeric_scale());
             fieldSchemaBean.setIsNullable(BooleanEnums.EnglishCode.YES);
             fieldSchemaBean.setDefaultValue(new String[]{});
             fieldSchemaBean.setComment(columnSchema.getColumn_comment());
             meta.getFieldSchemaMap().put(toCamelCase, fieldSchemaBean);
             meta.getFieldClassMap().put(toCamelCase, MySqlDataTypeEnum.getJavaClassByDataType(columnSchema.getData_type()));
-            meta.getFieldLengthMap().put(toCamelCase, MySqlDataTypeEnum.getLengthByColumnTypeString(columnSchema.getColumn_type(), columnSchema.getCharacter_maximum_length()));
+            meta.getFieldLengthMap().put(toCamelCase, MySqlDataTypeEnum.getLengthByColumnTypeString(columnSchema.getColumn_type(), columnSchema.getCharacter_maximum_length(), columnSchema.getNumeric_precision()));
             meta.getFieldScaleMap().put(toCamelCase, columnSchema.getNumeric_scale());
             meta.getFieldCommentMap().put(toCamelCase, columnSchema.getColumn_comment());
             meta.setRepoTypeStrategyEnum(RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY);

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -141,6 +142,15 @@ public class GenTableLoadingService implements GenLogger {
                 TableMySqlBean mySqlBean = BeanUtil.mapToBean(tableRecord.getColumns(), TableMySqlBean.class, false, copyOptions);
                 List<Record> columnRecordList = Db.find("SELECT * FROM information_schema.columns WHERE table_schema = '" + databaseName + "' AND table_name='" + mySqlBean.getTable_name() + "'");
                 columnRecordList.forEach(columnRecord -> {
+                    if (columnRecord.get("NUMERIC_PRECISION") != null) {
+                        columnRecord.set("NUMERIC_PRECISION", ((BigInteger) columnRecord.get("NUMERIC_PRECISION")).intValue());
+                    }
+                    if (columnRecord.get("NUMERIC_SCALE") != null) {
+                        columnRecord.set("NUMERIC_SCALE", ((BigInteger) columnRecord.get("NUMERIC_SCALE")).intValue());
+                    }
+                    if (columnRecord.get("ORDINAL_POSITION") != null) {
+                        columnRecord.set("ORDINAL_POSITION", ((BigInteger) columnRecord.get("ORDINAL_POSITION")).intValue());
+                    }
                     TableMySqlBean.ColumnSchemaBean columnSchema = BeanUtil.mapToBean(columnRecord.getColumns(), TableMySqlBean.ColumnSchemaBean.class, false, copyOptions);
                     mySqlBean.getColumnSchemaList().add(columnSchema);
                 });
@@ -160,6 +170,7 @@ public class GenTableLoadingService implements GenLogger {
             });
             logInfo(log, "genTableLoadingService::importTableByMySql 读取完成");
         } catch (Exception e) {
+            e.printStackTrace();
             logError(log, "genTableLoadingService::importTableByMySql", e.getMessage());
             throw new ProjectFrameworkException("genTableLoadingService::importTableByMySql " + e.getMessage());
         }
