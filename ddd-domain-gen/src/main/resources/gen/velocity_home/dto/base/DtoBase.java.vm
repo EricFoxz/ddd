@@ -2,7 +2,7 @@ package ${rootPackage}.apis.model.dto.${meta.domainName}.base;
 
 import com.github.pagehelper.PageInfo;
 import ${rootPackage}.apis.model.dto.${meta.domainName}.${meta.ClassName}Dto;
-import ${rootPackage}.common.interfaces.BaseDto;
+import ${rootPackage}.common.interfaces.apis.BaseDto;
 import ${rootPackage}.common.toolkit.coding.BeanUtil;
 import ${rootPackage}.common.toolkit.coding.CollUtil;
 import ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name}.${meta.ClassName}Entity;

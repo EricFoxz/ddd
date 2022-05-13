@@ -55,15 +55,15 @@ public class TableMySqlBean {
         private String table_schema;
         private String table_name;
         private String column_name;
-        private Integer ordinal_position;
+        private int ordinal_position;
         private String column_default;
         private String is_nullable;
         private String data_type;
-        private Integer character_maximum_length;
-        private Integer character_octet_length;
-        private Integer numeric_precision;
-        private Integer numeric_scale;
-        private Integer datetime_precision;
+        private int character_maximum_length;
+        private int character_octet_length;
+        private int numeric_precision;
+        private int numeric_scale;
+        private int datetime_precision;
         private String character_set_name;
         private String collation_name;
         private String column_type;
@@ -73,6 +73,37 @@ public class TableMySqlBean {
         private String column_comment;
         private String is_generated;
         private String generation_expression;
+
+        public void setOrdinal_position(Integer ordinal_position) {
+            this.ordinal_position = toInt(ordinal_position);
+        }
+
+        public void setCharacter_maximum_length(Integer character_maximum_length) {
+            this.character_maximum_length = toInt(character_maximum_length);
+        }
+
+        public void setCharacter_octet_length(Integer character_octet_length) {
+            this.character_octet_length = toInt(character_octet_length);
+        }
+
+        public void setNumeric_precision(Integer numeric_precision) {
+            this.numeric_precision = toInt(numeric_precision);
+        }
+
+        public void setNumeric_scale(Integer numeric_scale) {
+            this.numeric_scale = toInt(numeric_scale);
+        }
+
+        public void setDatetime_precision(Integer datetime_precision) {
+            this.datetime_precision = toInt(datetime_precision);
+        }
+
+        private int toInt(Integer integer) {
+            if (integer == null) {
+                return 0;
+            }
+            return integer;
+        }
     }
 
     @Getter
@@ -105,6 +136,10 @@ public class TableMySqlBean {
         }
     }
 
+    public void setEngine(String engine) {
+        this.engine = MySqlTableEngineEnum.INNODB.getEnumByCode(engine);
+    }
+
     public static TableMySqlBean load(TableXmlBean xmlBean) {
         final TableMySqlBean mySqlBean = new TableMySqlBean();
         // 表名
@@ -114,7 +149,7 @@ public class TableMySqlBean {
         // 表注释
         mySqlBean.setTable_comment(xmlBean.getMeta().getTableComment());
         // 存储引擎一律使用InnoDB，用MySql用的就是事务
-        mySqlBean.setEngine(MySqlTableEngineEnum.INNODB);
+        mySqlBean.setEngine(MySqlTableEngineEnum.INNODB.getCode());
         AtomicInteger index = new AtomicInteger(0);
         xmlBean.getMeta().getFieldClassMap().forEach((key, value) -> {
             int i = index.incrementAndGet();

@@ -26,6 +26,7 @@ public class SysUserEntityBase implements BaseEntity<SysUser, SysUserEntity> {
     private String username;
     private java.math.BigDecimal money;
     private String userInfo;
+    private String password;
 
     @Override
     public synchronized SysUserService service() {

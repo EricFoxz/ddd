@@ -4,6 +4,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.jfinal.plugin.activerecord.Record;
+import gitee.com.ericfox.ddd.common.enums.db.MySqlTableEngineEnum;
 import gitee.com.ericfox.ddd.common.exceptions.ProjectFrameworkException;
 import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import gitee.com.ericfox.ddd.common.toolkit.coding.*;
@@ -136,6 +137,7 @@ public class GenTableLoadingService implements GenLogger {
             List<Record> tableRecordList = Db.find("SELECT * FROM information_schema.tables WHERE table_schema = '" + databaseName + "'");
             tableRecordList.forEach(tableRecord -> {
                 CopyOptions copyOptions = Constants.IGNORE_CASE_VALUE_COPY_OPTIONS;
+                tableRecord.set("engine", MySqlTableEngineEnum.INNODB.getEnumByCode(tableRecord.getStr("engine")));
                 TableMySqlBean mySqlBean = BeanUtil.mapToBean(tableRecord.getColumns(), TableMySqlBean.class, false, copyOptions);
                 List<Record> columnRecordList = Db.find("SELECT * FROM information_schema.columns WHERE table_schema = '" + databaseName + "' AND table_name='" + mySqlBean.getTable_name() + "'");
                 columnRecordList.forEach(columnRecord -> {

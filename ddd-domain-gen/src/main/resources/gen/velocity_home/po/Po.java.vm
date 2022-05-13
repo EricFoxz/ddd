@@ -1,10 +1,10 @@
 package ${rootPackage}.infrastructure.persistent.po.${meta.domainName};
 
+import ${rootPackage}.common.enums.contants.BooleanEnums;
+import ${rootPackage}.common.enums.db.MySqlDataTypeEnum;
 import ${rootPackage}.common.enums.strategy.RepoTypeStrategyEnum;
-import ${rootPackage}.common.interfaces.BasePo;
-import ${rootPackage}.infrastructure.general.common.annotations.framework.FieldComment;
-import ${rootPackage}.infrastructure.general.common.annotations.framework.FieldLength;
-import ${rootPackage}.infrastructure.general.common.annotations.framework.TableComment;
+import ${rootPackage}.common.interfaces.infrastructure.BasePo;
+import ${rootPackage}.infrastructure.general.common.annotations.framework.*;
 import ${rootPackage}.infrastructure.general.common.annotations.service.RepoEnabledAnnotation;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,10 +33,7 @@ public static final class STRUCTURE {
      * $!{meta.fieldCommentMap.get(${item.key})}
      */
 #end
-    @FieldComment("$!{meta.fieldCommentMap.get(${item.key})}")
-#if($meta.fieldLengthMap.containsKey(${item.key}) && !!$meta.fieldLengthMap.get(${item.key}))
-    @FieldLength(length = $meta.fieldLengthMap.get(${item.key}), scale = $meta.fieldScaleMap.get(${item.key}))
-#end
+    @FieldSchema(dataType = MySqlDataTypeEnum.${meta.fieldSchemaMap.get($item.key).dataType.name}, length = ${meta.fieldSchemaMap.get($item.key).length}, scale = ${meta.fieldSchemaMap.get($item.key).scale}, isNullable = BooleanEnums.EnglishCode.${meta.fieldSchemaMap.get($item.key).isNullable.name}, comment = "${meta.fieldSchemaMap.get($item.key).comment}")
 #if(${strUtil.startWith(${item.value.name}, "java.lang")})
     private ${item.value.simpleName} ${item.key};
 #else

@@ -10,6 +10,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Setter
 @ConfigurationProperties(prefix = "custom.starter.filesystem")
 public class StarterFilesystemProperties {
+    private boolean enable = false;
+
+    private FilesystemStrategyEnum defaultStrategy;
+
     public enum FilesystemPropertiesEnum implements BasePropertiesEnum<FilesystemStrategyEnum> {
         MIN_IO_STRATEGY;
 

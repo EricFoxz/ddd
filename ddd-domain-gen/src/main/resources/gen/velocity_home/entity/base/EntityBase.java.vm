@@ -1,7 +1,7 @@
 package ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name};
 
-import ${rootPackage}.common.interfaces.BaseCondition;
-import ${rootPackage}.common.interfaces.BaseEntity;
+import ${rootPackage}.common.interfaces.domain.BaseCondition;
+import ${rootPackage}.common.interfaces.domain.BaseEntity;
 import ${rootPackage}.common.toolkit.coding.BeanUtil;
 import ${rootPackage}.common.toolkit.coding.SpringUtil;
 import ${rootPackage}.infrastructure.general.common.Constants;

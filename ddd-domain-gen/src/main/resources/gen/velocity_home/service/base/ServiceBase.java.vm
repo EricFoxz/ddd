@@ -1,11 +1,11 @@
 package ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name};
 
 import com.github.pagehelper.PageInfo;
-import ${rootPackage}.common.interfaces.BaseContext;
-import ${rootPackage}.common.interfaces.BaseService;
+import ${rootPackage}.common.interfaces.domain.BaseContext;
+import ${rootPackage}.common.interfaces.domain.BaseService;
 import ${rootPackage}.infrastructure.general.common.Constants;
 import ${rootPackage}.infrastructure.persistent.po.${meta.domainName}.${meta.ClassName};
-import ${rootPackage}.infrastructure.persistent.service.repo.RepoService;
+import ${rootPackage}.infrastructure.service.repo.RepoService;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

@@ -38,6 +38,11 @@ public class SysUser implements BasePo<SysUser> {
     @FieldSchema(dataType = MySqlDataTypeEnum.VARCHAR, length = 32, scale = 0, isNullable = BooleanEnums.EnglishCode.NO, comment = "用户名")
     private String username;
     /**
+     * 密码
+     */
+    @FieldSchema(dataType = MySqlDataTypeEnum.CHAR, length = 32, scale = 0, isNullable = BooleanEnums.EnglishCode.YES, comment = "密码")
+    private String password;
+    /**
      * 金额
      */
     @FieldSchema(dataType = MySqlDataTypeEnum.DECIMAL, length = 10, scale = 2, isNullable = BooleanEnums.EnglishCode.NO, comment = "金额")

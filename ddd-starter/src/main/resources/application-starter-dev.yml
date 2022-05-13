@@ -37,6 +37,10 @@ custom:
         max-retries: 3
         namespace: ddd
         connection-timeout-ms: 60000
+    #文件系统
+    filesystem:
+      enable: true
+      default-strategy: min_io_strategy
     # 消息队列
     mq:
       enable: false
