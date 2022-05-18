@@ -19,13 +19,12 @@ import lombok.Setter;
 @Getter
 @RepoEnabledAnnotation(type = RepoTypeStrategyEnum.${meta.repoTypeStrategyEnum.name})
 public class ${meta.get("ClassName")} implements BasePo<${meta.ClassName}> {
-
-public static final class STRUCTURE {
-    public static String domainName = "${meta.domainName}";
-    public static String table = "${meta.tableName}";
-    public static String id = "${meta.idField}";
-    public static String uuid = "uuid";
-}
+    public static final class STRUCTURE {
+        public static String domainName = "${meta.domainName}";
+        public static String table = "${meta.tableName}";
+        public static String id = "${meta.idField}";
+        public static String uuid = "uuid";
+    }
 
 #foreach($item in $meta.fieldClassMap.entrySet())
 #if(!!$meta.fieldCommentMap.get(${item.key}))

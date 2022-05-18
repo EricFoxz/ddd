@@ -13,13 +13,39 @@ public class SysUserPageParam implements BasePageParam<SysUser, SysUserEntity> {
     private Integer pageNum = 1;
     private Integer pageSize = 10;
 
+    /**
+     * 主键
+     */
     private Long id;
+    /**
+     * uuid可以存储第三方主键
+     */
+    private String uuid;
     /**
      * 用户名
      */
     private String username;
-    private java.math.BigDecimal money;
-    private String userInfo;
+    /**
+     * 昵称
+     */
+    private String nickname;
+    /**
+     * 密码
+     */
+    private String password;
+    /**
+     * 平台
+     */
+    private String platform;
+    /**
+     * 用户信息
+     */
+    private String userinfo;
+    /**
+     * 状态
+     */
+    private String status;
+    private java.sql.Timestamp createDate;
 
     @Override
     public SysUserEntity toEntity() {

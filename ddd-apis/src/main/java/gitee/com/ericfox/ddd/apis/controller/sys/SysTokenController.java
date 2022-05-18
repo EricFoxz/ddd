@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/sys/user")
+@RequestMapping("/sys/sysToken")
 public class SysTokenController extends SysTokenControllerBase {
     @Override
     @PutMapping("/create")

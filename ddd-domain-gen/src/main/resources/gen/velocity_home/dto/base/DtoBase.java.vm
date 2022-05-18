@@ -30,7 +30,7 @@ public abstract class ${meta.ClassName}DtoBase implements BaseDto<${meta.ClassNa
 
     @Override
     public ${meta.ClassName}Dto fromEntity(${meta.ClassName}Entity entity) {
-            ${meta.ClassName}Dto dto = new ${meta.ClassName}Dto();
+        ${meta.ClassName}Dto dto = new ${meta.ClassName}Dto();
         BeanUtil.copyProperties(entity, dto, false);
         return dto;
     }

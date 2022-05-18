@@ -20,6 +20,14 @@ public abstract class SysTokenDtoBase implements BaseDto<SysToken, SysTokenEntit
      */
     private Long id;
     /**
+     * 用户名
+     */
+    private String username;
+    /**
+     * 平台
+     */
+    private String platform;
+    /**
      * 令牌
      */
     private String token;

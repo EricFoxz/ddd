@@ -31,6 +31,16 @@ public static final class STRUCTURE {
     @FieldSchema(dataType = MySqlDataTypeEnum.BIGINT, length = 19, scale = 0, isNullable = BooleanEnums.EnglishCode.YES, comment = "主键")
     private Long id;
     /**
+     * 用户名
+     */
+    @FieldSchema(dataType = MySqlDataTypeEnum.VARCHAR, length = 50, scale = 0, isNullable = BooleanEnums.EnglishCode.YES, comment = "用户名")
+    private String username;
+    /**
+     * 平台
+     */
+    @FieldSchema(dataType = MySqlDataTypeEnum.VARCHAR, length = 20, scale = 0, isNullable = BooleanEnums.EnglishCode.YES, comment = "平台")
+    private String platform;
+    /**
      * 令牌
      */
     @FieldSchema(dataType = MySqlDataTypeEnum.CHAR, length = 32, scale = 0, isNullable = BooleanEnums.EnglishCode.YES, comment = "令牌")
