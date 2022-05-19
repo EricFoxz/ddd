@@ -37,9 +37,8 @@ public class SysUserService extends SysUserServiceBase {
         sysUserEntity.setPassword(encodePassword);
         sysUserEntity.set_condition(sysUserEntity.toCondition());
         sysUserEntity = findFirst(sysUserEntity);
-        if (sysUserEntity == null) {
-            SysTokenEntity token = sysTokenService.getLoginToken(sysUserEntity);
-            return token;
+        if (sysUserEntity != null) {
+            return sysTokenService.getLoginToken(sysUserEntity);
         }
         return null;
     }
