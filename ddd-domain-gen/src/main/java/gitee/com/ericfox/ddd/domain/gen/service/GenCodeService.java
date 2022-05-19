@@ -16,6 +16,8 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -67,8 +69,9 @@ public class GenCodeService implements GenLogger {
         try {
             template = Velocity.getTemplate(path);
             if (template == null) {
-                logError(log, "genCodeService::getCodeByTableXmlBean velocity模板初始化失败: " + path);
-                throw new ProjectFrameworkException("genCodeService::getCodeByTableXmlBean velocity模板初始化失败: " + path);
+                String eMsg = "genCodeService::getCodeByTableXmlBean velocity模板初始化失败: " + path;
+                logError(log, eMsg);
+                throw new ProjectFrameworkException(eMsg, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
             logError(log, "genCodeService::getCodeByTableXmlBean 加载模板异常");

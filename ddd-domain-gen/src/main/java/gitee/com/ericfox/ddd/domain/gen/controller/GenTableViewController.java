@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -37,9 +38,9 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class GenTableViewController implements BaseJavaFxController, GenLogger {
-    public static final String TABLE_CHECK_BOX_PREFIX = "tableCheckBox:";
-    private static final String YES = "√";
-    private static final String NO = "×";
+    public static final String TABLE_CHECK_BOX_PREFIX = "tableCheckBox:" ;
+    private static final String YES = "√" ;
+    private static final String NO = "×" ;
 
     @Resource
     private CustomProperties customProperties;
@@ -346,8 +347,9 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
             list.forEach(this::writeCode);
             logInfo(log, "genTableViewController::multiWriteCode 生成代码完成");
         } catch (Exception e) {
-            logError(log, "生成代码异常", e);
-            throw new ProjectFrameworkException("生成代码异常" + e.getMessage());
+            String eMsg = "生成代码异常" + e.getMessage();
+            logError(log, eMsg, e);
+            throw new ProjectFrameworkException(eMsg, HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -391,8 +393,9 @@ public class GenTableViewController implements BaseJavaFxController, GenLogger {
             exportStage.close();
             logInfo(log, "genTableViewController::multiExportSql 导出SQL完成");
         } catch (Exception e) {
-            logError(log, "导出SQL异常", e);
-            throw new ProjectFrameworkException("生成代码异常" + e.getMessage());
+            String eMsg = "导出SQL异常" + e.getMessage();
+            logError(log, eMsg, e);
+            throw new ProjectFrameworkException(eMsg, HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 

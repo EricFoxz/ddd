@@ -21,6 +21,7 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -119,8 +120,9 @@ public class LuceneRepoStrategy implements RepoStrategy {
             }
             return true;
         } catch (Exception e) {
-            log.error("luceneRepoStrategy::deleteById 删除文档失败");
-            throw new ProjectRepoException("", e);
+            String eMsg = "luceneRepoStrategy::deleteById 删除文档失败" + e.getMessage();
+            log.error(eMsg, e);
+            throw new ProjectRepoException(eMsg, HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -149,8 +151,9 @@ public class LuceneRepoStrategy implements RepoStrategy {
             }
             return true;
         } catch (Exception e) {
-            log.error("luceneRepoStrategy::multiDeleteById 删除文档失败");
-            throw new ProjectRepoException("", e);
+            String eMsg = "luceneRepoStrategy::multiDeleteById 删除文档失败" + e.getMessage();
+            log.error(eMsg, e);
+            throw new ProjectRepoException(eMsg, HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -199,8 +202,9 @@ public class LuceneRepoStrategy implements RepoStrategy {
             }
             return true;
         } catch (Exception e) {
-            log.error("luceneRepoStrategy::multiInsert 创建文档失败", e);
-            throw new ProjectRepoException("lucene multiInsert异常", e);
+            String eMsg = "luceneRepoStrategy::multiInsert 创建文档失败" + e.getMessage();
+            log.error(eMsg, e);
+            throw new ProjectRepoException("lucene multiInsert异常", HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
@@ -378,7 +382,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
                         ReflectUtil.setFieldValue(po, field.getName(), bytes);
                     }
                 } else {
-                    throw new ProjectRepoException("lucene不支持其他类型，请重新配置搜索类型");
+                    throw new ProjectRepoException("lucene不支持其他类型，请重新配置搜索类型", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             });
         }
@@ -475,7 +479,9 @@ public class LuceneRepoStrategy implements RepoStrategy {
                             document.add(new BinaryDocValuesField(field.getName(), bytesRef));
                         }
                     } else {
-                        throw new ProjectRepoException("lucene不支持其他类型，请重新配置搜索类型");
+                        String eMsg = "lucene不支持其他类型，请重新配置搜索类型" ;
+                        log.error(eMsg);
+                        throw new ProjectRepoException(eMsg, HttpStatus.INTERNAL_SERVER_ERROR);
                     }
                 }
             });
@@ -798,7 +804,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
             } else if (LuceneFieldTypeEnum.INT_POINT.equals(luceneFieldTypeEnum)) {
                 query = IntPoint.newExactQuery(fieldName, (Integer) value);
             } else {
-                throw new ProjectRepoException("lucene未定义的映射类型：" + value);
+                throw new ProjectRepoException("lucene未定义的映射类型：" + value, HttpStatus.INTERNAL_SERVER_ERROR);
             }
             return query;
         }

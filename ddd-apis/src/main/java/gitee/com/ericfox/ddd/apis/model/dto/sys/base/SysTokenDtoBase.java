@@ -46,7 +46,7 @@ public abstract class SysTokenDtoBase implements BaseDto<SysToken, SysTokenEntit
 
     @Override
     public SysTokenDto fromEntity(SysTokenEntity entity) {
-            SysTokenDto dto = new SysTokenDto();
+        SysTokenDto dto = new SysTokenDto();
         BeanUtil.copyProperties(entity, dto, false);
         return dto;
     }

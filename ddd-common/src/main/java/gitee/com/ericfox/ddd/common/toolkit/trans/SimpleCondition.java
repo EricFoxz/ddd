@@ -8,6 +8,8 @@ import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.MapUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -45,7 +47,7 @@ public class SimpleCondition implements BaseCondition<SimpleCondition> {
 
     private SimpleCondition appendCondition(String field, String type, Object value) {
         if (StrUtil.isBlank(field)) {
-            field = "";
+            field = "" ;
         }
         condition.put(field + SEPARATOR + type, value);
         return this;
@@ -104,8 +106,9 @@ public class SimpleCondition implements BaseCondition<SimpleCondition> {
     @Override
     public SimpleCondition between(@NonNull String field, @NonNull Object v1, @NonNull Object v2) {
         if (!v1.getClass().equals(v2.getClass())) {
-            log.error("simpleCondition::between 输入的两个参数必须是同一类型");
-            throw new ProjectFrameworkException("simpleCondition::between 输入的两个参数必须是同一类型");
+            String eMsg = "simpleCondition::between 输入的两个参数必须是同一类型" ;
+            log.error(eMsg);
+            throw new ProjectFrameworkException(eMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return appendCondition(field, BETWEEN, CollUtil.newArrayList(v1, v2));
     }
@@ -152,8 +155,9 @@ public class SimpleCondition implements BaseCondition<SimpleCondition> {
     @Override
     public SimpleCondition removeCondition(@NonNull String field, String type) {
         if (StrUtil.isBlank(field) && StrUtil.isBlank(type)) {
-            log.error("simpleCondition::removeCondition 如果想要移除所有条件请使用removeAllCondition()方法");
-            throw new ProjectFrameworkException("simpleCondition::removeCondition 如果想要移除所有条件请使用removeAllCondition()方法");
+            String eMsg = "simpleCondition::removeCondition 如果想要移除所有条件请使用removeAllCondition()方法" ;
+            log.error(eMsg);
+            throw new ProjectFrameworkException(eMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (StrUtil.isBlank(field)) { //移除所有指定field的条件
             String s = field + SEPARATOR;

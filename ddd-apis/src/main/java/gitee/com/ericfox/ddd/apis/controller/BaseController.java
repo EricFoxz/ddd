@@ -16,6 +16,7 @@ public interface BaseController<PO extends BasePo<PO>, ENTITY extends BaseEntity
     static HttpStatus CREATED_201 = HttpStatus.CREATED;
     static HttpStatus NO_CONTENT_204 = HttpStatus.NO_CONTENT;
     static HttpStatus RESET_CONTENT_205 = HttpStatus.RESET_CONTENT;
+    static HttpStatus MOVED_PERMANENTLY_301 = HttpStatus.MOVED_PERMANENTLY;
     static HttpStatus FOUND_302 = HttpStatus.FOUND;
     static HttpStatus NOT_MODIFIED_304 = HttpStatus.NOT_MODIFIED;
     static HttpStatus FORBIDDEN_403 = HttpStatus.FORBIDDEN;

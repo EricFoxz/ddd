@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -58,7 +59,7 @@ public class CaffeineCacheStrategy implements CacheService {
             String keyPrefix = prefix.substring(i + 1);
             return removeByPrefix(module, keyPrefix);
         }
-        throw new ProjectFrameworkException("没有找到模块名称或前缀为空");
+        throw new ProjectFrameworkException("没有找到模块名称或前缀为空", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     public Long removeByPrefix(String module, String prefix) {

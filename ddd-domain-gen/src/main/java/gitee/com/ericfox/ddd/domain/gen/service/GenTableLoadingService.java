@@ -19,6 +19,8 @@ import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.service.R
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -170,9 +172,9 @@ public class GenTableLoadingService implements GenLogger {
             });
             logInfo(log, "genTableLoadingService::importTableByMySql 读取完成");
         } catch (Exception e) {
-            e.printStackTrace();
-            logError(log, "genTableLoadingService::importTableByMySql", e.getMessage());
-            throw new ProjectFrameworkException("genTableLoadingService::importTableByMySql " + e.getMessage());
+            String eMsg = "genTableLoadingService::importTableByMySql " + e.getMessage();
+            logError(log, eMsg, e);
+            throw new ProjectFrameworkException(eMsg, HttpStatus.INTERNAL_SERVER_ERROR, e);
         }
         GenComponents.getGenTableWritingService().publishTablesToRuntime();
     }

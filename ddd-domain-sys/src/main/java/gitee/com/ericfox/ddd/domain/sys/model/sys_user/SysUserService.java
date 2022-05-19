@@ -22,13 +22,13 @@ public class SysUserService extends SysUserServiceBase {
      */
     @Transactional
     @CacheEvict(allEntries = true, beforeInvocation = false)
-    public boolean register(SysUserEntity entity) {
+    public SysUserEntity register(SysUserEntity entity) {
         SysUserContext.Rule rule = entity.get_rule();
         SysUserContext.Moment moment = entity.get_moment();
         if (rule.equals(SysUserContext.Rule.MANAGER)) {
             insert(entity);
         }
-        return true;
+        return null;
     }
 
     public SysTokenEntity login(SysUserEntity sysUserEntity) {
