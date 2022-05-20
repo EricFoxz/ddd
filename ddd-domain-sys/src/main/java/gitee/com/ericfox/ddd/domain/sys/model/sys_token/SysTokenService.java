@@ -1,9 +1,8 @@
 package gitee.com.ericfox.ddd.domain.sys.model.sys_token;
 
 import gitee.com.ericfox.ddd.common.toolkit.coding.IdUtil;
-import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
-import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 

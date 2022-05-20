@@ -297,6 +297,9 @@ public class LuceneRepoStrategy implements RepoStrategy {
     @Override
     @SneakyThrows
     public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> List<ENTITY> queryList(ENTITY entity, int limit) {
+        if (limit < 0) {
+            limit = Integer.MAX_VALUE;
+        }
         PO po = entity.toPo();
         Class<DAO> daoClass = ClassTransUtil.getDaoClassByPo(po, RepoTypeStrategyEnum.LUCENE_REPO_STRATEGY);
         IndexSearcher indexSearcher = getIndexSearcher((Class<PO>) po.getClass());

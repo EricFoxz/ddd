@@ -4,7 +4,7 @@ import gitee.com.ericfox.ddd.apis.model.param.BaseDetailParam;
 import gitee.com.ericfox.ddd.apis.model.param.BasePageParam;
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
 import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
-import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

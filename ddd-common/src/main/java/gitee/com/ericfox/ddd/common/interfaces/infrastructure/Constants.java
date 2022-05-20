@@ -1,9 +1,8 @@
-package gitee.com.ericfox.ddd.infrastructure.general.common;
+package gitee.com.ericfox.ddd.common.interfaces.infrastructure;
 
 import cn.hutool.core.bean.copier.CopyOptions;
 import gitee.com.ericfox.ddd.common.toolkit.coding.MapUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -21,8 +20,8 @@ public interface Constants {
 
     Long TOKEN_EXPIRE_MILLIS_TIME = 1000L * 60 * 30;
 
-    String SERVICE_FUNCTION_CACHE_KEY_GENERATOR = "serviceFunctionCacheKeyGenerator";
-    String SERVICE_CACHE_KEY_GENERATOR = "serviceCacheKeyGenerator";
+    String SERVICE_FUNCTION_CACHE_KEY_GENERATOR = "serviceFunctionCacheKeyGenerator" ;
+    String SERVICE_CACHE_KEY_GENERATOR = "serviceCacheKeyGenerator" ;
 
     String PROJECT_ROOT_PATH = System.getProperty("user.dir");
 
@@ -32,10 +31,9 @@ public interface Constants {
         if (RESPONSE_ENTITY_MAP.containsKey(httpStatus)) {
             return RESPONSE_ENTITY_MAP.get(httpStatus);
         } else {
-            ResponseEntity<?> responseEntity = ResBuilder.hashMapData()
-                    .put("msg", httpStatus.getReasonPhrase())
-                    .setStatus(httpStatus)
-                    .build();
+            Map map = MapUtil.newHashMap();
+            map.put("message", httpStatus.getReasonPhrase());
+            ResponseEntity<?> responseEntity = new ResponseEntity<>(map, httpStatus);
             RESPONSE_ENTITY_MAP.put(httpStatus, responseEntity);
             return responseEntity;
         }

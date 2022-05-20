@@ -14,13 +14,12 @@ import gitee.com.ericfox.ddd.domain.gen.bean.TableXmlBean;
 import gitee.com.ericfox.ddd.domain.gen.common.GenLogger;
 import gitee.com.ericfox.ddd.domain.gen.common.component.GenComponents;
 import gitee.com.ericfox.ddd.domain.gen.common.constants.GenConstants;
-import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
 import gitee.com.ericfox.ddd.infrastructure.general.common.annotations.service.RepoEnabledAnnotation;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

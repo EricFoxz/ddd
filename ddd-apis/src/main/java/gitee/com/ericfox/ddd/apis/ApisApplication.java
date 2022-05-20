@@ -15,6 +15,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
                 "gitee.com.ericfox.ddd.application.*.config",
                 "gitee.com.ericfox.ddd.domain.*.model",
                 "gitee.com.ericfox.ddd.domain.*.service",
+                "gitee.com.ericfox.ddd.domain.*.config",
                 "gitee.com.ericfox.ddd.infrastructure.general.config",
                 "gitee.com.ericfox.ddd.infrastructure.service",
                 "gitee.com.ericfox.ddd.starter.*.properties",

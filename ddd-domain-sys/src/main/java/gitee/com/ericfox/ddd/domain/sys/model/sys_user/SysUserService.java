@@ -3,7 +3,7 @@ package gitee.com.ericfox.ddd.domain.sys.model.sys_user;
 import gitee.com.ericfox.ddd.common.toolkit.coding.SecureUtil;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenService;
-import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;

@@ -3,7 +3,7 @@ package gitee.com.ericfox.ddd.domain.sys.model.sys_token;
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseContext;
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseService;
-import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysToken;
 import gitee.com.ericfox.ddd.infrastructure.service.repo.RepoService;
 import org.springframework.cache.annotation.CacheConfig;
@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @CacheConfig(cacheNames = "ServiceCache:SysTokenService", keyGenerator = Constants.SERVICE_CACHE_KEY_GENERATOR)
-public abstract class SysTokenServiceBase implements BaseService<SysToken, SysTokenEntity>, BaseContext.Interaction {
+public abstract class SysTokenServiceBase implements BaseService<SysToken, SysTokenEntity>, BaseContext.BaseInteraction {
     @Resource
     RepoService repoService;
 

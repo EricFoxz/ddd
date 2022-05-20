@@ -18,12 +18,12 @@ import lombok.Setter;
 @RepoEnabledAnnotation(type = RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY)
 public class SysToken implements BasePo<SysToken> {
 
-public static final class STRUCTURE {
-    public static String domainName = "sys";
-    public static String table = "sys_token";
-    public static String id = "id";
-    public static String uuid = "uuid";
-}
+    public static final class STRUCTURE {
+        public static String domainName = "sys";
+        public static String table = "sys_token";
+        public static String id = "id";
+        public static String uuid = "uuid";
+    }
 
     /**
      * 主键

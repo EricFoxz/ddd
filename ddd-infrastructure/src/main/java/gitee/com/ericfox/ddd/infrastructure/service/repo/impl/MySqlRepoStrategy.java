@@ -10,7 +10,7 @@ import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BaseDao;
 import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import gitee.com.ericfox.ddd.common.toolkit.coding.*;
 import gitee.com.ericfox.ddd.common.toolkit.trans.SQL;
-import gitee.com.ericfox.ddd.infrastructure.general.common.Constants;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.trans.ClassTransUtil;
 import gitee.com.ericfox.ddd.infrastructure.service.repo.RepoStrategy;
 import lombok.SneakyThrows;
@@ -157,6 +157,9 @@ public class MySqlRepoStrategy implements RepoStrategy {
         sqlPara.setSql("SELECT " + CollUtil.join(po.fields(true), ",") + " FROM " + tableName + whereSql.toString());
         for (Object value : whereSql.getParamList()) {
             sqlPara.addPara(value);
+        }
+        if (limit >= 0) {
+            sqlPara.setSql(sqlPara.getSql() + " LIMIT " + limit);
         }
         List<Record> list = Db.find(sqlPara);
         List<ENTITY> result = CollUtil.newArrayList();

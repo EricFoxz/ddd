@@ -34,7 +34,7 @@ public interface RepoStrategy {
 
     @NonNull
     default <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> List<ENTITY> queryList(ENTITY entity) {
-        return queryList(entity, 1000);
+        return queryList(entity, -1);
     }
 
     <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> List<ENTITY> queryList(ENTITY entity, int limit);

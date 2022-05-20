@@ -1,6 +1,6 @@
 package ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name};
 
-import ${rootPackage}.infrastructure.general.common.Constants;
+import ${rootPackage}.common.interfaces.infrastructure.Constants;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
