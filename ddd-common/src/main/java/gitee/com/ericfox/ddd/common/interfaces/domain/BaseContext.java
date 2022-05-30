@@ -10,6 +10,9 @@ import java.io.Serializable;
  * 什么类型的(Description) + 谁/什么地点/什么东西(PartPlaceThing) + 以什么角色(Rule) + 在什么时间(Moment) + 做什么(Interaction)
  */
 public interface BaseContext extends Serializable {
+    /**
+     * 类型
+     */
     interface BaseDescription {
         String TYPE = "DESCRIPTION" ;
 
@@ -18,10 +21,16 @@ public interface BaseContext extends Serializable {
         }
     }
 
+    /**
+     * 主体（一般指代Entity）
+     */
     interface BasePartPlaceThing {
         String TYPE = "PART_PLACE_THING" ;
     }
 
+    /**
+     * 角色
+     */
     interface BaseRule {
         String TYPE = "RULE" ;
 
@@ -30,6 +39,9 @@ public interface BaseContext extends Serializable {
         }
     }
 
+    /**
+     * 时间
+     */
     interface BaseMoment {
         String TYPE = "MOMENT" ;
 
@@ -40,6 +52,9 @@ public interface BaseContext extends Serializable {
         }
     }
 
+    /**
+     * 做什么（由service实现）
+     */
     interface BaseInteraction {
         String TYPE = "INTERACTION" ;
     }
