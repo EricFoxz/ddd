@@ -482,7 +482,7 @@ public class LuceneRepoStrategy implements RepoStrategy {
                             document.add(new BinaryDocValuesField(field.getName(), bytesRef));
                         }
                     } else {
-                        String eMsg = "lucene不支持其他类型，请重新配置搜索类型" ;
+                        String eMsg = "lucene不支持其他类型，请重新配置搜索类型";
                         log.error(eMsg);
                         throw new ProjectRepoException(eMsg, HttpStatus.INTERNAL_SERVER_ERROR);
                     }

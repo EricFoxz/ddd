@@ -12,7 +12,6 @@ import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.lang.reflect.Method;
 
@@ -83,7 +82,7 @@ public class OnPropertyEnumCondition<T extends BaseEnum<T, ?>> implements Condit
                     continue a;
                 }
             }
-            String eMsg = "OnPropertyEnumCondition:checkValues " + enumStr + "不是枚举的有效值" ;
+            String eMsg = "OnPropertyEnumCondition:checkValues " + enumStr + "不是枚举的有效值";
             throw new ProjectFrameworkException(eMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

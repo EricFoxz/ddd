@@ -1,9 +1,10 @@
 package gitee.com.ericfox.ddd.domain.sys.model.sys_user;
 
+import gitee.com.ericfox.ddd.common.exceptions.ProjectFrameworkException;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
 import gitee.com.ericfox.ddd.common.toolkit.coding.SecureUtil;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenService;
-import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,17 @@ public class SysUserService extends SysUserServiceBase {
     @Transactional
     @CacheEvict(allEntries = true, beforeInvocation = false)
     public SysUserEntity register(SysUserEntity entity) {
+        // 判断用户名是否存在
         SysUserContext.Rule rule = entity.get_rule();
         SysUserContext.Moment moment = entity.get_moment();
+
+        SysUserEntity query = new SysUserEntity();
+        query.setUsername(entity.getUsername());
+        query = findFirst(query);
+        if (query != null) {
+            throw new ProjectFrameworkException("用户名已存在", UNAUTHORIZED_401);
+        }
+
         if (rule.equals(SysUserContext.Rule.MANAGER)) {
             insert(entity);
         }

@@ -9,7 +9,7 @@ import java.util.Map;
 public class ScriptTest {
     @SneakyThrows
     public static void main(String[] args) {
-        String script = "({\"code\":403,\"message\":\"禁止注册\",\"time\":$currentTime})" ;
+        String script = "({\"code\":403,\"message\":\"禁止注册\",\"time\":$currentTime})";
         Map map = MapUtil.builder()
                 .put("$currentTime", System.currentTimeMillis())
                 .build();

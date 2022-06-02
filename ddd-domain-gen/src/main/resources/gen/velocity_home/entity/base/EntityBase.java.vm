@@ -2,9 +2,9 @@ package ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name};
 
 import ${rootPackage}.common.interfaces.domain.BaseCondition;
 import ${rootPackage}.common.interfaces.domain.BaseEntity;
+import ${rootPackage}.common.interfaces.infrastructure.Constants;
 import ${rootPackage}.common.toolkit.coding.BeanUtil;
 import ${rootPackage}.common.toolkit.coding.SpringUtil;
-import ${rootPackage}.common.interfaces.infrastructure.Constants;
 import ${rootPackage}.infrastructure.persistent.po.${meta.domainName}.${meta.ClassName};
 import lombok.Getter;
 import lombok.Setter;

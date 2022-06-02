@@ -19,17 +19,17 @@ import java.util.List;
 @ResponseBody
 public abstract class SysTokenControllerBase implements BaseController<SysToken, SysTokenEntity, SysTokenPageParam, SysTokenDetailParam> {
     @Resource
-        SysTokenService sysTokenService;
+    SysTokenService sysTokenService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> detail(@PathVariable Long id) {
-            SysTokenDto dto = Dto.fromEntity(SysTokenDto.class, sysTokenService.findById(id));
+        SysTokenDto dto = Dto.fromEntity(SysTokenDto.class, sysTokenService.findById(id));
         return ResBuilder.defValue.success().setData(dto).build();
     }
 
     @GetMapping("/page/{pageNum}/{pageSize}")
     public ResponseEntity<?> page(SysTokenPageParam pageParam) {
-            SysTokenEntity entity = pageParam.toEntity();
+        SysTokenEntity entity = pageParam.toEntity();
         entity.set_condition(entity.toCondition());
         PageInfo<SysTokenDto> pageInfo = Dto.fromEntityPage(SysTokenDto.class, sysTokenService.queryPage(entity, pageParam.getPageNum(), pageParam.getPageSize()));
         return ResBuilder.defValue.success().setData(pageInfo).build();
@@ -46,8 +46,8 @@ public abstract class SysTokenControllerBase implements BaseController<SysToken,
     @Override
     @PutMapping("/create")
     public ResponseEntity<?> create(@RequestBody SysTokenEntity entity) {
-            sysTokenService.insert(entity);
-            SysTokenDto dto = Dto.fromEntity(SysTokenDto.class, entity);
+        sysTokenService.insert(entity);
+        SysTokenDto dto = Dto.fromEntity(SysTokenDto.class, entity);
         return ResBuilder.defValue.created().setData(dto).build();
     }
 

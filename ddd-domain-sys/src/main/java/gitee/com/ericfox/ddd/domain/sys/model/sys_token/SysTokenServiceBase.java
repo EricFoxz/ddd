@@ -23,7 +23,7 @@ public abstract class SysTokenServiceBase implements BaseService<SysToken, SysTo
     @Transactional(readOnly = true)
     @Cacheable(keyGenerator = Constants.SERVICE_FUNCTION_CACHE_KEY_GENERATOR)
     public SysTokenEntity findById(Long id) {
-            SysTokenEntity entity = new SysTokenEntity();
+        SysTokenEntity entity = new SysTokenEntity();
         entity.setId(id);
         return repoService.findById(entity);
     }

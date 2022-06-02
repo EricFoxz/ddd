@@ -1,3 +1,4 @@
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
 import gitee.com.ericfox.ddd.common.toolkit.coding.IoUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.MapUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ReUtil;
@@ -5,7 +6,6 @@ import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import gitee.com.ericfox.ddd.domain.gen.GenApplication;
 import gitee.com.ericfox.ddd.domain.gen.bean.TableJavaBean;
 import gitee.com.ericfox.ddd.domain.gen.service.GenCodeService;
-import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
 import gitee.com.ericfox.ddd.infrastructure.general.config.env.CustomProperties;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import lombok.SneakyThrows;

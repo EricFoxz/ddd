@@ -135,7 +135,7 @@ public class TableXmlBean implements GenLogger {
             fieldSchemaBean.setLength(MySqlDataTypeEnum.getLengthByColumnTypeString(columnSchema.getColumn_type(), columnSchema.getCharacter_maximum_length(), columnSchema.getNumeric_precision()));
             fieldSchemaBean.setScale(columnSchema.getNumeric_scale());
             fieldSchemaBean.setIsNullable(BooleanEnums.EnglishCode.YES);
-            if("NULL".equals(columnSchema.getColumn_default())) {
+            if ("NULL".equals(columnSchema.getColumn_default())) {
                 fieldSchemaBean.setDefaultValue(new String[]{});
             } else {
                 fieldSchemaBean.setDefaultValue(new String[]{columnSchema.getColumn_default()});

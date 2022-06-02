@@ -1,7 +1,6 @@
 package gitee.com.ericfox.ddd.common.enums.db;
 
 import gitee.com.ericfox.ddd.common.enums.BaseEnum;
-import gitee.com.ericfox.ddd.common.toolkit.coding.NumberUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.ReUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.StrUtil;
 import lombok.Getter;

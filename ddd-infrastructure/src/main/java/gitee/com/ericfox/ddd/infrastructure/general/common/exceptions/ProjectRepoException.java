@@ -1,7 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.general.common.exceptions;
 
 import gitee.com.ericfox.ddd.common.exceptions.ProjectFrameworkException;
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 /**

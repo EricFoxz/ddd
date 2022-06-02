@@ -2,9 +2,9 @@ package gitee.com.ericfox.ddd.domain.sys.model.sys_user;
 
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseCondition;
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
+import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
 import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.SpringUtil;
-import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import lombok.Getter;
 import lombok.Setter;

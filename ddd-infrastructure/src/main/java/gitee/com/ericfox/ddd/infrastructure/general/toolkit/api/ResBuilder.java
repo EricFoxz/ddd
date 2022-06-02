@@ -129,7 +129,7 @@ public class ResBuilder {
             ((Map<String, Object>) this.data).put(key, value);
             return this;
         } else {
-            String eMsg = "ResBuilder:putData data字段并非Map，不能执行put" ;
+            String eMsg = "ResBuilder:putData data字段并非Map，不能执行put";
             throw new ProjectFrameworkException(eMsg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
