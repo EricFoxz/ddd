@@ -16,8 +16,18 @@ public class ${meta.ClassName}EntityBase implements BaseEntity<${meta.ClassName}
     protected BaseCondition<?> _condition;
     protected ${meta.ClassName} _po;
 
-    ${meta.ClassName}Context.Rule _rule;
+    /**
+     * 上下文-类型
+     */
+    ${meta.ClassName}Context.Description _description;
+    /**
+     * 上下文-时间
+     */
     ${meta.ClassName}Context.Moment _moment;
+    /**
+     * 上下文-角色
+     */
+    ${meta.ClassName}Context.Rule _rule;
 
     #foreach($item in $meta.fieldClassMap.entrySet())
 #if(!!$meta.fieldCommentMap.get(${item.key}))

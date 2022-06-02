@@ -16,8 +16,18 @@ public class SysTokenEntityBase implements BaseEntity<SysToken, SysTokenEntity> 
     protected BaseCondition<?> _condition;
     protected SysToken _po;
 
-    SysTokenContext.Rule _rule;
+    /**
+     * 上下文-类型
+     */
+    SysTokenContext.Description _description;
+    /**
+     * 上下文-时间
+     */
     SysTokenContext.Moment _moment;
+    /**
+     * 上下文-角色
+     */
+    SysTokenContext.Rule _rule;
 
     /**
      * 主键

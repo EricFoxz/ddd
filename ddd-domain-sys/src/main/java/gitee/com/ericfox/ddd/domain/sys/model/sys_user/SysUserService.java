@@ -34,8 +34,7 @@ public class SysUserService extends SysUserServiceBase {
         if (query != null) {
             throw new ProjectFrameworkException("用户名已存在", UNAUTHORIZED_401);
         }
-
-        if (rule.equals(SysUserContext.Rule.MANAGER)) {
+        if (rule.equals(SysUserContext.Rule.WEB_USER)) {
             insert(entity);
         }
         return null;

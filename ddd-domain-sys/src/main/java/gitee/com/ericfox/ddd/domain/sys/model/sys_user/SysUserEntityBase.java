@@ -16,8 +16,18 @@ public class SysUserEntityBase implements BaseEntity<SysUser, SysUserEntity> {
     protected BaseCondition<?> _condition;
     protected SysUser _po;
 
-    SysUserContext.Rule _rule;
+    /**
+     * 上下文-类型
+     */
+    SysUserContext.Description _description;
+    /**
+     * 上下文-时间
+     */
     SysUserContext.Moment _moment;
+    /**
+     * 上下文-角色
+     */
+    SysUserContext.Rule _rule;
 
     /**
      * 主键
