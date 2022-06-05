@@ -37,7 +37,7 @@ public class GenCodeService implements GenLogger {
     private void init() {
         try {
             Properties properties = new Properties();
-            properties.load(ResourceUtil.getStream("vm.properties"));
+            properties.load(ResourceUtil.getUtf8Reader("gen/vm.properties"));
             Velocity.init(properties);
         } catch (Exception e) {
             logError(log, "genCodeService::init velocity初始化失败");
