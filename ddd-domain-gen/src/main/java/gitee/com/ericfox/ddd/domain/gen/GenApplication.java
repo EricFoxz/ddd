@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.domain.gen;
 
+import de.chandre.velocity2.spring.Velocity2AutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
@@ -11,7 +12,10 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
                 "gitee.com.ericfox.ddd.domain.gen.common",
                 "gitee.com.ericfox.ddd.domain.gen.service",
         },
-        exclude = {HibernateJpaAutoConfiguration.class}
+        exclude = {
+                HibernateJpaAutoConfiguration.class,
+                Velocity2AutoConfiguration.class
+        }
 )
 public class GenApplication {
     public static void main(String[] args) {

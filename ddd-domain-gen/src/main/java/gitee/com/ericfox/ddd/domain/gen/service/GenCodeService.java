@@ -105,7 +105,7 @@ public class GenCodeService implements GenLogger {
 
     public String getEntityBaseCode(TableXmlBean tableXml) {
         VelocityContext context = new VelocityContext();
-        return getCodeByTableXmlBean(tableXml, context, "gen/velocity_home/entity/base/EntityBase.java.vm");
+        return getCodeByTableXmlBean(tableXml, context, "gen/velocity_home/entity/EntityBase.java.vm");
     }
 
     public String getContextCode(TableXmlBean tableXml) {
@@ -120,7 +120,7 @@ public class GenCodeService implements GenLogger {
 
     public String getServiceBaseCode(TableXmlBean tableXml) {
         VelocityContext context = new VelocityContext();
-        return getCodeByTableXmlBean(tableXml, context, "gen/velocity_home/service/base/ServiceBase.java.vm");
+        return getCodeByTableXmlBean(tableXml, context, "gen/velocity_home/service/ServiceBase.java.vm");
     }
 
     public String getDtoCode(TableXmlBean tableXml) {
@@ -130,7 +130,7 @@ public class GenCodeService implements GenLogger {
 
     public String getDtoBaseCode(TableXmlBean tableXml) {
         VelocityContext context = new VelocityContext();
-        return getCodeByTableXmlBean(tableXml, context, "gen/velocity_home/dto/base/DtoBase.java.vm");
+        return getCodeByTableXmlBean(tableXml, context, "gen/velocity_home/dto/DtoBase.java.vm");
     }
 
     public String getPageParamCode(TableXmlBean tableXml) {
@@ -150,6 +150,6 @@ public class GenCodeService implements GenLogger {
 
     public String getControllerBaseCode(TableXmlBean tableXml) {
         VelocityContext context = new VelocityContext();
-        return getCodeByTableXmlBean(tableXml, context, "gen/velocity_home/controller/base/ControllerBase.java.vm");
+        return getCodeByTableXmlBean(tableXml, context, "gen/velocity_home/controller/ControllerBase.java.vm");
     }
 }
