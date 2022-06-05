@@ -44,7 +44,10 @@ public class SysUserPageParam implements BasePageParam<SysUser, SysUserEntity> {
     /**
      * 状态
      */
-    private String status;
+    private String statusEnum;
+    /**
+     * 创建日期
+     */
     private java.sql.Timestamp createDate;
 
     @Override

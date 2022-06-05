@@ -23,7 +23,6 @@ import lombok.Setter;
 @Getter
 @RepoEnabledAnnotation(type = RepoTypeStrategyEnum.MY_SQL_REPO_STRATEGY)
 public class SysUser implements BasePo<SysUser> {
-
     public static final class STRUCTURE {
         public static String domainName = "sys";
         public static String table = "sys_user";
@@ -70,7 +69,10 @@ public class SysUser implements BasePo<SysUser> {
      * 状态
      */
     @FieldSchema(dataType = MySqlDataTypeEnum.CHAR, length = 1, scale = 0, isNullable = BooleanEnums.EnglishCode.YES, comment = "状态")
-    private String status;
-    @FieldSchema(dataType = MySqlDataTypeEnum.DATETIME, length = 0, scale = 0, isNullable = BooleanEnums.EnglishCode.YES, comment = "")
+    private String statusEnum;
+    /**
+     * 创建日期
+     */
+    @FieldSchema(dataType = MySqlDataTypeEnum.DATETIME, length = 0, scale = 0, isNullable = BooleanEnums.EnglishCode.YES, comment = "创建日期")
     private java.sql.Timestamp createDate;
 }
