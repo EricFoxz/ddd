@@ -50,8 +50,11 @@ public class MySqlRepoStrategy implements RepoStrategy {
         SqlPara sqlPara = new SqlPara();
         String tableName = (String) t.getClass().getDeclaredClasses()[0].getField("table").get(null);
         Model<?> result = dao.findFirst("SELECT " + CollUtil.join(t.fields(true), ",") + " FROM " + tableName + whereSql.toString() + " LIMIT 1 ");
-        BeanUtil.copyProperties(result.toRecord().getColumns(), t, false);
-        return entity.fromPo(t);
+        if(result != null) {
+            BeanUtil.copyProperties(result.toRecord().getColumns(), t, false);
+            return entity.fromPo(t);
+        }
+        return null;
     }
 
     @Override
@@ -89,7 +92,7 @@ public class MySqlRepoStrategy implements RepoStrategy {
     public <PO extends BasePo<PO>, DAO extends BaseDao<PO>, ENTITY extends BaseEntity<PO, ENTITY>> ENTITY insert(ENTITY entity) {
         PO po = entity.toPo();
         JFinalBaseDao dao = getDao(po);
-        dao.put(BeanUtil.beanToMap(po));
+        dao.put(BeanUtil.beanToMap(po, true, false));
         dao.save();
         return entity;
     }

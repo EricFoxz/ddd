@@ -15,19 +15,19 @@ public class ${meta.ClassName}Controller extends ${meta.ClassName}ControllerBase
     @Override
     @PutMapping("/create")
     public ResponseEntity<?> create(@RequestBody ${meta.ClassName}Entity entity) {
-        return ResBuilder.noData().setStatus(SERVICE_UNAVAILABLE_503).build();
+        return ResBuilder.noData().setStatus(METHOD_NOT_ALLOWED_405).build();
     }
 
     @Override
     @PatchMapping("/edit")
     public ResponseEntity<?> edit(${meta.ClassName}Entity entity) {
-        return ResBuilder.noData().setStatus(SERVICE_UNAVAILABLE_503).build();
+        return ResBuilder.noData().setStatus(METHOD_NOT_ALLOWED_405).build();
     }
 
     @Override
     @DeleteMapping("/remove")
     public ResponseEntity<?> remove(${meta.ClassName}Entity entity) {
-        return ResBuilder.noData().setStatus(SERVICE_UNAVAILABLE_503).build();
+        return ResBuilder.noData().setStatus(METHOD_NOT_ALLOWED_405).build();
     }
 
 }

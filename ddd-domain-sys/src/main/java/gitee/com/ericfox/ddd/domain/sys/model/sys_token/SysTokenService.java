@@ -45,6 +45,6 @@ public class SysTokenService extends SysTokenServiceBase {
     }
 
     public String generateRandomToken(SysUserEntity sysUserEntity) {
-        return IdUtil.randomUUID();
+        return IdUtil.simpleUUID();
     }
 }

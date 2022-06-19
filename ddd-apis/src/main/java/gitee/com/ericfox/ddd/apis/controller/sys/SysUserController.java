@@ -25,19 +25,19 @@ public class SysUserController extends SysUserControllerBase {
     @Override
     @PutMapping("/create")
     public ResponseEntity<?> create(@RequestBody SysUserEntity entity) {
-        return ResBuilder.noData().setStatus(SERVICE_UNAVAILABLE_503).build();
+        return ResBuilder.noData().setStatus(METHOD_NOT_ALLOWED_405).build();
     }
 
     @Override
     @PatchMapping("/edit")
     public ResponseEntity<?> edit(SysUserEntity entity) {
-        return ResBuilder.noData().setStatus(SERVICE_UNAVAILABLE_503).build();
+        return ResBuilder.noData().setStatus(METHOD_NOT_ALLOWED_405).build();
     }
 
     @Override
     @DeleteMapping("/remove")
     public ResponseEntity<?> remove(SysUserEntity entity) {
-        return ResBuilder.noData().setStatus(SERVICE_UNAVAILABLE_503).build();
+        return ResBuilder.noData().setStatus(METHOD_NOT_ALLOWED_405).build();
     }
 
     /**
