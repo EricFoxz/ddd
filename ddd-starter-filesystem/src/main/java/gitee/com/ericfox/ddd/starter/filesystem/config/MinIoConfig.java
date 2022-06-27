@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnPropertyEnum(
-        name = "custom.starter.mq.default-strategy",
+        name = "custom.starter.filesystem.default-strategy",
         enumClass = StarterFilesystemProperties.FilesystemPropertiesEnum.class,
-        includeAnyValue = "kafka_mq_strategy"
+        includeAnyValue = "min_io_strategy"
 )
 @ConditionalOnProperty(prefix = "custom.starter.filesystem", value = "enable")
 public class MinIoConfig {
