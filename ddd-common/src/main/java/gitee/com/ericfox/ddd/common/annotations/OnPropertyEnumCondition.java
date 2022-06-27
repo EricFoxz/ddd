@@ -30,7 +30,7 @@ public class OnPropertyEnumCondition<T extends BaseEnum<T, ?>> implements Condit
             return true;
         }
         MergedAnnotation<ConditionalOnPropertyEnum> annotation = annotations.get(ConditionalOnPropertyEnum.class);
-        String value = annotation.getValue("value", String.class).orElse("");
+        String value = annotation.getValue("name", String.class).orElse("");
         Class<BasePropertiesEnum<T>> enumClass = (Class<BasePropertiesEnum<T>>) annotation.getValue("enumClass", Class.class).orElse(null);
         String[] includeAllValue = annotation.getValue("includeAllValue", String[].class).orElse(null);
         String[] includeAnyValue = annotation.getValue("includeAnyValue", String[].class).orElse(null);
