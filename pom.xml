@@ -224,6 +224,11 @@
                 <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
                 <version>${springcloud.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>

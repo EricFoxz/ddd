@@ -30,6 +30,7 @@ import java.util.function.Consumer;
 @ConditionalOnProperty(prefix = "custom.infrastructure.repo-strategy.my-sql", value = {"enable"})
 @SuppressWarnings("unchecked")
 public class JFinalRepoConfig {
+    public static volatile boolean isReady = false;
     @Resource
     private CustomProperties customProperties;
 
@@ -72,6 +73,7 @@ public class JFinalRepoConfig {
             }
         });
         arp.start();
+        isReady = true;
         return arp;
     }
 }

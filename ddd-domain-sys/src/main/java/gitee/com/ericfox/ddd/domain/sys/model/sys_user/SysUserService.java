@@ -7,12 +7,14 @@ import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenService;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
 @Service
+@EnableAspectJAutoProxy
 @CacheConfig(cacheNames = "ServiceCache:SysUserService", keyGenerator = Constants.SERVICE_CACHE_KEY_GENERATOR)
 public class SysUserService extends SysUserServiceBase {
     @Resource
@@ -22,7 +24,7 @@ public class SysUserService extends SysUserServiceBase {
      * 用户注册
      */
     @Transactional
-    @CacheEvict(allEntries = true, beforeInvocation = false)
+    @CacheEvict(allEntries = true, beforeInvocation = false, condition = "${entity.id > 0}")
     public SysUserEntity register(SysUserEntity entity) {
         // 判断用户名是否存在
         SysUserContext.Rule rule = entity.get_rule();
