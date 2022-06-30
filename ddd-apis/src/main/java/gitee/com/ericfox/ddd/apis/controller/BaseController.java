@@ -1,7 +1,7 @@
 package gitee.com.ericfox.ddd.apis.controller;
 
-import gitee.com.ericfox.ddd.apis.model.param.BaseDetailParam;
-import gitee.com.ericfox.ddd.apis.model.param.BasePageParam;
+import gitee.com.ericfox.ddd.common.interfaces.apis.BaseDetailParam;
+import gitee.com.ericfox.ddd.common.interfaces.apis.BasePageParam;
 import gitee.com.ericfox.ddd.common.interfaces.apis.BaseHttpStatus;
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
 import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;

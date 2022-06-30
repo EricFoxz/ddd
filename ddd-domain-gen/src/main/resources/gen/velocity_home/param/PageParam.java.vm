@@ -1,6 +1,6 @@
 package ${rootPackage}.apis.model.param.${meta.domainName}.${meta.class_name};
 
-import ${rootPackage}.apis.model.param.BasePageParam;
+import ${rootPackage}.common.interfaces.apis.BasePageParam;
 import ${rootPackage}.common.toolkit.coding.BeanUtil;
 import ${rootPackage}.domain.${meta.domainName}.model.${meta.class_name}.${meta.ClassName}Entity;
 import ${rootPackage}.infrastructure.persistent.po.${meta.domainName}.${meta.ClassName};

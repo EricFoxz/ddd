@@ -1,6 +1,6 @@
 package gitee.com.ericfox.ddd.apis.model.param.sys.sys_user;
 
-import gitee.com.ericfox.ddd.apis.model.param.BaseDetailParam;
+import gitee.com.ericfox.ddd.common.interfaces.apis.BaseDetailParam;
 import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;

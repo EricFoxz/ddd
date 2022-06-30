@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.apis.model.param;
+package gitee.com.ericfox.ddd.common.interfaces.apis;
 
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
 import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
