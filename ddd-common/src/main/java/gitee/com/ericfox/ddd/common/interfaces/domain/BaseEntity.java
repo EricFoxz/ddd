@@ -6,7 +6,8 @@ import gitee.com.ericfox.ddd.common.toolkit.trans.SimpleCondition;
 import java.io.Serializable;
 
 @SuppressWarnings("unchecked")
-public interface BaseEntity<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO, ENTITY>> extends BaseContext.BasePartPlaceThing, Serializable {
+public interface BaseEntity<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO, ENTITY>> extends
+        BaseContext.BasePartPlaceThing, Serializable {
     void setId(Long id);
 
     Long getId();
@@ -32,6 +33,12 @@ public interface BaseEntity<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO,
     BaseCondition<?> get_condition();
 
     void set_condition(BaseCondition<?> condition);
+
+    <DESCRIPTION extends BaseContext.BaseDescription> void set_description(DESCRIPTION _description);
+
+    <MOMENT extends BaseContext.BaseMoment> void set_moment(MOMENT _moment);
+
+    <RULE extends BaseContext.BaseRule> void set_rule(RULE _rule);
 
     default BaseCondition<?> toCondition() {
         return SimpleCondition.newInstance(this.toPo());

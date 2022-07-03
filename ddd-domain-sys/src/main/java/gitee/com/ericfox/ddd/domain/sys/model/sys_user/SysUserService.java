@@ -25,8 +25,8 @@ public class SysUserService extends SysUserServiceBase {
     @CacheEvict(allEntries = true, beforeInvocation = false, condition = "${entity.id > 0}")
     public SysUserEntity register(SysUserEntity entity) {
         // 判断用户名是否存在
-        SysUserContext.Rule rule = entity.get_rule();
-        SysUserContext.Moment moment = entity.get_moment();
+        SysUserContext.Rule rule = (SysUserContext.Rule) entity.get_rule();
+        SysUserContext.Moment moment = (SysUserContext.Moment) entity.get_moment();
 
         SysUserEntity query = new SysUserEntity();
         query.setUsername(entity.getUsername());

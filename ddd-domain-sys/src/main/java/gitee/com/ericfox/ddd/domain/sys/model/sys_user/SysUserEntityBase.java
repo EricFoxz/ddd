@@ -1,6 +1,7 @@
 package gitee.com.ericfox.ddd.domain.sys.model.sys_user;
 
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseCondition;
+import gitee.com.ericfox.ddd.common.interfaces.domain.BaseContext;
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
 import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
 import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
@@ -19,15 +20,15 @@ public class SysUserEntityBase implements BaseEntity<SysUser, SysUserEntity> {
     /**
      * 上下文-类型
      */
-    SysUserContext.Description _description;
+    private BaseContext.BaseDescription _description;
     /**
      * 上下文-时间
      */
-    SysUserContext.Moment _moment;
+    private BaseContext.BaseMoment _moment;
     /**
      * 上下文-角色
      */
-    SysUserContext.Rule _rule;
+    private BaseContext.BaseRule _rule;
 
     /**
      * 主键

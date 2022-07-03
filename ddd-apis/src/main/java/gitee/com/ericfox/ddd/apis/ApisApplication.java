@@ -10,10 +10,11 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 @SpringBootApplication(
         scanBasePackages = {
                 "gitee.com.ericfox.ddd.apis.controller",
-                "gitee.com.ericfox.ddd.apis.components",
+                "gitee.com.ericfox.ddd.apis.events",
                 "gitee.com.ericfox.ddd.application.*.controller",
                 "gitee.com.ericfox.ddd.application.*.service",
                 "gitee.com.ericfox.ddd.application.*.config",
+                "gitee.com.ericfox.ddd.application.*.events",
                 "gitee.com.ericfox.ddd.domain.*.model",
                 "gitee.com.ericfox.ddd.domain.*.service",
                 "gitee.com.ericfox.ddd.domain.*.config",

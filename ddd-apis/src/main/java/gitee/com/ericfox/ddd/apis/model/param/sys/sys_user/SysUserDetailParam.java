@@ -2,10 +2,19 @@ package gitee.com.ericfox.ddd.apis.model.param.sys.sys_user;
 
 import gitee.com.ericfox.ddd.common.interfaces.apis.BaseDetailParam;
 import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
+import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserContext;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
+import lombok.Getter;
+import lombok.Setter;
 
-public class SysUserDetailParam implements BaseDetailParam<SysUser, SysUserEntity> {
+@Setter
+@Getter
+public class SysUserDetailParam implements BaseDetailParam<SysUser, SysUserEntity, SysUserContext.Description, SysUserContext.Moment, SysUserContext.Rule> {
+    SysUserContext.Description _description;
+    SysUserContext.Moment _moment;
+    SysUserContext.Rule _rule;
+
     /**
      * 主键
      */

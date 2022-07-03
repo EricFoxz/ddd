@@ -6,6 +6,7 @@ import gitee.com.ericfox.ddd.apis.controller.BaseController;
 import gitee.com.ericfox.ddd.apis.model.dto.sys.SysUserDto;
 import gitee.com.ericfox.ddd.apis.model.param.sys.sys_user.SysUserDetailParam;
 import gitee.com.ericfox.ddd.apis.model.param.sys.sys_user.SysUserPageParam;
+import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserContext;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserService;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
@@ -17,7 +18,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @ResponseBody
-public abstract class SysUserControllerBase implements BaseController<SysUser, SysUserEntity, SysUserPageParam, SysUserDetailParam> {
+public abstract class SysUserControllerBase implements BaseController<SysUser, SysUserEntity, SysUserPageParam, SysUserDetailParam, SysUserContext.Description, SysUserContext.Moment, SysUserContext.Rule> {
     @Resource
     SysUserService sysUserService;
 

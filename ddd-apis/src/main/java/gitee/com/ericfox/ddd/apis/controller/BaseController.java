@@ -1,8 +1,9 @@
 package gitee.com.ericfox.ddd.apis.controller;
 
 import gitee.com.ericfox.ddd.common.interfaces.apis.BaseDetailParam;
-import gitee.com.ericfox.ddd.common.interfaces.apis.BasePageParam;
 import gitee.com.ericfox.ddd.common.interfaces.apis.BaseHttpStatus;
+import gitee.com.ericfox.ddd.common.interfaces.apis.BasePageParam;
+import gitee.com.ericfox.ddd.common.interfaces.domain.BaseContext;
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
 import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
@@ -11,7 +12,15 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public interface BaseController<PO extends BasePo<PO>, ENTITY extends BaseEntity<PO, ENTITY>, PARAM extends BasePageParam<PO, ENTITY>, N extends BaseDetailParam<PO, ENTITY>> extends BaseHttpStatus {
+public interface BaseController<
+        PO extends BasePo<PO>,
+        ENTITY extends BaseEntity<PO, ENTITY>,
+        PARAM extends BasePageParam<PO, ENTITY, DESCRIPTION, MOMENT, RULE>,
+        N extends BaseDetailParam<PO, ENTITY, DESCRIPTION, MOMENT, RULE>,
+        DESCRIPTION extends BaseContext.BaseDescription,
+        MOMENT extends BaseContext.BaseMoment,
+        RULE extends BaseContext.BaseRule
+        > extends BaseHttpStatus {
 
     default ResponseEntity<?> detail(Long id) {
         return Constants.getResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);

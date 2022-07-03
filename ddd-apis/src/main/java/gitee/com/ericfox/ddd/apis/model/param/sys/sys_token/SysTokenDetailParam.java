@@ -2,10 +2,19 @@ package gitee.com.ericfox.ddd.apis.model.param.sys.sys_token;
 
 import gitee.com.ericfox.ddd.common.interfaces.apis.BaseDetailParam;
 import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
+import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenContext;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenEntity;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysToken;
+import lombok.Getter;
+import lombok.Setter;
 
-public class SysTokenDetailParam implements BaseDetailParam<SysToken, SysTokenEntity> {
+@Getter
+@Setter
+public class SysTokenDetailParam implements BaseDetailParam<SysToken, SysTokenEntity, SysTokenContext.Description, SysTokenContext.Moment, SysTokenContext.Rule> {
+    SysTokenContext.Description _description;
+    SysTokenContext.Moment _moment;
+    SysTokenContext.Rule _rule;
+
     /**
      * 主键
      */

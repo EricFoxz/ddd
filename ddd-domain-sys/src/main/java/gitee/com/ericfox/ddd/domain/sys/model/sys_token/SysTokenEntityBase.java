@@ -1,6 +1,7 @@
 package gitee.com.ericfox.ddd.domain.sys.model.sys_token;
 
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseCondition;
+import gitee.com.ericfox.ddd.common.interfaces.domain.BaseContext;
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
 import gitee.com.ericfox.ddd.common.interfaces.infrastructure.Constants;
 import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
@@ -19,15 +20,15 @@ public class SysTokenEntityBase implements BaseEntity<SysToken, SysTokenEntity> 
     /**
      * 上下文-类型
      */
-    SysTokenContext.Description _description;
+    private BaseContext.BaseDescription _description;
     /**
      * 上下文-时间
      */
-    SysTokenContext.Moment _moment;
+    private BaseContext.BaseMoment _moment;
     /**
      * 上下文-角色
      */
-    SysTokenContext.Rule _rule;
+    private BaseContext.BaseRule _rule;
 
     /**
      * 主键
