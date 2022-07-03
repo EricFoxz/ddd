@@ -6,16 +6,13 @@ import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
 
 public interface BasePageParam<
         PO extends BasePo<PO>,
-        ENTITY extends BaseEntity<PO, ENTITY>,
-        DESCRIPTION extends BaseContext.BaseDescription,
-        MOMENT extends BaseContext.BaseMoment,
-        RULE extends BaseContext.BaseRule
+        ENTITY extends BaseEntity<PO, ENTITY>
         > {
     ENTITY toEntity();
 
-    void set_description(DESCRIPTION _description);
+    void set_description(BaseContext.BaseDescription _description);
 
-    void set_moment(MOMENT _moment);
+    void set_moment(BaseContext.BaseMoment _moment);
 
-    void set_rule(RULE _rule);
+    void set_rule(BaseContext.BaseRule _rule);
 }

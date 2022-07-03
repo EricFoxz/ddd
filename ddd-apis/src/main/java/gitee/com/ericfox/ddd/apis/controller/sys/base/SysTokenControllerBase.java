@@ -6,7 +6,6 @@ import gitee.com.ericfox.ddd.apis.controller.BaseController;
 import gitee.com.ericfox.ddd.apis.model.dto.sys.SysTokenDto;
 import gitee.com.ericfox.ddd.apis.model.param.sys.sys_token.SysTokenDetailParam;
 import gitee.com.ericfox.ddd.apis.model.param.sys.sys_token.SysTokenPageParam;
-import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenContext;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenService;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
@@ -18,7 +17,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @ResponseBody
-public abstract class SysTokenControllerBase implements BaseController<SysToken, SysTokenEntity, SysTokenPageParam, SysTokenDetailParam, SysTokenContext.Description, SysTokenContext.Moment, SysTokenContext.Rule> {
+public abstract class SysTokenControllerBase implements BaseController<SysToken, SysTokenEntity, SysTokenPageParam, SysTokenDetailParam> {
     @Resource
     SysTokenService sysTokenService;
 

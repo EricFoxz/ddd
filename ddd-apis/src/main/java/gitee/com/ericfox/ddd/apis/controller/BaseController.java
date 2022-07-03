@@ -15,11 +15,8 @@ import java.util.List;
 public interface BaseController<
         PO extends BasePo<PO>,
         ENTITY extends BaseEntity<PO, ENTITY>,
-        PARAM extends BasePageParam<PO, ENTITY, DESCRIPTION, MOMENT, RULE>,
-        N extends BaseDetailParam<PO, ENTITY, DESCRIPTION, MOMENT, RULE>,
-        DESCRIPTION extends BaseContext.BaseDescription,
-        MOMENT extends BaseContext.BaseMoment,
-        RULE extends BaseContext.BaseRule
+        PARAM extends BasePageParam<PO, ENTITY>,
+        N extends BaseDetailParam<PO, ENTITY>
         > extends BaseHttpStatus {
 
     default ResponseEntity<?> detail(Long id) {

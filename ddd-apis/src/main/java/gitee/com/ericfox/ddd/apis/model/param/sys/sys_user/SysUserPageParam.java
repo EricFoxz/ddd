@@ -1,8 +1,8 @@
 package gitee.com.ericfox.ddd.apis.model.param.sys.sys_user;
 
 import gitee.com.ericfox.ddd.common.interfaces.apis.BasePageParam;
+import gitee.com.ericfox.ddd.common.interfaces.domain.BaseContext;
 import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
-import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserContext;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysUser;
 import lombok.Getter;
@@ -10,13 +10,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SysUserPageParam implements BasePageParam<SysUser, SysUserEntity, SysUserContext.Description, SysUserContext.Moment, SysUserContext.Rule> {
+public class SysUserPageParam implements BasePageParam<SysUser, SysUserEntity> {
     private Integer pageNum = 1;
     private Integer pageSize = 10;
 
-    SysUserContext.Description _description;
-    SysUserContext.Moment _moment;
-    SysUserContext.Rule _rule;
+    BaseContext.BaseDescription _description;
+    BaseContext.BaseMoment _moment;
+    BaseContext.BaseRule _rule;
 
     /**
      * 主键
