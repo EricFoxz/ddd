@@ -20,12 +20,12 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class ControllerContextAspect {
     @Pointcut(value = "execution(public * gitee.com.ericfox.ddd.apis.controller..*.*(..))")
-    public void apiMethod() {
+    public void apiControllerMethod() {
     }
 
-    @Around(value = "apiMethod()")
+    @Around(value = "apiControllerMethod()")
     @SneakyThrows
-    public Object aroundApiMethod(ProceedingJoinPoint proceedingJoinPoint) {
+    public Object aroundApiControllerMethod(ProceedingJoinPoint proceedingJoinPoint) {
         //获取入参
         Object[] args = proceedingJoinPoint.getArgs();
 

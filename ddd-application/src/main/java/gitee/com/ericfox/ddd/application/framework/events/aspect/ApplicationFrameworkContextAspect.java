@@ -21,9 +21,22 @@ public class ApplicationFrameworkContextAspect {
     public void domainServiceMethod() {
     }
 
+    /**
+     * application层Service方法
+     */
+    @Pointcut("execution(public * gitee.com.ericfox.ddd.application.*.controller..*.*(..))")
+    public void applicationControllerMethod() {
+    }
+
     @Around("domainServiceMethod()")
     @SneakyThrows
     public Object aroundDomainServiceMethod(ProceedingJoinPoint proceedingJoinPoint) {
+        return proceedingJoinPoint.proceed();
+    }
+
+    @Around("applicationControllerMethod()")
+    @SneakyThrows
+    public Object aroundApplicationControllerMethod(ProceedingJoinPoint proceedingJoinPoint) {
         return proceedingJoinPoint.proceed();
     }
 }
