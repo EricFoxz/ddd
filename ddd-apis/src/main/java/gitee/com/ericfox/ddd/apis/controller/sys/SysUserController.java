@@ -4,21 +4,27 @@ import gitee.com.ericfox.ddd.apis.assembler.Dto;
 import gitee.com.ericfox.ddd.apis.controller.sys.base.SysUserControllerBase;
 import gitee.com.ericfox.ddd.apis.model.dto.sys.SysTokenDto;
 import gitee.com.ericfox.ddd.apis.model.dto.sys.SysUserDto;
+import gitee.com.ericfox.ddd.application.framework.model.r_socket.RSocketMessageBean;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserService;
 import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Controller
 @RequestMapping("/sys/sysUser")
 @Slf4j
 public class SysUserController extends SysUserControllerBase {
+    @Resource
+    private Mono<RSocketRequester> requesterMono;
     @Resource
     private SysUserService sysUserService;
 
@@ -67,5 +73,24 @@ public class SysUserController extends SysUserControllerBase {
         }
         return ResBuilder.hashMapData()
                 .setStatus(FORBIDDEN_403).build();
+    }
+
+    @GetMapping("/rsocket")
+    @ResponseBody
+    public String rsocket() {
+        AtomicReference<String> response = new AtomicReference<>();
+        requesterMono.map(rSocketRequester -> {
+                    RSocketMessageBean messageBean = new RSocketMessageBean();
+                    messageBean.setTitle("标题");
+                    messageBean.setContent("内容");
+                    return rSocketRequester.route("application.framework.controller.sys.ApplicationFrameWorkSysUserController.pong")
+                            .data("1234");
+                })
+                .flatMap(retrieveSpec -> retrieveSpec.retrieveMono(String.class))
+                .doOnNext(object -> {
+                    log.info(object);
+                    response.set(object);
+                }).block();
+        return response.get();
     }
 }

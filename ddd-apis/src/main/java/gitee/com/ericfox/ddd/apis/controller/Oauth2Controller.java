@@ -12,6 +12,7 @@ import gitee.com.ericfox.ddd.application.framework.service.security.ApplicationF
 import gitee.com.ericfox.ddd.common.toolkit.coding.IdUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.URLUtil;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,6 +22,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Slf4j
 @Controller
 @RequestMapping("/oauth2")
 public class Oauth2Controller {
