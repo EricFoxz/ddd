@@ -34,6 +34,7 @@
         <springcloud.version>3.1.1</springcloud.version>
         <zookeeper.version>3.8.0</zookeeper.version>
         <curator.version>5.2.1</curator.version>
+        <kotlinx.version>1.6.3</kotlinx.version>
     </properties>
 
     <modules>
@@ -228,6 +229,11 @@
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlinx</groupId>
+                <artifactId>kotlinx-coroutines-core</artifactId>
+                <version>${kotlinx.version}</version>
             </dependency>
         </dependencies>
 
