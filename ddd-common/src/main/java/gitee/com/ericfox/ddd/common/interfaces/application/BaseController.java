@@ -7,6 +7,7 @@ import gitee.com.ericfox.ddd.common.interfaces.apis.BaseHttpStatus;
 import gitee.com.ericfox.ddd.common.interfaces.apis.BasePageParam;
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
 import gitee.com.ericfox.ddd.common.interfaces.infrastructure.BasePo;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -24,6 +25,8 @@ public interface BaseController<
     Mono<PageInfo<DTO>> page(PARAM param);
 
     Mono<List<DTO>> list(PARAM param);
+
+    Flux<DTO> streamList(PARAM param);
 
     Mono<DTO> create(DETAIL detail);
 

@@ -5,6 +5,7 @@ import gitee.com.ericfox.ddd.application.framework.model.sys.SysTokenDto;
 import gitee.com.ericfox.ddd.application.framework.model.sys.sys_token.SysTokenDetailParam;
 import gitee.com.ericfox.ddd.application.framework.model.sys.sys_token.SysTokenPageParam;
 import gitee.com.ericfox.ddd.common.interfaces.application.BaseController;
+import gitee.com.ericfox.ddd.common.toolkit.coding.ArrayUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.common.toolkit.trans.Dto;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenEntity;
@@ -15,10 +16,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/sys/sysToken")
@@ -41,15 +44,22 @@ public class AppFrameWorkSysTokenControllerBase implements BaseController<SysTok
     @Override
     @MessageMapping(SysTokenDto.BUS_NAME + ".list")
     public Mono<List<SysTokenDto>> list(SysTokenPageParam pageParam) {
-        List<SysTokenEntity> sysUserEntityList = sysTokenService.queryList(pageParam.toEntity(), pageParam.getPageSize());
-        return Mono.just(Dto.fromEntityList(SysTokenDto.class, sysUserEntityList));
+        List<SysTokenEntity> entityList = sysTokenService.queryList(pageParam.toEntity(), pageParam.getPageSize());
+        return Mono.just(Dto.fromEntityList(SysTokenDto.class, entityList));
+    }
+
+    @Override
+    @MessageMapping(SysTokenDto.BUS_NAME + ".streamList")
+    public Flux<SysTokenDto> streamList(SysTokenPageParam pageParam) {
+        List<SysTokenEntity> entityList = sysTokenService.queryList(pageParam.toEntity(), pageParam.getPageSize());
+        return Flux.fromStream(Stream.of(ArrayUtil.toArray(Dto.fromEntityList(SysTokenDto.class, entityList), SysTokenDto.class)));
     }
 
     @Override
     @MessageMapping(SysTokenDto.BUS_NAME + ".create")
     public Mono<SysTokenDto> create(@RequestBody SysTokenDetailParam detailParam) {
         SysTokenEntity entity = detailParam.toEntity();
-        sysTokenService.insert(entity);
+        entity = sysTokenService.insert(entity);
         return Mono.just(Dto.fromEntity(SysTokenDto.class, entity));
     }
 
@@ -84,7 +94,7 @@ public class AppFrameWorkSysTokenControllerBase implements BaseController<SysTok
         }
         boolean b = sysTokenService.multiDeleteById(entityList);
         if (b) {
-            Dto.fromEntityList(SysTokenDto.class, entityList);
+            return Mono.just(Dto.fromEntityList(SysTokenDto.class, entityList));
         }
         return Mono.just(CollUtil.newArrayList());
     }

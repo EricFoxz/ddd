@@ -8,6 +8,7 @@ import org.springframework.http.codec.cbor.Jackson2CborDecoder;
 import org.springframework.http.codec.cbor.Jackson2CborEncoder;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.messaging.rsocket.RSocketStrategies;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
@@ -34,8 +35,18 @@ public class RSocketConfig {
      * RSocket连接策略
      */
     @Bean
-    public Mono<RSocketRequester> rSocketMessageBeanMono(RSocketRequester.Builder builder) {
+    public Mono<RSocketRequester> requesterMono(RSocketRequester.Builder builder) {
         return Mono.just(
+                builder
+                        .rsocketConnector(connector -> connector.reconnect(Retry.fixedDelay(2, Duration.ofSeconds(2))))
+                        .dataMimeType(MediaType.APPLICATION_CBOR)
+                        .transport(TcpClientTransport.create(3001))
+        );
+    }
+
+    @Bean
+    public Flux<RSocketRequester> requesterFlux(RSocketRequester.Builder builder) {
+        return Flux.just(
                 builder
                         .rsocketConnector(connector -> connector.reconnect(Retry.fixedDelay(2, Duration.ofSeconds(2))))
                         .dataMimeType(MediaType.APPLICATION_CBOR)

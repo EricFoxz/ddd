@@ -7,15 +7,17 @@ import gitee.com.ericfox.ddd.application.framework.model.sys.sys_token.SysTokenD
 import gitee.com.ericfox.ddd.application.framework.model.sys.sys_token.SysTokenPageParam;
 import gitee.com.ericfox.ddd.application.framework.model.sys.sys_user.SysUserPageParam;
 import gitee.com.ericfox.ddd.common.interfaces.apis.BaseApiController;
-import gitee.com.ericfox.ddd.common.toolkit.coding.JSONUtil;
+import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
 import gitee.com.ericfox.ddd.common.toolkit.trans.ResBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.time.Duration;
 import java.util.List;
 
 @Slf4j
@@ -23,6 +25,8 @@ import java.util.List;
 public abstract class ApiSysTokenControllerBase implements BaseApiController<SysTokenPageParam, SysTokenDetailParam, SysTokenDto> {
     @Resource
     private Mono<RSocketRequester> requesterMono;
+    @Resource
+    private Flux<RSocketRequester> requesterFlux;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> detail(@PathVariable Long id) {
@@ -33,7 +37,6 @@ public abstract class ApiSysTokenControllerBase implements BaseApiController<Sys
                 })
                 .flatMap(retrieveSpec -> retrieveSpec.retrieveMono(SysUserDto.class))
                 .doOnNext((dto) -> {
-                    log.info(JSONUtil.toJsonStr(dto));
                     resBuilder.setData(dto);
                 });
         return resBuilder.build();
@@ -47,9 +50,8 @@ public abstract class ApiSysTokenControllerBase implements BaseApiController<Sys
                             .data(pageParam);
                 }).flatMap(retrieveSpec -> retrieveSpec.retrieveMono(PageInfo.class))
                 .doOnNext((pageInfo -> {
-                    log.info(JSONUtil.toJsonStr(pageInfo));
                     resBuilder.setData(pageInfo);
-                }));
+                })).block();
         return resBuilder.build();
     }
 
@@ -62,9 +64,26 @@ public abstract class ApiSysTokenControllerBase implements BaseApiController<Sys
                             .data(pageParam);
                 }).flatMap(retrieveSpec -> retrieveSpec.retrieveMono(List.class))
                 .doOnNext((list -> {
-                    log.info(JSONUtil.toJsonStr(list));
                     resBuilder.setData(list);
-                }));
+                })).block();
+        return resBuilder.build();
+    }
+
+    @Override
+    @GetMapping("/streamList/{pageSize}")
+    public ResponseEntity<?> streamList(SysTokenPageParam pageParam) {
+        ResBuilder resBuilder = ResBuilder.defValue.success();
+        List<SysTokenDto> dtoList = CollUtil.newArrayList();
+        requesterFlux.map(rSocketRequester -> {
+                    return rSocketRequester.route(SysTokenDto.BUS_NAME + ".streamList")
+                            .data(pageParam);
+                }).flatMap(retrieveSpec -> retrieveSpec.retrieveFlux(SysTokenDto.class))
+                .doOnNext((dto -> {
+                    dtoList.add(dto);
+                }))
+                .timeout(Duration.ofSeconds(30))
+                .blockLast();
+        resBuilder.setData(dtoList);
         return resBuilder.build();
     }
 
@@ -77,7 +96,6 @@ public abstract class ApiSysTokenControllerBase implements BaseApiController<Sys
                             .data(detailParam);
                 }).flatMap(retrieveSpec -> retrieveSpec.retrieveMono(SysUserDto.class))
                 .doOnNext((dto -> {
-                    log.info(JSONUtil.toJsonStr(dto));
                     resBuilder.setData(dto);
                 }));
         return resBuilder.build();
@@ -92,7 +110,6 @@ public abstract class ApiSysTokenControllerBase implements BaseApiController<Sys
                             .data(detailParam);
                 }).flatMap(retrieveSpec -> retrieveSpec.retrieveMono(SysUserDto.class))
                 .doOnNext((dto -> {
-                    log.info(JSONUtil.toJsonStr(dto));
                     resBuilder.setData(dto);
                 }));
         return resBuilder.build();
@@ -107,7 +124,6 @@ public abstract class ApiSysTokenControllerBase implements BaseApiController<Sys
                             .data(detailParam);
                 }).flatMap(retrieveSpec -> retrieveSpec.retrieveMono(SysUserDto.class))
                 .doOnNext((dto -> {
-                    log.info(JSONUtil.toJsonStr(dto));
                     resBuilder.setData(dto);
                 }));
         return resBuilder.build();
@@ -118,13 +134,12 @@ public abstract class ApiSysTokenControllerBase implements BaseApiController<Sys
     public ResponseEntity<?> multiRemove(List<SysTokenDetailParam> detailParamList) {
         ResBuilder resBuilder = ResBuilder.defValue.success();
         requesterMono.map(rSocketRequester -> {
-                    return rSocketRequester.route(SysTokenDto.BUS_NAME + ".remove")
+                    return rSocketRequester.route(SysTokenDto.BUS_NAME + ".multiRemove")
                             .data(detailParamList);
                 }).flatMap(retrieveSpec -> retrieveSpec.retrieveMono(SysUserDto.class))
                 .doOnNext((dto -> {
-                    log.info(JSONUtil.toJsonStr(dto));
                     resBuilder.setData(dto);
-                }));
+                })).block();
         return resBuilder.build();
     }
 }

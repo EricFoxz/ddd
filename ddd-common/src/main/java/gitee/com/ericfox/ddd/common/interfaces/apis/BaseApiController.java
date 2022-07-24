@@ -19,6 +19,10 @@ public interface BaseApiController<PAGE_PARAM extends BasePageParam, DETAIL_PARA
         return Constants.getResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
     }
 
+    default ResponseEntity<?> streamList(PAGE_PARAM pageParam) {
+        return Constants.getResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
     default ResponseEntity<?> create(DETAIL_PARAM detailParam) {
         return Constants.getResponseEntity(HttpStatus.METHOD_NOT_ALLOWED);
     }
