@@ -1,32 +1,15 @@
 package gitee.com.ericfox.ddd.apis.controller;
 
-import com.fujieid.jap.core.config.JapConfig;
-import com.fujieid.jap.core.result.JapResponse;
-import com.fujieid.jap.http.adapter.jakarta.JakartaRequestAdapter;
-import com.fujieid.jap.http.adapter.jakarta.JakartaResponseAdapter;
-import com.fujieid.jap.oauth2.OAuthConfig;
-import com.fujieid.jap.oauth2.Oauth2GrantType;
-import com.fujieid.jap.oauth2.Oauth2ResponseType;
-import com.fujieid.jap.oauth2.Oauth2Strategy;
-import gitee.com.ericfox.ddd.application.framework.service.security.ApplicationFrameworkOauth2Service;
-import gitee.com.ericfox.ddd.common.toolkit.coding.IdUtil;
-import gitee.com.ericfox.ddd.common.toolkit.coding.URLUtil;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @Controller
 @RequestMapping("/oauth2")
 public class Oauth2Controller {
-    @Resource
+    //TODO 用户权限
+    /*@Resource
     private ApplicationFrameworkOauth2Service applicationFrameworkOauth2Service;
 
     @RequestMapping("/login/jai")
@@ -57,5 +40,5 @@ public class Oauth2Controller {
             System.out.println(japResponse.getData());
             return new ModelAndView(new RedirectView("/"));
         }
-    }
+    }*/
 }

@@ -19,9 +19,5 @@
             <groupId>gitee.com.ericfox.ddd</groupId>
             <artifactId>ddd-application</artifactId>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
     </dependencies>
 </project>

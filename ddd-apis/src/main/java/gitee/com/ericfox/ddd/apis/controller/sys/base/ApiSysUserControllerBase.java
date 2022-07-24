@@ -6,7 +6,7 @@ import gitee.com.ericfox.ddd.application.framework.model.sys.sys_user.SysUserDet
 import gitee.com.ericfox.ddd.application.framework.model.sys.sys_user.SysUserPageParam;
 import gitee.com.ericfox.ddd.common.interfaces.apis.BaseApiController;
 import gitee.com.ericfox.ddd.common.toolkit.coding.JSONUtil;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
+import gitee.com.ericfox.ddd.common.toolkit.trans.ResBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.rsocket.RSocketRequester;

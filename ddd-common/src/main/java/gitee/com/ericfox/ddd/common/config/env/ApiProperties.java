@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.infrastructure.general.config.env;
+package gitee.com.ericfox.ddd.common.config.env;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,5 +1,6 @@
 package gitee.com.ericfox.ddd.infrastructure.general.config.env;
 
+import gitee.com.ericfox.ddd.common.config.env.ApiProperties;
 import gitee.com.ericfox.ddd.starter.config.StarterProperties;
 import lombok.Getter;
 import lombok.Setter;

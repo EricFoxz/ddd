@@ -1,9 +1,6 @@
 package gitee.com.ericfox.ddd.apis.events.aspect;
 
-import gitee.com.ericfox.ddd.common.interfaces.domain.BaseContext;
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
-import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserContext;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
 import lombok.SneakyThrows;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -29,16 +26,16 @@ public class ControllerContextAspect {
 
         //FIXME 设置上下文
         //SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        BaseContext.BaseDescription description = SysUserContext.Description.DEFAULT;
-        BaseContext.BaseMoment moment = SysUserContext.Moment.DEFAULT;
-        BaseContext.BaseRule rule = SysUserContext.Rule.WEB_USER;
+//        BaseContext.BaseDescription description = SysUserContext.Description.DEFAULT;
+//        BaseContext.BaseMoment moment = SysUserContext.Moment.DEFAULT;
+//        BaseContext.BaseRule rule = SysUserContext.Rule.WEB_USER;
 
         for (Object arg : args) {
             if (arg instanceof BaseEntity) {
                 BaseEntity entity = (BaseEntity) arg;
-                entity.set_description(description);
-                entity.set_moment(moment);
-                entity.set_rule(rule);
+//                entity.set_description(description);
+//                entity.set_moment(moment);
+//                entity.set_rule(rule);
             }
         }
 
@@ -46,10 +43,10 @@ public class ControllerContextAspect {
         Object response = proceedingJoinPoint.proceed(args);
 
         //控制response返回结果
-        if (response instanceof ResBuilder) {
+        /*if (response instanceof ResBuilder) {
             ResBuilder resBuilder = (ResBuilder) response;
             return resBuilder.build();
-        }
+        }*/
         return response;
     }
 }

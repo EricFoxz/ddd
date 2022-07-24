@@ -7,7 +7,7 @@ import gitee.com.ericfox.ddd.common.toolkit.trans.Dto;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserService;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
+import gitee.com.ericfox.ddd.common.toolkit.trans.ResBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;

@@ -2,7 +2,7 @@ package gitee.com.ericfox.ddd.apis.controller.sys;
 
 import gitee.com.ericfox.ddd.apis.controller.sys.base.ApiSysTokenControllerBase;
 import gitee.com.ericfox.ddd.application.framework.model.sys.sys_token.SysTokenDetailParam;
-import gitee.com.ericfox.ddd.infrastructure.general.toolkit.api.ResBuilder;
+import gitee.com.ericfox.ddd.common.toolkit.trans.ResBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
