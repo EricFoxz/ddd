@@ -1,7 +1,7 @@
-package gitee.com.ericfox.ddd.apis.model.dto.sys;
+package gitee.com.ericfox.ddd.application.framework.model.sys;
 
 import com.github.pagehelper.PageInfo;
-import gitee.com.ericfox.ddd.apis.model.dto.sys.base.SysUserDtoBase;
+import gitee.com.ericfox.ddd.application.framework.model.sys.base.SysUserDtoBase;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
 import lombok.Getter;
 import lombok.Setter;

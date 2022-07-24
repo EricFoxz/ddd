@@ -1,10 +1,11 @@
 package gitee.com.ericfox.ddd.apis.controller.sys;
 
-import gitee.com.ericfox.ddd.apis.assembler.Dto;
-import gitee.com.ericfox.ddd.apis.controller.sys.base.SysUserControllerBase;
-import gitee.com.ericfox.ddd.apis.model.dto.sys.SysTokenDto;
-import gitee.com.ericfox.ddd.apis.model.dto.sys.SysUserDto;
+import gitee.com.ericfox.ddd.apis.controller.sys.base.ApiSysUserControllerBase;
 import gitee.com.ericfox.ddd.application.framework.model.r_socket.RSocketMessageBean;
+import gitee.com.ericfox.ddd.application.framework.model.sys.SysTokenDto;
+import gitee.com.ericfox.ddd.application.framework.model.sys.SysUserDto;
+import gitee.com.ericfox.ddd.application.framework.model.sys.sys_user.SysUserDetailParam;
+import gitee.com.ericfox.ddd.common.toolkit.trans.Dto;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserService;
@@ -17,32 +18,40 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Controller
 @RequestMapping("/sys/sysUser")
 @Slf4j
-public class SysUserController extends SysUserControllerBase {
+public class ApiSysUserController extends ApiSysUserControllerBase {
     @Resource
     private Mono<RSocketRequester> requesterMono;
+
     @Resource
     private SysUserService sysUserService;
 
     @Override
     @PutMapping("/create")
-    public ResponseEntity<?> create(@RequestBody SysUserEntity entity) {
+    public ResponseEntity<?> create(@RequestBody SysUserDetailParam detailParam) {
         return ResBuilder.noData().setStatus(METHOD_NOT_ALLOWED_405).build();
     }
 
     @Override
     @PatchMapping("/edit")
-    public ResponseEntity<?> edit(SysUserEntity entity) {
+    public ResponseEntity<?> edit(SysUserDetailParam detailParam) {
         return ResBuilder.noData().setStatus(METHOD_NOT_ALLOWED_405).build();
     }
 
     @Override
     @DeleteMapping("/remove")
-    public ResponseEntity<?> remove(SysUserEntity entity) {
+    public ResponseEntity<?> remove(SysUserDetailParam detailParam) {
+        return ResBuilder.noData().setStatus(METHOD_NOT_ALLOWED_405).build();
+    }
+
+    @Override
+    @DeleteMapping("/multiRemove")
+    public ResponseEntity<?> multiRemove(List<SysUserDetailParam> detailParamList) {
         return ResBuilder.noData().setStatus(METHOD_NOT_ALLOWED_405).build();
     }
 
@@ -83,7 +92,7 @@ public class SysUserController extends SysUserControllerBase {
                     RSocketMessageBean messageBean = new RSocketMessageBean();
                     messageBean.setTitle("标题");
                     messageBean.setContent("内容");
-                    return rSocketRequester.route("application.framework.controller.sys.ApplicationFrameWorkSysUserController.pong")
+                    return rSocketRequester.route("application.framework.controller.sys.AppFrameWorkSysUserController.pong")
                             .data("1234");
                 })
                 .flatMap(retrieveSpec -> retrieveSpec.retrieveMono(String.class))

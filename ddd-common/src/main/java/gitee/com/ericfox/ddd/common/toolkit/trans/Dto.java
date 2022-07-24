@@ -1,4 +1,4 @@
-package gitee.com.ericfox.ddd.apis.assembler;
+package gitee.com.ericfox.ddd.common.toolkit.trans;
 
 import com.github.pagehelper.PageInfo;
 import gitee.com.ericfox.ddd.common.interfaces.apis.BaseDto;

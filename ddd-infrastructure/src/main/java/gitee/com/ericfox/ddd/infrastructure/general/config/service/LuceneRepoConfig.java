@@ -29,7 +29,6 @@ import java.nio.file.Paths;
 @Slf4j
 @ConditionalOnProperty(prefix = "custom.infrastructure.repo-strategy.lucene", value = {"enable"})
 public class LuceneRepoConfig {
-    public static volatile boolean isReady = false;
     @Resource
     private InfrastructureProperties infrastructureProperties;
 
@@ -46,7 +45,6 @@ public class LuceneRepoConfig {
             FileUtil.touch(rootPath);
         }
         Path path = Paths.get(rootPath);
-        isReady = true;
         return FSDirectory.open(path);
     }
 

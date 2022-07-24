@@ -1,7 +1,7 @@
-package gitee.com.ericfox.ddd.apis.model.dto.sys.base;
+package gitee.com.ericfox.ddd.application.framework.model.sys.base;
 
 import com.github.pagehelper.PageInfo;
-import gitee.com.ericfox.ddd.apis.model.dto.sys.SysUserDto;
+import gitee.com.ericfox.ddd.application.framework.model.sys.SysUserDto;
 import gitee.com.ericfox.ddd.common.interfaces.apis.BaseDto;
 import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
 import gitee.com.ericfox.ddd.common.toolkit.coding.CollUtil;
@@ -15,6 +15,8 @@ import java.util.List;
 @Setter
 @Getter
 public abstract class SysUserDtoBase implements BaseDto<SysUser, SysUserEntity, SysUserDto> {
+    public static final String BUS_NAME = "AppFrameWorkSysUserController";
+
     /**
      * 主键
      */

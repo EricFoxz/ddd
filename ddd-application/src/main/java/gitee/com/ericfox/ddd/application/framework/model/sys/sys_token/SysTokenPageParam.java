@@ -1,7 +1,6 @@
-package gitee.com.ericfox.ddd.apis.model.param.sys.sys_token;
+package gitee.com.ericfox.ddd.application.framework.model.sys.sys_token;
 
 import gitee.com.ericfox.ddd.common.interfaces.apis.BasePageParam;
-import gitee.com.ericfox.ddd.common.interfaces.domain.BaseContext;
 import gitee.com.ericfox.ddd.common.toolkit.coding.BeanUtil;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_token.SysTokenEntity;
 import gitee.com.ericfox.ddd.infrastructure.persistent.po.sys.SysToken;
@@ -13,10 +12,6 @@ import lombok.Setter;
 public class SysTokenPageParam implements BasePageParam<SysToken, SysTokenEntity> {
     private Integer pageNum = 1;
     private Integer pageSize = 10;
-
-    BaseContext.BaseDescription _description;
-    BaseContext.BaseMoment _moment;
-    BaseContext.BaseRule _rule;
 
     /**
      * 主键

@@ -1,7 +1,5 @@
 package gitee.com.ericfox.ddd.apis.events.aspect;
 
-import gitee.com.ericfox.ddd.common.interfaces.apis.BaseDetailParam;
-import gitee.com.ericfox.ddd.common.interfaces.apis.BasePageParam;
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseContext;
 import gitee.com.ericfox.ddd.common.interfaces.domain.BaseEntity;
 import gitee.com.ericfox.ddd.domain.sys.model.sys_user.SysUserContext;
@@ -41,16 +39,6 @@ public class ControllerContextAspect {
                 entity.set_description(description);
                 entity.set_moment(moment);
                 entity.set_rule(rule);
-            } else if (arg instanceof BasePageParam) {
-                BasePageParam pageParam = (BasePageParam) arg;
-                pageParam.set_description(description);
-                pageParam.set_moment(moment);
-                pageParam.set_rule(rule);
-            } else if (arg instanceof BaseDetailParam) {
-                BaseDetailParam detailParam = (BaseDetailParam) arg;
-                detailParam.set_description(description);
-                detailParam.set_moment(moment);
-                detailParam.set_rule(rule);
             }
         }
 
